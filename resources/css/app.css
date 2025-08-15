@@ -75,7 +75,7 @@
 }
 
 .ml-side {
-    margin-left: calc(var(--spacing) * 65);
+    margin-left: calc(var(--spacing) * 64);
 }
 
 @theme inline {

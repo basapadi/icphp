@@ -4,10 +4,10 @@
       <span class="text-sm font-medium text-gray-600">Menus</span>
     </div>
 
-    <nav class="p-4">
+    <nav class="p-1">
       <ul class="space-y-1">
         <MenuItem 
-          v-for="(item, index) in menuItems" 
+          v-for="(item, index) in menus" 
           :key="index" 
           :item="item" 
           :level="0"
@@ -158,4 +158,50 @@ const menuItems = ref([
     ],
   },
 ])
+</script>
+<script>
+  export default {
+    name: 'AdminSidebar',
+
+    data() {
+      return {
+        ICONS: {
+          home: Home,
+          creditcard: CreditCard,
+          settings: Settings
+        },
+        menus: [],
+        loading: true,
+        error: null
+      };
+    },
+    methods: {
+      async getMenus() {
+        try {
+          const resp = await axios.get('/auth/menus', {
+            params: {
+              'route': this.$route.path,
+              'role' : '' //TODO:: nnt set ketika auth sudah ada
+            }
+          });
+          this.menus = this.mapIcons(resp.data);
+        } catch (err) {
+          console.log(err)
+          this.error = err.response?.data?.message || 'Gagal mengambil data';
+        } finally {
+          this.loading = false;
+        }
+      },
+      mapIcons(menuList) {
+        return menuList.map(menu => ({
+          ...menu,
+          icon: this.ICONS[menu.icon?.toLowerCase()] || null,
+          childs: Array.isArray(menu.childs) ? this.mapIcons(menu.childs) : []
+        }));
+      }
+  },
+  mounted() {
+    this.getMenus();
+  },
+  }
 </script>

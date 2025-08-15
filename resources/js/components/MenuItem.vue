@@ -32,7 +32,7 @@
 
     <ul v-if="hasSubItems && isOpen" class="border-l-2 ml-4 text-left">
       <MenuItem 
-        v-for="(subItem, index) in item.subItems" 
+        v-for="(subItem, index) in item.sub_items" 
         :key="index" 
         :item="subItem" 
         :level="level + 1"
@@ -59,7 +59,7 @@ const props = defineProps({
 const isOpen = ref(false)
 
 const hasSubItems = computed(() => 
-  props.item.subItems && props.item.subItems.length > 0
+  props.item.sub_items && props.item.sub_items.length > 0
 )
 
 const paddingLeft = computed(() => 

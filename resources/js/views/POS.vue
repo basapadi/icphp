@@ -9,7 +9,7 @@
 
       <!-- Main Content -->
       <!-- Changed mt-20 to mt-12 to account for only toolbar height -->
-      <main :class="`flex-1 p-2 bg-white border border-gray-300 ${!isFullscreen ? 'ml-side mt-12' : 'ml-0 mt-0'}`">
+      <main :class="`flex-1 bg-white ${!isFullscreen ? 'ml-side mt-12' : 'ml-0 mt-0'}`">
         <div class="max-w-full">
           <div class="mb-2 bg-gray-50 border-b border-gray-200 p-2 flex justify-between items-center">
             <div>
