@@ -8,7 +8,7 @@
 
       <!-- Main Content -->
       <!-- Updated spacing for web-style header and sidebar -->
-      <main class="flex-1 ml-side mt-12 bg-white min-h-[calc(100vh-4rem)]">
+      <main class="flex-1 ml-side mt-10 bg-white min-h-[calc(100vh-4rem)]">
         <slot />
       </main>
     </div>

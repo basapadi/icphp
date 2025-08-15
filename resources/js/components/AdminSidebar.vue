@@ -1,5 +1,5 @@
 <template>
-  <aside class="fixed left-0 top-12 w-64 h-[calc(100vh-4rem)] bg-white border-r border-gray-200 overflow-y-auto">
+  <aside class="fixed left-0 top-10 w-64 h-[calc(100vh-4rem)] bg-white border-r border-gray-200 overflow-y-auto">
     <div class="bg-gray-100 border-b border-gray-300 px-3 py-2">
       <span class="text-sm font-medium text-gray-600">Menus</span>
     </div>
@@ -186,7 +186,6 @@ const menuItems = ref([
           });
           this.menus = this.mapIcons(resp.data);
         } catch (err) {
-          console.log(err)
           this.error = err.response?.data?.message || 'Gagal mengambil data';
         } finally {
           this.loading = false;
