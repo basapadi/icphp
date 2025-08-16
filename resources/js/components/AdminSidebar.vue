@@ -72,7 +72,7 @@ import {
               route: this.$route.path,
               role: this.user.role
             });
-          this.menus = this.mapIcons(resp.data);
+          this.menus = this.mapIcons(resp.data.menus);
         } catch (err) {
           this.error = err.response?.data?.message || 'Gagal mengambil data';
         } finally {

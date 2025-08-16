@@ -1,16 +1,21 @@
 import qs from 'qs'
 
 const state = {
-  menus:  null,
+  menus: null,
+  menuRoles: null
 }
 
 const getters = {
   getMenus: (state) => state.menus,
+  getMenuRoles: (state) => state.menuRoles,
 }
 
 const mutations = {
   setMenus(state, menus) {
     state.menus = menus
+  },
+  setMenuRoles(state, menuRoles) {
+    state.menuRoles = menuRoles
   }
 }
 
@@ -27,7 +32,8 @@ const actions = {
                     Authorization: `Bearer ${token}` //set header hanya untuk initalize saja, mengambil state dari store auth
                 }
             });
-            commit('setMenus', resp.data)
+            commit('setMenus', resp.data.menus)
+            commit('setMenuRoles', resp.data.menu_roles)
             return resp
         } catch (err) {
             throw err
