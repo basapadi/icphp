@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Native\Laravel\Facades\Window;
 
 class AuthController extends BaseController
 {
@@ -44,7 +45,7 @@ class AuthController extends BaseController
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
-
+        Window::close();
         return response()->json(['message' => 'Logout berhasil']);
     }
 }

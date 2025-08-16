@@ -1,13 +1,11 @@
 <template>
   <div class="bg-gray-50 border-b border-gray-300 fixed left-0 right-0 z-40 h-10">
-    <div class="flex items-center justify-between px-4 h-full">
+    <div class="flex items-center justify-between px-2 h-full">
       <!-- Menu Bar -->
-      <div class="flex items-center space-x-6">
-        <button class="text-sm text-gray-700 hover:bg-gray-200 px-2 py-1">File</button>
-        <button class="text-sm text-gray-700 hover:bg-gray-200 px-2 py-1">Edit</button>
-        <button class="text-sm text-gray-700 hover:bg-gray-200 px-2 py-1">View</button>
-        <button class="text-sm text-gray-700 hover:bg-gray-200 px-2 py-1">Tools</button>
-        <button class="text-sm text-gray-700 hover:bg-gray-200 px-2 py-1">Help</button>
+      <div class="flex items-center">
+        <button class="text-sm text-gray-700 hover:bg-gray-200 px-3 py-1">Alat</button>
+        <button class="text-sm text-gray-700 hover:bg-gray-200 px-3 py-1">Bantuan</button>
+        <button class="text-sm text-gray-700 hover:bg-gray-200 px-3 py-1">Tutup</button>
       </div>
 
       <!-- Toolbar Actions -->
@@ -92,7 +90,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { Bell, Search, Settings, User } from 'lucide-vue-next'
+import { Bell, Search, Settings, User, LogOut } from 'lucide-vue-next'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
 const router = useRouter()

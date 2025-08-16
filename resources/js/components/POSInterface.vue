@@ -1,8 +1,8 @@
 <template>
   <div class="grid grid-cols-3 gap-2 h-[calc(100vh-180px)]">
     <!-- Product Selection -->
-    <div class="col-span-2 bg-white border border-gray-300">
-      <div class="border-b border-gray-200 p-2 bg-gray-50">
+    <div class="col-span-2 bg-white border border-gray-200 rounded-lg shadow-sm">
+      <div class="border-b border-gray-200 rounded-lg p-2 bg-gray-50">
         <div class="flex gap-2 mb-2">
           <div class="relative flex-1">
             <Search class="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 h-3 w-3" />
@@ -20,7 +20,7 @@
             @click="selectedCategory = category"
             :class="`h-6 px-2 text-xs border rounded transition-colors ${
               selectedCategory === category 
-                ? 'bg-blue-600 text-white border-blue-600' 
+                ? 'bg-orange-500 text-white border-orange-400' 
                 : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
             }`"
           >
@@ -35,7 +35,7 @@
             v-for="product in filteredProducts"
             :key="product.id"
             @click="addToCart(product)"
-            class="p-2 border border-gray-300 bg-white hover:bg-gray-50 text-left transition-colors"
+            class="p-2 border border-gray-300 rounded-lg shadow-sm bg-white hover:bg-gray-50 text-left transition-colors"
           >
             <div class="text-xs font-medium text-gray-900 mb-1">{{ product.name }}</div>
             <div class="text-xs text-gray-600 mb-1">{{ product.category }}</div>
@@ -47,9 +47,9 @@
     </div>
 
     <!-- Cart and Payment -->
-    <div class="bg-white border border-gray-300 flex flex-col">
+    <div class="bg-white border border-gray-200 rounded-lg shadow-sm flex flex-col">
       <!-- Cart Header -->
-      <div class="border-b border-gray-200 p-2 bg-gray-50">
+      <div class="border-b border-gray-200 rounded-lg shadow-sm p-2 bg-gray-50">
         <div class="flex justify-between items-center">
           <h3 class="text-sm font-bold text-gray-900">Current Order</h3>
           <button
@@ -130,7 +130,7 @@
               @click="paymentMethod = 'cash'"
               :class="`flex-1 h-6 text-xs border rounded flex items-center justify-center transition-colors ${
                 paymentMethod === 'cash'
-                  ? 'bg-blue-600 text-white border-blue-600'
+                  ? 'bg-orange-500 text-white border-orange-400'
                   : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
               }`"
             >
@@ -141,7 +141,7 @@
               @click="paymentMethod = 'card'"
               :class="`flex-1 h-6 text-xs border rounded flex items-center justify-center transition-colors ${
                 paymentMethod === 'card'
-                  ? 'bg-blue-600 text-white border-blue-600'
+                  ? 'bg-orange-500 text-white border-orange-400'
                   : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
               }`"
             >
@@ -169,7 +169,7 @@
           <button
             @click="completeSale"
             :disabled="cart.length === 0 || (paymentMethod === 'cash' && change < 0)"
-            class="w-full h-8 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+            class="w-full h-8 text-xs bg-orange-600 text-white rounded hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
           >
             <Receipt class="h-3 w-3 mr-1" />
             Complete Sale

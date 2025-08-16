@@ -1,8 +1,7 @@
 <template>
-  <aside class="fixed left-0 top-10 w-64 h-[calc(100vh-4rem)] bg-white border-r border-gray-200 overflow-y-auto">
-    <div class="bg-gray-100 border-b border-gray-300 px-3 py-2">
-      <span class="text-sm font-medium text-gray-600">Menus</span>
-    </div>
+  <aside :class="[
+    'fixed left-0 top-10 h-[calc(100vh-4rem)] bg-white border-r border-gray-200 overflow-y-auto transition-all duration-300 ease-in-out w-64'
+  ]">
 
     <nav class="p-1">
       <ul class="space-y-1">
@@ -19,7 +18,7 @@
     <!-- <div class="absolute bottom-0 left-0 right-0 bg-gray-50 border-t border-gray-200 p-4">
       <div class="flex items-center space-x-3">
         <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-        <span class="text-sm text-gray-600">System Online</span>
+        <span v-show="!isCollapsed" class="text-sm text-gray-600">System Online</span>
       </div>
     </div> -->
   </aside>
@@ -40,6 +39,7 @@ import {
   Calendar,
   CreditCard,
 } from 'lucide-vue-next'
+
 
 const menuItems = ref([
   { icon: Home, label: "Dashboard", active: false, route: "/" },

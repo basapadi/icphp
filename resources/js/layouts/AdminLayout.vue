@@ -4,11 +4,15 @@
 
     <div class="flex">
       <!-- Sidebar -->
-      <AdminSidebar />
+      <AdminSidebar/>
 
       <!-- Main Content -->
-      <!-- Updated spacing for web-style header and sidebar -->
-      <main class="flex-1 ml-side mt-10 bg-white min-h-[calc(100vh-4rem)]">
+      <!-- Dynamic margin based on sidebar collapsed state -->
+      <main 
+        :class="[
+          'flex-1 mt-10 bg-white min-h-[calc(100vh-4rem)] transition-all duration-300 ml-64'
+        ]"
+      >
         <slot />
       </main>
     </div>
@@ -16,7 +20,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, provide } from 'vue'
 import AdminToolbar from '@/components/AdminToolbar.vue'
 import AdminSidebar from '@/components/AdminSidebar.vue'
 

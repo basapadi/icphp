@@ -69,7 +69,7 @@ const paddingLeft = computed(() =>
 const linkClasses = computed(() => 
   `flex items-left justify-between px-3 py-2 text-sm font-medium transition-all duration-200 rounded-lg mx-2 my-1 ${
     props.item.active 
-      ? "bg-blue-100 text-blue-700 shadow-sm" 
+      ? "bg-orange-500 outline-orange-400 text-white outline-2 font-1200 shadow-sm" 
       : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
   }`
 )
