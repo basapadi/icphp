@@ -170,7 +170,11 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
+import { useStore, mapGetters, mapActions } from 'vuex'
+
+const store = useStore()
+const actions = mapActions('auth', ['login'])
+const login = (credentials) => actions.login.call({ $store: store }, credentials)
 
 // <CHANGE> Changed from email to username variables
 const username = ref('')
@@ -182,7 +186,6 @@ const usernameError = ref('')
 const passwordError = ref('')
 const loginError = ref('')
 const router = useRouter()
-const auth = useAuthStore()
 
 const handleLogin = async () => {
   // Reset errors
@@ -211,9 +214,8 @@ const handleLogin = async () => {
   }
 
   isLoading.value = true
-
   try {
-    const resp = await auth.login(username.value,password.value);
+    const resp = await login({username: username.value, password: password.value });
     if (resp) router.push('/');
   } catch (error) {
     loginError.value = error.response?.data?.message

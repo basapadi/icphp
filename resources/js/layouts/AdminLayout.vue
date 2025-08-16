@@ -20,9 +20,6 @@
 </template>
 
 <script setup>
-import { ref, onMounted, provide } from 'vue'
 import AdminToolbar from '@/components/AdminToolbar.vue'
 import AdminSidebar from '@/components/AdminSidebar.vue'
-
-const statusMessage = ref('Application loaded successfully')
 </script>

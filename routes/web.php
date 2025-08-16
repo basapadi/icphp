@@ -9,7 +9,7 @@ Route::get('/', function () {
 });
 
 Route::prefix('auth')->group(function () {
-    Route::controller(MenuController::class)->group(function () {
+    Route::middleware('auth:sanctum')->controller(MenuController::class)->group(function () {
         Route::get('menus', 'getMenu');
     });
     Route::controller(AuthController::class)->group(function () {

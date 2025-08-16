@@ -89,15 +89,19 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted,computed } from 'vue'
 import { Bell, Search, Settings, User, LogOut } from 'lucide-vue-next'
-import { useAuthStore } from '@/stores/auth'
+import { useStore, mapGetters, mapActions } from 'vuex'
 import { useRouter } from 'vue-router'
 const router = useRouter()
+const store = useStore()
 
+const { getUser } = mapGetters('auth', ['getUser'])
+const actions = mapActions('auth', ['logout'])
+const logout = (credentials) => actions.logout.call({ $store: store })
+const user = computed(() => getUser.call({ $store: store }))
 const searchQuery = ref('')
 const showProfileDropdown = ref(false)
-const auth = useAuthStore()
 
 //  Added profile dropdown functions
 const handleProfileClick = () => {
@@ -114,8 +118,7 @@ const handleSettingsClick = () => {
 const handleLogout = () => {
   if (confirm('Apakah Anda yakin ingin logout?')) {
     showProfileDropdown.value = false
-    // Add logout logic here
-    auth.logout()
+    logout()
     router.push('/login');
   }
 }
@@ -133,16 +136,5 @@ onMounted(() => {
 
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside)
-})
-</script>
-<script>
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  computed: {
-    user() {
-      return useAuthStore().user
-    }
-  }
 })
 </script>

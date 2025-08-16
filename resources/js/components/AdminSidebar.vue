@@ -26,6 +26,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useStore, mapGetters, mapActions } from 'vuex'
 import MenuItem from './MenuItem.vue'
 import {
   BarChart3,
@@ -40,129 +41,15 @@ import {
   CreditCard,
 } from 'lucide-vue-next'
 
-
-const menuItems = ref([
-  { icon: Home, label: "Dashboard", active: false, route: "/" },
-  { icon: CreditCard, label: "POS Cashier", route: "/pos" },
-  {
-    icon: BarChart3,
-    label: "Analytics",
-    subItems: [
-      { label: "Overview" },
-      { label: "Sales Reports" },
-      {
-        label: "Advanced",
-        subItems: [
-          { label: "Custom Reports" },
-          { label: "Data Export" },
-          {
-            label: "Integrations",
-            subItems: [
-              { label: "Google Analytics" },
-              { label: "Facebook Pixel" },
-              { label: "Custom APIs" }
-            ],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    icon: Users,
-    label: "Users",
-    route: "/table",
-    subItems: [
-      { label: "All Users" },
-      { label: "Roles & Permissions" },
-      {
-        label: "User Management",
-        subItems: [
-          { label: "Active Users" },
-          { label: "Suspended Users" },
-          {
-            label: "User Groups",
-            subItems: [
-              { label: "Administrators" },
-              { label: "Moderators" },
-              { label: "Regular Users" }
-            ],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    icon: ShoppingCart,
-    label: "Orders",
-    subItems: [
-      { label: "All Orders" },
-      { label: "Pending Orders" },
-      { label: "Completed Orders" }
-    ],
-  },
-  {
-    icon: Package,
-    label: "Products",
-    subItems: [
-      { label: "All Products" },
-      { label: "Categories" },
-      {
-        label: "Inventory",
-        subItems: [
-          { label: "Stock Levels" },
-          { label: "Low Stock Alerts" },
-          {
-            label: "Suppliers",
-            subItems: [
-              { label: "Active Suppliers" },
-              { label: "Supplier Orders" },
-              { label: "Supplier Performance" }
-            ],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    icon: FileText,
-    label: "Reports",
-    subItems: [
-      { label: "Sales Reports" },
-      { label: "Financial Reports" },
-      { label: "Custom Reports" }
-    ],
-  },
-  { icon: TrendingUp, label: "Marketing" },
-  { icon: Calendar, label: "Calendar" },
-  {
-    icon: Settings,
-    label: "Settings",
-    subItems: [
-      { label: "General" },
-      { label: "Security" },
-      {
-        label: "Advanced",
-        subItems: [
-          { label: "API Keys" },
-          { label: "Webhooks" },
-          {
-            label: "System",
-            subItems: [
-              { label: "Database" },
-              { label: "Cache" },
-              { label: "Logs" }
-            ],
-          },
-        ],
-      },
-    ],
-  },
-])
 </script>
 <script>
   export default {
     name: 'AdminSidebar',
-
+    computed: {
+      ...mapGetters({
+        user: 'auth/getUser'
+      })
+    },
     data() {
       return {
         ICONS: {
@@ -175,15 +62,16 @@ const menuItems = ref([
         error: null
       };
     },
-    methods: {
+  methods: {
+      ...mapActions({
+        getMenu : 'menu/getMenu'
+      }),
       async getMenus() {
         try {
-          const resp = await axios.get('/auth/menus', {
-            params: {
-              'route': this.$route.path,
-              'role' : '' //TODO:: nnt set ketika auth sudah ada
-            }
-          });
+          const resp = await this.getMenu({
+              route: this.$route.path,
+              role: this.user.role
+            });
           this.menus = this.mapIcons(resp.data);
         } catch (err) {
           this.error = err.response?.data?.message || 'Gagal mengambil data';
@@ -199,7 +87,7 @@ const menuItems = ref([
         }));
       }
   },
-  mounted() {
+  beforeMount() {
     this.getMenus();
   },
   }
