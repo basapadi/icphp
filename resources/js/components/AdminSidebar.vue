@@ -55,7 +55,9 @@ import {
         ICONS: {
           home: Home,
           creditcard: CreditCard,
-          settings: Settings
+          settings: Settings,
+          shoppingcart: ShoppingCart,
+          package: Package
         },
         menus: [],
         loading: true,
