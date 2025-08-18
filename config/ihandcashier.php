@@ -79,6 +79,14 @@ return [
             'parent'=> 7
         ],
         [
+            'id'    => 15,
+            'icon'  => '',
+            'label' => 'Pengguna',
+            'route' => '/master/user',
+            'order' => 3,
+            'parent'=> 7
+        ],
+        [
             'id'    => 10,
             'icon'  => 'ShoppingCart',
             'label' => 'Transaksi',
@@ -109,7 +117,7 @@ return [
             'order' => 2,
             'parent'=> 10
         ],
-        //last_id:14
+        //last_id:15
     ],
     'units' => [
         'pcs'      => [1, 'Piece', 1, 'pcs'],

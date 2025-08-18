@@ -2,6 +2,10 @@ import { createRouter, createWebHistory } from "vue-router"
 import Dashboard from "@/views/Dashboard.vue"
 import POS from "@/views/POS.vue"
 import Login from "@/views/Login.vue"
+import Contact from "@/views/master/Contact.vue"
+import User from "@/views/master/User.vue"
+import Item from "@/views/master/Item.vue"
+import Unit from "@/views/master/Unit.vue"
 
 const routes = [
   {
@@ -19,6 +23,30 @@ const routes = [
     path: "/pos",
     name: "POS",
     component: POS,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/master/user",
+    name: "Master.User",
+    component: User,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/master/contact",
+    name: "Master.Contact",
+    component: Contact,
+    meta: { requiresAuth: true }
+  },
+   {
+    path: "/master/item",
+    name: "Master.Item",
+    component: Item,
+    meta: { requiresAuth: true }
+  },
+    {
+    path: "/master/unit",
+    name: "Master.Unit",
+    component: Unit,
     meta: { requiresAuth: true }
   }
 ]

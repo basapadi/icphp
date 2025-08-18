@@ -26,4 +26,8 @@ class Menu extends Model
     public function subItems(){
         return $this->hasMany($this,'parent_id','id');
     }
+
+    public function parent(){
+        return $this->belongsTo($this,'id','parent_id');
+    }
 }

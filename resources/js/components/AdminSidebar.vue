@@ -71,8 +71,8 @@ import {
       async getMenus() {
         try {
           const resp = await this.getMenu({
-              route: this.$route.path,
-              role: this.user.role
+              route: this.$route.path
+              // role: this.user.role
             });
           this.menus = this.mapIcons(resp.data.menus);
         } catch (err) {
