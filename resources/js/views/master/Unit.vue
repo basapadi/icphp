@@ -7,11 +7,12 @@
       </div>
 
       <div class="p-2">
-        
+         <DataTable title="Satuan Barang" urlGrid="unit/grid"/>
       </div>
     </div>
   </AdminLayout>
 </template>
 <script setup>
 import AdminLayout from '@/layouts/AdminLayout.vue'
+import DataTable from '@/components/DataTable.vue'
 </script>

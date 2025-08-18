@@ -80,12 +80,9 @@ const linkClasses = computed(() =>
 )
 
 const handleClick = () => {
-  console.log(props.level)
-  console.log(isOpen.value)
   if (hasSubItems.value) {
     isOpen.value = !isOpen.value
   }
-  console.log(isOpen.value)
 
 }
 </script>

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Btx\Query\Model;
 
 class Master extends Model
 {
@@ -15,4 +15,11 @@ class Master extends Model
         'status',
         'attributes',
     ];
+
+    protected $appends = ['statusLabel'];
+
+    public function getStatusLabelAttribute()
+    {
+        return $this->status ? 'Aktif' : 'Tidak Aktif';
+    }
 }

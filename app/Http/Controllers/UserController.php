@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Btx\Query\Model;
+use App\Models\User;
+
+class UserController extends BaseController
+{
+    public function __construct(){
+        $this->setModel(User::class);
+        $this->setColumns([
+            // ['value' => 'id', 'label'=> 'ID', 'align' => 'left', 'show' => false],
+            ['value' => 'statusLabel', 'label'=> 'Status Aktif', 'align' => 'left'],
+            ['value' => 'username', 'label'=> 'Username', 'align' => 'left'],
+            ['value' => 'name', 'label'=> 'Fullname', 'align' => 'left'],
+            ['value' => 'role', 'label'=> 'Hak Akses', 'align' => 'left'],
+            ['value' => 'actions', 'label'=> 'Actions', 'align' => 'left','options' => ['edit','delete']]
+        ]);
+        $this->setFilterColumnsLike(['username','name'],request('q')??'');
+    }
+}

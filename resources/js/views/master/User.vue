@@ -7,7 +7,7 @@
       </div>
 
       <div class="p-2">
-        <DataTable/>
+        <DataTable title="Pengguna" urlGrid="user/grid"/>
       </div>
     </div>
   </AdminLayout>

@@ -1,7 +1,11 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\MenuController;
+use App\Http\Controllers\{
+    AuthController,
+    MenuController,
+    UnitController,
+    UserController
+};
 use Illuminate\Support\Facades\Route;
 
 Route::get('/{any}', function () {
@@ -20,5 +24,11 @@ Route::prefix('api')->group(function () {
                 Route::post('logout', 'logout');
             });
         });
+    });
+    Route::controller(UserController::class)->middleware('auth:sanctum')->prefix('user')->group(function () {
+        Route::get('grid', 'grid');
+    });
+    Route::controller(UnitController::class)->middleware('auth:sanctum')->prefix('unit')->group(function () {
+        Route::get('grid', 'grid');
     });
 });
