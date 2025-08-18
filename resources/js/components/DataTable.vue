@@ -39,7 +39,15 @@
                 class="rounded border-gray-300 text-blue-600 focus:ring-blue-500" 
               />
             </th>
-            <th v-for="column in columns" class="px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider" :key="column.value">{{ column.label }}</th>
+            <template v-for="column in columns" :key="column.value">
+              <template v-if="column.name == 'actions'">
+                <th  class="px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider" style="width: 50px;" >{{ column.label }}</th>
+              </template>
+              <template v-else>
+                <th  class="px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider" >{{ column.label }}</th>
+              </template>
+            </template>
+            
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
