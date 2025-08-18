@@ -23,7 +23,7 @@ const actions = {
     async getMenu({ commit, rootState }, payload) {
         const token = rootState.auth.token
         try {
-            const resp = await axios.get('/auth/menus', {
+            const resp = await axios.get('/api/auth/menus', {
                 params: payload,
                 paramsSerializer: params => {
                     return qs.stringify(params, { arrayFormat: 'repeat' })

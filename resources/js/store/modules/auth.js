@@ -20,7 +20,7 @@ const mutations = {
 const actions = {
   async login({commit},payload) {
     try {
-      const resp = await axios.post('/auth/login', payload)
+      const resp = await axios.post('/api/auth/login', payload)
       // this.token = resp.data.access_token
       // this.user = resp.data.user || null
       commit('setToken', resp.data.access_token)
@@ -36,7 +36,7 @@ const actions = {
   async fetchUser() {
     if (!state.token) return
     try {
-      const resp = await axios.get('/auth/me', {
+      const resp = await axios.get('/api/auth/me', {
         headers: {
           Authorization: `Bearer ${state.token}`
         }
@@ -48,7 +48,7 @@ const actions = {
     },
     async logout({commit}) {
       if (!state.token) return
-      await axios.post('/auth/logout', {
+      await axios.post('/api/auth/logout', {
         headers: {
           Authorization: `Bearer ${state.token}`
         }

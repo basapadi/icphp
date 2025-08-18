@@ -12,8 +12,11 @@ export default defineConfig({
     laravel({
       input: ['resources/css/app.css', 'resources/js/app.js'],
       refresh: true,
-    }),
+    })
   ],
+  server: {
+    historyApiFallback: true
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'resources/js'),

@@ -4,21 +4,21 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MenuController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
+Route::get('/{any}', function () {
     return view('entry');
-});
+})->where('any', '^(?!api).*$');
 
-Route::prefix('auth')->group(function () {
-    Route::middleware('auth:sanctum')->controller(MenuController::class)->group(function () {
-        Route::get('menus', 'getMenu');
-    });
-    Route::controller(AuthController::class)->group(function () {
-        Route::post('login', 'login');
-        Route::middleware('auth:sanctum')->group(function(){
-            Route::get('me', 'me');
-            Route::post('logout', 'logout');
+Route::prefix('api')->group(function () {
+    Route::prefix('auth')->group(function () {
+        Route::middleware('auth:sanctum')->controller(MenuController::class)->group(function () {
+            Route::get('menus', 'getMenu');
+        });
+        Route::controller(AuthController::class)->group(function () {
+            Route::post('login', 'login');
+            Route::middleware('auth:sanctum')->group(function(){
+                Route::get('me', 'me');
+                Route::post('logout', 'logout');
+            });
         });
     });
-
-    
 });
