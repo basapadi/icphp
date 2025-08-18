@@ -16,6 +16,11 @@ class AuthController extends BaseController
         ]);
 
         $user = User::where('username', $request->username)->first();
+        if(empty($user)){
+            return response()->json([
+                'message' => 'Username tidak ditemukan'
+            ], 401);
+        }
         if(!$user->active){
             return response()->json([
                 'message' => 'Akun tidak aktif'

@@ -11,7 +11,7 @@
         <component v-if="item.icon" :is="item.icon" class="w-4 h-4 mr-3" />
         {{ item.label }}
       </div>
-      <ChevronDown v-if="hasSubItems && open" class="w-4 h-4" />
+      <ChevronDown v-if="hasSubItems && isOpen" class="w-4 h-4" />
       <ChevronRight v-else-if="hasSubItems" class="w-4 h-4" />
     </router-link>
     
@@ -27,7 +27,7 @@
         {{ item.label }}
       </div>
       <ChevronDown v-if="hasSubItems && isOpen" class="w-4 h-4" />
-      <ChevronRight v-else-if="hasSubItems" class="w-4 h-4" />
+      <ChevronRight v-else class="w-4 h-4" />
     </a>
 
     <ul v-if="hasSubItems && isOpen" class="border-l-2 ml-4 text-left">
