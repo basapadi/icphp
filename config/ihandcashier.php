@@ -43,7 +43,7 @@ return [
             'id'    => 6,
             'icon'  => '',
             'label' => 'Hak Akses',
-            'route' => '/setting/roles',
+            'route' => '/setting/role',
             'order' => 2,
             'parent'=> 3
         ],

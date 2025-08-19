@@ -18,7 +18,7 @@
           </div>
           <button 
             @click="tambahData"
-            class="px-3 py-1.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+            class="px-3 py-1.5 text-sm bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors"
           >
             Tambah {{ title }}
           </button>
@@ -28,23 +28,25 @@
 
     <!-- Table -->
     <div class="overflow-x-auto">
-      <table class="w-full">
+      <table class="w-full overflow-y-scroll table-auto border-collapse border border-gray-200">
         <thead class="bg-gray-50">
           <tr>
-            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              <input 
-                v-model="selectAll"
-                @change="toggleSelectAll"
-                type="checkbox" 
-                class="rounded border-gray-300 text-blue-600 focus:ring-blue-500" 
-              />
-            </th>
+            <template v-if="properties.multipleSelect">
+              <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-2 border-gray-200">
+                <input 
+                  v-model="selectAll"
+                  @change="toggleSelectAll"
+                  type="checkbox" 
+                  class="rounded border-gray-300 text-blue-600 focus:ring-blue-500" 
+                />
+              </th>
+            </template>
             <template v-for="column in columns" :key="column.value">
               <template v-if="column.name == 'actions'">
-                <th  class="px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider" style="width: 50px;" >{{ column.label }}</th>
+                <th  class="px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider border-2 border-gray-200" style="width: 50px;" >{{ column.label }}</th>
               </template>
               <template v-else>
-                <th  class="px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider" >{{ column.label }}</th>
+                <th  class="px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider border-2 border-gray-200" >{{ column.label }}</th>
               </template>
             </template>
             
@@ -56,18 +58,19 @@
             :key="data.id" 
             class="hover:bg-gray-50 transition-colors"
           >
-            <td class="px-4 whitespace-nowrap">
-              <input 
-                v-model="selectedData"
-                :value="data.id"
-                type="checkbox" 
-                class="rounded border-gray-300 text-blue-600 focus:ring-blue-500" 
-              />
-            </td>
-            <td v-for="column in columns" :key="column.value" class="px-2 py-2 whitespace-nowrap">
+            <template v-if="properties.multipleSelect">
+              <td class="px-4 whitespace-nowrap border-2 border-gray-200">
+                <input 
+                  v-model="selectedData"
+                  :value="data.id"
+                  type="checkbox" 
+                  class="rounded border-gray-300 text-blue-600 focus:ring-blue-500" 
+                />
+              </td>
+            </template>
+            <td v-for="column in columns" :key="column.value" class="px-4 py-2 whitespace-nowrap border-2 border-gray-200">
               <template v-if="column.name == 'actions'">
-                <td class="px-4 whitespace-nowrap text-sm font-medium">
-                  <div class="flex items-center space-x-2">
+                <div class="flex items-center space-x-2">
                     <template v-if="column.options.includes('edit')">
                       <button 
                         @click="editData(data)"
@@ -85,10 +88,9 @@
                       </button>
                     </template>
                   </div>
-                </td>
               </template>
               <template v-else>
-                <span class="text-sm text-gray-600">{{ data[column.name] }}</span>
+                <span class="text-sm text-gray-600">{{ $helpers.getSubObjectValue(data, column.name) }}</span>
               </template>
             </td>
           </tr>
@@ -140,7 +142,7 @@ export default {
       type: String,
       default: 'title'
     },
-    urlGrid: {
+    store: {
       type: String,
       default: ''
     }
@@ -154,7 +156,8 @@ export default {
       itemsPerPage: 10,
       total: 0,
       rows: [],
-      columns: []
+      columns: [],
+      properties: {}
     }
   },
   watch: {
@@ -187,11 +190,12 @@ export default {
   },
   methods: {
     async load() {
-      await this.$store.dispatch(this.urlGrid, { q: this.searchQuery, _limit: this.itemsPerPage, _page: this.currentPage }).then(({ data }) => {
+      await this.$store.dispatch(this.store, { q: this.searchQuery, _limit: this.itemsPerPage, _page: this.currentPage }).then(({ data }) => {
         data = data.data
         this.rows = data.rows
         this.columns = data.columns
         this.total = data.total
+        this.properties = data.properties
       })
     },
     formatDate(dateString) {

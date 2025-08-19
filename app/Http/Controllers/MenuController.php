@@ -25,11 +25,6 @@ class MenuController extends BaseController
             $item->open = $item->subItems->contains(fn ($sub) => $sub->active);
             return $item;
         });
-
-
-
-
-
         $menuRoles = $roleMenus = RoleMenu::join('menus', 'role_menus.menu_id', '=', 'menus.id')
             ->where('role_menus.role', $role)
             ->select('role_menus.id','menus.label','menus.route','menus.parent_id','view','create','delete','download')

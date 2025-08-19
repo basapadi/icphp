@@ -4,7 +4,8 @@ use App\Http\Controllers\{
     AuthController,
     MenuController,
     UnitController,
-    UserController
+    UserController,
+    RoleController
 };
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,9 @@ Route::prefix('api')->group(function () {
         Route::get('grid', 'grid');
     });
     Route::controller(UnitController::class)->middleware('auth:sanctum')->prefix('unit')->group(function () {
+        Route::get('grid', 'grid');
+    });
+    Route::controller(RoleController::class)->middleware('auth:sanctum')->prefix('role')->group(function () {
         Route::get('grid', 'grid');
     });
 });

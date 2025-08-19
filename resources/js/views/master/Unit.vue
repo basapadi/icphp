@@ -7,7 +7,7 @@
       </div>
 
       <div class="p-2">
-         <DataTable title="Satuan Barang" urlGrid="unit/grid"/>
+         <DataTable title="Satuan Barang" store="unit/grid"/>
       </div>
     </div>
   </AdminLayout>

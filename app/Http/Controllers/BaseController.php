@@ -18,8 +18,9 @@ class BaseController extends Controller
     private ?array $_filterColumnsLike = [];
     private string $_filterParamLike = '';
     private $_queryBuilder;
+    private $_multipleSelectGrid = true;
 
-    public function grid(){
+    public function grid(Request $request){
         $query = $this->_queryBuilder;
         $totalQuery = clone $this->_queryBuilder;
         $rows = $query->filter();
@@ -33,7 +34,14 @@ class BaseController extends Controller
         // dd($rows->toSql(),$this->_filterParamLike);
         $rows = $rows->get();
         $total = $total->count();
-        return Response::ok('Loaded', ['rows' => $rows->toArray(), 'total' => $total, 'columns' => $this->_columns]);
+        return Response::ok('Loaded', [
+            'rows' => $rows->toArray(), 
+            'total' => $total, 
+            'columns' => $this->_columns,
+            'properties' => [
+                'multipleSelect' => $this->_multipleSelectGrid 
+            ]
+        ]);
     }
 
     protected function setColumns(array $columns){
@@ -43,12 +51,16 @@ class BaseController extends Controller
     protected function setModel(string $model){
         $this->_model = app($model);
         $this->_queryBuilder = $this->_model->newQuery();
-        return $this;
+        return $this->_queryBuilder;
     }
 
     protected function setFilterColumnsLike($columns,$param){
         $this->_filterColumnsLike = $columns;
         $this->_filterParamLike = $param;
+    }
+
+    protected function setMultipleSelectGrid(bool $value){
+        $this->_multipleSelectGrid = $value;
     }
 
     protected function query(){

@@ -6,6 +6,7 @@ import Contact from "@/views/master/Contact.vue"
 import User from "@/views/master/User.vue"
 import Item from "@/views/master/Item.vue"
 import Unit from "@/views/master/Unit.vue"
+import Role from "@/views/setting/Role.vue"
 
 const routes = [
   {
@@ -43,10 +44,16 @@ const routes = [
     component: Item,
     meta: { requiresAuth: true }
   },
-    {
+  {
     path: "/master/unit",
     name: "Master.Unit",
     component: Unit,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/setting/role",
+    name: "Setting.Role",
+    component: Role,
     meta: { requiresAuth: true }
   }
 ]
