@@ -15,7 +15,7 @@ class UnitController extends BaseController
             ['value' => 'type', 'label'=> 'Type', 'align' => 'left'],
             ['value' => 'kode', 'label'=> 'Kode', 'align' => 'left'],
             ['value' => 'nama', 'label'=> 'Nama', 'align' => 'left'],
-            ['value' => 'actions', 'label'=> 'Actions', 'align' => 'left','options' => ['edit','delete']]
+            ['value' => 'actions', 'label'=> 'Aksi', 'align' => 'left','options' => ['edit','delete']]
         ]);
         $this->setFilterColumnsLike(['kode','nama'],request('q')??'');
     }

@@ -16,7 +16,7 @@ class UserController extends BaseController
             ['value' => 'username', 'label'=> 'Username', 'align' => 'left'],
             ['value' => 'name', 'label'=> 'Fullname', 'align' => 'left'],
             ['value' => 'role', 'label'=> 'Hak Akses', 'align' => 'left'],
-            ['value' => 'actions', 'label'=> 'Actions', 'align' => 'left','options' => ['edit','delete']]
+            ['value' => 'actions', 'label'=> 'Aksi', 'align' => 'left','options' => ['edit','delete']]
         ]);
         $this->setFilterColumnsLike(['username','name'],request('q')??'');
     }

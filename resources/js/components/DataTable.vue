@@ -10,7 +10,7 @@
               v-model="searchQuery"
               type="text"
               :placeholder="`Cari data ${title}` "
-              class="pl-8 pr-3 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              class="pl-8 pr-3 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-transparent"
             />
             <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
               <Search class="h-4 w-4 text-gray-400" />
@@ -37,7 +37,7 @@
                   v-model="selectAll"
                   @change="toggleSelectAll"
                   type="checkbox" 
-                  class="rounded border-gray-300 text-blue-600 focus:ring-blue-500" 
+                  class="rounded border-gray-300 text-orange-600 focus:ring-orange-500" 
                 />
               </th>
             </template>
@@ -59,32 +59,32 @@
             class="hover:bg-gray-50 transition-colors"
           >
             <template v-if="properties.multipleSelect">
-              <td class="px-4 whitespace-nowrap border-2 border-gray-200">
+              <td class="px-4 whitespace-nowrap border-2 border-gray-200" style="width: 10px;">
                 <input 
                   v-model="selectedData"
                   :value="data.id"
                   type="checkbox" 
-                  class="rounded border-gray-300 text-blue-600 focus:ring-blue-500" 
+                  class="rounded border-gray-300 text-orange-600 focus:ring-orange-500" 
                 />
               </td>
             </template>
             <td v-for="column in columns" :key="column.value" class="px-4 py-2 whitespace-nowrap border-2 border-gray-200">
               <template v-if="column.name == 'actions'">
-                <div class="flex items-center space-x-2">
+                <div class="flex items-beetwen space-x-2">
                     <template v-if="column.options.includes('edit')">
                       <button 
                         @click="editData(data)"
-                        class="text-blue-600 hover:text-blue-900 outline-blue-500/50 outline-2 rounded-xs px-2"
+                        class="text-orange-600 hover:text-blue-90"
                       >
-                        Edit
+                        <PencilSquareIcon class="h-5 text-orange-500" />
                       </button>
                     </template>
                     <template v-if="column.options.includes('delete')">
                       <button 
                         @click="hapusData(data.id)"
-                        class="text-red-600 hover:text-red-900 outline-red-500/50 outline-2 rounded-xs px-2"
+                        class="text-red-600 hover:text-red-900 "
                       >
-                        Delete
+                        <TrashIcon class="h-5 text-red-500" />
                       </button>
                     </template>
                   </div>
@@ -108,13 +108,19 @@
         </div>
         <div class="flex items-center space-x-2">
           <button
+            @click="initPage"
+            class="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+            Awal
+          </button>
+          <button
             @click="previousPage"
             :disabled="currentPage === 1"
             class="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Sebelumnya
           </button>
-          <button class="px-3 py-1 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+          <button class="px-3 py-1 text-sm bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors">
             {{ currentPage }}
           </button>
           <button
@@ -134,9 +140,10 @@
 import { ref, computed } from 'vue'
 import { Search } from 'lucide-vue-next'
 import { useStore, mapGetters, mapActions } from 'vuex'
+import { TrashIcon, PencilSquareIcon } from '@heroicons/vue/24/outline'
 
 export default {
-  components: { Search },
+  components: { Search,TrashIcon,PencilSquareIcon },
   props: {
     title: {
       type: String,
@@ -222,6 +229,9 @@ export default {
     },
     nextPage() {
       if (this.currentPage < this.totalPages) this.currentPage++
+    },
+    initPage() {
+      this.currentPage = 1
     }
   }
 }
