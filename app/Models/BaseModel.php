@@ -2,10 +2,11 @@
 
 namespace App\Models;
 use Btx\Query\Model;
-use Illuminate\Support\Facades\Crypt;
+use Vinkla\Hashids\Facades\Hashids;
 
 class BaseModel extends Model
 {
+    protected $hidden = ['id'];
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
@@ -25,6 +26,6 @@ class BaseModel extends Model
     }
 
     public function getEncodeIdAttribute(){
-        return $this->id ? Crypt::encryptString($this->id) : null;
+        return $this->id ? Hashids::encode($this->id) : null;
     }
 }

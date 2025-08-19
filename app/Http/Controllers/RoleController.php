@@ -31,7 +31,7 @@ class RoleController extends BaseController
             'columns' => Transformer::quasarColumn([
                 // ['value' => 'id', 'label'=> 'Id', 'align' => 'left'],
                 ['value' => 'role', 'label'=> 'Hak Akses', 'align' => 'left'],
-                ['value' => 'menu__parent__label', 'label'=> 'Parent', 'align' => 'left'],
+                ['value' => 'menu__parent__label', 'label'=> 'Parent Menu', 'align' => 'left'],
                 ['value' => 'menu__label', 'label'=> 'Menu', 'align' => 'left'],
                 ['value' => 'menu__route', 'label'=> 'Route', 'align' => 'left'],
                 ['value' => 'view', 'label'=> 'Lihat', 'align' => 'left'],
@@ -53,6 +53,8 @@ class RoleController extends BaseController
             if(empty($role)) return Response::badRequest('Data tidak ditemukan');
             $role->{$request->column} = $request->value;
             $role->save();
+
+            return Response::ok('Data berhasil disimpan');
         }catch(Exception $e){
             return Response::internalServerError($e->getMessage());
         }
