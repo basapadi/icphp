@@ -43,7 +43,7 @@ class BaseController extends Controller
     protected function setModel(string $model){
         $this->_model = app($model);
         $this->_queryBuilder = $this->_model->newQuery();
-        return $this;
+        return $this->_queryBuilder;
     }
 
     protected function setFilterColumnsLike($columns,$param){

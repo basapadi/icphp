@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Menu;
+
+class DataMenuController extends BaseController
+{
+    public function __construct(){
+        $this->setModel(Menu::class);
+        $this->setColumns([
+            // ['value' => 'id', 'label'=> 'ID', 'align' => 'left', 'show' => false],
+            ['value' => 'icon', 'label'=> 'Icon', 'align' => 'left'],
+            ['value' => 'label', 'label'=> 'Label', 'align' => 'left'],
+            ['value' => 'route', 'label'=> 'Route', 'align' => 'left'],
+            ['value' => 'parent__label', 'label'=> 'Parent Label', 'align' => 'left'],
+            ['value' => 'order', 'label'=> 'Order', 'align' => 'left'],
+            ['value' => 'actions', 'label'=> 'Actions', 'align' => 'left','options' => ['edit','delete']]
+        ]);
+        $this->setFilterColumnsLike(['label','route'],request('q')??'');
+    }
+}

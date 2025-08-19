@@ -8,7 +8,7 @@ use App\Models\Master;
 class UnitController extends BaseController
 {
     public function __construct(){
-        $this->setModel(Master::class)->query()->where('type','UNIT');
+        $this->setModel(Master::class)->where('type','UNIT');
         $this->setColumns([
             // ['value' => 'id', 'label'=> 'ID', 'align' => 'left', 'show' => false],
             ['value' => 'statusLabel', 'label'=> 'Status Aktif', 'align' => 'left'],
