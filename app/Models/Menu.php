@@ -1,10 +1,7 @@
 <?php
 
 namespace App\Models;
-
-use Btx\Query\Model;
-
-class Menu extends Model
+class Menu extends BaseModel
 {
     public $timestamps = false;
 
@@ -28,6 +25,6 @@ class Menu extends Model
     }
 
     public function parent(){
-        return $this->belongsTo($this,'id','parent_id');
+       return $this->belongsTo($this, 'parent_id', 'id');
     }
 }

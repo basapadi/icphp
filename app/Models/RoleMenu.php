@@ -1,10 +1,7 @@
 <?php
 
 namespace App\Models;
-
-use Btx\Query\Model;
-
-class RoleMenu extends Model
+class RoleMenu extends BaseModel
 {
     public $timestamps = false;
     protected $fillable = [

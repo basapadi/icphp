@@ -10,6 +10,8 @@ use Btx\File\Upload;
 use Btx\Query\Transformer;
 use Illuminate\Support\Facades\DB;
 use Spatie\Fractal\Fractal;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class BaseController extends Controller
 {
@@ -44,6 +46,10 @@ class BaseController extends Controller
         ]);
     }
 
+    public function update(Request $request, $id){
+        
+    }
+
     protected function setColumns(array $columns){
         $this->_columns = Transformer::quasarColumn($columns);
     }
@@ -65,5 +71,14 @@ class BaseController extends Controller
 
     protected function query(){
         return $this->_queryBuilder;
+    }
+
+    protected function decodeId($encodeId){
+        try {
+            $decrypted = Crypt::decryptString($encodeId);
+        } catch (DecryptException $e) {
+            $decrypted = null; // atau return default value
+        }
+        return $decrypted;
     }
 }

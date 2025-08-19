@@ -34,5 +34,6 @@ Route::prefix('api')->group(function () {
     });
     Route::controller(RoleController::class)->middleware('auth:sanctum')->prefix('role')->group(function () {
         Route::get('grid', 'grid');
+        Route::put('update/{id}', 'update');
     });
 });

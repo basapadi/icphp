@@ -1,10 +1,7 @@
 <?php
 
 namespace App\Models;
-
-use Btx\Query\Model;
-
-class ItemPrice extends Model
+class ItemPrice extends BaseModel
 {
     protected $fillable = [
         'item_id',

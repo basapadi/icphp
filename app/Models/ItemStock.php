@@ -1,10 +1,7 @@
 <?php
 
 namespace App\Models;
-
-use Btx\Query\Model;
-
-class ItemStock extends Model
+class ItemStock extends BaseModel
 {
     public $timestamps = false;
 

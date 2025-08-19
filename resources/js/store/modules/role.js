@@ -25,22 +25,34 @@ const mutations = {
 }
 
 const actions = {
-    async grid({ commit, rootState }, payload) { 
-        try {
-            const resp = await axios.get('/api/role/grid', {
-                params: payload,
-                paramsSerializer: params => {
-                    return qs.stringify(params, { arrayFormat: 'repeat' })
-                }
-            });
-            commit('setRows', resp.data.rows)
-            commit('setTotal', resp.data.total)
-            commit('setColumns', resp.data.columns)
-            return resp
-        } catch (err) {
-            throw err
-        }
-    }
+  async grid({ commit, rootState }, payload) { 
+      try {
+          const resp = await axios.get('/api/role/grid', {
+              params: payload,
+              paramsSerializer: params => {
+                  return qs.stringify(params, { arrayFormat: 'repeat' })
+              }
+          });
+          commit('setRows', resp.data.rows)
+          commit('setTotal', resp.data.total)
+          commit('setColumns', resp.data.columns)
+          return resp
+      } catch (err) {
+          throw err
+      }
+  },
+  async singleUpdate({ commit, rootState }, payload) { 
+      try {
+          const resp = await axios.put('/api/role/update/'+ payload.id, payload);
+          commit('setRows', resp.data.rows)
+          commit('setTotal', resp.data.total)
+          commit('setColumns', resp.data.columns)
+          return resp
+      } catch (err) {
+          throw err
+      }
+  }
+    
 }
 
 export default {

@@ -160,7 +160,7 @@ export default {
       selectAll: false,
       selectedData: [],
       currentPage: 1,
-      itemsPerPage: 10,
+      itemsPerPage: 15,
       total: 0,
       rows: [],
       columns: [],

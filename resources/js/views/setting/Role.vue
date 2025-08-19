@@ -7,7 +7,7 @@
       </div>
 
       <div class="p-2">
-        <RoleGrid title="Hak Akses" store="role/grid"/>
+        <RoleGrid title="Hak Akses" store="role/grid" storeSingleUpdate="role/singleUpdate"/>
       </div>
     </div>
   </AdminLayout>
