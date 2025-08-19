@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'database' => 'sqlite',
     'language' => [
          'id',
          'en'

@@ -25,14 +25,20 @@ class BaseController extends Controller
     public function grid(Request $request){
         $query = $this->_queryBuilder;
         $totalQuery = clone $this->_queryBuilder;
-        $rows = $query->filter();
-        $total = $totalQuery->filter(false);
         if(count($this->_filterColumnsLike) > 0 && $this->_filterParamLike != ''){
-            foreach ($this->_filterColumnsLike as $column) {
-               $rows->orWhereRaw('LOWER('.$column.') LIKE ?', ['%'.strtolower($this->_filterParamLike).'%']);
-               $total->orWhereRaw('LOWER('.$column.') LIKE ?', ['%'.strtolower($this->_filterParamLike).'%']);
+            foreach ($this->_filterColumnsLike as $key => $column) {
+                $param = ['%'.strtolower($this->_filterParamLike).'%'];
+                if($key == 0){
+                    $query->whereRaw('LOWER('.$column.') LIKE ?', $param);
+                    $totalQuery->whereRaw('LOWER('.$column.') LIKE ?', $param);
+                } else {
+                    $query->orWhereRaw('LOWER('.$column.') LIKE ?', $param);
+                    $totalQuery->orWhereRaw('LOWER('.$column.') LIKE ?', $param);
+                }
             }
         }
+        $rows = $query->filter();
+        $total = $totalQuery->filter(false);
         // dd($rows->toSql(),$this->_filterParamLike);
         $rows = $rows->get();
         $total = $total->count();

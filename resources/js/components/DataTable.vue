@@ -181,7 +181,7 @@ export default {
   computed: {
     filterData() {
       if (this.searchQuery) {
-        this.currentPage = 0;
+        this.currentPage = 1;
       }
       return this.rows
     },
