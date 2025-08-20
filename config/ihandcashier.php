@@ -98,6 +98,15 @@ return [
             'module'=>'master.user'
         ],
         [
+            'id'    => 16,
+            'icon'  => '',
+            'label' => 'Menu',
+            'route' => '/setting/menu',
+            'order' => 4,
+            'parent'=> 3,
+            'module'=>'setting.menu'
+        ],
+        [
             'id'    => 10,
             'icon'  => 'ShoppingCart',
             'label' => 'Transaksi',
@@ -132,7 +141,7 @@ return [
             'parent'=> 10,
             'module'=>'transaction.sale'
         ],
-        //last_id:15
+        //last_id:16
     ],
     'units' => [
         'pcs'      => [1, 'Piece', 1, 'pcs'],

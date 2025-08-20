@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div>
-        <div class="overflow-x-auto p-4">
+        <div class="overflow-x-auto">
             <table class="w-full overflow-y-scroll table-auto border-collapse border-2 border-gray-200">
                 <thead class="bg-gray-50">
                 <tr>
@@ -28,7 +28,7 @@
                         <template v-if="column.name == 'actions'">
                             <th  class="px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider border-2 border-gray-200" style="width: 50px;" >{{ column.label }}</th>
                         </template>
-                        <template v-if="['view','create','delete','download'].includes(column.name)">
+                        <template v-if="['view','create','edit','delete','download'].includes(column.name)">
                             <th  class="px-4 py-2 text-center font-bold text-xs text-gray-500 uppercase tracking-wider border-2 border-gray-200" style="width: 100px;" >{{ column.label }}</th>
                         </template>
                         <template v-else>
@@ -42,7 +42,7 @@
                 <tr v-for="(data,i) in filterData" :key="data.id"  class="hover:bg-gray-50 transition-colors" >
                     <td class="px-4 py-1 whitespace-nowrap border-2 border-gray-200"><span class="text-sm text-gray-600">{{ i+1 }}</span></td>
                     <template v-for="column in columns" :key="column.value">
-                        <td class="px-4 py-1 whitespace-nowrap border-2 border-gray-200 text-center" v-if="['view','create','delete','download'].includes(column.name)">
+                        <td class="px-4 py-1 whitespace-nowrap border-2 border-gray-200 text-center" v-if="['view','create','edit','delete','download'].includes(column.name)">
                             <input :checked="data[column.name]" @click="onCheck($event,data,column.name)" type="checkbox" class="role-cb h-4 w-4 text-orange-600" style="align-items: center;"/>
                         </td>
                         <td class="px-4 py-1 whitespace-nowrap border-2 border-gray-200" v-else><span class="text-sm text-gray-600 ">{{ $helpers.getSubObjectValue(data, column.name) }}</span></td>

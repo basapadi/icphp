@@ -126,9 +126,10 @@ class BaseController extends Controller
 
     /**
      * untuk mengecek hak akses ke action tertentu
+     * @param $asBoolean type return sebagai boolean?
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
     */
-    protected function allowAccessModule(string $module, string $action){
+    protected function allowAccessModule(string $module, string $action, bool $asBoolean = false){
         $auth = auth()->user();
         if(!empty($module) && !empty($action)){
             $can = Menu::select('menus.id','module', 'role_menus.'.$action)
@@ -136,14 +137,18 @@ class BaseController extends Controller
                     $join->on('role_menus.menu_id', '=', 'menus.id')
                         ->on('role_menus.role', '=', $auth->role);
             })->first()->{$action};
-            return !$can ?   abort(response()->json([
+            return !$can ? (!$asBoolean ? abort(response()->json([
                 'status' => false,
                 'message' => 'Unauthorized'
-            ], 401)) : true;
+            ], 401)) : false) : true;
         }
-        return abort(response()->json([
+        return !$asBoolean ? abort(response()->json([
             'status' => false,
             'message' => 'Unauthorized'
-        ], 401));
+        ], 401)) : false;
+    }
+
+    protected function allowAccess($action){
+        return $this->allowAccessModule($this->_module,$action,true) ? $action : '';
     }
 }

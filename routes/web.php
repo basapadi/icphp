@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\{
     AuthController,
+    DataMenuController,
+    ItemController,
     MenuController,
     UnitController,
     UserController,
@@ -30,6 +32,12 @@ Route::prefix('api')->group(function () {
         Route::get('grid', 'grid');
     });
     Route::controller(UnitController::class)->middleware('auth:sanctum')->prefix('unit')->group(function () {
+        Route::get('grid', 'grid');
+    });
+    Route::controller(ItemController::class)->middleware('auth:sanctum')->prefix('item')->group(function () {
+        Route::get('grid', 'grid');
+    });
+    Route::controller(DataMenuController::class)->middleware('auth:sanctum')->prefix('data-menu')->group(function () {
         Route::get('grid', 'grid');
     });
     Route::controller(RoleController::class)->middleware('auth:sanctum')->prefix('role')->group(function () {

@@ -18,7 +18,7 @@
           </div>
           <button 
             @click="tambahData"
-            class="px-3 py-1.5 text-sm bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors"
+            class="px-3 py-1.5 text-sm bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors" v-if="allowCreate"
           >
             Tambah {{ title }}
           </button>
@@ -54,7 +54,7 @@
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
           <tr 
-            v-for="data in filterData" 
+            v-for="(data,i) in filterData" 
             :key="data.id" 
             class="hover:bg-gray-50 transition-colors"
           >
@@ -164,7 +164,8 @@ export default {
       total: 0,
       rows: [],
       columns: [],
-      properties: {}
+      properties: {},
+      allowCreate: false
     }
   },
   watch: {
@@ -179,6 +180,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      menuRoles: 'menu/getMenuRoles'
+    }),
     filterData() {
       if (this.searchQuery) {
         this.currentPage = 1;
@@ -204,6 +208,8 @@ export default {
         this.total = data.total
         this.properties = data.properties
       })
+      this.allowCreate = this.menuRoles.find(role => role.route === this.$route.path)?.create
+
     },
     formatDate(dateString) {
       return new Date(dateString).toLocaleDateString()
@@ -216,13 +222,13 @@ export default {
       }
     },
     tambahData() {
-      console.log('Add user clicked')
+      alert('Add user clicked')
     },
     editData(user) {
-      console.log('Edit user:', user)
+      alert('Edit user:', user)
     },
     hapusData(userId) {
-      console.log('Delete user:', userId)
+      alert('Delete user:', userId)
     },
     previousPage() {
       if (this.currentPage > 1) this.currentPage--

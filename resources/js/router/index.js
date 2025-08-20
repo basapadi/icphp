@@ -6,6 +6,7 @@ import Contact from "@/views/master/Contact.vue"
 import User from "@/views/master/User.vue"
 import Item from "@/views/master/Item.vue"
 import Unit from "@/views/master/Unit.vue"
+import Menu from "@/views/master/Menu.vue";
 import Role from "@/views/setting/Role.vue"
 
 const routes = [
@@ -51,6 +52,12 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
+    path: "/setting/menu",
+    name: "Setting.Menu",
+    component: Menu,
+    meta: { requiresAuth: true },
+  },
+  {
     path: "/setting/role",
     name: "Setting.Role",
     component: Role,
@@ -59,18 +66,18 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
-  routes,
-})
+    history: createWebHistory(),
+    routes,
+});
 
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = !!localStorage.getItem('token') // atau cek Vuex/Pinia store
+    const isAuthenticated = !!localStorage.getItem("token"); // atau cek Vuex/Pinia store
 
-  if (to.meta.requiresAuth && !isAuthenticated) {
-    next({ name: 'Login' }) // redirect ke login
-  } else {
-    next() // lanjut
-  }
-})
+    if (to.meta.requiresAuth && !isAuthenticated) {
+        next({ name: "Login" }); // redirect ke login
+    } else {
+        next(); // lanjut
+    }
+});
 
-export default router
+export default router;

@@ -34,6 +34,7 @@ class RoleController extends BaseController
                 ['value' => 'menu__label', 'label'=> 'Menu', 'align' => 'left'],
                 ['value' => 'view', 'label'=> 'Lihat', 'align' => 'left'],
                 ['value' => 'create', 'label'=> 'Tambah', 'align' => 'left'],
+                ['value' => 'edit', 'label'=> 'Ubah', 'align' => 'left'],
                 ['value' => 'delete', 'label'=> 'Hapus', 'align' => 'left'],
                 ['value' => 'download', 'label'=> 'Unduh', 'align' => 'left']
             ]),
