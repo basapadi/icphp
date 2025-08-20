@@ -11,7 +11,7 @@ class BaseModel extends Model
     {
         parent::__construct($attributes);
         if(property_exists($this, 'appends')){
-            $this->appends = array_merge($this->appends, ['created_at_formatted','updated_at_formatted','encode_id','status_label']);
+            $this->appends = array_merge($this->appends, ['created_at_formatted','updated_at_formatted','encode_id','status_label','status_type','active_type']);
         }
     }
 
@@ -32,5 +32,13 @@ class BaseModel extends Model
     public function getStatusLabelAttribute()
     {
         return $this->status ? 'Aktif' : 'Tidak Aktif';
+    }
+
+    public function getStatusTypeAttribute(){
+        return $this->status ? 'success': 'error';
+    }
+
+    public function getActiveTypeAttribute(){
+        return $this->active ? 'success': 'error';
     }
 }

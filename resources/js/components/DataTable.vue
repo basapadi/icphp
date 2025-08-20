@@ -90,7 +90,7 @@
                   </div>
               </template>
               <template v-else-if="column.name === 'status_label'">
-                <span :class="statusBadge(data.status)">{{ $helpers.getSubObjectValue(data, column.name) }}</span>
+                <Badge :value="$helpers.getSubObjectValue(data, column.name)" :type="data.status_type"/>
               </template>
               <template v-else>
                 <span class="text-sm text-gray-600">{{ $helpers.getSubObjectValue(data, column.name) }}</span>
@@ -144,9 +144,10 @@ import { ref, computed } from 'vue'
 import { Search } from 'lucide-vue-next'
 import { useStore, mapGetters, mapActions } from 'vuex'
 import { TrashIcon, PencilSquareIcon } from '@heroicons/vue/24/outline'
+import { Badge } from '@/components/forms'
 
 export default {
-  components: { Search,TrashIcon,PencilSquareIcon },
+  components: { Search,TrashIcon,PencilSquareIcon,Badge },
   props: {
     title: {
       type: String,
@@ -241,13 +242,6 @@ export default {
     },
     initPage() {
       this.currentPage = 1
-    },
-    statusBadge(status) {
-      const map = [
-        'inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 inset-ring inset-ring-red-600/10',
-        'inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 inset-ring inset-ring-green-600/20'
-      ]
-      return map[(parseInt(status))] || 'inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-700 inset-ring inset-ring-gray-600/20';
     }
   }
 }
