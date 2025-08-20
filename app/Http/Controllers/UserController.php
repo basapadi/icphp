@@ -10,6 +10,7 @@ class UserController extends BaseController
 {
     public function __construct(){
         $this->setModel(User::class);
+        $this->setModule('master.user');
         $this->setColumns([
             // ['value' => 'id', 'label'=> 'ID', 'align' => 'left', 'show' => false],
             ['value' => 'statusLabel', 'label'=> 'Status Aktif', 'align' => 'left'],

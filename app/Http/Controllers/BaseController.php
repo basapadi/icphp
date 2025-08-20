@@ -12,6 +12,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Spatie\Fractal\Fractal;
 use Vinkla\Hashids\Facades\Hashids;
+use App\Models\Menu;
 
 class BaseController extends Controller
 {
@@ -21,8 +22,10 @@ class BaseController extends Controller
     private string $_filterParamLike = '';
     private $_queryBuilder;
     private $_multipleSelectGrid = true;
+    private $_module = '';
 
     public function grid(Request $request){
+        $this->allowAccessModule($this->_module,'view');
         $query = $this->_queryBuilder;
         $totalQuery = clone $this->_queryBuilder;
         if(count($this->_filterColumnsLike) > 0 && $this->_filterParamLike != ''){
@@ -111,5 +114,36 @@ class BaseController extends Controller
             $decrypted = null; // atau return default value
         }
         return $decrypted;
+    }
+
+    /**
+     * untuk mengatur module controller
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+    */
+    protected function setModule(string $module){
+        $this->_module = $module;
+    }
+
+    /**
+     * untuk mengecek hak akses ke action tertentu
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+    */
+    protected function allowAccessModule(string $module, string $action){
+        $auth = auth()->user();
+        if(!empty($module) && !empty($action)){
+            $can = Menu::select('menus.id','module', 'role_menus.'.$action)
+                ->where('module',$module)->join('role_menus', function ($join) use ($auth) {
+                    $join->on('role_menus.menu_id', '=', 'menus.id')
+                        ->on('role_menus.role', '=', $auth->role);
+            })->first()->{$action};
+            return !$can ?   abort(response()->json([
+                'status' => false,
+                'message' => 'Unauthorized'
+            ], 401)) : true;
+        }
+        return abort(response()->json([
+            'status' => false,
+            'message' => 'Unauthorized'
+        ], 401));
     }
 }

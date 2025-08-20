@@ -8,20 +8,23 @@ return [
             'label' => 'Beranda',
             'route' => '/',
             'order' => 1,
+            'module'=>'dashboard'
         ],
         [
             'id'    => 2,
             'icon'  => 'CreditCard',
             'label' => 'POS',
             'route' => '/pos',
-            'order' => 2
+            'order' => 2,
+            'module'=>'pos'
         ],
         [
             'id'    => 3,
             'icon'  => 'Settings',
             'label' => 'Pengaturan',
             'route' => '#',
-            'order' => 5
+            'order' => 5,
+            'module'=>'setting'
         ],
         [
             'id'    => 4,
@@ -29,7 +32,8 @@ return [
             'label' => 'Umum',
             'route' => '/setting/general',
             'order' => 0,
-            'parent'=> 3
+            'parent'=> 3,
+            'module'=>'setting.general'
         ],
         [
             'id'    => 5,
@@ -37,7 +41,8 @@ return [
             'label' => 'Basis Data',
             'route' => '/setting/database',
             'order' => 1,
-            'parent'=> 3
+            'parent'=> 3,
+            'module'=>'setting.database'
         ],
         [
             'id'    => 6,
@@ -45,14 +50,16 @@ return [
             'label' => 'Hak Akses',
             'route' => '/setting/role',
             'order' => 2,
-            'parent'=> 3
+            'parent'=> 3,
+            'module'=>'setting.role'
         ],
         [
             'id'    => 7,
             'icon'  => 'Package',
             'label' => 'Master Data',
             'route' => '#',
-            'order' => 3
+            'order' => 3,
+            'module'=>'master'
         ],
         [
             'id'    => 8,
@@ -60,7 +67,8 @@ return [
             'label' => 'Satuan Barang',
             'route' => '/master/unit',
             'order' => 0,
-            'parent'=> 7
+            'parent'=> 7,
+            'module'=>'master.unit'
         ],
         [
             'id'    => 9,
@@ -68,7 +76,8 @@ return [
             'label' => 'Barang',
             'route' => '/master/item',
             'order' => 1,
-            'parent'=> 7
+            'parent'=> 7,
+            'module'=>'master.item'
         ],
         [
             'id'    => 14,
@@ -76,7 +85,8 @@ return [
             'label' => 'Kontak',
             'route' => '/master/contact',
             'order' => 2,
-            'parent'=> 7
+            'parent'=> 7,
+            'module'=>'master.contact'
         ],
         [
             'id'    => 15,
@@ -84,38 +94,43 @@ return [
             'label' => 'Pengguna',
             'route' => '/master/user',
             'order' => 3,
-            'parent'=> 7
+            'parent'=> 7,
+            'module'=>'master.user'
         ],
         [
             'id'    => 10,
             'icon'  => 'ShoppingCart',
             'label' => 'Transaksi',
             'route' => '#',
-            'order' => 4
+            'order' => 4,
+            'module'=>'transaction'
         ],
         [
             'id'    => 11,
             'icon'  => '',
             'label' => 'Stok',
-            'route' => '/master/stock',
+            'route' => '/transaction/stock',
             'order' => 0,
-            'parent'=> 10
+            'parent'=> 10,
+            'module'=>'transaction.stock'
         ],
         [
             'id'    => 12,
             'icon'  => '',
             'label' => 'Penerimaan',
-            'route' => '/master/received',
+            'route' => '/transaction/received',
             'order' => 1,
-            'parent'=> 10
+            'parent'=> 10,
+            'module'=>'transaction.received'
         ],
         [
             'id'    => 13,
             'icon'  => '',
             'label' => 'Penjualan',
-            'route' => '/master/sale',
+            'route' => '/transaction/sale',
             'order' => 2,
-            'parent'=> 10
+            'parent'=> 10,
+            'module'=>'transaction.sale'
         ],
         //last_id:15
     ],

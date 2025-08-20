@@ -24,10 +24,10 @@ class MenuSeeder extends Seeder
                 'label' => $menu['label'],
                 'route' => $menu['route'],
                 'order' => $menu['order'],
-                'parent_id' => $menu['parent']??null
+                'parent_id' => $menu['parent']??null,
+                'module'    => $menu['module']??null
             ]);
         }
-
         Menu::insert($preInsertMenu);
 
         \DB::commit();

@@ -14,8 +14,9 @@ use Exception;
 
 class RoleController extends BaseController
 {
-
+    // override function grid di BaseController
     public function grid(Request $request){
+        $this->allowAccessModule('setting.role','view');
         $query = RoleMenu::select('role_menus.*')->with(['menu','menu.parent'])->leftJoin('menus', 'role_menus.menu_id', '=', 'menus.id');
         $rows = $query->filter();
         if(isset($request->q) && $request->q != ''){
@@ -27,9 +28,10 @@ class RoleController extends BaseController
             'columns' => Transformer::quasarColumn([
                 // ['value' => 'id', 'label'=> 'Id', 'align' => 'left'],
                 ['value' => 'role', 'label'=> 'Hak Akses', 'align' => 'left'],
+                ['value' => 'menu__module', 'label'=> 'Modul', 'align' => 'left'],
+                ['value' => 'menu__route', 'label'=> 'Route', 'align' => 'left'],
                 ['value' => 'menu__parent__label', 'label'=> 'Parent Menu', 'align' => 'left'],
                 ['value' => 'menu__label', 'label'=> 'Menu', 'align' => 'left'],
-                ['value' => 'menu__route', 'label'=> 'Route', 'align' => 'left'],
                 ['value' => 'view', 'label'=> 'Lihat', 'align' => 'left'],
                 ['value' => 'create', 'label'=> 'Tambah', 'align' => 'left'],
                 ['value' => 'delete', 'label'=> 'Hapus', 'align' => 'left'],

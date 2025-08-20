@@ -9,6 +9,7 @@ class UnitController extends BaseController
 {
     public function __construct(){
         $this->setModel(Master::class)->where('type','UNIT');
+        $this->setModule('master.unit');
         $this->setColumns([
             // ['value' => 'id', 'label'=> 'ID', 'align' => 'left', 'show' => false],
             ['value' => 'status_label', 'label'=> 'Status Aktif', 'align' => 'left'],
