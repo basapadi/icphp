@@ -65,7 +65,7 @@ export default {
             type: String,
             default: 'title'
         },
-        store: {
+        store_grid: {
             type: String,
             default: ''
         },
@@ -105,7 +105,7 @@ export default {
     },
     methods: {
         async load() {
-            await this.$store.dispatch(this.store, { q: this.searchQuery, _page: this.currentPage, _limit: 100000 }).then(({ data }) => {
+            await this.$store.dispatch(this.store_grid, { q: this.searchQuery, _page: this.currentPage, _limit: 100000 }).then(({ data }) => {
                 data = data.data
                 this.rows = data.rows
                 this.columns = data.columns
