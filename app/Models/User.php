@@ -35,7 +35,7 @@ class User extends BaseUser
         'remember_token',
     ];
 
-    protected $appends = ['statusLabel'];
+    protected $appends = ['activeLabel','status'];
 
     /**
      * Get the attributes that should be cast.
@@ -50,8 +50,13 @@ class User extends BaseUser
         ];
     }
 
-    public function getStatusLabelAttribute()
+    public function getActiveLabelAttribute()
     {
         return $this->active ? 'Aktif' : 'Tidak Aktif';
+    }
+
+    public function getStatusAttribute()
+    {
+        return $this->active;
     }
 }

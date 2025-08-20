@@ -89,6 +89,9 @@
                     </template>
                   </div>
               </template>
+              <template v-else-if="column.name === 'status_label'">
+                <span :class="statusBadge(data.status)">{{ $helpers.getSubObjectValue(data, column.name) }}</span>
+              </template>
               <template v-else>
                 <span class="text-sm text-gray-600">{{ $helpers.getSubObjectValue(data, column.name) }}</span>
               </template>
@@ -238,6 +241,13 @@ export default {
     },
     initPage() {
       this.currentPage = 1
+    },
+    statusBadge(status) {
+      const map = [
+        'inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 inset-ring inset-ring-red-600/10',
+        'inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 inset-ring inset-ring-green-600/20'
+      ]
+      return map[(parseInt(status))] || 'inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-700 inset-ring inset-ring-gray-600/20';
     }
   }
 }

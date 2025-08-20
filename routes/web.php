@@ -7,7 +7,8 @@ use App\Http\Controllers\{
     MenuController,
     UnitController,
     UserController,
-    RoleController
+    RoleController,
+    ContactController
 };
 use Illuminate\Support\Facades\Route;
 
@@ -43,5 +44,8 @@ Route::prefix('api')->group(function () {
     Route::controller(RoleController::class)->middleware('auth:sanctum')->prefix('role')->group(function () {
         Route::get('grid', 'grid');
         Route::put('update/{id}', 'update');
+    });
+    Route::controller(ContactController::class)->middleware('auth:sanctum')->prefix('contact')->group(function () {
+        Route::get('grid', 'grid');
     });
 });

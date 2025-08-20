@@ -6,6 +6,7 @@ import unit from './modules/unit'
 import role from './modules/role'
 import item from './modules/item'
 import dataMenu from './modules/dataMenu'
+import contact from './modules/contact'
 
 export default createStore({
   modules: {
@@ -16,5 +17,6 @@ export default createStore({
     role,
     item,
     dataMenu,
+    contact
   }
 })

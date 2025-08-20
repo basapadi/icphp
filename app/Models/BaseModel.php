@@ -11,7 +11,7 @@ class BaseModel extends Model
     {
         parent::__construct($attributes);
         if(property_exists($this, 'appends')){
-            $this->appends = array_merge($this->appends, ['created_at_formatted','updated_at_formatted','encode_id']);
+            $this->appends = array_merge($this->appends, ['created_at_formatted','updated_at_formatted','encode_id','status_label']);
         }
     }
 
@@ -27,5 +27,10 @@ class BaseModel extends Model
 
     public function getEncodeIdAttribute(){
         return $this->id ? Hashids::encode($this->id) : null;
+    }
+
+    public function getStatusLabelAttribute()
+    {
+        return $this->status ? 'Aktif' : 'Tidak Aktif';
     }
 }
