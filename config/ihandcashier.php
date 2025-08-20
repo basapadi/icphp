@@ -1,6 +1,6 @@
 <?php
 return [
-    'roles' => ['admin','kasir'], //available role,
+    'roles' => ['admin','kasir','keuangan'], //available role,
     'menus' => [
         [
             'id'    => 1,

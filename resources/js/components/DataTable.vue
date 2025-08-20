@@ -216,19 +216,19 @@ export default {
     },
     toggleSelectAll() {
       if (this.selectAll) {
-        this.selectedData = this.filterData.map(user => user.id)
+        this.selectedData = this.filterData.map(dt => dt.id)
       } else {
         this.selectedData = []
       }
     },
     tambahData() {
-      alert('Add user clicked')
+      alert('Action tambah Disini')
     },
     editData(user) {
-      alert('Edit user:', user)
+      alert('Action Edit disini:', user)
     },
     hapusData(userId) {
-      alert('Delete user:', userId)
+      alert('Action Hapus disini:', userId)
     },
     previousPage() {
       if (this.currentPage > 1) this.currentPage--
