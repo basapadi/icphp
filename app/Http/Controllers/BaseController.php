@@ -148,7 +148,12 @@ class BaseController extends Controller
         ], 401)) : false;
     }
 
-    protected function allowAccess($action){
+    /**
+     * untuk mengecek hak akses ke action tertentu, apabila true maka return action namenya jika tidak return string kosong
+     * @param $action actions antara lain: view,create,edit,update,download
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+    */
+    protected function allowAccess(string $action){
         return $this->allowAccessModule($this->_module,$action,true) ? $action : '';
     }
 }
