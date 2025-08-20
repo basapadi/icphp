@@ -12,11 +12,4 @@ class Master extends BaseModel
         'status',
         'attributes',
     ];
-
-    protected $appends = ['status_label'];
-
-    public function getStatusLabelAttribute()
-    {
-        return $this->status ? 'Aktif' : 'Tidak Aktif';
-    }
 }
