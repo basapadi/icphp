@@ -11,7 +11,7 @@ class UnitController extends BaseController
         $this->setModel(Master::class)->where('type','UNIT');
         $this->setColumns([
             // ['value' => 'id', 'label'=> 'ID', 'align' => 'left', 'show' => false],
-            ['value' => 'statusLabel', 'label'=> 'Status Aktif', 'align' => 'left'],
+            ['value' => 'status_label', 'label'=> 'Status Aktif', 'align' => 'left'],
             ['value' => 'type', 'label'=> 'Type', 'align' => 'left'],
             ['value' => 'kode', 'label'=> 'Kode', 'align' => 'left'],
             ['value' => 'nama', 'label'=> 'Nama', 'align' => 'left'],

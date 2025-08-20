@@ -52,34 +52,59 @@ class BaseController extends Controller
         ]);
     }
 
+    public function create(Request $request){
+        
+    }
+
     public function update(Request $request, $id){
         
     }
 
+    public function delete(Request $request,$id){
+        
+    }
+
+    /**
+     * Mengatur column response untuk grid
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+     */
     protected function setColumns(array $columns){
         $this->_columns = Transformer::quasarColumn($columns);
     }
 
+    /**
+     * Mengatur Model untuk controller tertentu
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+     */
     protected function setModel(string $model){
         $this->_model = app($model);
         $this->_queryBuilder = $this->_model->newQuery();
         return $this->_queryBuilder;
     }
 
-    protected function setFilterColumnsLike($columns,$param){
+    /**
+     * Mengatur query filter untuk grid diluar ketentuan dari request query Btx\Query\Model
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+     * @description lihat detail request query di https://btx.basapadi.com/query/request-query
+     */
+    protected function setFilterColumnsLike(array $columns,string $param){
         $this->_filterColumnsLike = $columns;
         $this->_filterParamLike = $param;
     }
 
+    /**
+     * Mengatur view mutipleselect di grid
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+     */
     protected function setMultipleSelectGrid(bool $value){
         $this->_multipleSelectGrid = $value;
     }
 
-    protected function query(){
-        return $this->_queryBuilder;
-    }
-
-    protected function decodeId($encodeId){
+    /**
+     * untuk mendecoding id yang sudah di encode secara default dari model
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+    */
+    protected function decodeId(string $encodeId){
         try {
             $decrypted = Hashids::decode($encodeId);
         } catch (Exception $e) {

@@ -14,16 +14,12 @@ use Exception;
 
 class RoleController extends BaseController
 {
-    public function __construct(){
-
-    }
 
     public function grid(Request $request){
         $query = RoleMenu::select('role_menus.*')->with(['menu','menu.parent'])->leftJoin('menus', 'role_menus.menu_id', '=', 'menus.id');
         $rows = $query->filter();
         if(isset($request->q) && $request->q != ''){
-            $query->whereRaw('LOWER(role_menus.role) LIKE ?', ['%'.strtolower($request->q).'%'])
-                ->orWhereRaw('LOWER(menus.label) LIKE ?', ['%'.strtolower($request->q).'%']);
+            $query->whereRaw('LOWER(role_menus.role) LIKE ?', ['%'.strtolower($request->q).'%'])->orWhereRaw('LOWER(menus.label) LIKE ?', ['%'.strtolower($request->q).'%']);
         }
         $rows = $rows->get();
         return Response::ok('Loaded', [

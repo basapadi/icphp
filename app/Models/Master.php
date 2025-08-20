@@ -13,7 +13,7 @@ class Master extends BaseModel
         'attributes',
     ];
 
-    protected $appends = ['statusLabel'];
+    protected $appends = ['status_label'];
 
     public function getStatusLabelAttribute()
     {
