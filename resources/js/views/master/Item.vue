@@ -7,7 +7,7 @@
       </div>
 
       <div class="p-2">
-        <DataTable title="Data Barang" store="item/grid"/>
+        <DataTable title="Barang" store_grid="item/grid" store_form="item/form"/>
        
       </div>
     </div>

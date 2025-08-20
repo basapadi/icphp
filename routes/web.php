@@ -31,15 +31,19 @@ Route::prefix('api')->group(function () {
     });
     Route::controller(UserController::class)->middleware('auth:sanctum')->prefix('user')->group(function () {
         Route::get('grid', 'grid');
+        Route::get('form', 'form');
     });
     Route::controller(UnitController::class)->middleware('auth:sanctum')->prefix('unit')->group(function () {
         Route::get('grid', 'grid');
+        Route::get('form', 'form');
     });
     Route::controller(ItemController::class)->middleware('auth:sanctum')->prefix('item')->group(function () {
         Route::get('grid', 'grid');
+        Route::get('form', 'form');
     });
     Route::controller(DataMenuController::class)->middleware('auth:sanctum')->prefix('data-menu')->group(function () {
         Route::get('grid', 'grid');
+        Route::get('form', 'form');
     });
     Route::controller(RoleController::class)->middleware('auth:sanctum')->prefix('role')->group(function () {
         Route::get('grid', 'grid');
@@ -47,5 +51,6 @@ Route::prefix('api')->group(function () {
     });
     Route::controller(ContactController::class)->middleware('auth:sanctum')->prefix('contact')->group(function () {
         Route::get('grid', 'grid');
+        Route::get('form', 'form');
     });
 });

@@ -7,7 +7,7 @@
       </div>
 
       <div class="p-2">
-        <DataTable title="Daftar Menu" store="dataMenu/grid"/>
+        <DataTable title="Daftar Menu" store_grid="dataMenu/grid" store_form="dataMenu/form"/>
       </div>
     </div>
   </AdminLayout>

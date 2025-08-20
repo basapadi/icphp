@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Fractal\Fractal;
 use Vinkla\Hashids\Facades\Hashids;
 use App\Models\Menu;
+use App\Transformers\FormTransformer;
+use Spatie\Fractalistic\ArraySerializer;
 
 class BaseController extends Controller
 {
@@ -23,6 +25,7 @@ class BaseController extends Controller
     private $_queryBuilder;
     private $_multipleSelectGrid = true;
     private $_module = '';
+    private ?array $_form = [];
 
     public function grid(Request $request){
         $this->allowAccessModule($this->_module,'view');
@@ -52,6 +55,14 @@ class BaseController extends Controller
             'properties' => [
                 'multipleSelect' => $this->_multipleSelectGrid 
             ]
+        ]);
+    }
+
+    public function form(Request $request){
+        $this->allowAccessModule($this->_module,'create');
+        return Response::ok('Form', [
+            'fields' => fractal($this->_form, new FormTransformer(), ArraySerializer::class), 
+            'data' => [] //data yang dibawa saat pertama kali dibuka, contoh data options pada selecbox
         ]);
     }
 
@@ -155,5 +166,9 @@ class BaseController extends Controller
     */
     protected function allowAccess(string $action){
         return $this->allowAccessModule($this->_module,$action,true) ? $action : '';
+    }
+
+    protected function setForm(array $fields){
+       $this->_form = $fields;
     }
 }

@@ -137,6 +137,14 @@
       </div>
     </div>
   </div>
+  <FormDialog 
+      :open="showDialog" 
+      :title="title"
+      :fields="form.fields"
+      :data="form.data"
+      @close="showDialog = false"
+      @submit="handleSubmit"
+    />
 </template>
 
 <script>
@@ -145,15 +153,20 @@ import { Search } from 'lucide-vue-next'
 import { useStore, mapGetters, mapActions } from 'vuex'
 import { TrashIcon, PencilSquareIcon } from '@heroicons/vue/24/outline'
 import { Badge } from '@/components/forms'
+import FormDialog from '@/components/FormDialog.vue'
 
 export default {
-  components: { Search,TrashIcon,PencilSquareIcon,Badge },
+  components: { Search,TrashIcon,PencilSquareIcon,Badge, FormDialog },
   props: {
     title: {
       type: String,
       default: 'title'
     },
-    store: {
+    store_grid: {
+      type: String,
+      default: ''
+    },
+    store_form: {
       type: String,
       default: ''
     }
@@ -167,9 +180,11 @@ export default {
       itemsPerPage: 15,
       total: 0,
       rows: [],
+      form: [],
       columns: [],
       properties: {},
-      allowCreate: false
+      allowCreate: false,
+      showDialog: false
     }
   },
   watch: {
@@ -205,14 +220,14 @@ export default {
   },
   methods: {
     async load() {
-      await this.$store.dispatch(this.store, { q: this.searchQuery, _limit: this.itemsPerPage, _page: this.currentPage }).then(({ data }) => {
+      await this.$store.dispatch(this.store_grid, { q: this.searchQuery, _limit: this.itemsPerPage, _page: this.currentPage }).then(({ data }) => {
         data = data.data
         this.rows = data.rows
         this.columns = data.columns
         this.total = data.total
         this.properties = data.properties
       })
-      this.allowCreate = this.menuRoles.find(role => role.route === this.$route.path)?.create
+      this.allowCreate = this.menuRoles.find(role => role.route === this.$route.path)?.view
 
     },
     formatDate(dateString) {
@@ -225,8 +240,11 @@ export default {
         this.selectedData = []
       }
     },
-    tambahData() {
-      alert('Action tambah Disini')
+    async tambahData() {
+      await this.$store.dispatch(this.store_form).then(({ data }) => {
+        this.form = data.data
+      })
+      this.showDialog = true
     },
     editData(user) {
       alert('Action Edit disini:', user)

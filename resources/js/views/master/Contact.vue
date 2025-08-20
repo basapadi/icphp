@@ -6,7 +6,7 @@
         <p class="text-xs text-gray-600">Daftar Kontak Pelanggan, Pemasok dan lainnya</p>
       </div>
       <div class="p-2">
-        <DataTable title="Daftar Kontak" store="contact/grid"/>
+        <DataTable title="Kontak" store_grid="contact/grid" store_form="contact/form"/>
       </div>
     </div>
   </AdminLayout>

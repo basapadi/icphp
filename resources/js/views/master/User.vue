@@ -7,7 +7,7 @@
       </div>
 
       <div class="p-2">
-        <DataTable title="Pengguna" store="user/grid"/>
+        <DataTable title="Pengguna" store_grid="user/grid" store_form="user/form"/>
       </div>
     </div>
   </AdminLayout>
