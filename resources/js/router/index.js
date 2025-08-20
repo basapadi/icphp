@@ -6,8 +6,10 @@ import Contact from "@/views/master/Contact.vue"
 import User from "@/views/master/User.vue"
 import Item from "@/views/master/Item.vue"
 import Unit from "@/views/master/Unit.vue"
-import Menu from "@/views/master/Menu.vue";
+import Menu from "@/views/setting/Menu.vue"
 import Role from "@/views/setting/Role.vue"
+import Database from "@/views/setting/Database.vue"
+import General from "@/views/setting/General.vue"
 
 const routes = [
   {
@@ -61,6 +63,18 @@ const routes = [
     path: "/setting/role",
     name: "Setting.Role",
     component: Role,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/setting/general",
+    name: "Setting.General",
+    component: General,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/setting/database",
+    name: "Setting.Database",
+    component: Database,
     meta: { requiresAuth: true }
   }
 ]
