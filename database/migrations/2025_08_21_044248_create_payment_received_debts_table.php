@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('contact_id')->index()->comment('ID Pemasok');
             $table->double('jumlah')->default(0);
+            $table->string('tipe_pembayaran',20);
             $table->string('metode_pembayaran',20);
             $table->string('dibayar_oleh')->nullable();
             $table->dateTime('tanggal_pembayaran');

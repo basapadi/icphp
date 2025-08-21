@@ -11,7 +11,14 @@ class BaseModel extends Model
     {
         parent::__construct($attributes);
         if(property_exists($this, 'appends')){
-            $this->appends = array_merge($this->appends, ['created_at_formatted','updated_at_formatted','encode_id','status_label','status_type','active_type']);
+            $this->appends = array_merge($this->appends, [
+                'created_at_formatted',
+                'updated_at_formatted',
+                'encode_id',
+                'status_label',
+                'status_type',
+                'active_type'
+            ]);
         }
     }
 
@@ -40,5 +47,5 @@ class BaseModel extends Model
 
     public function getActiveTypeAttribute(){
         return $this->active ? 'success': 'error';
-    }
+    }    
 }

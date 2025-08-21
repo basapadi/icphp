@@ -13,7 +13,4 @@ class ItemReceivedDetail extends BaseModel
         'unit_id'
     ];
 
-    public function details(){
-        return $this->hasMany(ItemReceivedDetail::class,'item_received_id','id');
-    }
 }

@@ -12,6 +12,7 @@ class PaymentReceivedDebt extends BaseModel
     protected $fillable = [
         'contact_id',
         'jumlah',
+        'type_pembayaran',
         'metode_pembayaran',
         'dibayar_oleh',
         'tanggal_pembayaran',

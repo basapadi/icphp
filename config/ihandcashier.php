@@ -1,6 +1,31 @@
 <?php
 return [
     'roles' => ['admin','kasir','keuangan'], //available role,
+    'payment_types' => [
+        'cash'          => 'Lunas',
+        'credit'        => 'Cicilan',
+        'tempo'         => 'Hutang'
+    ],
+    'payment_methods' => [
+        'receive' => [
+            'cash_payment'  => 'Tunai',
+            'bank_transfer' => 'Transfer Bank',
+        ],
+        'sale' => [
+            'cash_payment'  => 'Tunai',
+            'bank_transfer' => 'Transfer Bank',
+            'qris'          => 'QRIS'
+        ]
+    ],
+    'payment_status' => [
+        'unpaid'            => 'Belum Dibayar',
+        'partially_paid'    => 'Terbayar Sebagian',
+        'paid'              => 'Lunas',
+        'overdue'           => 'Jatuh Tempo',
+        'pending'           => 'Menunggu',
+        'canceled'          => 'Dibatalkan',
+        'refunded'          => 'Dikembalikan'
+    ],
     'menus' => [
         [
             'id'    => 1,

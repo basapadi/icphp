@@ -2,17 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\Item;
+use App\Models\ItemReceived;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-class ItemSeeder extends Seeder
+
+class ItemReceivedSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Item::truncate();
-        Item::factory()->count(100)->create();
+        ItemReceived::truncate();
+        ItemReceived::factory()->count(10)->create();
     }
 }
