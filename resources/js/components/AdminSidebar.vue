@@ -39,6 +39,7 @@ import {
   TrendingUp,
   Calendar,
   CreditCard,
+  DollarSign
 } from 'lucide-vue-next'
 
 </script>
@@ -57,7 +58,8 @@ import {
           creditcard: CreditCard,
           settings: Settings,
           shoppingcart: ShoppingCart,
-          package: Package
+          package: Package,
+          dollarsign: DollarSign
         },
         menus: [],
         loading: true,

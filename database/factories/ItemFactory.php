@@ -17,7 +17,7 @@ class ItemFactory extends Factory
     public function definition(): array
     {
         return [
-            'kode_barang' => strtoupper($this->faker->bothify('PRD-####')), 
+            'kode_barang' => strtoupper($this->faker->unique()->bothify('PRD-####')), 
             'nama'        => $this->faker->words(2, true), 
             'gambar'      => $this->faker->imageUrl(640, 480, 'products', true, 'Barang'), 
             'kategori'    => $this->faker->randomElement(['Elektronik', 'Pakaian', 'Makanan', 'Alat Rumah Tangga']), 

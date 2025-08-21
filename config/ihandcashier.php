@@ -32,7 +32,7 @@ return [
             'label' => 'Umum',
             'route' => '/setting/general',
             'order' => 0,
-            'parent'=> 3,
+            'parent'=> 5,
             'module'=>'setting.general'
         ],
         [
@@ -111,7 +111,7 @@ return [
             'icon'  => 'ShoppingCart',
             'label' => 'Transaksi',
             'route' => '#',
-            'order' => 4,
+            'order' => 3,
             'module'=>'transaction'
         ],
         [
@@ -127,10 +127,10 @@ return [
             'id'    => 12,
             'icon'  => '',
             'label' => 'Penerimaan',
-            'route' => '/transaction/received',
+            'route' => '/transaction/receive',
             'order' => 1,
             'parent'=> 10,
-            'module'=>'transaction.received'
+            'module'=>'transaction.receive'
         ],
         [
             'id'    => 13,
@@ -141,7 +141,33 @@ return [
             'parent'=> 10,
             'module'=>'transaction.sale'
         ],
-        //last_id:16
+        [
+            'id'    => 17,
+            'icon'  => 'DollarSign',
+            'label' => 'Keuangan',
+            'route' => '#',
+            'order' => 4,
+            'module'=>'finance'
+        ],
+        [
+            'id'    => 18,
+            'icon'  => '',
+            'label' => 'Hutang',
+            'route' => '/finance/debt',
+            'order' => 0,
+            'parent'=> 17,
+            'module'=>'finance.debt'
+        ],
+        [
+            'id'    => 19,
+            'icon'  => '',
+            'label' => 'Piutang',
+            'route' => '/finance/credit',
+            'order' => 1,
+            'parent'=> 17,
+            'module'=>'finance.credit'
+        ],
+        //last_id:19
     ],
     'units' => [
         'pcs'      => [1, 'Piece', 1, 'pcs'],
