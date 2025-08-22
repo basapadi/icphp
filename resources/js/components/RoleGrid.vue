@@ -1,7 +1,7 @@
 <template>
     <div class="bg-white rounded-lg shadow-sm border-2 border-gray-100">
         <!-- Table Header -->
-        <div class="px-4 py-1 border-b border-gray-100">
+        <div class="px-1 py-1 border-b border-gray-100">
             <div class="flex items-center justify-between">
                 <h2 class="text-base font-semibold text-gray-900"></h2>
                 <div class="flex items-center space-x-2">
@@ -19,7 +19,8 @@
                 </div>
             </div>
         </div>
-        <div class="overflow-x-auto">
+    <div>
+        <div class="overflow-x-auto h-3/4">
             <table class="w-full overflow-y-scroll table-auto border-collapse border-2 border-gray-200">
                 <thead class="bg-gray-50">
                 <tr>
@@ -50,8 +51,45 @@
                         </td>
                     </template>
                 </tr>
-                </tbody>
-            </table>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <div class="px-4 py-3 border-t border-gray-200 bg-gray-50">
+            <div class="flex items-center justify-between">
+                <div class="text-sm text-gray-700">
+                Data <span class="font-medium">{{ (currentPage * itemsPerPage) - (itemsPerPage -1) }}</span> hingga 
+                <span class="font-medium">{{ ((currentPage -1) * itemsPerPage) + rows?.length }}</span> dari 
+                <span class="font-medium">{{ total }}</span> hasil
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button
+                        @click="initPage"
+                        class="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                        Awal
+                    </button>
+                    <button
+                        @click="previousPage"
+                        :disabled="currentPage === 1"
+                        class="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        Sebelumnya
+                    </button>
+                    <button class="px-3 py-1 text-sm bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors">
+                        {{ currentPage }}
+                    </button>
+                    <button
+                        @click="nextPage"
+                        :disabled="currentPage === totalPages"
+                        class="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        Selanjutnya
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
     </div>
 </template>
@@ -83,7 +121,8 @@ export default {
             total: 0,
             rows: [],
             columns: [],
-            properties: {}
+            properties: {},
+            itemsPerPage: 18
         }
     },
     watch: {
@@ -104,10 +143,19 @@ export default {
             }
             return this.rows
         },
+        totalPages() {
+            return Math.ceil(this.total / this.itemsPerPage)
+        },
+        startIndex() {
+            return (this.currentPage) * this.itemsPerPage + 1
+        },
+        endIndex() {
+            return Math.min(this.currentPage * this.itemsPerPage, this.filterData.length)
+        }
     },
     methods: {
         async load() {
-            await this.$store.dispatch(this.store_grid, { q: this.searchQuery, _page: this.currentPage, _limit: 100000 }).then(({ data }) => {
+            await this.$store.dispatch(this.store_grid, { q: this.searchQuery, _page: this.currentPage, _limit: this.itemsPerPage }).then(({ data }) => {
                 data = data.data
                 this.rows = data.rows
                 this.columns = data.columns
@@ -119,6 +167,15 @@ export default {
             await this.$store.dispatch(this.storeSingleUpdate, { value: event.target.checked, id: data.encode_id, column }).then(() => {
                 this.load()
             })
+        },
+        previousPage() {
+            if (this.currentPage > 1) this.currentPage--
+        },
+        nextPage() {
+            if (this.currentPage < this.totalPages) this.currentPage++
+        },
+        initPage() {
+            this.currentPage = 1
         }
     }
 }

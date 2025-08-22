@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1c8e92cfd8b1a6ecce07aa9c29ec8311",
+    "content-hash": "487bc1d9a1024a6b1df7ac7224425021",
     "packages": [
         {
             "name": "brick/math",
@@ -69,10 +69,16 @@
         {
             "name": "btx/btx",
             "version": "2.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bachtiarpanjaitan/btx.git",
+                "reference": "c86110085b8957bac4767614dd8d810c30996107"
+            },
             "dist": {
-                "type": "path",
-                "url": "packages/btx",
-                "reference": "c5db0f0c0d7d8f2f73bedb9e683b5124fc8039c0"
+                "type": "zip",
+                "url": "https://api.github.com/repos/bachtiarpanjaitan/btx/zipball/c86110085b8957bac4767614dd8d810c30996107",
+                "reference": "c86110085b8957bac4767614dd8d810c30996107",
+                "shasum": ""
             },
             "require": {
                 "intervention/image": "^2.7",
@@ -86,21 +92,22 @@
             "type": "library",
             "extra": {
                 "laravel": {
-                    "providers": [],
-                    "aliases": []
+                    "aliases": [],
+                    "providers": []
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Btx\\Query\\": "query/src",
-                    "Btx\\File\\": "file/src",
-                    "Btx\\Http\\": "http/src",
-                    "Btx\\Common\\": "common/src"
-                },
                 "files": [
                     "helpers/lumen.php"
-                ]
+                ],
+                "psr-4": {
+                    "Btx\\File\\": "file/src",
+                    "Btx\\Http\\": "http/src",
+                    "Btx\\Query\\": "query/src",
+                    "Btx\\Common\\": "common/src"
+                }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -119,10 +126,11 @@
                 "btx",
                 "spellnumber"
             ],
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "support": {
+                "issues": "https://github.com/bachtiarpanjaitan/btx/issues",
+                "source": "https://github.com/bachtiarpanjaitan/btx/tree/2.0.3"
+            },
+            "time": "2025-08-22T07:49:57+00:00"
         },
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -5846,19 +5854,20 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.31.0",
+            "version": "v1.33.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "85181ba99b2345b0ef10ce42ecac37612d9fd341"
+                "reference": "6d857f4d76bd4b343eac26d6b539585d2bc56493"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/85181ba99b2345b0ef10ce42ecac37612d9fd341",
-                "reference": "85181ba99b2345b0ef10ce42ecac37612d9fd341",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/6d857f4d76bd4b343eac26d6b539585d2bc56493",
+                "reference": "6d857f4d76bd4b343eac26d6b539585d2bc56493",
                 "shasum": ""
             },
             "require": {
+                "ext-iconv": "*",
                 "php": ">=7.2"
             },
             "provide": {
@@ -5906,7 +5915,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.31.0"
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.33.0"
             },
             "funding": [
                 {
@@ -5918,11 +5927,15 @@
                     "type": "github"
                 },
                 {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
                     "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-09T11:45:10+00:00"
+            "time": "2024-12-23T08:48:59+00:00"
         },
         {
             "name": "symfony/polyfill-php80",
@@ -9373,12 +9386,12 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.2"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "plugin-api-version": "2.6.0"
 }

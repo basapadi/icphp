@@ -102,7 +102,7 @@ return [
             'label' => 'Umum',
             'route' => '/setting/general',
             'order' => 0,
-            'parent'=> 5,
+            'parent'=> 3,
             'module'=>'setting.general'
         ],
         [
