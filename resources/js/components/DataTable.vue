@@ -243,7 +243,6 @@ export default {
         this.properties = data.properties
       })
       this.allowCreate = this.menuRoles.find(role => role.route === this.$route.path)?.create
-
     },
     formatDate(dateString) {
       return new Date(dateString).toLocaleDateString()
@@ -279,6 +278,10 @@ export default {
     initPage() {
       this.currentPage = 1
     }
+
+  },
+  beforeMount(){
+    this.load()
   }
 }
 </script>
