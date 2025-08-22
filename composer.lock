@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "17c43cc1b3cf24722a8472d5f140639d",
+    "content-hash": "1c8e92cfd8b1a6ecce07aa9c29ec8311",
     "packages": [
         {
             "name": "brick/math",
@@ -67,12 +67,18 @@
             "time": "2025-03-29T13:50:30+00:00"
         },
         {
-            "name": "btx/btx-dev",
+            "name": "btx/btx",
             "version": "2.0.2",
-            "dist": {
-                "type": "path",
-                "url": "packages/btx",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bachtiarpanjaitan/btx.git",
                 "reference": "296f1ff8c5ed4d412ae9c3632664f659c4e3144b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bachtiarpanjaitan/btx/zipball/296f1ff8c5ed4d412ae9c3632664f659c4e3144b",
+                "reference": "296f1ff8c5ed4d412ae9c3632664f659c4e3144b",
+                "shasum": ""
             },
             "require": {
                 "intervention/image": "^2.7",
@@ -86,21 +92,22 @@
             "type": "library",
             "extra": {
                 "laravel": {
-                    "providers": [],
-                    "aliases": []
+                    "aliases": [],
+                    "providers": []
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Btx\\Query\\": "query/src",
-                    "Btx\\File\\": "file/src",
-                    "Btx\\Http\\": "http/src",
-                    "Btx\\Common\\": "common/src"
-                },
                 "files": [
                     "helpers/lumen.php"
-                ]
+                ],
+                "psr-4": {
+                    "Btx\\File\\": "file/src",
+                    "Btx\\Http\\": "http/src",
+                    "Btx\\Query\\": "query/src",
+                    "Btx\\Common\\": "common/src"
+                }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -119,10 +126,11 @@
                 "btx",
                 "spellnumber"
             ],
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "support": {
+                "issues": "https://github.com/bachtiarpanjaitan/btx/issues",
+                "source": "https://github.com/bachtiarpanjaitan/btx/tree/2.0.2"
+            },
+            "time": "2025-08-18T05:39:44+00:00"
         },
         {
             "name": "carbonphp/carbon-doctrine-types",

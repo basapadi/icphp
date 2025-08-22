@@ -28,6 +28,7 @@ const actions = {
 
       localStorage.setItem('token', resp.data.access_token)
       localStorage.setItem('user', JSON.stringify(resp.data.user))
+      window.axios.defaults.headers.common['Authorization'] = `Bearer ${resp.data.access_token}`; //inisiasi token
       return true
     } catch (err) {
       throw err
