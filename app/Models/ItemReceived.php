@@ -17,7 +17,8 @@ class ItemReceived extends BaseModel
         'total_harga_formatted',
         'color_status_pembayaran_label',
         'color_tipe_pembayaran_label',
-        'color_metode_pembayaran_label'
+        'color_metode_pembayaran_label',
+        'tanggal_jatuh_tempo'
     ];
     protected $fillable = [
         'kode_transaksi',
@@ -51,7 +52,17 @@ class ItemReceived extends BaseModel
 
     public function getTanggalTerimaFormattedAttribute()
     {
-        return $this->tanggal_terima ? Carbon::parse($this->tanggal_terima)->locale('id')->translatedFormat('d F Y H:i') : null;
+        return $this->tanggal_terima ? Carbon::parse($this->tanggal_terima)->locale('id')->translatedFormat('d M Y H:i') : null;
+    }
+    public function getTanggalJatuhTempoAttribute(){
+        $tgl = '';
+        if($this->tipe_pembayaran == 'tempo'){
+            $syarats = explode(' ',$this->syarat_pembayaran);
+            $jlhHari = filter_var(@$syarats[1], FILTER_SANITIZE_NUMBER_INT);
+            $tgl = Carbon::parse($this->tanggal_terima)->addDays((int)$jlhHari)->locale('id')->translatedFormat('d M Y');
+        }
+
+        return $tgl;
     }
 
     public function getTotalHargaFormattedAttribute()

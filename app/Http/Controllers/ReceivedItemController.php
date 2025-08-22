@@ -7,12 +7,12 @@ use App\Models\{
 };
 use Illuminate\Http\Request;
 
-class ReceivedController extends BaseController
+class ReceivedItemController extends BaseController
 {
     public function __construct(){
         $this->setModel(ItemReceived::class)
             ->with(['details','contact'])
-            ->leftJoin('contacts', 'contacts.id', '=', 'trx_received_items.contact_id');
+            ->leftJoin('contacts', 'contacts.id', '=', 'trx_received_items.contact_id')->orderBy('tanggal_terima','desc');
         $this->setModule('transaction.receive');
         $this->setColumns([
             // ['value' => 'id', 'label'=> 'ID', 'align' => 'left', 'show' => false],
@@ -27,6 +27,7 @@ class ReceivedController extends BaseController
             ['value' => 'tipe_pembayaran_label', 'label'=> 'Tipe Bayar', 'align' => 'left', 'type' => 'badge'],
             ['value' => 'metode_pembayaran_label', 'label'=> 'Metode Bayar', 'align' => 'left', 'type' => 'badge'],
             ['value' => 'syarat_pembayaran', 'label'=> 'Syarat', 'align' => 'left','class' => 'font-mono font-bold'],
+            ['value' => 'tanggal_jatuh_tempo', 'label'=> 'Jatuh Tempo', 'align' => 'left'],
             ['value' => 'catatan', 'label'=> 'Catatan', 'align' => 'left'],
             ['value' => 'actions', 'label'=> 'Actions', 'align' => 'left','options' => [
                 $this->allowAccess('view'),

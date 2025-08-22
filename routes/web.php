@@ -9,7 +9,7 @@ use App\Http\Controllers\{
     UserController,
     RoleController,
     ContactController,
-    ReceivedController
+    ReceivedItemController
 };
 use Illuminate\Support\Facades\Route;
 
@@ -54,7 +54,7 @@ Route::prefix('api')->group(function () {
         Route::get('grid', 'grid');
         Route::get('form', 'form');
     });
-    Route::controller(ReceivedController::class)->middleware('auth:sanctum')->prefix('receive')->group(function () {
+    Route::controller(ReceivedItemController::class)->middleware('auth:sanctum')->prefix('receive')->group(function () {
         Route::get('grid', 'grid');
         Route::get('form', 'form');
     });
