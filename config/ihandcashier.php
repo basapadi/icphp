@@ -2,29 +2,74 @@
 return [
     'roles' => ['admin','kasir','keuangan'], //available role,
     'payment_types' => [
-        'cash'          => 'Lunas',
-        'credit'        => 'Cicilan',
-        'tempo'         => 'Hutang'
+        'cash'          => [
+            'label' => 'Lunas',
+            'class' => 'green-800'
+        ],
+        'credit'        => [
+            'label' => 'Cicilan',
+            'class' => 'orange-600'
+        ],
+        'tempo'         => [
+            'label' => 'Hutang',
+            'class' => 'red-600'
+        ]
     ],
     'payment_methods' => [
         'receive' => [
-            'cash_payment'  => 'Tunai',
-            'bank_transfer' => 'Transfer Bank',
+            'cash_payment'  => [
+                'label' => 'Tunai',
+                'class' => 'green-800',
+            ],
+            'bank_transfer' => [
+                'label' => 'Transfer Bank',
+                'class' => 'blue-600'
+            ],
         ],
         'sale' => [
-            'cash_payment'  => 'Tunai',
-            'bank_transfer' => 'Transfer Bank',
-            'qris'          => 'QRIS'
+            'cash_payment'  => [
+                'label' => 'Tunai',
+                'class' => 'green-800',
+            ],
+            'bank_transfer' => [
+                'label' => 'Transfer Bank',
+                'class' => 'blue-500'
+            ],
+            'qris' => [
+                'label' => 'QRIS',
+                'class' => 'red-500'
+            ],
         ]
     ],
     'payment_status' => [
-        'unpaid'            => 'Belum Dibayar',
-        'partially_paid'    => 'Terbayar Sebagian',
-        'paid'              => 'Lunas',
-        'overdue'           => 'Jatuh Tempo',
-        'pending'           => 'Menunggu',
-        'canceled'          => 'Dibatalkan',
-        'refunded'          => 'Dikembalikan'
+        'unpaid'            => [
+            'label' => 'Belum Dibayar',
+            'class' => 'gray-800'
+        ],
+        'partially_paid'    => [
+            'label' => 'Terbayar Sebagian',
+            'class' => 'orange-500'
+        ],
+        'paid'              => [
+            'label' => 'Lunas',
+            'class' => 'green-800'
+        ],
+        'overdue'           => [
+            'label'  => 'Jatuh Tempo',
+            'class'  => 'red-400'
+        ],
+        'pending'           => [
+            'label'  => 'Menunggu',
+            'class'  => 'gray-500'
+        ],
+        'canceled'          => [
+            'label'   => 'Dibatalkan',
+            'class'   => 'red-800'
+        ],
+        'refunded'          => [
+            'label'  => 'Dikembalikan',
+            'class'  => 'blue-600'
+        ]
     ],
     'menus' => [
         [
@@ -256,5 +301,15 @@ return [
         'px'       => [51, 'Pixel'],
         'btg'      => [52, 'Batang']
     ],
+    'status' => [
+        '0' => [
+            'label' => 'Tidak Aktif',
+            'color' => 'red-800'
+        ],
+        '1' => [
+            'label' => 'Aktif',
+            'color' => 'green-800'
+        ]
+    ]
 
 ];

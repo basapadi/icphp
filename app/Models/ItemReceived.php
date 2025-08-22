@@ -9,7 +9,16 @@ class ItemReceived extends BaseModel
 {
     use SoftDeletes, HasFactory;
     public $table = 'trx_received_items';
-    protected $appends = ['status_pembayaran_label','tipe_pembayaran_label','metode_pembayaran_label','tanggal_terima_formatted'];
+    protected $appends = [
+        'status_pembayaran_label',
+        'tipe_pembayaran_label',
+        'metode_pembayaran_label',
+        'tanggal_terima_formatted',
+        'total_harga_formatted',
+        'color_status_pembayaran_label',
+        'color_tipe_pembayaran_label',
+        'color_metode_pembayaran_label'
+    ];
     protected $fillable = [
         'kode_transaksi',
         'contact_id',
@@ -29,20 +38,46 @@ class ItemReceived extends BaseModel
     ];
 
     public function getStatusPembayaranLabelAttribute(){
-        return isset($this->status_pembayaran) ? config('ihandcashier.payment_status')[$this->status_pembayaran] : null;
+        return isset($this->status_pembayaran) ? config('ihandcashier.payment_status')[$this->status_pembayaran]['label'] : null;
     }
 
     public function getTipePembayaranLabelAttribute(){
-        return isset($this->tipe_pembayaran) ? config('ihandcashier.payment_types')[$this->tipe_pembayaran] : null;
+        return isset($this->tipe_pembayaran) ? config('ihandcashier.payment_types')[$this->tipe_pembayaran]['label'] : null;
     }
 
     public function getMetodePembayaranLabelAttribute(){
-        return isset($this->metode_pembayaran) ? config('ihandcashier.payment_methods.receive')[$this->metode_pembayaran] : null;
+        return isset($this->metode_pembayaran) ? config('ihandcashier.payment_methods.receive')[$this->metode_pembayaran] ['label']: null;
     }
 
     public function getTanggalTerimaFormattedAttribute()
     {
         return $this->tanggal_terima ? Carbon::parse($this->tanggal_terima)->locale('id')->translatedFormat('d F Y H:i') : null;
+    }
+
+    public function getTotalHargaFormattedAttribute()
+    {
+        return 'Rp.'.number_format($this->total_harga, 0, ',', '.');
+    }
+
+    public function getColorStatusPembayaranLabelAttribute()
+    {
+        $paymentStatus = config('ihandcashier.payment_status');
+        return $paymentStatus[$this->status_pembayaran]['class'];
+        
+    }
+
+    public function getColorTipePembayaranLabelAttribute()
+    {
+        $paymentType = config('ihandcashier.payment_types');
+        return $paymentType[$this->tipe_pembayaran]['class'];
+        
+    }
+
+    public function getColorMetodePembayaranLabelAttribute()
+    {
+        $paymentMethod = config('ihandcashier.payment_methods')['receive'];
+        return $paymentMethod[$this->metode_pembayaran]['class'];
+        
     }
 
     public function contact(){

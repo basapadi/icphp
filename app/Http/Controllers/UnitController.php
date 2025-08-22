@@ -15,7 +15,7 @@ class UnitController extends BaseController
             ['value' => 'type', 'label'=> 'Type', 'align' => 'left'],
             ['value' => 'kode', 'label'=> 'Kode', 'align' => 'left'],
             ['value' => 'nama', 'label'=> 'Nama', 'align' => 'left'],
-            ['value' => 'status_label', 'label'=> 'Status Aktif', 'align' => 'left'],
+            ['value' => 'status_label', 'label'=> 'Status Aktif', 'align' => 'left', 'type' => 'badge'],
             ['value' => 'actions', 'label'=> 'Actions', 'align' => 'left','options' => [$this->allowAccess('edit'),$this->allowAccess('delete')]]
         ]);
         $this->setFilterColumnsLike(['kode','nama'],request('q')??'');

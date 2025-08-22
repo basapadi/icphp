@@ -17,7 +17,8 @@ class BaseModel extends Model
                 'encode_id',
                 'status_label',
                 'status_type',
-                'active_type'
+                'active_type',
+                'color_status_label'
             ]);
         }
     }
@@ -47,5 +48,16 @@ class BaseModel extends Model
 
     public function getActiveTypeAttribute(){
         return $this->active ? 'success': 'error';
-    }    
+    }   
+    
+    public function getColorStatusLabelAttribute()
+    {
+        $statuses = config('ihandcashier.status');
+        if(isset($this->active)){
+            return $statuses[$this->active]['color'];
+        }else if(isset($this->status)){
+            return $statuses[$this->status]['color'];
+        } else return '';
+        
+    }
 }

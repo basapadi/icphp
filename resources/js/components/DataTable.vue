@@ -46,7 +46,7 @@
                 <th  class="px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider border-2 border-gray-200" style="width: 50px;" >{{ column.label }}</th>
               </template>
               <template v-else>
-                <th  class="px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider border-2 border-gray-200" >{{ column.label }}</th>
+                <th  :class="`px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider border-2 border-gray-200 text-${column.align}`" >{{ column.label }}</th>
               </template>
             </template>
             
@@ -68,7 +68,7 @@
                 />
               </td>
             </template>
-            <td v-for="column in columns" :key="column.value" class="px-4 py-1 whitespace-nowrap border-2 border-gray-200">
+            <td v-for="column in columns" :key="column.value"  :class="`px-4 py-1 whitespace-nowrap border-2 border-gray-200  text-${column.align}`">
               <template v-if="column.name == 'actions'">
                 <div class="flex items-beetwen space-x-2">
                     <template v-if="column.options.includes('edit')">
@@ -89,11 +89,11 @@
                     </template>
                   </div>
               </template>
-              <template v-else-if="column.name === 'status_label'">
-                <Badge :value="$helpers.getSubObjectValue(data, column.name)" :type="data.status_type"/>
+              <template v-else-if="column.type === 'badge'">
+                <div :class="`inline-flex items-center rounded-md bg-${data[`color_${column.name}`]}/50 px-2 py-1 text-xs font-medium text-${data[`color_${column.name}`]} inset-ring inset-ring-${data[`color_${column.name}`]}/50`">{{ $helpers.getSubObjectValue(data, column.name) }}</div>
               </template>
               <template v-else>
-                <span class="text-sm text-gray-600">{{ $helpers.getSubObjectValue(data, column.name) }}</span>
+                <span :class="`text-sm text-gray-600 ${column.class}`">{{ $helpers.getSubObjectValue(data, column.name) }}</span>
               </template>
             </td>
           </tr>

@@ -6,9 +6,11 @@ module.exports = {
     './resources/views/**/*.blade.php',
   ],
   theme: {
-    extend: {},
+    extend: {
+      
+    },
   },
   plugins: [
-    //require('tw-animate-css'),
+    // require('tw-animate-css'),
   ],
 }

@@ -15,7 +15,7 @@ class ItemController extends BaseController
             ['value' => 'nama', 'label'=> 'Nama', 'align' => 'left'],
             // ['value' => 'gambar', 'label'=> 'Gambar', 'align' => 'left'],
             ['value' => 'kategori', 'label'=> 'Kategori', 'align' => 'left'],
-            ['value' => 'status_label', 'label'=> 'Status', 'align' => 'left'],
+            ['value' => 'status_label', 'label'=> 'Status', 'align' => 'left', 'type' => 'badge'],
             ['value' => 'actions', 'label'=> 'Actions', 'align' => 'left','options' => [$this->allowAccess('edit'),$this->allowAccess('delete')]]
         ]);
         $this->setFilterColumnsLike(['kode_barang','nama'],request('q')??'');

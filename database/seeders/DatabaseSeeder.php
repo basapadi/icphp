@@ -43,8 +43,8 @@ class DatabaseSeeder extends Seeder
         // $this->call(MenuSeeder::class);
         // $this->call(RoleMenuSeeder::class);
         // $this->call(UnitSeeder::class); //seeder satuan
-        // $this->call(ContactSeeder::class); //seeder kontak
-        // $this->call(ItemSeeder::class); //seeder barang
+        $this->call(ContactSeeder::class); //seeder kontak
+        $this->call(ItemSeeder::class); //seeder barang
         $this->call(ItemReceivedSeeder::class); //seeder penerimaan barang
     }
 }
