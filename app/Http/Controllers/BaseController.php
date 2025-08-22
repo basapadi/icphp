@@ -27,19 +27,20 @@ class BaseController extends Controller
     private $_module = '';
     private ?array $_form = [];
 
-    public function grid(Request $request){
-        $this->allowAccessModule($this->_module,'view');
+    public function grid(Request $request)
+    {
+        $this->allowAccessModule($this->_module, 'view');
         $query = $this->_queryBuilder;
         $totalQuery = clone $this->_queryBuilder;
-        if(count($this->_filterColumnsLike) > 0 && $this->_filterParamLike != ''){
+        if (count($this->_filterColumnsLike) > 0 && $this->_filterParamLike != '') {
             foreach ($this->_filterColumnsLike as $key => $column) {
-                $param = ['%'.strtolower($this->_filterParamLike).'%'];
-                if($key == 0){
-                    $query->whereRaw('LOWER('.$column.') LIKE ?', $param);
-                    $totalQuery->whereRaw('LOWER('.$column.') LIKE ?', $param);
+                $param = ['%' . strtolower($this->_filterParamLike) . '%'];
+                if ($key == 0) {
+                    $query->whereRaw('LOWER(' . $column . ') LIKE ?', $param);
+                    $totalQuery->whereRaw('LOWER(' . $column . ') LIKE ?', $param);
                 } else {
-                    $query->orWhereRaw('LOWER('.$column.') LIKE ?', $param);
-                    $totalQuery->orWhereRaw('LOWER('.$column.') LIKE ?', $param);
+                    $query->orWhereRaw('LOWER(' . $column . ') LIKE ?', $param);
+                    $totalQuery->orWhereRaw('LOWER(' . $column . ') LIKE ?', $param);
                 }
             }
         }
@@ -49,40 +50,36 @@ class BaseController extends Controller
         $rows = $rows->get();
         $total = $total->count();
         return Response::ok('Loaded', [
-            'rows' => $rows->toArray(), 
-            'total' => $total, 
+            'rows' => $rows->toArray(),
+            'total' => $total,
             'columns' => $this->_columns,
             'properties' => [
-                'multipleSelect' => $this->_multipleSelectGrid 
+                'multipleSelect' => $this->_multipleSelectGrid
             ]
         ]);
     }
 
-    public function form(Request $request){
-        $this->allowAccessModule($this->_module,'create');
+    public function form(Request $request)
+    {
+        $this->allowAccessModule($this->_module, 'create');
         return Response::ok('Form', [
-            'fields' => fractal($this->_form, new FormTransformer(), ArraySerializer::class), 
+            'fields' => fractal($this->_form, new FormTransformer(), ArraySerializer::class),
             'data' => [] //data yang dibawa saat pertama kali dibuka, contoh data options pada selecbox
         ]);
     }
 
-    public function create(Request $request){
-        
-    }
+    public function create(Request $request) {}
 
-    public function update(Request $request, $id){
-        
-    }
+    public function update(Request $request, $id) {}
 
-    public function delete(Request $request,$id){
-        
-    }
+    public function delete(Request $request, $id) {}
 
     /**
      * Mengatur column response untuk grid
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      */
-    protected function setColumns(array $columns){
+    protected function setColumns(array $columns)
+    {
         $this->_columns = Transformer::quasarColumn($columns);
     }
 
@@ -90,7 +87,8 @@ class BaseController extends Controller
      * Mengatur Model untuk controller tertentu
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      */
-    protected function setModel(string $model){
+    protected function setModel(string $model)
+    {
         $this->_model = app($model);
         $this->_queryBuilder = $this->_model->newQuery();
         return $this->_queryBuilder;
@@ -101,7 +99,8 @@ class BaseController extends Controller
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      * @description lihat detail request query di https://btx.basapadi.com/query/request-query
      */
-    protected function setFilterColumnsLike(array $columns,string $param){
+    protected function setFilterColumnsLike(array $columns, string $param)
+    {
         $this->_filterColumnsLike = $columns;
         $this->_filterParamLike = $param;
     }
@@ -110,15 +109,17 @@ class BaseController extends Controller
      * Mengatur view mutipleselect di grid
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      */
-    protected function setMultipleSelectGrid(bool $value){
+    protected function setMultipleSelectGrid(bool $value)
+    {
         $this->_multipleSelectGrid = $value;
     }
 
     /**
      * untuk mendecoding id yang sudah di encode secara default dari model
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
-    */
-    protected function decodeId(string $encodeId){
+     */
+    protected function decodeId(string $encodeId)
+    {
         try {
             $decrypted = Hashids::decode($encodeId);
         } catch (Exception $e) {
@@ -130,8 +131,9 @@ class BaseController extends Controller
     /**
      * untuk mengatur module controller
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
-    */
-    protected function setModule(string $module){
+     */
+    protected function setModule(string $module)
+    {
         $this->_module = $module;
     }
 
@@ -139,15 +141,16 @@ class BaseController extends Controller
      * untuk mengecek hak akses ke action tertentu
      * @param $asBoolean type return sebagai boolean?
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
-    */
-    protected function allowAccessModule(string $module, string $action, bool $asBoolean = false){
+     */
+    protected function allowAccessModule(string $module, string $action, bool $asBoolean = false)
+    {
         $auth = auth()->user();
-        if(!empty($module) && !empty($action)){
-            $can = Menu::select('menus.id','module', 'role_menus.'.$action)
-                ->where('module',$module)->join('role_menus', function ($join) use ($auth) {
+        if (!empty($module) && !empty($action)) {
+            $can = Menu::select('menus.id', 'module', 'role_menus.' . $action)
+                ->where('module', $module)->join('role_menus', function ($join) use ($auth) {
                     $join->on('role_menus.menu_id', '=', 'menus.id')
                         ->on('role_menus.role', '=', $auth->role);
-            })->first()->{$action};
+                })->first()->{$action};
             return !$can ? (!$asBoolean ? abort(response()->json([
                 'status' => false,
                 'message' => 'Unauthorized'
@@ -163,12 +166,14 @@ class BaseController extends Controller
      * untuk mengecek hak akses ke action tertentu, apabila true maka return action namenya jika tidak return string kosong
      * @param $action actions antara lain: view,create,edit,update,download
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
-    */
-    protected function allowAccess(string $action){
-        return $this->allowAccessModule($this->_module,$action,true) ? $action : '';
+     */
+    protected function allowAccess(string $action)
+    {
+        return $this->allowAccessModule($this->_module, $action, true) ? $action : '';
     }
 
-    protected function setForm(array $fields){
-       $this->_form = $fields;
+    protected function setForm(array $fields)
+    {
+        $this->_form = $fields;
     }
 }

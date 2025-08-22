@@ -62,7 +62,7 @@
               <td class="px-4 whitespace-nowrap border-2 border-gray-200" style="width: 10px;">
                 <input 
                   v-model="selectedData"
-                  :value="data.id"
+                  :value="data.encode_id"
                   type="checkbox" 
                   class="rounded border-gray-300 text-orange-600 focus:ring-orange-500" 
                 />
@@ -227,15 +227,14 @@ export default {
         this.total = data.total
         this.properties = data.properties
       })
-      this.allowCreate = this.menuRoles.find(role => role.route === this.$route.path)?.view
-
+      this.allowCreate = this.menuRoles.find(role => role.route === this.$route.path)?.create
     },
     formatDate(dateString) {
       return new Date(dateString).toLocaleDateString()
     },
     toggleSelectAll() {
       if (this.selectAll) {
-        this.selectedData = this.filterData.map(dt => dt.id)
+        this.selectedData = this.filterData.map(dt => dt.encode_id)
       } else {
         this.selectedData = []
       }
@@ -261,6 +260,10 @@ export default {
     initPage() {
       this.currentPage = 1
     }
+
+  },
+  beforeMount(){
+    this.load()
   }
 }
 </script>
