@@ -46,7 +46,7 @@
                 <th  class="px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider border-2 border-gray-200" style="width: 50px;" >{{ column.label }}</th>
               </template>
               <template v-else>
-                <th  :class="`px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider border-2 border-gray-200 text-${column.align}`" >{{ column.label }}</th>
+                <th  :class="`px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider border-2 border-gray-200 text-${column.align}`" :style="`${column.styles}`">{{ column.label }}</th>
               </template>
             </template>
             
@@ -69,12 +69,24 @@
               </td>
             </template>
             <td v-for="column in columns" :key="column.value"  :class="`px-4 py-1 whitespace-nowrap border-2 border-gray-200  text-${column.align}`">
+              <template v-if="column.name == 'detail'">
+                <div class="items-beetwen space-x-2" :style="`${column.style}`">
+                    <button 
+                      @click="viewData(data)"
+                      class="text-green-800 hover:text-blue-90"
+                      style="cursor: pointer;"
+                    >
+                      <EyeIcon class="h-5 text-green-800" />
+                    </button>
+                </div>
+              </template>
               <template v-if="column.name == 'actions'">
                 <div class="flex items-beetwen space-x-2">
                     <template v-if="column.options.includes('edit')">
                       <button 
                         @click="editData(data)"
                         class="text-orange-600 hover:text-blue-90"
+                        style="cursor: pointer;"
                       >
                         <PencilSquareIcon class="h-5 text-orange-500" />
                       </button>
@@ -83,6 +95,7 @@
                       <button 
                         @click="hapusData(data.id)"
                         class="text-red-600 hover:text-red-900 "
+                        style="cursor: pointer;"
                       >
                         <TrashIcon class="h-5 text-red-500" />
                       </button>
@@ -93,7 +106,7 @@
                 <div :class="`inline-flex items-center rounded-md bg-${data[`color_${column.name}`]}/50 px-2 py-1 text-xs font-medium text-${data[`color_${column.name}`]} inset-ring inset-ring-${data[`color_${column.name}`]}/50`">{{ $helpers.getSubObjectValue(data, column.name) }}</div>
               </template>
               <template v-else>
-                <span :class="`text-sm text-gray-600 ${column.class}`">{{ $helpers.getSubObjectValue(data, column.name) }}</span>
+                <span :class="`text-sm text-gray-600 ${column.class}`" :style="`${column.styles}`">{{ $helpers.getSubObjectValue(data, column.name) }}</span>
               </template>
             </td>
           </tr>
@@ -151,12 +164,12 @@
 import { ref, computed } from 'vue'
 import { Search } from 'lucide-vue-next'
 import { useStore, mapGetters, mapActions } from 'vuex'
-import { TrashIcon, PencilSquareIcon } from '@heroicons/vue/24/outline'
+import { TrashIcon, PencilSquareIcon,EyeIcon } from '@heroicons/vue/24/outline'
 import { Badge } from '@/components/forms'
 import FormDialog from '@/components/FormDialog.vue'
 
 export default {
-  components: { Search,TrashIcon,PencilSquareIcon,Badge, FormDialog },
+  components: { Search,TrashIcon,PencilSquareIcon,Badge, FormDialog, EyeIcon },
   props: {
     title: {
       type: String,
@@ -177,7 +190,7 @@ export default {
       selectAll: false,
       selectedData: [],
       currentPage: 1,
-      itemsPerPage: 20,
+      itemsPerPage: 18,
       total: 0,
       rows: [],
       form: [],
@@ -251,6 +264,9 @@ export default {
     },
     hapusData(userId) {
       alert('Action Hapus disini:', userId)
+    },
+    viewData(data) {
+      alert('Action view detail data:')
     },
     previousPage() {
       if (this.currentPage > 1) this.currentPage--
