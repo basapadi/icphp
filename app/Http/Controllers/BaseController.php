@@ -26,6 +26,7 @@ class BaseController extends Controller
     private $_multipleSelectGrid = true;
     private $_module = '';
     private ?array $_form = [];
+    private $_gridProperties = [];
 
     public function grid(Request $request)
     {
@@ -49,13 +50,14 @@ class BaseController extends Controller
         // dd($rows->toSql(),$this->_filterParamLike);
         $rows = $rows->get();
         $total = $total->count();
+        $this->_gridProperties['filterDateRange'] = $this->_gridProperties['filterDateRange']??false;
+        $this->_gridProperties['multipleSelect'] = $this->_multipleSelectGrid;
+
         return Response::ok('Loaded', [
             'rows' => $rows->toArray(),
             'total' => $total,
             'columns' => $this->_columns,
-            'properties' => [
-                'multipleSelect' => $this->_multipleSelectGrid
-            ]
+            'properties' => $this->_gridProperties
         ]);
     }
 
@@ -175,5 +177,9 @@ class BaseController extends Controller
     protected function setForm(array $fields)
     {
         $this->_form = $fields;
+    }
+
+    protected function setGridProperties(array $properties){
+        $this->_gridProperties = $properties;
     }
 }

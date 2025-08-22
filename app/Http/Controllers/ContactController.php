@@ -16,7 +16,7 @@ class ContactController extends BaseController
             ['value' => 'alamat', 'label'=> 'Alamat', 'align' => 'left'],
             ['value' => 'telepon', 'label'=> 'Telepon', 'align' => 'left'],
             ['value' => 'email', 'label'=> 'Email', 'align' => 'left'],
-            ['value' => 'status_label', 'label'=> 'Status', 'align' => 'left'],
+            ['value' => 'status_label', 'label'=> 'Status', 'align' => 'left', 'type' => 'badge'],
             ['value' => 'actions', 'label'=> 'Actions', 'align' => 'left','options' => [$this->allowAccess('edit'),$this->allowAccess('delete')]]
         ]);
         $this->setFilterColumnsLike(['nama','telepon'],request('q')??'');

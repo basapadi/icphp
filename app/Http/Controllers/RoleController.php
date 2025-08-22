@@ -18,18 +18,19 @@ class RoleController extends BaseController
     public function grid(Request $request){
         $this->allowAccessModule('setting.role','view');
         $query = RoleMenu::select('role_menus.*')->with(['menu','menu.parent'])->leftJoin('menus', 'role_menus.menu_id', '=', 'menus.id');
-        $rows = $query->filter();
         if(isset($request->q) && $request->q != ''){
             $query->whereRaw('LOWER(role_menus.role) LIKE ?', ['%'.strtolower($request->q).'%'])->orWhereRaw('LOWER(menus.label) LIKE ?', ['%'.strtolower($request->q).'%']);
         }
-        $rows = $rows->get();
+        $tQuery = clone $query;
+        $data = $query->filter()->get();
+        $total = $tQuery->filter(false)->count();
         return Response::ok('Loaded', [
-            'rows' => $rows->toArray(), 
+            'rows' => $data->toArray(), 
             'columns' => Transformer::quasarColumn([
                 // ['value' => 'id', 'label'=> 'Id', 'align' => 'left'],
                 ['value' => 'role', 'label'=> 'Hak Akses', 'align' => 'left'],
                 ['value' => 'menu__module', 'label'=> 'Module', 'align' => 'left'],
-                ['value' => 'menu__route', 'label'=> 'Route', 'align' => 'left'],
+                ['value' => 'menu__route', 'label'=> 'Route', 'align' => 'left', 'type' => 'badge', 'class' => 'inline-flex items-center rounded-md text-gray-400 inset-ring inset-ring-gray-400 px-2 py-1'],
                 ['value' => 'menu__parent__label', 'label'=> 'Parent Menu', 'align' => 'left'],
                 ['value' => 'menu__label', 'label'=> 'Menu', 'align' => 'left'],
                 ['value' => 'view', 'label'=> 'Lihat', 'align' => 'left'],
@@ -38,6 +39,7 @@ class RoleController extends BaseController
                 ['value' => 'delete', 'label'=> 'Hapus', 'align' => 'left'],
                 ['value' => 'download', 'label'=> 'Unduh', 'align' => 'left']
             ]),
+            'total' => $total,
             'properties' => [
                 'multipleSelect' => false 
             ]

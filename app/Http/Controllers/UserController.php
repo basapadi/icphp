@@ -17,7 +17,7 @@ class UserController extends BaseController
             ['value' => 'email', 'label'=> 'Email', 'align' => 'left'],
             ['value' => 'name', 'label'=> 'Fullname', 'align' => 'left'],
             ['value' => 'role', 'label'=> 'Hak Akses', 'align' => 'left'],
-            ['value' => 'status_label', 'label'=> 'Status', 'align' => 'left'],
+            ['value' => 'status_label', 'label'=> 'Status', 'align' => 'left', 'type' => 'badge'],
             ['value' => 'actions', 'label'=> 'Actions', 'align' => 'left','options' => [$this->allowAccess('edit'),$this->allowAccess('delete')]]
         ]);
         $this->setFilterColumnsLike(['username','name'],request('q')??'');

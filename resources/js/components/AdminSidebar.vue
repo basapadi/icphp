@@ -1,6 +1,6 @@
 <template>
   <aside :class="[
-    'fixed left-0 top-10 h-[calc(100vh-4rem)] bg-white border-r border-gray-200 overflow-y-auto transition-all duration-300 ease-in-out w-64'
+    'fixed left-0 top-10 h-[calc(120vh-4rem)] bg-white border-r border-gray-200 overflow-y-auto transition-all duration-300 ease-in-out w-64'
   ]">
 
     <nav class="p-1">
@@ -39,6 +39,7 @@ import {
   TrendingUp,
   Calendar,
   CreditCard,
+  DollarSign
 } from 'lucide-vue-next'
 
 </script>
@@ -57,7 +58,8 @@ import {
           creditcard: CreditCard,
           settings: Settings,
           shoppingcart: ShoppingCart,
-          package: Package
+          package: Package,
+          dollarsign: DollarSign
         },
         menus: [],
         loading: true,

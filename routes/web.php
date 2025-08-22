@@ -8,7 +8,8 @@ use App\Http\Controllers\{
     UnitController,
     UserController,
     RoleController,
-    ContactController
+    ContactController,
+    ReceivedItemController
 };
 use Illuminate\Support\Facades\Route;
 
@@ -50,6 +51,10 @@ Route::prefix('api')->group(function () {
         Route::put('update/{id}', 'update');
     });
     Route::controller(ContactController::class)->middleware('auth:sanctum')->prefix('contact')->group(function () {
+        Route::get('grid', 'grid');
+        Route::get('form', 'form');
+    });
+    Route::controller(ReceivedItemController::class)->middleware('auth:sanctum')->prefix('receive')->group(function () {
         Route::get('grid', 'grid');
         Route::get('form', 'form');
     });

@@ -1,9 +1,9 @@
 <template>
   <AdminLayout>
     <div class="max-w-full">
-      <PageHeader title="Satuan Barang" description="Daftar Satuan Barang"/>
+      <PageHeader title="Penjualan Barang" description="Daftar Penjualan Barang"/>
       <div class="p-2">
-         <DataTable title="Satuan Barang" store_grid="unit/grid" store_form="unit/form"/>
+        <DataTable title="Barang Terjual" store_grid="sale/grid" store_form="sale/form"/>
       </div>
     </div>
   </AdminLayout>
@@ -11,5 +11,5 @@
 <script setup>
 import AdminLayout from '@/layouts/AdminLayout.vue'
 import DataTable from '@/components/DataTable.vue'
-import PageHeader from '@/components/PageHeader.vue';
+import PageHeader from '@/components/PageHEader.vue'
 </script>

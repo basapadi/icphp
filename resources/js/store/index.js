@@ -7,6 +7,9 @@ import role from './modules/role'
 import item from './modules/item'
 import dataMenu from './modules/dataMenu'
 import contact from './modules/contact'
+import receive from './modules/receive'
+import sale from './modules/sale'
+import stock from './modules/stock'
 
 export default createStore({
   modules: {
@@ -17,6 +20,9 @@ export default createStore({
     role,
     item,
     dataMenu,
-    contact
+    contact,
+    receive,
+    sale,
+    stock
   }
 })

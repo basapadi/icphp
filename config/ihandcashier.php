@@ -1,6 +1,76 @@
 <?php
 return [
     'roles' => ['admin','kasir','keuangan'], //available role,
+    'payment_types' => [
+        'cash'          => [
+            'label' => 'Lunas',
+            'class' => 'green-800'
+        ],
+        'credit'        => [
+            'label' => 'Cicilan',
+            'class' => 'orange-600'
+        ],
+        'tempo'         => [
+            'label' => 'Hutang',
+            'class' => 'red-600'
+        ]
+    ],
+    'payment_methods' => [
+        'receive' => [
+            'cash_payment'  => [
+                'label' => 'Tunai',
+                'class' => 'green-800',
+            ],
+            'bank_transfer' => [
+                'label' => 'Transfer Bank',
+                'class' => 'blue-600'
+            ],
+        ],
+        'sale' => [
+            'cash_payment'  => [
+                'label' => 'Tunai',
+                'class' => 'green-800',
+            ],
+            'bank_transfer' => [
+                'label' => 'Transfer Bank',
+                'class' => 'blue-500'
+            ],
+            'qris' => [
+                'label' => 'QRIS',
+                'class' => 'red-500'
+            ],
+        ]
+    ],
+    'payment_status' => [
+        'unpaid'            => [
+            'label' => 'Belum Dibayar',
+            'class' => 'gray-800'
+        ],
+        'partially_paid'    => [
+            'label' => 'Terbayar Sebagian',
+            'class' => 'orange-500'
+        ],
+        'paid'              => [
+            'label' => 'Lunas',
+            'class' => 'green-800'
+        ],
+        'overdue'           => [
+            'label'  => 'Jatuh Tempo',
+            'class'  => 'red-400'
+        ],
+        'pending'           => [
+            'label'  => 'Menunggu',
+            'class'  => 'gray-500'
+        ],
+        'canceled'          => [
+            'label'   => 'Dibatalkan',
+            'class'   => 'red-800'
+        ],
+        'refunded'          => [
+            'label'  => 'Dikembalikan',
+            'class'  => 'blue-600'
+        ]
+    ],
     'menus' => [
         [
             'id'    => 1,
@@ -111,7 +181,7 @@ return [
             'icon'  => 'ShoppingCart',
             'label' => 'Transaksi',
             'route' => '#',
-            'order' => 4,
+            'order' => 3,
             'module'=>'transaction'
         ],
         [
@@ -127,10 +197,10 @@ return [
             'id'    => 12,
             'icon'  => '',
             'label' => 'Penerimaan',
-            'route' => '/transaction/received',
+            'route' => '/transaction/receive',
             'order' => 1,
             'parent'=> 10,
-            'module'=>'transaction.received'
+            'module'=>'transaction.receive'
         ],
         [
             'id'    => 13,
@@ -141,7 +211,33 @@ return [
             'parent'=> 10,
             'module'=>'transaction.sale'
         ],
-        //last_id:16
+        [
+            'id'    => 17,
+            'icon'  => 'DollarSign',
+            'label' => 'Keuangan',
+            'route' => '#',
+            'order' => 4,
+            'module'=>'finance'
+        ],
+        [
+            'id'    => 18,
+            'icon'  => '',
+            'label' => 'Hutang',
+            'route' => '/finance/debt',
+            'order' => 0,
+            'parent'=> 17,
+            'module'=>'finance.debt'
+        ],
+        [
+            'id'    => 19,
+            'icon'  => '',
+            'label' => 'Piutang',
+            'route' => '/finance/credit',
+            'order' => 1,
+            'parent'=> 17,
+            'module'=>'finance.credit'
+        ],
+        //last_id:19
     ],
     'units' => [
         'pcs'      => [1, 'Piece', 1, 'pcs'],
@@ -205,5 +301,15 @@ return [
         'px'       => [51, 'Pixel'],
         'btg'      => [52, 'Batang']
     ],
+    'status' => [
+        '0' => [
+            'label' => 'Tidak Aktif',
+            'color' => 'red-800'
+        ],
+        '1' => [
+            'label' => 'Aktif',
+            'color' => 'green-800'
+        ]
+    ]
 
 ];
