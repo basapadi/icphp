@@ -10,7 +10,7 @@
       <!-- Dynamic margin based on sidebar collapsed state -->
       <main 
         :class="[
-          'flex-1 mt-10 bg-white min-h-[calc(100vh-4rem)] transition-all duration-300 ml-64'
+          'flex-1 mt-10 bg-white min-h-[calc(100vh-4rem)] transition-all duration-300 ml-64 overflow-hidden'
         ]"
       >
         <slot />

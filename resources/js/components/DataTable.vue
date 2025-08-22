@@ -28,7 +28,7 @@
 
     <!-- Table -->
     <div class="overflow-x-auto">
-      <table class="w-full overflow-y-scroll table-auto border-collapse border border-gray-200">
+      <table class="w-full border-collapse border border-gray-200">
         <thead class="bg-gray-50">
           <tr>
             <template v-if="properties.multipleSelect">
