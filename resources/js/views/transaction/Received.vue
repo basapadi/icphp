@@ -11,5 +11,5 @@
 <script setup>
 import AdminLayout from '@/layouts/AdminLayout.vue'
 import DataTable from '@/components/DataTable.vue'
-import PageHeader from '@/components/PageHEader.vue'
+import PageHeader from '@/components/PageHeader.vue'
 </script>
