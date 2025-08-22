@@ -12,12 +12,24 @@ class UnitController extends BaseController
         $this->setModule('master.unit');
         $this->setColumns([
             // ['value' => 'id', 'label'=> 'ID', 'align' => 'left', 'show' => false],
-            ['value' => 'type', 'label'=> 'Type', 'align' => 'left'],
+            ['value' => 'type', 'label'=> 'Tipe', 'align' => 'left'],
             ['value' => 'kode', 'label'=> 'Kode', 'align' => 'left'],
             ['value' => 'nama', 'label'=> 'Nama', 'align' => 'left'],
             ['value' => 'status_label', 'label'=> 'Status Aktif', 'align' => 'left', 'type' => 'badge'],
             ['value' => 'actions', 'label'=> 'Actions', 'align' => 'left','options' => [$this->allowAccess('edit'),$this->allowAccess('delete')]]
         ]);
         $this->setFilterColumnsLike(['kode','nama'],request('q')??'');
+        $this->setForm([
+            ['name' => 'type','type' => 'select', 'label' =>'Tipe','required' => true,'hint' => 'Pilih Tipe', 'options' => [
+                '0' => 'Unit',
+                '1' => 'Basic Unit'
+            ]],
+            ['name' => 'code','type' => 'text', 'label' =>'Kode','required' => true,'hint' => 'Masukkan Kode Satuan'],
+            ['name' => 'nama','type' => 'text', 'label' =>'Nama','required' => false,'hint' => 'Masukkan Nama Satuan'],
+            ['name' => 'status','type' => 'radio', 'label' => 'Status','hint' => 'Status Kontak', 'options' => [
+                '0' => 'Tidak Aktif',
+                '1' => 'Aktif'
+            ]],
+        ]);
     }
 }

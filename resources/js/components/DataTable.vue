@@ -167,7 +167,7 @@ import { ref, computed } from 'vue'
 import { Search } from 'lucide-vue-next'
 import { useStore, mapGetters, mapActions } from 'vuex'
 import { TrashIcon, PencilSquareIcon,EyeIcon } from '@heroicons/vue/24/outline'
-import { Badge } from '@/components/forms'
+import { Badge } from '@/components/ui'
 import FormDialog from '@/components/FormDialog.vue'
 
 export default {
