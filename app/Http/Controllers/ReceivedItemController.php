@@ -18,8 +18,8 @@ class ReceivedItemController extends BaseController
         $this->setColumns([
             // ['value' => 'id', 'label'=> 'ID', 'align' => 'left', 'show' => false],
             ['value' => 'detail', 'label'=> 'Detil', 'align' => 'center','styles' => 'width:50px; item-align: center;'],
-            ['value' => 'kode_transaksi', 'label'=> 'Kode Trx', 'align' => 'left'],
-            ['value' => 'contact__nama', 'label'=> 'Pemasok', 'align' => 'left'],
+            ['value' => 'kode_transaksi', 'label'=> 'Kode Trx', 'align' => 'left','option_filter' => true],
+            ['value' => 'contact__nama', 'label'=> 'Pemasok', 'align' => 'left','option_filter' => true],
             ['value' => 'total_harga_formatted', 'label'=> 'Total Harga', 'align' => 'right', 'class' => 'font-mono font-bold'],
             // ['value' => 'potongan_harga', 'label'=> 'Potongan Harga', 'align' => 'right'],
             ['value' => 'tanggal_terima_formatted', 'label'=> 'Tanggal Terima', 'align' => 'left'],
