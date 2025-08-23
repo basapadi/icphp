@@ -1,6 +1,6 @@
 <template>
   <AdminLayout>
-    <div class="max-w-full">
+    <div class="w-full max-h-1">
       <PageHeader title="Kontak" description="Daftar Kontak Pelanggan, Pemasok dan lainnya"/>
       <div class="p-2">
         <DataTable title="Kontak" store_grid="contact/grid" store_form="contact/form"/>

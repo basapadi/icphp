@@ -1,6 +1,6 @@
 <template>
   <AdminLayout>
-    <div class="max-w-full">
+    <div class="w-full max-h-1">
       <PageHeader title="Basis Data" description="Pengaturan Basis Data"/>
       <div class="p-2">
 

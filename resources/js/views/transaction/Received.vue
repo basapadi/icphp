@@ -1,6 +1,6 @@
 <template>
   <AdminLayout>
-    <div class="min-w-full overflow-hidden">
+    <div class="w-full max-h-1">
       <PageHeader title="Penerimaan Barang" description="Daftar Penerimaan Barang"/>
       <div class="p-2">
         <DataTable title="Barang Diterima" store_grid="receive/grid" store_form="receive/form"/>
