@@ -1,6 +1,6 @@
 <template>
   <AdminLayout>
-    <div class="max-w-full">
+    <div class="w-full max-h-1">
       <PageHeader title="Hak Akses" description="Pengaturan Hak Akses"/>
       <div class="p-2">
         <RoleGrid title="Hak Akses" store_grid="role/grid" storeSingleUpdate="role/singleUpdate"/>

@@ -1,6 +1,6 @@
 <template>
   <AdminLayout>
-    <div class="max-w-full">
+    <div class="w-full max-h-1">
       <PageHeader title="Stok Barang" description="Daftar Stok Barang"/>
 
       <div class="p-2">

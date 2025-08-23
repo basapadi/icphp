@@ -1,6 +1,6 @@
 <template>
   <AdminLayout>
-    <div class="max-w-full">
+    <div class="w-full max-h-1">
       <PageHeader title="Pengaturan Umum" description="Pengaturan Umum Aplikasi"/>
       <div class="p-2">
         

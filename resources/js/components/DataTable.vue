@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white rounded-lg shadow-md border border-gray-200" style="margin-bottom: -50;">
+  <div class="bg-white rounded-lg shadow-md border border-gray-200 pb-18">
     <!-- Table Header -->
     <div class="px-1 py-1 border-b border-gray-200">
       <div class="flex items-center justify-between">
@@ -28,7 +28,7 @@
 
     <div class="h-screen">
       <!-- Table -->
-      <div class="overflow-x-auto h-3/4">
+      <div class="overflow-x-auto max-h-3/4">
         <table class="min-w-full border-collapse border border-gray-200">
           <thead class="bg-gray-50 sticky top-0">
             <tr>
