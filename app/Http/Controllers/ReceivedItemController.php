@@ -25,6 +25,7 @@ class ReceivedItemController extends BaseController
             ['value' => 'tanggal_terima_formatted', 'label'=> 'Tanggal Terima', 'align' => 'left'],
             // ['value' => 'diterima_oleh', 'label'=> 'Diterima Oleh', 'align' => 'left'],
             ['value' => 'status_pembayaran_label', 'label'=> 'Status Bayar', 'align' => 'left', 'type' => 'badge'],
+            ['value' => 'status_pembayaran', 'label'=> 'Status Bayar', 'align' => 'left','show' => false, 'option_filter' => true, 'type'=> 'select', 'options' => paymentStatusToOptions()],
             ['value' => 'tipe_pembayaran_label', 'label'=> 'Tipe Bayar', 'align' => 'left', 'type' => 'badge'],
             ['value' => 'metode_pembayaran_label', 'label'=> 'Metode Bayar', 'align' => 'left', 'type' => 'badge'],
             ['value' => 'syarat_pembayaran', 'label'=> 'Syarat', 'align' => 'left','class' => 'font-mono text-red-500'],
