@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('trx_payment_received_debts', function (Blueprint $table) {
+        Schema::create('trx_received_payment_items', function (Blueprint $table) {
             $table->id();
-            $table->integer('contact_id')->index()->comment('ID Pemasok');
+            $table->bigInteger('trx_received_item_id')->index();
             $table->double('jumlah')->default(0);
-            $table->string('tipe_pembayaran',20);
             $table->string('metode_pembayaran',20);
             $table->string('dibayar_oleh')->nullable();
             $table->dateTime('tanggal_pembayaran');
@@ -34,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('trx_payment_received_debts');
+        Schema::dropIfExists('trx_received_payment_items');
     }
 };

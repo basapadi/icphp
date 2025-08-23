@@ -11,7 +11,8 @@ class ReceivedItemController extends BaseController
 {
     public function __construct(){
         $this->setModel(ItemReceived::class)
-            ->with(['details','contact'])
+            ->select('trx_received_items.*')
+            ->with(['details','contact','payments'])
             ->leftJoin('contacts', 'contacts.id', '=', 'trx_received_items.contact_id')->orderBy('tanggal_terima','desc');
         $this->setModule('transaction.receive');
         $this->setColumns([
@@ -26,7 +27,7 @@ class ReceivedItemController extends BaseController
             ['value' => 'status_pembayaran_label', 'label'=> 'Status Bayar', 'align' => 'left', 'type' => 'badge'],
             ['value' => 'tipe_pembayaran_label', 'label'=> 'Tipe Bayar', 'align' => 'left', 'type' => 'badge'],
             ['value' => 'metode_pembayaran_label', 'label'=> 'Metode Bayar', 'align' => 'left', 'type' => 'badge'],
-            ['value' => 'syarat_pembayaran', 'label'=> 'Syarat', 'align' => 'left','class' => 'font-mono font-bold'],
+            ['value' => 'syarat_pembayaran', 'label'=> 'Syarat', 'align' => 'left','class' => 'font-mono text-red-500'],
             ['value' => 'tanggal_jatuh_tempo', 'label'=> 'Jatuh Tempo', 'align' => 'left'],
             ['value' => 'catatan', 'label'=> 'Catatan', 'align' => 'left'],
             ['value' => 'actions', 'label'=> 'Actions', 'align' => 'left','options' => [
@@ -36,7 +37,8 @@ class ReceivedItemController extends BaseController
             ]]
         ]);
         $this->setGridProperties([
-            'filterDateRange' => true
+            'filterDateRange' => true,
+            'filterDateName' => 'tanggal_terima'
         ]);
         $this->setFilterColumnsLike(['contacts.nama','kode_transaksi'],request('q')??'');
     }

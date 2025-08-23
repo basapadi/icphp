@@ -25,15 +25,16 @@ class ItemReceivedFactory extends Factory
         foreach (config('ihandcashier.payment_types') as $key => $v) array_push($typem, $key);
         foreach (config('ihandcashier.payment_methods.receive') as $key => $v) array_push($mepem, $key);
         $typeBayar = $this->faker->randomElement($typem);
+        $statusPembayaran = $this->faker->randomElement($statpem);
         return [
             'kode_transaksi'    => strtoupper($this->faker->unique()->bothify('TR-##########')), 
             'contact_id'        => $this->faker->randomElement($pemasokIds), 
             'tanggal_terima'    => date('Y-m-d H:i:s'), 
-            'diterima_oleh'     => $this->faker->firstNameMale(),
+            'diterima_oleh'     => 'Kasir 1',
             'catatan'           => 'dummy transaction',
             'total_harga'       => 0,
             'potongan_harga'    => 0,
-            'status_pembayaran' => $this->faker->randomElement($statpem),
+            'status_pembayaran' => $typeBayar == 'cash'?'paid':$statusPembayaran,
             'tipe_pembayaran'   => $typeBayar,
             'metode_pembayaran' => $this->faker->randomElement($mepem),
             'syarat_pembayaran' => $typeBayar == 'tempo' ? '2/15 N30': '',

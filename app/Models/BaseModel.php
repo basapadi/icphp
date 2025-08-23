@@ -6,7 +6,7 @@ use Vinkla\Hashids\Facades\Hashids;
 
 class BaseModel extends Model
 {
-    protected $hidden = ['id'];
+    // protected $hidden = ['id'];
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
@@ -39,15 +39,22 @@ class BaseModel extends Model
 
     public function getStatusLabelAttribute()
     {
-        return $this->status ? 'Aktif' : 'Tidak Aktif';
+        if(isset($this->status)){
+            return $this->status ? 'Aktif' : 'Tidak Aktif';
+        } else return null;
     }
 
     public function getStatusTypeAttribute(){
-        return $this->status ? 'success': 'error';
+        if(isset($this->status)){
+            return $this->status ? 'success': 'error';
+        } else return null;
+        
     }
 
     public function getActiveTypeAttribute(){
-        return $this->active ? 'success': 'error';
+        if(isset($this->status)){
+            return $this->active ? 'success': 'error';
+        }else return null;
     }   
     
     public function getColorStatusLabelAttribute()

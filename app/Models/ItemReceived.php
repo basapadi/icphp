@@ -98,4 +98,8 @@ class ItemReceived extends BaseModel
     public function details(){
         return $this->hasMany(ItemReceivedDetail::class,'item_received_id','id');
     }
+
+    public function payments(){
+        return $this->hasMany(ItemReceivedPayment::class,'trx_received_item_id','id');
+    }
 }

@@ -20,7 +20,7 @@
             @click="tambahData"
             class="px-3 py-1.5 text-sm bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors" v-if="allowCreate"
           >
-            Tambah {{ title }}
+            Tambah
           </button>
         </div>
       </div>
@@ -163,6 +163,7 @@
 </template>
 
 <script>
+import * as operator from './../constants/operator'
 import { ref, computed } from 'vue'
 import { Search } from 'lucide-vue-next'
 import { useStore, mapGetters, mapActions } from 'vuex'
@@ -281,7 +282,7 @@ export default {
 
   },
   beforeMount(){
-    this.load()
+    // this.load()
   }
 }
 </script>

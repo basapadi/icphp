@@ -4,15 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PaymentReceivedDebt extends BaseModel
+class ItemReceivedPayment extends BaseModel
 {
     use SoftDeletes;
 
-    public $table = 'trx_payment_received_debts';
+    public $table = 'trx_received_payment_items';
     protected $fillable = [
-        'contact_id',
+        'trx_received_item_id',
         'jumlah',
-        'type_pembayaran',
         'metode_pembayaran',
         'dibayar_oleh',
         'tanggal_pembayaran',
@@ -23,4 +22,8 @@ class PaymentReceivedDebt extends BaseModel
         'deleted_by',
         'deleted_at',
     ];
+
+    public function item(){
+        return $this->belongsTo(ItemReceived::class,'trx_received_item_id','id');
+    }
 }
