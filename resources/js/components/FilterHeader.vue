@@ -7,7 +7,7 @@
                 <ListFilter class="h-4 w-4 text-gray-400" />
             </div>
             <select id="column" v-model="filter.column" @change="onChangeColumn" class="pl-8 pr-3 py-1.5 text-sm border rounded-md focus:ring-2 focus:ring-orange-500 focus:border-transparent" >
-                <option value="" selected>Pilih Kolom</option>
+                <option value="" disabled selected>-- Pilih Kolom --</option>
                 <option v-for="o in filterColumns" :value="o.name" :data-data="JSON.stringify(o)" :key="o.name">{{ o.label }}</option>
             </select>
         </div>
@@ -18,7 +18,7 @@
                 <ListFilter class="h-4 w-4 text-gray-400" />
             </div>
             <select id="operator" v-model="filter.operator" class="pl-8 pr-3 py-1.5 text-sm border rounded-md focus:ring-2 focus:ring-orange-500 focus:border-transparent" >
-                <option value="" selected>Pilih Operator</option>
+                <option value="" disabled selected>-- Pilih Operator --</option>
                 <option v-for="o in operators" :value="o.value" :key="o.value">{{ o.label }}</option>
             </select>
         </div>
@@ -30,7 +30,7 @@
                     <ListFilter class="h-4 w-4 text-gray-400" />
                 </div>
                 <select id="operator" v-model="filter.value" class="pl-8 pr-3 py-1.5 text-sm border rounded-md focus:ring-2 focus:ring-orange-500 focus:border-transparent" >
-                    <option value="" selected>Pilih</option>
+                    <option value="" disabled selected>-- Pilih --</option>
                     <option v-for="o in options" :value="o.value" :key="o.value">{{ o.label }}</option>
                 </select>
             </div>

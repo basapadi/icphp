@@ -200,8 +200,6 @@ export default {
       searchQuery: '',
       selectAll: false,
       selectedData: [],
-      currentPage: 1,
-      itemsPerPage: 25,
       total: 0,
       rows: [],
       form: [],
@@ -230,6 +228,9 @@ export default {
     },
     currentPage() {
       this.load()
+    },
+    'pagination._page'(){
+      this.load()
     }
   },
   computed: {
@@ -238,7 +239,7 @@ export default {
     }),
     filterData() {
       if (this.searchQuery) {
-        this.currentPage = 1;
+        this.pagination._page = 1;
       }
       return this.rows
     },
@@ -274,7 +275,6 @@ export default {
         }
         params.q = this.searchQuery
       }
-      
       
       await this.$store.dispatch(this.store_grid, params).then(({ data }) => {
         data = data.data

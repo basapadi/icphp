@@ -58,10 +58,6 @@ return [
             'label'  => 'Jatuh Tempo',
             'class'  => 'red-400'
         ],
-        'pending'           => [
-            'label'  => 'Menunggu',
-            'class'  => 'gray-500'
-        ],
         'canceled'          => [
             'label'   => 'Dibatalkan',
             'class'   => 'red-800'
