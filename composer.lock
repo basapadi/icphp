@@ -68,16 +68,16 @@
         },
         {
             "name": "btx/btx",
-            "version": "2.0.3",
+            "version": "2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bachtiarpanjaitan/btx.git",
-                "reference": "c86110085b8957bac4767614dd8d810c30996107"
+                "reference": "cbc529f65ca593fdcb42441b40a1816aa572db21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bachtiarpanjaitan/btx/zipball/c86110085b8957bac4767614dd8d810c30996107",
-                "reference": "c86110085b8957bac4767614dd8d810c30996107",
+                "url": "https://api.github.com/repos/bachtiarpanjaitan/btx/zipball/cbc529f65ca593fdcb42441b40a1816aa572db21",
+                "reference": "cbc529f65ca593fdcb42441b40a1816aa572db21",
                 "shasum": ""
             },
             "require": {
@@ -128,9 +128,9 @@
             ],
             "support": {
                 "issues": "https://github.com/bachtiarpanjaitan/btx/issues",
-                "source": "https://github.com/bachtiarpanjaitan/btx/tree/2.0.3"
+                "source": "https://github.com/bachtiarpanjaitan/btx/tree/2.0.5"
             },
-            "time": "2025-08-22T07:49:57+00:00"
+            "time": "2025-08-23T11:59:39+00:00"
         },
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -977,16 +977,16 @@
         },
         {
             "name": "guzzlehttp/promises",
-            "version": "2.2.0",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/promises.git",
-                "reference": "7c69f28996b0a6920945dd20b3857e499d9ca96c"
+                "reference": "481557b130ef3790cf82b713667b43030dc9c957"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/7c69f28996b0a6920945dd20b3857e499d9ca96c",
-                "reference": "7c69f28996b0a6920945dd20b3857e499d9ca96c",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/481557b130ef3790cf82b713667b43030dc9c957",
+                "reference": "481557b130ef3790cf82b713667b43030dc9c957",
                 "shasum": ""
             },
             "require": {
@@ -994,7 +994,7 @@
             },
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.8.2",
-                "phpunit/phpunit": "^8.5.39 || ^9.6.20"
+                "phpunit/phpunit": "^8.5.44 || ^9.6.25"
             },
             "type": "library",
             "extra": {
@@ -1040,7 +1040,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/promises/issues",
-                "source": "https://github.com/guzzle/promises/tree/2.2.0"
+                "source": "https://github.com/guzzle/promises/tree/2.3.0"
             },
             "funding": [
                 {
@@ -1056,7 +1056,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-03-27T13:27:01+00:00"
+            "time": "2025-08-22T14:34:08+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -1176,16 +1176,16 @@
         },
         {
             "name": "guzzlehttp/uri-template",
-            "version": "v1.0.4",
+            "version": "v1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/uri-template.git",
-                "reference": "30e286560c137526eccd4ce21b2de477ab0676d2"
+                "reference": "4f4bbd4e7172148801e76e3decc1e559bdee34e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/uri-template/zipball/30e286560c137526eccd4ce21b2de477ab0676d2",
-                "reference": "30e286560c137526eccd4ce21b2de477ab0676d2",
+                "url": "https://api.github.com/repos/guzzle/uri-template/zipball/4f4bbd4e7172148801e76e3decc1e559bdee34e1",
+                "reference": "4f4bbd4e7172148801e76e3decc1e559bdee34e1",
                 "shasum": ""
             },
             "require": {
@@ -1194,7 +1194,7 @@
             },
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.8.2",
-                "phpunit/phpunit": "^8.5.36 || ^9.6.15",
+                "phpunit/phpunit": "^8.5.44 || ^9.6.25",
                 "uri-template/tests": "1.0.0"
             },
             "type": "library",
@@ -1242,7 +1242,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/uri-template/issues",
-                "source": "https://github.com/guzzle/uri-template/tree/v1.0.4"
+                "source": "https://github.com/guzzle/uri-template/tree/v1.0.5"
             },
             "funding": [
                 {
@@ -1258,7 +1258,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-02-03T10:55:03+00:00"
+            "time": "2025-08-22T14:27:06+00:00"
         },
         {
             "name": "hashids/hashids",
@@ -5854,20 +5854,19 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.33.0",
+            "version": "v1.31.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "6d857f4d76bd4b343eac26d6b539585d2bc56493"
+                "reference": "85181ba99b2345b0ef10ce42ecac37612d9fd341"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/6d857f4d76bd4b343eac26d6b539585d2bc56493",
-                "reference": "6d857f4d76bd4b343eac26d6b539585d2bc56493",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/85181ba99b2345b0ef10ce42ecac37612d9fd341",
+                "reference": "85181ba99b2345b0ef10ce42ecac37612d9fd341",
                 "shasum": ""
             },
             "require": {
-                "ext-iconv": "*",
                 "php": ">=7.2"
             },
             "provide": {
@@ -5915,7 +5914,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.33.0"
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.31.0"
             },
             "funding": [
                 {
@@ -5927,15 +5926,11 @@
                     "type": "github"
                 },
                 {
-                    "url": "https://github.com/nicolas-grekas",
-                    "type": "github"
-                },
-                {
                     "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-12-23T08:48:59+00:00"
+            "time": "2024-09-09T11:45:10+00:00"
         },
         {
             "name": "symfony/polyfill-php80",
@@ -9386,12 +9381,12 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.2"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }
