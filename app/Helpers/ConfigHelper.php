@@ -1,0 +1,34 @@
+<?php
+if (!function_exists('ihandCashierConfigToOptions')) {
+    function ihandCashierConfigToOptions(string $config) {
+        $result=[];
+        $configs = config('ihandcashier.'.$config);
+        if(!isset($configs) || empty($configs)) return [];
+        
+        foreach ($configs as $key => $c) {
+            array_push($result, [
+                'value' => $key,
+                'label' => $c['label']
+            ]);
+        }
+
+        return $result;
+    }
+}
+
+if (!function_exists('roleConfigToOptions')) {
+    function roleConfigToOptions() {
+        $result=[];
+        $configs = config('ihandcashier.roles');
+        if(!isset($configs) || empty($configs)) return [];
+        
+        foreach ($configs as $key => $c) {
+            array_push($result, [
+                'value' => $c,
+                'label' => $c
+            ]);
+        }
+
+        return $result;
+    }
+}

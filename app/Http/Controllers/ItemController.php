@@ -14,9 +14,14 @@ class ItemController extends BaseController
             ['value' => 'kode_barang', 'label'=> 'Kode Barang', 'align' => 'left'],
             ['value' => 'nama', 'label'=> 'Nama', 'align' => 'left'],
             // ['value' => 'gambar', 'label'=> 'Gambar', 'align' => 'left'],
-            ['value' => 'kategori', 'label'=> 'Kategori', 'align' => 'left'],
+            ['value' => 'kategori', 'label'=> 'Kategori', 'align' => 'left', 'option_filter' => true],
             ['value' => 'status_label', 'label'=> 'Status', 'align' => 'left', 'type' => 'badge'],
-            ['value' => 'actions', 'label'=> 'Actions', 'align' => 'left','options' => [$this->allowAccess('edit'),$this->allowAccess('delete')]]
+            ['value' => 'status', 'label'=> 'Status', 'align' => 'left', 'type' => 'select', 'show' => false, 'option_filter' => true,'options' => [
+                ['label' => 'Aktif', 'value' => '1'],
+                ['label' => 'Tidak Aktif', 'value' => '0']
+            ]],
+            ['value' => 'actions', 'label'=> 'Actions', 'align' => 'left','options' => [$this->allowAccess('edit'),$this->allowAccess('delete')]],
+            
         ]);
         $this->setFilterColumnsLike(['kode_barang','nama'],request('q')??'');
         // $this->setMultipleSelectGrid(false);
