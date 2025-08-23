@@ -6,7 +6,7 @@
             <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
                 <ListFilter class="h-4 w-4 text-gray-400" />
             </div>
-            <select id="column" v-model="filter.column" @change="onChangeColumn" class="pl-8 pr-3 py-1.5 text-sm border rounded-md focus:ring-2 focus:ring-orange-500 focus:border-transparent" >
+            <select id="column" v-model="filter.column" @change="onChangeColumn" class="pl-8 pr-3 py-1.5 text-sm border-1 text-gray-600 transition-colors rounded-md focus:border-transparent" >
                 <option value="" disabled selected>-- Pilih Kolom --</option>
                 <option v-for="o in filterColumns" :value="o.name" :data-data="JSON.stringify(o)" :key="o.name">{{ o.label }}</option>
             </select>
@@ -17,7 +17,7 @@
             <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
                 <ListFilter class="h-4 w-4 text-gray-400" />
             </div>
-            <select id="operator" v-model="filter.operator" class="pl-8 pr-3 py-1.5 text-sm border rounded-md focus:ring-2 focus:ring-orange-500 focus:border-transparent" >
+            <select id="operator" v-model="filter.operator" class="pl-8 pr-3 py-1.5 text-sm border-1 text-gray-600 transition-colors rounded-md focus:border-transparent" >
                 <option value="" disabled selected>-- Pilih Operator --</option>
                 <option v-for="o in operators" :value="o.value" :key="o.value">{{ o.label }}</option>
             </select>
@@ -29,7 +29,7 @@
                 <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
                     <ListFilter class="h-4 w-4 text-gray-400" />
                 </div>
-                <select id="operator" v-model="filter.value" class="pl-8 pr-3 py-1.5 text-sm border rounded-md focus:ring-2 focus:ring-orange-500 focus:border-transparent" >
+                <select id="operator" v-model="filter.value" class="pl-8 pr-3 py-1.5 text-sm border-1 text-gray-600 transition-colors rounded-md focus:border-transparent" >
                     <option value="" disabled selected>-- Pilih --</option>
                     <option v-for="o in options" :value="o.value" :key="o.value">{{ o.label }}</option>
                 </select>
@@ -40,16 +40,16 @@
                 <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
                     <LetterText class="h-4 w-4 text-gray-400" />
                 </div>
-                <input v-model="filter.value" type="text" placeholder="Nilai pencarian lanjutan" class="pl-8 pr-3 py-1.5 text-sm border rounded-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent" />
+                <input v-model="filter.value" type="text" placeholder="Nilai pencarian lanjutan" class="pl-8 pr-3 py-1.5 text-sm border rounded-sm focus:border-transparent" />
             </div>
         </template>
 
       <!-- Tombol Aksi -->
-        <button class="px-3 py-1.5 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors"  @click="load()">
-            <Funnel class="h-5 w-5 text-white"/>
+        <button class="px-3 py-1.5 bg-orange-100 text-orange-600 rounded-md border-1 hover:bg-orange-200 transition-colors"  @click="load()">
+            <Funnel class="h-5 w-5 text-orange-600"/>
         </button>
-        <button @click="reset()" class="px-3 py-1.5 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors">
-            <FunnelX class="h-5 w-5 text-white"/>
+        <button @click="reset()" class="px-3 py-1.5 bg-orange-100 text-white border-1 rounded-md hover:bg-orange-200 transition-colors">
+            <FunnelX class="h-5 w-5 text-orange-600"/>
         </button> 
     </div>
   </div>

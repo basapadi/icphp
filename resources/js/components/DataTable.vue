@@ -13,14 +13,14 @@
                 v-model="searchQuery"
                 type="text"
                 :placeholder="`Cari Data ${title}` "
-                class="pl-8 pr-3 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                class="pl-8 pr-3 py-1.5 text-sm border-1 border-gray-300 rounded-md focus:border-transparent"
               />
               <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
                 <Search class="h-4 w-4 text-gray-400" />
               </div>
             </div>
             <div class="relative">
-              <button @click="tambahData" class="px-3 py-1.5 text-sm bg-orange-500 text-white rounded-sm hover:bg-orange-600 transition-colors" v-if="allowCreate" >
+              <button @click="tambahData" class="px-3 py-1.5 text-sm bg-orange-100 text-orange-500 rounded-sm hover:bg-orange-200 border-1 transition-colors" v-if="allowCreate" >
                 Tambah
               </button>
             </div>
@@ -133,24 +133,24 @@
           <div class="flex items-center space-x-2">
             <button
               @click="initPage"
-              class="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              class="px-3 py-1 text-sm border-1 text-orange-500 rounded-md hover:bg-orange-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
               Awal
             </button>
             <button
               @click="previousPage"
               :disabled="pagination._page === 1"
-              class="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              class="px-3 py-1 text-sm bbg-orange-100 border-1 text-orange-500 rounded-md hover:bg-orange-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Sebelumnya
             </button>
-            <button class="px-3 py-1 text-sm bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors">
+            <button class="px-3 py-1 text-sm bg-orange-100 border-1 text-orange-500 rounded-md hover:bg-orange-200 transition-colors">
               {{ pagination._page }}
             </button>
             <button
               @click="nextPage"
               :disabled="pagination._page === totalPages"
-              class="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              class="px-3 py-1 text-sm border bbg-orange-100 border-1 text-orange-500 rounded-md hover:bg-orange-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Selanjutnya
             </button>
