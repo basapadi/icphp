@@ -12,7 +12,7 @@ class ReceivedItemController extends BaseController
     public function __construct(){
         $this->setModel(ItemReceived::class)
             ->select('trx_received_items.*')
-            ->with(['details','contact','payments'])
+            ->with(['details','contact','payments','details.unit','details.item'])
             ->leftJoin('contacts', 'contacts.id', '=', 'trx_received_items.contact_id')->orderBy('tanggal_terima','desc');
         $this->setModule('transaction.receive');
         $this->setColumns([
