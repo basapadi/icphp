@@ -35,7 +35,7 @@
                     <!-- Actions -->
                     <div class="mt-6 flex justify-end gap-2">
                         <Button variant="outline" @click="close">Batal</Button>
-                        <Button type="submit">Simpan</Button>
+                        <Button variant="secondary" type="submit">Simpan</Button>
                     </div>
                 </form>
             </CardContent>
