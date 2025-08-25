@@ -13,6 +13,7 @@ import General from "@/views/setting/General.vue"
 import Received from "@/views/transaction/Received.vue"
 import Sale from "@/views/transaction/Sale.vue"
 import Stock from "@/views/transaction/Stock.vue"
+import Adjustment from "@/views/transaction/Adjustment.vue"
 
 const routes = [
   { path: "/login", name: "Login", component: Login },
@@ -29,7 +30,7 @@ const routes = [
   { path: "/transaction/receive", name: "Transaction.Receive", component: Received, meta: { requiresAuth: true } },
   { path: "/transaction/sale", name: "Transaction.Sale", component: Sale, meta: { requiresAuth: true } },
   { path: "/transaction/warehouse/stock", name: "Transaction.Warehouse.Stock", component: Stock, meta: { requiresAuth: true } },
-  { path: "/transaction/warehouse/adjustment", name: "Transaction.Warehouse.Adjustment", component: Stock, meta: { requiresAuth: true } }
+  { path: "/transaction/warehouse/adjustment", name: "Transaction.Warehouse.Adjustment", component: Adjustment, meta: { requiresAuth: true } }
 ]
 
 const router = createRouter({
