@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('item_id');
             $table->integer('unit_id')->comment('id satuan barang dari master');
             $table->integer('jumlah')->default(0);
-            $table->date('tanggal_pembaruan');
+            $table->dateTime('tanggal_pembaruan')->nullable();
         });
     }
 

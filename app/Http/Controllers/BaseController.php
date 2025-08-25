@@ -51,7 +51,7 @@ class BaseController extends Controller
         $rows = $rows->get();
         $total = $total->count();
         $this->_gridProperties['filterDateRange'] = $this->_gridProperties['filterDateRange']??false;
-        $this->_gridProperties['multipleSelect'] = $this->_multipleSelectGrid;
+        $this->_gridProperties['multipleSelect'] = $this->_gridProperties['multipleSelect']??$this->_multipleSelectGrid;
 
         return Response::ok('Loaded', [
             'rows' => $rows->toArray(),

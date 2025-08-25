@@ -3,27 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\{
-    Item
+    Item,
+    ItemStock
 };
 use Illuminate\Http\Request;
 
 class StockController extends BaseController
 {
     public function __construct(){
-        $this->setModel(Item::class);
+        $this->setModel(ItemStock::class)->with(['item','unit'])
+            ->leftJoin('masters', 'masters.id', '=', 'item_stocks.unit_id');
         $this->setModule('transaction.warehouse.stock');
         $this->setColumns([
-            ['value' => 'nama', 'label'=> 'Nama Barang', 'align' => 'left','option_filter' => true],
-            ['value' => 'actions', 'label'=> 'Actions', 'align' => 'left','options' => [
-                $this->allowAccess('view'),
-                $this->allowAccess('edit'),
-                $this->allowAccess('delete')
-            ]]
+            ['value' => 'item__nama', 'label'=> 'Nama Barang', 'align' => 'left','option_filter' => true],
+            ['value' => 'unit__nama', 'label'=> 'Satuan', 'align' => 'left','option_filter' => true],
+            ['value' => 'jumlah', 'label'=> 'Jumlah', 'align' => 'right','styles' => 'width:50px','class' => 'font-mono font-bold'],
         ]);
         $this->setGridProperties([
             'filterDateRange' => true,
-            'filterDateName' => 'nama'
+            'filterDateName' => 'nama',
+            'multipleSelect' => false
         ]);
-        $this->setFilterColumnsLike(['nama'],request('q')??'');
+        $this->setFilterColumnsLike(['masters.nama'],request('q')??'');
     }
 }

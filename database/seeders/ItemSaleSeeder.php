@@ -4,10 +4,13 @@ namespace Database\Seeders;
 use App\Models\{
     Item,
     ItemPrice,
+    ItemReceived,
+    ItemReceivedDetail,
     ItemSale,
     ItemSaleDetail,
     Master,
-    ItemSalePayment
+    ItemSalePayment,
+    ItemStock
 };
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -25,19 +28,21 @@ class ItemSaleSeeder extends Seeder
         ItemSalePayment::truncate();
         ItemSale::factory()->count(150)->create();
         $itemIds = ItemPrice::distinct('item_id')->get()->pluck('item_id');
-        $unitIds = Master::select('id')->where('type','UNIT')->where('status', true)->get()->pluck('id');
+        $unitIds = Master::select('id')->where('type','UNIT')->where('status', true)->take(10)->get()->pluck('id');
         $sales = ItemSale::all();
-        $itemPrices = [];
         $details = [];
         $payments = [];
         foreach ($sales as $key => $r) {
-            $jlh =fake()->randomElement([4,5,6,7,8]);
+            $jlh =fake()->randomElement([1,2,3,4,54,5,6,7,8]);
             $totalHarga = 0;
             for ($i=0; $i <= $jlh; $i++) { 
-                $banyak = fake()->randomElement([1,2,3,4,5,6,7,8,9,10]);
+                $banyak = fake()->randomElement([1,2,3,4,5]);
                 $itemId = fake()->randomElement($itemIds);
                 $latestPrice = ItemPrice::where('item_id',$itemId)->latest('tanggal_berlaku','desc')->first();
                 $harga = @$latestPrice->harga + ($latestPrice->harga* (15/100))??0;
+
+                // $oldStocks = ItemReceivedDetail::where('item_id',$itemId)->whereNotIn('status_pembayaran',['refund','canceled'])->sum('jumlah');
+                // dd($oldStocks);
                 array_push($details, [
                     'item_sale_id'  => $r->id,
                     'item_id'           => $itemId,
