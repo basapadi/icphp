@@ -24,24 +24,40 @@
         </div>
 
         <!-- Input: value -->
-        <template v-if="isSelect">
-            <div class="relative">
-                <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-                    <ListFilter class="h-4 w-4 text-gray-400" />
+        <template v-if="!['_null','_notnull'].includes(filter.operator)">
+            <template v-if="type == 'select'">
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+                        <ListFilter class="h-4 w-4 text-gray-400" />
+                    </div>
+                    <select id="operator" v-model="filter.value" class="pl-8 pr-3 py-1.5 text-sm border-1 text-gray-600 transition-colors rounded-md focus:border-transparent" >
+                        <option value="" disabled selected>-- Pilih --</option>
+                        <option v-for="o in options" :value="o.value" :key="o.value">{{ o.label }}</option>
+                    </select>
                 </div>
-                <select id="operator" v-model="filter.value" class="pl-8 pr-3 py-1.5 text-sm border-1 text-gray-600 transition-colors rounded-md focus:border-transparent" >
-                    <option value="" disabled selected>-- Pilih --</option>
-                    <option v-for="o in options" :value="o.value" :key="o.value">{{ o.label }}</option>
-                </select>
-            </div>
-        </template>
-        <template v-else>
-            <div class="relative">
-                <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-                    <LetterText class="h-4 w-4 text-gray-400" />
+            </template>
+            <template v-else-if="type == 'date_range'">
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+                        <Calendar class="h-4 w-4 text-gray-400" />
+                    </div>
+                    <input type="date" v-model="filter.value_from" name="from_date" placeholder="Dari Tanggal" class="pl-8 pr-3 py-1.5 text-sm border rounded-sm focus:border-transparent"/>
+                    </div>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+                        <Calendar class="h-4 w-4 text-gray-400" />
+                    </div>
+                    <input type="date" v-model="filter.value_to" name="to_date" placeholder="Hingga Tanggal" class="pl-8 pr-3 py-1.5 text-sm border rounded-sm focus:border-transparent"/>
                 </div>
-                <input v-model="filter.value" type="text" placeholder="Nilai pencarian lanjutan" class="pl-8 pr-3 py-1.5 text-sm border rounded-sm focus:border-transparent" />
-            </div>
+            </template>
+            <template v-else>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+                        <LetterText class="h-4 w-4 text-gray-400" />
+                    </div>
+                    <input v-model="filter.value" type="text" placeholder="Nilai pencarian lanjutan" class="pl-8 pr-3 py-1.5 text-sm border rounded-sm focus:border-transparent" />
+                </div>
+            </template>
         </template>
 
       <!-- Tombol Aksi -->
@@ -55,7 +71,7 @@
   </div>
 </template>
 <script>
-import { Search, ListFilter, Tag, Filter, LetterText, Equal, FunnelX, Funnel} from "lucide-vue-next"
+import { Search, ListFilter, Tag, Filter, LetterText, Equal, FunnelX, Funnel, Calendar} from "lucide-vue-next"
 import _ from 'lodash'
 export default {
     name: "FilterHeader",
@@ -66,7 +82,8 @@ export default {
         Equal,
         ListFilter,
         FunnelX,
-        Funnel
+        Funnel,
+        Calendar
     },
     props: {
         filter: {
@@ -108,7 +125,7 @@ export default {
     data() {
         return {
             filterColumns: [],
-            isSelect: false,
+            type: 'text',
             options: []
         }
     },
@@ -117,18 +134,24 @@ export default {
             this.$emit('load')
         },
         reset() {
+            this.type = 'text';
             this.$emit('load',true)
         },
         onChangeColumn(event) {
+            this.filter.value = ''
             const selectedOption = event.target.selectedOptions[0]
             if (selectedOption.dataset.data == 'undefined') {
-                this.isSelect = false;
+                this.type = 'text';
             } else {
                 const obj = JSON.parse(selectedOption.dataset.data)
-                if (obj?.type == 'select') {
-                    this.isSelect = true;
-                    this.options = obj.options
-                } else this.isSelect = false
+                this.type = obj?.type
+                this.options = obj?.options
+            }
+
+            if (this.type == 'date_range') {
+                this.filter.operator = '_between'
+            } else {
+                this.filter.operator = '_is'
             }
             
         }

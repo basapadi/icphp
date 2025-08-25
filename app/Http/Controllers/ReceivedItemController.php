@@ -23,6 +23,7 @@ class ReceivedItemController extends BaseController
             ['value' => 'total_harga_formatted', 'label'=> 'Total Harga', 'align' => 'right', 'class' => 'font-mono font-bold'],
             // ['value' => 'potongan_harga', 'label'=> 'Potongan Harga', 'align' => 'right'],
             ['value' => 'tanggal_terima_formatted', 'label'=> 'Tanggal Terima', 'align' => 'left'],
+            ['value' => 'tanggal_terima', 'label'=> 'Tanggal Terima', 'align' => 'left','option_filter' => true,'show' => false, 'type' => 'date_range'],
             // ['value' => 'diterima_oleh', 'label'=> 'Diterima Oleh', 'align' => 'left'],
             ['value' => 'status_pembayaran_label', 'label'=> 'Status Bayar', 'align' => 'left', 'type' => 'badge'],
             ['value' => 'status_pembayaran', 'label'=> 'Status Bayar', 'align' => 'left','show' => false, 'option_filter' => true, 'type'=> 'select', 'options' => ihandCashierConfigToOptions('payment_status')],

@@ -230,7 +230,7 @@ export default {
     },
     data() {
         return {
-            searchQuery: "",
+            searchQuery: '',
             selectAll: false,
             selectedData: [],
             total: 0,
@@ -245,9 +245,9 @@ export default {
                 _page: 1,
             },
             filter: {
-                operator: "",
-                column: "",
-                value: "",
+                operator: '',
+                column: '',
+                value: '',
             },
             operators: operator.Operator,
         };
@@ -307,6 +307,12 @@ export default {
                     ) {
                         filter_value = null;
                     }
+
+                   
+                }
+
+                if (this.filter.operator == '_between') {
+                    filter_value = `${this.filter.value_from},${this.filter.value_to}`
                 }
 
                 if (this.filter.column != undefined) {
