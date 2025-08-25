@@ -43,7 +43,7 @@
                                 <template v-if="column.show">
                                     <template v-if="column.name == 'actions'">
                                         <th class="px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider border-2 border-gray-200"
-                                            style="width: 50px">
+                                            style="width: 50px !important">
                                             {{ column.label }}
                                         </th>
                                     </template>

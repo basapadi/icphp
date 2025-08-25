@@ -10,7 +10,8 @@ use App\Http\Controllers\{
     RoleController,
     ContactController,
     ReceivedItemController,
-    SaleItemController
+    SaleItemController,
+    StockController
 };
 use Illuminate\Support\Facades\Route;
 
@@ -60,6 +61,10 @@ Route::prefix('api')->group(function () {
         Route::get('form', 'form');
     });
     Route::controller(SaleItemController::class)->middleware('auth:sanctum')->prefix('sale')->group(function () {
+        Route::get('grid', 'grid');
+        Route::get('form', 'form');
+    });
+    Route::controller(StockController::class)->middleware('auth:sanctum')->prefix('stock')->group(function () {
         Route::get('grid', 'grid');
         Route::get('form', 'form');
     });

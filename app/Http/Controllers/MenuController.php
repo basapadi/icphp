@@ -14,21 +14,13 @@ class MenuController extends BaseController
        
         $role = auth()->user()->role;
         $menuIds = RoleMenu::where('role', $role)->where('view', true)->pluck('menu_id');
-        $menus = Menu::with(['subItems' => function ($query) use ($menuIds,$role) {
-            $subIds = RoleMenu::where('role', $role)->where('view', true)->pluck('menu_id');
-            $query->whereIn('id', $menuIds)->with(['subItems' => function($query) use ($subIds){
-                $query->whereIn('id',$subIds)->orderBy('order');
-            }])->orderBy('order');
-        }])
+        $menus = Menu::with('subItems.subItems')
         ->whereIn('id', $menuIds)
         ->whereNull('parent_id')
         ->orderBy('order')
         ->get()
-        ->map(function ($item) {
-            $item->open = $item->subItems->contains(fn ($sub) => $sub->active);
-            return $item;
-        });
-        $menuRoles = $roleMenus = RoleMenu::join('menus', 'role_menus.menu_id', '=', 'menus.id')
+        ->map(fn($menu) => $this->setOpenRecursive($menu));
+        $menuRoles = RoleMenu::join('menus', 'role_menus.menu_id', '=', 'menus.id')
             ->where('role_menus.role', $role)
             ->select('role_menus.id','menus.label','menus.route','menus.parent_id','view','create','delete','download')
             ->get()->toArray();
@@ -37,4 +29,13 @@ class MenuController extends BaseController
             'menu_roles' => $menuRoles
         ];
     }
+
+    function setOpenRecursive($menu)
+    {
+        $menu->subItems->transform(fn($sub) => $this->setOpenRecursive($sub));
+        $menu->open = $menu->subItems->contains(fn($sub) => $sub->active || $sub->open);
+        return $menu;
+    }
+
+    
 }

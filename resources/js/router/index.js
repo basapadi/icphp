@@ -28,7 +28,8 @@ const routes = [
   { path: "/setting/database", name: "Setting.Database", component: Database, meta: { requiresAuth: true } },
   { path: "/transaction/receive", name: "Transaction.Receive", component: Received, meta: { requiresAuth: true } },
   { path: "/transaction/sale", name: "Transaction.Sale", component: Sale, meta: { requiresAuth: true } },
-  { path: "/transaction/stock", name: "Transaction.Stock", component: Stock, meta: { requiresAuth: true } }
+  { path: "/transaction/warehouse/stock", name: "Transaction.Warehouse.Stock", component: Stock, meta: { requiresAuth: true } },
+  { path: "/transaction/warehouse/adjustment", name: "Transaction.Warehouse.Adjustment", component: Stock, meta: { requiresAuth: true } }
 ]
 
 const router = createRouter({
