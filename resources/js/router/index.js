@@ -12,8 +12,8 @@ import Database from "@/views/setting/Database.vue"
 import General from "@/views/setting/General.vue"
 import Received from "@/views/transaction/Received.vue"
 import Sale from "@/views/transaction/Sale.vue"
-import Stock from "@/views/transaction/Stock.vue"
-import Adjustment from "@/views/transaction/Adjustment.vue"
+import Stock from "@/views/transaction/warehouse/Stock.vue"
+import Adjustment from "@/views/transaction/warehouse/Adjustment.vue"
 
 const routes = [
   { path: "/login", name: "Login", component: Login },

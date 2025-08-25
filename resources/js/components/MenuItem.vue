@@ -8,7 +8,7 @@
             :style="{ paddingLeft }"
         >
             <div class="flex items-center">
-                <component v-if="item.icon" :is="item.icon" class="w-4 h-4 mr-3" />
+                <component v-if="item.icon" :is="item.icon" class="w-4 h-4 mr-3 text-gray-600" />
                 {{ item.label }}
             </div>
             <div class="flex items-center">

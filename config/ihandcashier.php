@@ -236,7 +236,7 @@ return [
         [
             'id'    => 20,
             'icon'  => '',
-            'label' => 'Stok Barang',
+            'label' => 'Stok',
             'route' => '/transaction/warehouse/stock',
             'order' => 0,
             'parent'=> 11,
@@ -245,7 +245,7 @@ return [
          [
             'id'    => 21,
             'icon'  => '',
-            'label' => 'Penyesuaian Barang',
+            'label' => 'Penyesuaian',
             'route' => '/transaction/warehouse/adjustment',
             'order' => 1,
             'parent'=> 11,
