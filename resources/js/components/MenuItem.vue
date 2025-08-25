@@ -1,18 +1,14 @@
 <template>
     <li>
         <router-link
-            v-if="item.route"
+            v-if="item.route && item.parent_id == null"
             :to="item.route"
             @click="handleClick"
             :class="linkClasses"
             :style="{ paddingLeft }"
         >
             <div class="flex items-center">
-                <component
-                    v-if="item.icon"
-                    :is="item.icon"
-                    class="w-4 h-4 mr-3"
-                />
+                <component v-if="item.icon" :is="item.icon" class="w-4 h-4 mr-3" />
                 {{ item.label }}
             </div>
             <div class="flex items-center">
@@ -20,25 +16,25 @@
                 <ChevronRight v-else-if="hasSubItems" class="w-4 h-4" />
             </div>
         </router-link>
-
-        <a
+        <router-link
             v-else
-            href="#"
-            @click.prevent="handleClick"
+            :to="item.route"
+            @click="handleClick"
             :class="linkClasses"
             :style="{ paddingLeft }"
         >
-            <div class="flex items-center">
-                <component
-                    v-if="item.icon"
-                    :is="item.icon"
-                    class="w-4 h-4 mr-3"
-                />
-                {{ item.label }}
+            <div class="flex items-center" v-if="hasSubItems">
+                <GripVertical class="w-3 h-3 text-orange-400"/>{{ item.label }} 
             </div>
-            <ChevronDown v-if="hasSubItems && isOpen" class="w-4 h-4" />
-            <ChevronRight v-else class="w-4 h-4" />
-        </a>
+            <div class="flex items-center" v-else>
+                <component v-if="item.icon" :is="item.icon" class="w-4 h-4 mr-2" />
+                <EllipsisVertical class="w-3 h-3 text-orange-400"/>{{ item.label }} 
+            </div>
+            <div class="flex items-center">
+                <ChevronDown v-if="hasSubItems && isOpen" class="w-4 h-4" />
+                <ChevronRight v-else-if="hasSubItems" class="w-4 h-4" />
+            </div>
+        </router-link>
 
         <ul v-if="hasSubItems && isOpen" class="border-l-2 ml-4 text-left">
             <MenuItem
@@ -54,7 +50,7 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import { ChevronDown, ChevronRight } from "lucide-vue-next";
+import { ChevronDown, ChevronRight,EllipsisVertical,GripVertical,ChevronsDown } from "lucide-vue-next";
 
 const props = defineProps({
     item: {
@@ -77,11 +73,11 @@ const hasSubItems = computed(() => {
     return props.item.sub_items && props.item.sub_items.length > 0;
 });
 
-const paddingLeft = computed(() => `${0.75 + props.level * 1}rem`);
+const paddingLeft = computed(() => `${0.75}rem`);
 
 const linkClasses = computed(
     () =>
-        `flex items-left justify-between mx-2 py-2 text-sm font-medium transition-all duration-200 rounded-xs mx-2   ${
+        `flex items-left justify-between mx-2 py-2 text-sm font-medium transition-all duration-200 rounded-xs  ${
             props.item.active
                 ? "bg-orange-500 outline-orange-400 text-white outline-1 my-2 font-1200 "
                 : "text-gray-700 hover:bg-gray-200 hover:text-gray-900 hover:rounded-xs"

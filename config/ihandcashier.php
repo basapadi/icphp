@@ -183,11 +183,11 @@ return [
         [
             'id'    => 11,
             'icon'  => '',
-            'label' => 'Stok',
-            'route' => '/transaction/stock',
+            'label' => 'Gudang',
+            'route' => '#',
             'order' => 2,
             'parent'=> 10,
-            'module'=>'transaction.stock'
+            'module'=>'transaction.warehouse'
         ],
         [
             'id'    => 12,
@@ -233,7 +233,25 @@ return [
             'parent'=> 17,
             'module'=>'finance.credit'
         ],
-        //last_id:19
+        [
+            'id'    => 20,
+            'icon'  => '',
+            'label' => 'Stok Barang',
+            'route' => '/transaction/warehouse/stock',
+            'order' => 0,
+            'parent'=> 11,
+            'module'=>'transaction.warehouse.stock'
+        ],
+         [
+            'id'    => 21,
+            'icon'  => '',
+            'label' => 'Penyesuaian Barang',
+            'route' => '/transaction/warehouse/adjustment',
+            'order' => 1,
+            'parent'=> 11,
+            'module'=>'transaction.warehouse.adjustment'
+        ],
+        //last_id:21
     ],
     'units' => [
         'pcs'      => [1, 'Piece', 1, 'pcs'],

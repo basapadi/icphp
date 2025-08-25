@@ -14,8 +14,11 @@ class MenuController extends BaseController
        
         $role = auth()->user()->role;
         $menuIds = RoleMenu::where('role', $role)->where('view', true)->pluck('menu_id');
-        $menus = Menu::with(['subItems' => function ($query) use ($menuIds) {
-            $query->whereIn('id', $menuIds)->orderBy('order');
+        $menus = Menu::with(['subItems' => function ($query) use ($menuIds,$role) {
+            $subIds = RoleMenu::where('role', $role)->where('view', true)->pluck('menu_id');
+            $query->whereIn('id', $menuIds)->with(['subItems' => function($query) use ($subIds){
+                $query->whereIn('id',$subIds)->orderBy('order');
+            }])->orderBy('order');
         }])
         ->whereIn('id', $menuIds)
         ->whereNull('parent_id')
