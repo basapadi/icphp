@@ -46,5 +46,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ContactSeeder::class); //seeder kontak
         $this->call(ItemSeeder::class); //seeder barang
         $this->call(ItemReceivedSeeder::class); //seeder penerimaan barang
+        $this->call(ItemSaleSeeder::class); //seeder penjualan barang
     }
 }

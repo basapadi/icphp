@@ -33,11 +33,11 @@ return [
             ],
             'bank_transfer' => [
                 'label' => 'Transfer Bank',
-                'class' => 'blue-500'
+                'class' => 'red-500'
             ],
             'qris' => [
                 'label' => 'QRIS',
-                'class' => 'red-500'
+                'class' => 'blue-600'
             ],
         ]
     ],
@@ -185,7 +185,7 @@ return [
             'icon'  => '',
             'label' => 'Stok',
             'route' => '/transaction/stock',
-            'order' => 0,
+            'order' => 2,
             'parent'=> 10,
             'module'=>'transaction.stock'
         ],
@@ -194,7 +194,7 @@ return [
             'icon'  => '',
             'label' => 'Penerimaan',
             'route' => '/transaction/receive',
-            'order' => 1,
+            'order' => 0,
             'parent'=> 10,
             'module'=>'transaction.receive'
         ],
@@ -203,7 +203,7 @@ return [
             'icon'  => '',
             'label' => 'Penjualan',
             'route' => '/transaction/sale',
-            'order' => 2,
+            'order' => 1,
             'parent'=> 10,
             'module'=>'transaction.sale'
         ],
