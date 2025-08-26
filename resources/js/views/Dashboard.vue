@@ -9,7 +9,7 @@
       <!-- Dashboard Content -->
       <div class="p-2">
         <DashboardCards :stats="data.cards"/>
-        <DashboardGrid />
+        <DashboardGrid :datas="data.grids"/>
       </div>
     </div>
   </AdminLayout>

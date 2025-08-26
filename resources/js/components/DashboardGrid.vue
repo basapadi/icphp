@@ -10,26 +10,28 @@
       <div class="p-4 pt-2">
         <div class="space-y-2">
           <div 
-            v-for="(order, index) in recentOrders" 
+            v-for="(dt, index) in datas.receive_duedate" 
             :key="index" 
             class="flex items-center justify-between"
           >
             <div class="flex items-center space-x-3">
               <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
                 <span class="text-xs font-medium text-gray-600">
-                  {{ getInitials(order.customer) }}
+                  {{ getInitials(dt.contact_name) }}
                 </span>
               </div>
               <div>
-                <p class="text-sm font-medium text-gray-900">{{ order.customer }}</p>
-                <p class="text-xs text-gray-500">{{ order.id }}</p>
+                <p class="text-sm font-bold font-mono text-gray-900">{{ dt.kode_transaksi }}</p>
+                <p class="text-xs text-gray-500">{{ dt.contact_name }}</p>
               </div>
             </div>
-            <div class="text-right">
-              <p class="text-sm font-medium text-gray-900">{{ order.amount }}</p>
-              <span :class="getStatusClass(order.status)">
-                {{ order.status }}
-              </span>
+            <div class="text-left">
+              <p class="text-xs text-gray-500">Syarat</p>
+              <p class="text-sm font-medium text-gray-900">{{ dt.syarat }}</p>
+            </div>
+            <div class="text-left">
+              <p class="text-xs text-gray-500">Jatuh Tempo</p>
+              <p class="text-sm font-medium text-gray-900">{{ dt.tanggal_duedate }}</p>
             </div>
           </div>
         </div>
@@ -46,26 +48,28 @@
       <div class="p-4 pt-2">
         <div class="space-y-2">
           <div 
-            v-for="(order, index) in recentOrders" 
+            v-for="(dt, index) in datas.sale_duedate" 
             :key="index" 
             class="flex items-center justify-between"
           >
             <div class="flex items-center space-x-3">
               <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
                 <span class="text-xs font-medium text-gray-600">
-                  {{ getInitials(order.customer) }}
+                  {{ getInitials(dt.contact_name) }}
                 </span>
               </div>
               <div>
-                <p class="text-sm font-medium text-gray-900">{{ order.customer }}</p>
-                <p class="text-xs text-gray-500">{{ order.id }}</p>
+                <p class="text-sm font-bold font-mono text-gray-900">{{ dt.kode_transaksi }}</p>
+                <p class="text-xs text-gray-500">{{ dt.contact_name }}</p>
               </div>
             </div>
-            <div class="text-right">
-              <p class="text-sm font-medium text-gray-900">{{ order.amount }}</p>
-              <span :class="getStatusClass(order.status)">
-                {{ order.status }}
-              </span>
+            <div class="text-left">
+              <p class="text-xs text-gray-500">Syarat</p>
+              <p class="text-sm font-medium text-gray-900">{{ dt.syarat }}</p>
+            </div>
+            <div class="text-left">
+              <p class="text-xs text-gray-500">Jatuh Tempo</p>
+              <p class="text-sm font-medium text-gray-900">{{ dt.tanggal_duedate }}</p>
             </div>
           </div>
         </div>
@@ -75,7 +79,7 @@
     <!-- Top Products -->
     <div class="bg-white border border-gray-200 rounded-lg shadow-sm">
       <div class="flex flex-row items-center justify-between p-2">
-        <h3 class="text-lg font-semibold text-gray-500">Barang Paling Laku</h3>
+        <h3 class="text-lg font-semibold text-gray-500">Barang paling laku bulan ini</h3>
         <button class="p-2 hover:bg-gray-100 rounded">
           <MoreHorizontal class="h-4 w-4" />
         </button>
@@ -83,7 +87,7 @@
       <div class="p-4 pt-2">
         <div class="space-y-4">
           <div 
-            v-for="(product, index) in topProducts" 
+            v-for="(product, index) in datas.top_products" 
             :key="index" 
             class="flex items-center justify-between"
           >
@@ -97,7 +101,7 @@
               </div>
             </div>
             <div class="text-right">
-              <p class="text-sm font-medium text-gray-900">{{ product.revenue }}</p>
+              <p class="text-sm font-medium text-gray-900">Rp.{{ product.revenue }}</p>
             </div>
           </div>
         </div>
@@ -106,7 +110,7 @@
   </div>
 </template>
 
-<script setup>
+<script >
 import { ref } from 'vue'
 import { MoreHorizontal, ArrowUpRight } from 'lucide-vue-next'
 
@@ -126,19 +130,28 @@ const topProducts = ref([
   { name: "Phone Case", sales: 432, revenue: "$4,320" },
 ])
 
-const getInitials = (name) => {
-  return name.split(" ").map(n => n[0]).join("")
-}
-
-const getStatusClass = (status) => {
-  const baseClass = "inline-flex items-center px-2 py-1 rounded-full text-xs font-medium "
-  switch (status) {
-    case "Completed":
-      return baseClass + "bg-green-100 text-green-800"
-    case "Processing":
-      return baseClass + "bg-blue-100 text-blue-800"
-    default:
-      return baseClass + "bg-yellow-100 text-yellow-800"
+export default {
+  name: "DashboardGrid",
+  components: {
+    MoreHorizontal,
+    ArrowUpRight
+  },
+  props: {
+    datas: {
+      type: Array,
+      default: []
+    }
+  },
+  data() {
+    return {
+      data: {},
+    };
+  },
+  methods: {
+    getInitials(name) {
+      return name.split(" ").map(n => n[0]).join("")
+    }
   }
 }
+
 </script>
