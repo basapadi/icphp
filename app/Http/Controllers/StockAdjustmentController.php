@@ -25,7 +25,12 @@ class StockAdjustmentController extends BaseController
             ['value' => 'adjustment_stock', 'label'=> 'Jlh.Penyesuaian', 'align' => 'right','styles' => 'width:50px','class' => 'font-mono font-bold','option_filter' => true],
             ['value' => 'catatan', 'label'=> 'Catatan', 'align' => 'left'],
             ['value' => 'created_at_formatted', 'label'=> 'Tanggal', 'align' => 'left','option_filter' => false, 'type' => 'date_range'],
-            ['value' => 'created_at', 'label'=> 'Tanggal', 'align' => 'left','option_filter' => true, 'show' => false,'type' => 'date_range']
+            ['value' => 'created_at', 'label'=> 'Tanggal', 'align' => 'left','option_filter' => true, 'show' => false,'type' => 'date_range'],
+            ['value' => 'actions', 'label'=> 'Actions', 'align' => 'left','options' => [
+                $this->allowAccess('view'),
+                $this->allowAccess('edit'),
+                $this->allowAccess('delete')
+            ]]
         ]);
         $this->setGridProperties([
             'filterDateRange' => true,
