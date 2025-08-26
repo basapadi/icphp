@@ -11,7 +11,8 @@ use App\Http\Controllers\{
     ContactController,
     ReceivedItemController,
     SaleItemController,
-    StockController
+    StockController,
+    DashboardController
 };
 use Illuminate\Support\Facades\Route;
 
@@ -67,5 +68,8 @@ Route::prefix('api')->group(function () {
     Route::controller(StockController::class)->middleware('auth:sanctum')->prefix('stock')->group(function () {
         Route::get('grid', 'grid');
         Route::get('form', 'form');
+    });
+    Route::controller(DashboardController::class)->middleware('auth:sanctum')->prefix('dashboard')->group(function () {
+        Route::get('data', 'data');
     });
 });

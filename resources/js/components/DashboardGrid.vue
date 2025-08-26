@@ -1,19 +1,18 @@
 <template>
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-    <!-- Recent Orders -->
+  <div class="grid grid-cols-2 lg:grid-cols-3 gap-2">
     <div class="bg-white border border-gray-200 rounded-lg shadow-sm">
-      <div class="flex flex-row items-center justify-between p-4 pb-2">
-        <h3 class="text-lg font-semibold">Recent Orders</h3>
+      <div class="flex flex-row items-center justify-between p-2">
+        <h3 class="text-lg font-semibold text-gray-500">Jatuh Tempo Penerimaan</h3>
         <button class="p-2 hover:bg-gray-100 rounded">
           <MoreHorizontal class="h-4 w-4" />
         </button>
       </div>
       <div class="p-4 pt-2">
-        <div class="space-y-4">
+        <div class="space-y-2">
           <div 
             v-for="(order, index) in recentOrders" 
             :key="index" 
-            class="flex items-center justify-between py-2"
+            class="flex items-center justify-between"
           >
             <div class="flex items-center space-x-3">
               <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
@@ -34,17 +33,49 @@
             </div>
           </div>
         </div>
-        <button class="w-full mt-4 p-2 hover:bg-gray-100 rounded flex items-center justify-center">
-          View All Orders
-          <ArrowUpRight class="ml-2 h-4 w-4" />
+      </div>
+    </div>
+
+    <div class="bg-white border border-gray-200 rounded-lg shadow-sm">
+      <div class="flex flex-row items-center justify-between p-2">
+        <h3 class="text-lg font-semibold text-gray-500">Jatuh Tempo Penjualan</h3>
+        <button class="p-2 hover:bg-gray-100 rounded">
+          <MoreHorizontal class="h-4 w-4" />
         </button>
+      </div>
+      <div class="p-4 pt-2">
+        <div class="space-y-2">
+          <div 
+            v-for="(order, index) in recentOrders" 
+            :key="index" 
+            class="flex items-center justify-between"
+          >
+            <div class="flex items-center space-x-3">
+              <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                <span class="text-xs font-medium text-gray-600">
+                  {{ getInitials(order.customer) }}
+                </span>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-900">{{ order.customer }}</p>
+                <p class="text-xs text-gray-500">{{ order.id }}</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <p class="text-sm font-medium text-gray-900">{{ order.amount }}</p>
+              <span :class="getStatusClass(order.status)">
+                {{ order.status }}
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- Top Products -->
     <div class="bg-white border border-gray-200 rounded-lg shadow-sm">
-      <div class="flex flex-row items-center justify-between p-4 pb-2">
-        <h3 class="text-lg font-semibold">Top Products</h3>
+      <div class="flex flex-row items-center justify-between p-2">
+        <h3 class="text-lg font-semibold text-gray-500">Barang Paling Laku</h3>
         <button class="p-2 hover:bg-gray-100 rounded">
           <MoreHorizontal class="h-4 w-4" />
         </button>
@@ -54,7 +85,7 @@
           <div 
             v-for="(product, index) in topProducts" 
             :key="index" 
-            class="flex items-center justify-between py-2"
+            class="flex items-center justify-between"
           >
             <div class="flex items-center space-x-3">
               <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -70,10 +101,6 @@
             </div>
           </div>
         </div>
-        <button class="w-full mt-4 p-2 hover:bg-gray-100 rounded flex items-center justify-center">
-          View All Products
-          <ArrowUpRight class="ml-2 h-4 w-4" />
-        </button>
       </div>
     </div>
   </div>

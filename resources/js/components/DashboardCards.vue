@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 mb-2">
     <div 
       v-for="(stat, index) in stats" 
       :key="index" 
@@ -17,45 +17,37 @@
           <span :class="`text-xs font-medium ${stat.trend === 'up' ? 'text-green-600' : 'text-red-600'}`">
             {{ stat.change }}
           </span>
-          <span class="text-xs text-gray-500 ml-1">from last month</span>
+          <span class="text-xs text-gray-500 ml-1">dari bulan terakhir</span>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script setup>
+<script>
 import { ref } from 'vue'
 import { TrendingUp, TrendingDown, Users, ShoppingCart, DollarSign, Package } from 'lucide-vue-next'
 
-const stats = ref([
-  {
-    title: "Total Revenue",
-    value: "$45,231.89",
-    change: "+20.1%",
-    trend: "up",
-    icon: DollarSign,
+export default {
+  name: "DashboardCards",
+  components: {
+    TrendingUp,
+    TrendingDown,
+    Users,
+    ShoppingCart,
+    DollarSign,
+    Package
   },
-  {
-    title: "Active Users",
-    value: "2,350",
-    change: "+180.1%",
-    trend: "up",
-    icon: Users,
+  props: {
+    stats: {
+      type: Array,
+      default: []
+    }
   },
-  {
-    title: "Orders",
-    value: "12,234",
-    change: "+19%",
-    trend: "up",
-    icon: ShoppingCart,
+  data() {
+    return {
+      data: {},
+    };
   },
-  {
-    title: "Products",
-    value: "573",
-    change: "-4.3%",
-    trend: "down",
-    icon: Package,
-  },
-])
+}
 </script>

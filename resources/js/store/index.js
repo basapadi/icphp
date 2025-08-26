@@ -10,6 +10,7 @@ import contact from './modules/contact'
 import receive from './modules/receive'
 import sale from './modules/sale'
 import stock from './modules/stock'
+import dashboard from './modules/dashboard'
 
 export default createStore({
   modules: {
@@ -23,6 +24,7 @@ export default createStore({
     contact,
     receive,
     sale,
-    stock
+    stock,
+    dashboard
   }
 })

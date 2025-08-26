@@ -7,7 +7,7 @@
         <link rel="icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/ihand-512.png" />
         <link rel="apple-touch-icon"  href="/ihand-512.png" />
-        <meta name="description" content="Simple POS Ihand Cashier Mobile and Desktop for your bussiness" />
+        <meta name="description" content="Simple POS Ihand Cashier Mobile and Desktop for your business" />
         <link rel="canonical" href="https://ihandcashier.basapadi.com" />
         <title>IhandCashier</title>
         @vite('resources/js/app.js')

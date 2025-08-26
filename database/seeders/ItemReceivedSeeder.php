@@ -14,6 +14,7 @@ use App\Models\{
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
 
 class ItemReceivedSeeder extends Seeder
 {
@@ -22,6 +23,9 @@ class ItemReceivedSeeder extends Seeder
      */
     public function run(): void
     {
+
+        $json = File::get(resource_path('dummies/items.json'));
+        $items = collect(json_decode($json, true));
         ItemReceived::truncate();
         ItemReceivedDetail::truncate();
         ItemPrice::truncate();
@@ -29,7 +33,7 @@ class ItemReceivedSeeder extends Seeder
         ItemReceived::factory()->count(50)->create();
         ItemStock::truncate();
         $itemIds = Item::select('id')->where('status',true)->get()->pluck('id');
-        $unitIds = Master::select('id')->where('type','BASIC_UNIT')->where('status', true)->take(10)->get()->pluck('id');
+        // $unitIds = Master::select('id')->where('type','BASIC_UNIT')->where('status', true)->take(10)->get()->pluck('id');
         $receiveds = ItemReceived::all();
         $itemPrices = [];
         $details = [];
@@ -38,11 +42,14 @@ class ItemReceivedSeeder extends Seeder
         foreach ($receiveds as $key => $r) {
             $jlh =fake()->randomElement([4,5,6,7,8]);
             $totalHarga = 0;
-            for ($i=0; $i <= $jlh; $i++) { 
-                $harga = fake()->randomElement([50000,35000,47000,150000,100000,25000,15000]);
-                $banyak = fake()->randomElement([10,20,30,40,50,60,70,80,90,100]);
+            for ($i=0; $i <= $jlh; $i++) {
                 $itemId = fake()->randomElement($itemIds);
-                $unitId = fake()->randomElement($unitIds);
+                $currentItem = $items->where('id',$itemId)->first();
+                $harga = $currentItem['harga'];
+                $banyak = fake()->randomElement([1,2,3,4,5,6,7,8,9,10]);
+               
+                // $unitId = fake()->randomElement($unitIds);
+                $unitId = $currentItem['satuan_id'];
                 $latestPrice = ItemPrice::where('item_id',$itemId)->latest('tanggal_berlaku','desc')->first();
 
                 if(!in_array($r->status_pembayaran, ['refunded','canceled'])){
