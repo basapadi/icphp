@@ -3,10 +3,9 @@
         <!-- Table Header -->
         <div class="px-1 py-1 border-b border-gray-200">
             <div class="flex justify-between">
-                <div v-if="properties.advanceFilter">
-                    <FilterHeader :columns="columns" @load="load" :pagination="pagination" :operators="operators" :filter="filter" />
+                <div>
+                    <FilterHeader :columns="columns" @load="load" :pagination="pagination" :operators="operators" :filter="filter" :properties="properties"/>
                 </div>
-                <div v-else></div>
                 <div class="">
                     <div class="flex flex-col md:flex-row md:items-center gap-3">
                         <div class="relative">
@@ -330,7 +329,7 @@ export default {
                     this.columns = data.columns;
                     this.total = data.total;
                     this.properties = data.properties;
-                });
+                })
             this.allowCreate = this.menuRoles.find(
                 (role) => role.route === this.$route.path
             )?.create;
@@ -362,7 +361,7 @@ export default {
         },
         handleSubmit() { },
     },
-    beforeMount() {
+    created() {
         this.load();
     },
 };

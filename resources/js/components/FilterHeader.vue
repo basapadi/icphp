@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 w-full">
+  <div class="flex-1 w-full" v-if="properties.advanceFilter">
     <div class="flex flex-col md:flex-row md:items-center gap-2">
         <!-- Select 1: Kolom -->
         <div class="relative">
@@ -114,6 +114,10 @@ export default {
         operators: {
             type: Array,
             default: []
+        },
+        properties: {
+            type: Object,
+            default: {}
         }
 
     },
