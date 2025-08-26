@@ -47,8 +47,21 @@ class DashboardController extends BaseController
                 'icon' => 'DollarSign'
             ]
         ];
+
+        $grids = [
+            'receive_duedate' => [
+                ['kode_transaksi' => 'ttt','contact_name' => 'test', 'tanggal_duedate' => '2025/08/26', 'syarat' => '2/15 N30']
+            ],
+            'sale_duedate' => [
+                ['kode_transaksi' => 'ttt','contact_name' => 'test', 'tanggal_duedate' => '2025/08/26', 'syarat' => '2/15 N30']
+            ],
+            'top_products' => [
+                ['nama_barang' => 'ttt','sales' => 'test', 'revenue' => '15.000.000']
+            ]
+        ];
         return Response::ok('Loaded', [
             'cards' => $cards,
+            'grids' => $grids
         ]);
     }
 }
