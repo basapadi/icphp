@@ -51,6 +51,7 @@ class BaseController extends Controller
         $rows = $rows->get();
         $total = $total->count();
         $this->_gridProperties['filterDateRange'] = $this->_gridProperties['filterDateRange']??false;
+        $this->_gridProperties['advanceFilter'] = $this->_gridProperties['advanceFilter']??true;
         $this->_gridProperties['multipleSelect'] = $this->_gridProperties['multipleSelect']??$this->_multipleSelectGrid;
 
         return Response::ok('Loaded', [
@@ -78,6 +79,7 @@ class BaseController extends Controller
 
     /**
      * Mengatur column response untuk grid
+     * @param array $columns Array Kolom dengan format Btx\Query\Transformer::quasarColumn
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      */
     protected function setColumns(array $columns)
@@ -87,6 +89,8 @@ class BaseController extends Controller
 
     /**
      * Mengatur Model untuk controller tertentu
+     * @param string $model class path Model
+     * @return \Illuminate\Database\Eloquent\Builder<\Btx\Query\Model> Query Builder
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      */
     protected function setModel(string $model)
@@ -118,6 +122,8 @@ class BaseController extends Controller
 
     /**
      * untuk mendecoding id yang sudah di encode secara default dari model
+     * @param string $encodeId ID yang sudah di encode
+     * @return string ID yang sudah di decode
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      */
     protected function decodeId(string $encodeId)
@@ -132,6 +138,7 @@ class BaseController extends Controller
 
     /**
      * untuk mengatur module controller
+     * @param string $module nama module
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      */
     protected function setModule(string $module)
@@ -141,7 +148,9 @@ class BaseController extends Controller
 
     /**
      * untuk mengecek hak akses ke action tertentu
-     * @param $asBoolean type return sebagai boolean?
+     * @param string $module nama module
+     * @param string $action nama action
+     * @param boolean $asBoolean type return sebagai boolean?
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      */
     protected function allowAccessModule(string $module, string $action, bool $asBoolean = false)
@@ -174,11 +183,25 @@ class BaseController extends Controller
         return $this->allowAccessModule($this->_module, $action, true) ? $action : '';
     }
 
+    /**
+     * untuk mengatur field form controller
+     * @param array $fields
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+     */
     protected function setForm(array $fields)
     {
         $this->_form = $fields;
     }
 
+    /**
+     * untuk mengatur property grid
+     * @param $properties - 
+     * Available attributes: 
+     *  - multipleSelect (boolean) default TRUE, 
+     *  - filterDateRange (booelan) default FALSE, 
+     *  - advanceFilter (boolean) default TRUE
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+     */
     protected function setGridProperties(array $properties){
         $this->_gridProperties = $properties;
     }

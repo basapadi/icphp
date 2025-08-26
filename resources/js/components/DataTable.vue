@@ -3,9 +3,8 @@
         <!-- Table Header -->
         <div class="px-1 py-1 border-b border-gray-200">
             <div class="flex justify-between">
-                <div class="">
-                    <FilterHeader :columns="columns" @load="load" :pagination="pagination" :operators="operators"
-                        :filter="filter" />
+                <div>
+                    <FilterHeader :columns="columns" @load="load" :pagination="pagination" :operators="operators" :filter="filter" :properties="properties"/>
                 </div>
                 <div class="">
                     <div class="flex flex-col md:flex-row md:items-center gap-3">
@@ -25,8 +24,7 @@
                 </div>
             </div>
         </div>
-
-        <div class="h-screen">
+        <div class="h-screen relative">
             <!-- Table -->
             <div class="overflow-x-auto max-h-3/4">
                 <table class="min-w-full border-collapse border border-gray-200">
@@ -165,6 +163,9 @@
                     </div>
                 </div>
             </div>
+            <div v-if="loading" class="absolute inset-0 flex pt-80 justify-center bg-white/70 z-10" >
+                <LoaderCircle class="w-14 h-14 animate-spin text-orange-500" />
+            </div>
         </div>
     </div>
     <FormDialog :open="showDialog" :title="title" :fields="form.fields" :data="form.data" @close="showDialog = false"
@@ -173,7 +174,7 @@
 
 <script>
 import * as operator from "./../constants/operator";
-import { Search } from "lucide-vue-next"
+import { Search,LoaderCircle } from "lucide-vue-next"
 import { mapGetters } from "vuex";
 import {
     TrashIcon,
@@ -213,6 +214,7 @@ export default {
         PaginationLast,
         PaginationNext,
         PaginationPrevious,
+        LoaderCircle
     },
     props: {
         title: {
@@ -250,6 +252,7 @@ export default {
                 value: '',
             },
             operators: operator.Operator,
+            loading: false
         };
     },
     watch: {
@@ -291,6 +294,7 @@ export default {
     },
     methods: {
         async load(reset) {
+            this.loading = true
             let params = { ...this.pagination };
             if (reset != undefined && reset == true) {
                 this.filter = {
@@ -330,7 +334,9 @@ export default {
                     this.columns = data.columns;
                     this.total = data.total;
                     this.properties = data.properties;
-                });
+                }).finally((f) => {
+                    this.loading = false
+                })
             this.allowCreate = this.menuRoles.find(
                 (role) => role.route === this.$route.path
             )?.create;
@@ -362,7 +368,7 @@ export default {
         },
         handleSubmit() { },
     },
-    beforeMount() {
+    mounted() {
         this.load();
     },
 };
