@@ -404,6 +404,20 @@ return [
             'label' => 'Aktif',
             'color' => 'green-800'
         ]
+    ],
+    'adjustment_types' => [
+        'lost' => [
+            'label' => 'Hilang',
+            'class' => 'red-800',
+        ],
+        'broke' => [
+            'label' => 'Rusak',
+            'class' => 'orange-600'
+        ],
+        'return' => [
+            'label' => 'Retur Masuk',
+            'class' =>  'blue-600'
+        ]
     ]
 
 ];
