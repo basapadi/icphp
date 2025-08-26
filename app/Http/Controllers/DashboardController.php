@@ -19,7 +19,7 @@ class DashboardController extends BaseController
         //TODO:: ganti value dibawah dengan real value
         $cards = [
             [
-                'title' => 'Total Pendapatan Bulan '.date('M'),
+                'title' => 'Total Penjualan Bulan '.date('M'),
                 'value' => 'Rp.157.002.000',
                 'change' => '+2.05%',
                 'trend' => 'up',

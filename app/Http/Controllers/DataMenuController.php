@@ -20,6 +20,9 @@ class DataMenuController extends BaseController
             ['value' => 'order', 'label'=> 'Order', 'align' => 'left'],
             ['value' => 'actions', 'label'=> 'Actions', 'align' => 'left','options' => [$this->allowAccess('edit'),$this->allowAccess('delete')]]
         ]);
+        $this->setGridProperties([
+            'advanceFilter' => false
+        ]);
         $this->setFilterColumnsLike(['label','route'],request('q')??'');
     }
 }
