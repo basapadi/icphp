@@ -37,6 +37,6 @@ class StockAdjustmentController extends BaseController
             'filterDateName' => 'created_at',
             'multipleSelect' => false
         ]);
-        $this->setFilterColumnsLike(['masters.nama,items.nama'],request('q')??'');
+        $this->setFilterColumnsLike(['masters.nama','items.nama'],request('q')??'');
     }
 }
