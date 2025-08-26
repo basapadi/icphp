@@ -11,6 +11,7 @@ import receive from './modules/receive'
 import sale from './modules/sale'
 import stock from './modules/stock'
 import dashboard from './modules/dashboard'
+import adjustment from './modules/adjustment'
 
 export default createStore({
   modules: {
@@ -25,6 +26,7 @@ export default createStore({
     receive,
     sale,
     stock,
-    dashboard
+    dashboard,
+    adjustment
   }
 })
