@@ -89,7 +89,7 @@ return [
             'icon'  => 'Settings',
             'label' => 'Pengaturan',
             'route' => '#',
-            'order' => 5,
+            'order' => 6,
             'module'=>'setting'
         ],
         [
@@ -251,7 +251,87 @@ return [
             'parent'=> 11,
             'module'=>'transaction.warehouse.adjustment'
         ],
-        //last_id:21
+        [
+            'id'    => 22,
+            'icon'  => 'ScrollText',
+            'label' => 'Laporan',
+            'route' => '#',
+            'order' => 5,
+            'module'=>'report'
+        ],
+        [
+            'id'    => 23,
+            'icon'  => '',
+            'label' => 'Kas',
+            'route' => '/report/cash',
+            'order' => 0,
+            'parent'=> 22,
+            'module'=>'report.cash'
+        ],
+        [
+            'id'    => 24,
+            'icon'  => '',
+            'label' => 'Pendapatan',
+            'route' => '/report/income',
+            'order' => 1,
+            'parent'=> 22,
+            'module'=>'report.income'
+        ],
+        [
+            'id'    => 25,
+            'icon'  => '',
+            'label' => 'Pengeluaran',
+            'route' => '/report/expense',
+            'order' => 2,
+            'parent'=> 22,
+            'module'=>'report.expense'
+        ],
+        [
+            'id'    => 26,
+            'icon'  => '',
+            'label' => 'Laba Rugi',
+            'route' => '/report/profitloss',
+            'order' => 3,
+            'parent'=> 22,
+            'module'=>'report.profitloss'
+        ],
+        [
+            'id'    => 27,
+            'icon'  => '',
+            'label' => 'Piutang',
+            'route' => '/report/receivables',
+            'order' => 4,
+            'parent'=> 22,
+            'module'=>'report.receivables'
+        ],
+        [
+            'id'    => 28,
+            'icon'  => '',
+            'label' => 'Hutang',
+            'route' => '/report/payables',
+            'order' => 5,
+            'parent'=> 22,
+            'module'=>'report.payables'
+        ],
+        [
+            'id'    => 29,
+            'icon'  => '',
+            'label' => 'Persediaan',
+            'route' => '/report/inventory',
+            'order' => 6,
+            'parent'=> 22,
+            'module'=>'report.inventory'
+        ],
+        [
+            'id'    => 30,
+            'icon'  => '',
+            'label' => 'Pengeluaran',
+            'route' => '/finance/expense',
+            'order' => 2,
+            'parent'=> 17,
+            'module'=>'finance.expense'
+        ],
+        //last_id:28
     ],
     'units' => [
         'pcs'      => [1, 'Piece', 1, 'pcs'],
