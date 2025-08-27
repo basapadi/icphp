@@ -14,6 +14,9 @@ import Received from "@/views/transaction/Received.vue"
 import Sale from "@/views/transaction/Sale.vue"
 import Stock from "@/views/transaction/warehouse/Stock.vue"
 import Adjustment from "@/views/transaction/warehouse/Adjustment.vue"
+import Payable from "@/views/finance/Payable.vue"
+import Receivable from "@/views/finance/Receivable.vue"
+import Expense from "@/views/finance/Expense.vue"
 
 const routes = [
   { path: "/login", name: "Login", component: Login },
@@ -30,7 +33,10 @@ const routes = [
   { path: "/transaction/receive", name: "Transaction.Receive", component: Received, meta: { requiresAuth: true } },
   { path: "/transaction/sale", name: "Transaction.Sale", component: Sale, meta: { requiresAuth: true } },
   { path: "/transaction/warehouse/stock", name: "Transaction.Warehouse.Stock", component: Stock, meta: { requiresAuth: true } },
-  { path: "/transaction/warehouse/adjustment", name: "Transaction.Warehouse.Adjustment", component: Adjustment, meta: { requiresAuth: true } }
+  { path: "/transaction/warehouse/adjustment", name: "Transaction.Warehouse.Adjustment", component: Adjustment, meta: { requiresAuth: true } },
+  { path: "/finance/payable", name: "Finance.Payable", component: Payable, meta: { requiresAuth: true } },
+  { path: "/finance/receivable", name: "Finance.Receivable", component: Receivable, meta: { requiresAuth: true } },
+  { path: "/finance/expense", name: "Finance.Expense", component: Expense, meta: { requiresAuth: true } }
 ]
 
 const router = createRouter({

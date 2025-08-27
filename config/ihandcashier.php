@@ -219,19 +219,19 @@ return [
             'id'    => 18,
             'icon'  => '',
             'label' => 'Hutang',
-            'route' => '/finance/debt',
+            'route' => '/finance/payable',
             'order' => 0,
             'parent'=> 17,
-            'module'=>'finance.debt'
+            'module'=>'finance.payable'
         ],
         [
             'id'    => 19,
             'icon'  => '',
             'label' => 'Piutang',
-            'route' => '/finance/credit',
+            'route' => '/finance/receivable',
             'order' => 1,
             'parent'=> 17,
-            'module'=>'finance.credit'
+            'module'=>'finance.receivable'
         ],
         [
             'id'    => 20,
@@ -299,19 +299,19 @@ return [
             'id'    => 27,
             'icon'  => '',
             'label' => 'Piutang',
-            'route' => '/report/receivables',
+            'route' => '/report/receivable',
             'order' => 4,
             'parent'=> 22,
-            'module'=>'report.receivables'
+            'module'=>'report.receivable'
         ],
         [
             'id'    => 28,
             'icon'  => '',
             'label' => 'Hutang',
-            'route' => '/report/payables',
+            'route' => '/report/payable',
             'order' => 5,
             'parent'=> 22,
-            'module'=>'report.payables'
+            'module'=>'report.payable'
         ],
         [
             'id'    => 29,
@@ -414,9 +414,13 @@ return [
             'label' => 'Rusak',
             'class' => 'orange-600'
         ],
-        'return' => [
-            'label' => 'Retur Masuk',
+        'return_in' => [
+            'label' => 'Retur Penjualan',
             'class' =>  'blue-600'
+        ],
+        'return_out' => [
+            'label' => 'Retur Pembelian',
+            'class' =>  'green-600'
         ]
     ]
 

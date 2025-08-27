@@ -10,6 +10,7 @@ class ItemStockAdjustment extends BaseModel
         'system_stock',
         'actual_stock',
         'adjustment_stock',
+        'final_stock',
         'adjustment_type',
         'unit_id',
         'catatan',
