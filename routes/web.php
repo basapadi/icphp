@@ -13,6 +13,9 @@ use App\Http\Controllers\{
     SaleItemController,
     StockController,
     DashboardController,
+    PayableController,
+    ReceivableController,
+    ExpenseController,
     StockAdjustmentController
 };
 use Illuminate\Support\Facades\Route;
@@ -76,5 +79,14 @@ Route::prefix('api')->group(function () {
     Route::controller(StockAdjustmentController::class)->middleware('auth:sanctum')->prefix('adjustment')->group(function () {
         Route::get('grid', 'grid');
         Route::get('form', 'form');
+    });
+    Route::controller(PayableController::class)->middleware('auth:sanctum')->prefix('payable')->group(function () {
+        Route::get('grid', 'grid');
+    });
+    Route::controller(ReceivableController::class)->middleware('auth:sanctum')->prefix('receivable')->group(function () {
+        Route::get('grid', 'grid');
+    });
+    Route::controller(ExpenseController::class)->middleware('auth:sanctum')->prefix('expense')->group(function () {
+        Route::get('grid', 'grid');
     });
 });

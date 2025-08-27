@@ -12,6 +12,9 @@ import sale from './modules/sale'
 import stock from './modules/stock'
 import dashboard from './modules/dashboard'
 import adjustment from './modules/adjustment'
+import payable from './modules/payable'
+import receivable from './modules/receivable'
+import expense from './modules/expense'
 
 export default createStore({
   modules: {
@@ -27,6 +30,9 @@ export default createStore({
     sale,
     stock,
     dashboard,
-    adjustment
+    adjustment,
+    payable,
+    receivable,
+    expense
   }
 })
