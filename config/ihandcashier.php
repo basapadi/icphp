@@ -414,9 +414,13 @@ return [
             'label' => 'Rusak',
             'class' => 'orange-600'
         ],
-        'return' => [
-            'label' => 'Retur Masuk',
+        'return_in' => [
+            'label' => 'Retur Penjualan',
             'class' =>  'blue-600'
+        ],
+        'return_out' => [
+            'label' => 'Retur Pembelian',
+            'class' =>  'green-600'
         ]
     ]
 

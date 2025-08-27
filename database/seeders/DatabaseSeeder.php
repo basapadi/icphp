@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(RoleMenuSeeder::class);
         // $this->call(UnitSeeder::class); //seeder satuan
         // $this->call(ContactSeeder::class); //seeder kontak
-        $this->call(ItemSeeder::class); //seeder barang
+        // $this->call(ItemSeeder::class); //seeder barang
         $this->call(ItemReceivedSeeder::class); //seeder penerimaan barang
         $this->call(ItemSaleSeeder::class); //seeder penjualan barang
         $this->call(ItemAdjustmentSeeder::class); //seeder penyesuaian jumlah barang

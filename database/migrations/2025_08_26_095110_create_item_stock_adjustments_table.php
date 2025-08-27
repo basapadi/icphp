@@ -17,6 +17,7 @@ return new class extends Migration
             $table->decimal('system_stock');
             $table->decimal('actual_stock');
             $table->decimal('adjustment_stock');
+            $table->decimal('final_stock');
             $table->string('adjustment_type',20);
             $table->string('unit_id')->index();
             $table->text('catatan')->nullable();
