@@ -68,10 +68,11 @@
                                     <template v-if="column.name == 'actions'">
                                         <button @click.stop="toggleDropdown(index)" class="px-2 py-1 rounded hover:bg-gray-300" style="text-align:center;"><EllipsisVertical class="h-4 w-4"/></button>
                                         <div v-if="openDropdown === index" class="absolute right--2 mt-2 w-40 bg-white border rounded shadow-md">
-                                            <a v-if="column.options.includes('detail')" href="#" @click.stop="viewData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><EyeIcon class="h-4 text-green-700 px-2" />Detail</a>
-                                            <a v-if="column.options.includes('edit')" href="#" @click.stop="editData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><PencilSquareIcon class="h-4 text-orange-500 px-2" />Ubah</a>
+                                            <a v-if="column.options.includes('detail')" href="#" @click.stop="viewData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><SquareChartGantt class="w-8 text-green-700 px-2" />Detail</a>
+                                            <a v-if="column.options.includes('edit')" href="#" @click.stop="editData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><SquarePen class="w-8 text-orange-500 px-2" />Ubah</a>
+                                            <a v-if="column.options.includes('return')" href="#" @click.stop="returData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><Blocks class="w-8 text-blue-500 px-2" />Retur</a>
                                             <div class="border-t border-gray-200 my-1"></div>
-                                            <a v-if="column.options.includes('delete')" href="#" @click.stop="hapusData(data.id)" class="flex items-center px-4 py-1 hover:bg-gray-100"><TrashIcon class="h-4 text-red-500 px-2" />Hapus</a>
+                                            <a v-if="column.options.includes('delete')" href="#" @click.stop="hapusData(data.id)" class="flex items-center px-4 py-1 hover:bg-gray-100"><SquareX class="w-8 text-red-500 px-2" />Hapus</a>
                                         </div>
                                     </template>
                                     <template v-else-if="column.type === 'badge'">
@@ -150,13 +151,8 @@
 
 <script>
 import * as operator from "./../constants/operator";
-import { Search,LoaderCircle, EllipsisVertical } from "lucide-vue-next"
+import { Search,LoaderCircle, EllipsisVertical,Blocks,SquareChartGantt,SquarePen,SquareX } from "lucide-vue-next"
 import { mapGetters } from "vuex";
-import {
-    TrashIcon,
-    PencilSquareIcon,
-    EyeIcon
-} from "@heroicons/vue/24/outline";
 import { Badge } from "@/components/ui";
 import FormDialog from "@/components/FormDialog.vue";
 import FilterHeader from "@/components/FilterHeader.vue";
@@ -175,11 +171,8 @@ import {
 export default {
     components: {
         Search,
-        TrashIcon,
-        PencilSquareIcon,
         Badge,
         FormDialog,
-        EyeIcon,
         FilterHeader,
         Button,
         Pagination,
@@ -191,7 +184,11 @@ export default {
         PaginationNext,
         PaginationPrevious,
         LoaderCircle,
-        EllipsisVertical
+        EllipsisVertical,
+        Blocks,
+        SquareChartGantt,
+        SquarePen,
+        SquareX
     },
     props: {
         title: {
@@ -343,6 +340,9 @@ export default {
         },
         viewData(data) {
             alert("Action view detail data:");
+        },
+        returData(data) {
+            alert("Action retur data:");
         },
         handleSubmit() { },
         toggleDropdown(index) {
