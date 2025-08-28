@@ -12,7 +12,7 @@ class SaleItemController extends BaseController
     public function __construct(){
         $this->setModel(ItemSale::class)
             ->select('trx_sale_items.*')
-            ->with(['details','contact','payments'])
+            ->with(['details','details.item','details.unit','contact','payments','payments.createdBy','createdBy'])
             ->leftJoin('contacts', 'contacts.id', '=', 'trx_sale_items.contact_id')->orderBy('tanggal_jual','desc');
         $this->setModule('transaction.sale');
         $this->setColumns([
@@ -44,5 +44,47 @@ class SaleItemController extends BaseController
             'filterDateName' => 'tanggal_jual'
         ]);
         $this->setFilterColumnsLike(['contacts.nama','kode_transaksi'],request('q')??'');
+        $this->setDetailSchema([
+            'main' => [
+                'type'=> 'object',
+                'title' => 'Detail Penjualan Barang',
+                'fields' => [
+                    'created_at_formatted' => ['label' => 'Tanggal'],
+                    'kode_transaksi' => ['label' => 'Kode Transaksi'],
+                    'status_pembayaran_label' => ['label' => 'Status Pembayaran'],
+                    'tipe_pembayaran_label' => ['label' => 'Tipe Pembayaran'],
+                    'metode_pembayaran_label' => ['label' => 'Metode Pembayaran'],
+                    'syarat_pembayaran' => ['label' => 'Syarat Pembayaran'],
+                    'tanggal_jatuh_tempo' => ['label' => 'Tanggal Jatuh Tempo'],
+                    'total_harga_formatted' => ['label' => 'Total Harga (Rupiah)','class' => 'font-mono font-weight-bold'],
+                    'created_by__name' => ['label' => 'Dibuat Oleh'],
+                    'updated_by__name' => ['label' => 'Diubah Oleh'],
+                    'catatan' => ['label' => 'Catatan']
+                ]
+            ],
+            'details' => [
+                'type' => 'array',
+                'title' => 'Detail Penjualan',
+                'fields' => [
+                    'item__nama' => ['label' => 'Nama Barang'],
+                    'item__kode_barang' => ['label' => 'SKU'],
+                    'jumlah' => ['label' => 'Jumlah'],
+                    'harga_formatted' => ['label' => 'Harga (Rupiah)','class' => 'font-mono text-right'],
+                    'unit__nama' => ['label' => 'Satuan'],
+                    'total_harga_formatted' => ['label' => 'Sub Total (Rupiah)', 'class' => 'font-mono text-right']
+                ]
+                ],
+            'payments' => [
+                'type' => 'array',
+                'title' => 'Riwayat Pembayaran',
+                'fields' => [
+                    'tanggal_pembayaran_formatted' => ['label' => 'Tanggal'],
+                    'jumlah_formatted' => ['label' => 'Jumlah (Rupiah)','class' => 'font-mono text-right'],
+                    'metode_pembayaran_label' => ['label' => 'Metode Pembayaran'],
+                    'dijual_oleh' => ['label' => 'Dijual Oleh'],
+                    'created_by__name' => ['label' => 'Dibuat Oleh']
+                ]
+            ]
+        ]);
     }
 }

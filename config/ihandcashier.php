@@ -4,7 +4,7 @@ return [
     'payment_types' => [
         'cash'          => [
             'label' => 'Lunas',
-            'class' => 'green-800'
+            'class' => 'green-700'
         ],
         'credit'        => [
             'label' => 'Cicilan',
@@ -19,7 +19,7 @@ return [
         'receive' => [
             'cash_payment'  => [
                 'label' => 'Tunai',
-                'class' => 'green-800',
+                'class' => 'green-700',
             ],
             'bank_transfer' => [
                 'label' => 'Transfer Bank',
@@ -29,7 +29,7 @@ return [
         'sale' => [
             'cash_payment'  => [
                 'label' => 'Tunai',
-                'class' => 'green-800',
+                'class' => 'green-700',
             ],
             'bank_transfer' => [
                 'label' => 'Transfer Bank',
@@ -52,7 +52,7 @@ return [
         ],
         'paid'              => [
             'label' => 'Lunas',
-            'class' => 'green-800'
+            'class' => 'green-700'
         ],
         'overdue'           => [
             'label'  => 'Jatuh Tempo',
@@ -408,11 +408,11 @@ return [
     'adjustment_types' => [
         'lost' => [
             'label' => 'Hilang',
-            'class' => 'red-800',
+            'class' => 'black-800',
         ],
         'broke' => [
             'label' => 'Rusak',
-            'class' => 'orange-600'
+            'class' => 'red-600'
         ],
         'return_in' => [
             'label' => 'Retur Penjualan',
@@ -420,7 +420,7 @@ return [
         ],
         'return_out' => [
             'label' => 'Retur Pembelian',
-            'class' =>  'green-600'
+            'class' =>  'green-800'
         ]
     ]
 
