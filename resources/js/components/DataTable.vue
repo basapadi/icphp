@@ -68,7 +68,7 @@
                                     <template v-if="column.name == 'actions'">
                                         <button @click.stop="toggleDropdown(index)" class="px-2 py-1 rounded hover:bg-gray-300" style="text-align:center;"><EllipsisVertical class="h-4 w-4"/></button>
                                         <div v-if="openDropdown === index" class="absolute right--2 mt-2 w-40 bg-white border rounded shadow-md">
-                                            <a v-if="column.options.includes('detail')" href="#" @click.stop="viewData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><SquareChartGantt class="w-8 text-green-700 px-2" />Detail</a>
+                                            <a v-if="column.options.includes('detail')" href="#" @click="viewData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><SquareChartGantt class="w-8 text-green-700 px-2" />Detail</a>
                                             <a v-if="column.options.includes('edit')" href="#" @click.stop="editData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><SquarePen class="w-8 text-orange-500 px-2" />Ubah</a>
                                             <a v-if="column.options.includes('return')" href="#" @click.stop="returData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><Blocks class="w-8 text-blue-500 px-2" />Retur</a>
                                             <div class="border-t border-gray-200 my-1"></div>
@@ -145,9 +145,9 @@
             </div>
         </div>
     </div>
-    <FormDialog :open="showDialog" :title="title" :fields="form.fields" :data="form.data" @close="showDialog = false"
-        @submit="handleSubmit" />
-</template>
+    <FormDialog :open="showDialog" :title="title" :fields="form.fields" :data="form.data" @close="showDialog = false" @submit="handleSubmit" />
+    <DetailDialog :title="title" :open="showDetail" :data="selected" :schema="detail_schema" @close="showDetail=false"/>
+</template> 
 
 <script>
 import * as operator from "./../constants/operator";
@@ -157,6 +157,7 @@ import { Badge } from "@/components/ui";
 import FormDialog from "@/components/FormDialog.vue";
 import FilterHeader from "@/components/FilterHeader.vue";
 import Button from "@/components/ui/button/Button.vue";
+import DetailDialog from "@/components/DetailDialog.vue";
 import {
     Pagination,
     PaginationContent,
@@ -175,6 +176,7 @@ export default {
         FormDialog,
         FilterHeader,
         Button,
+        DetailDialog,
         Pagination,
         PaginationContent,
         PaginationEllipsis,
@@ -214,6 +216,7 @@ export default {
             form: [],
             columns: [],
             properties: {},
+            detail_schema: [],
             allowCreate: false,
             showDialog: false,
             pagination: {
@@ -227,7 +230,9 @@ export default {
             },
             operators: operator.Operator,
             loading: false,
-            openDropdown: false
+            openDropdown: false,
+            showDetail: false,
+            selected: {}
         };
     },
     watch: {
@@ -309,6 +314,7 @@ export default {
                     this.columns = data.columns;
                     this.total = data.total;
                     this.properties = data.properties;
+                    this.detail_schema = data.detail_schemes;
                 }).finally((f) => {
                     this.loading = false
                 })
@@ -339,7 +345,8 @@ export default {
             alert("Action Hapus disini:", userId);
         },
         viewData(data) {
-            alert("Action view detail data:");
+            this.selected = data
+            this.showDetail = true
         },
         returData(data) {
             alert("Action retur data:");

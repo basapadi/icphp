@@ -27,6 +27,7 @@ class BaseController extends Controller
     private $_module = '';
     private ?array $_form = [];
     private $_gridProperties = [];
+    private $_detailSchema = [];
 
     public function grid(Request $request)
     {
@@ -58,7 +59,8 @@ class BaseController extends Controller
             'rows' => $rows->toArray(),
             'total' => $total,
             'columns' => $this->_columns,
-            'properties' => $this->_gridProperties
+            'properties' => $this->_gridProperties,
+            'detail_schemes' => $this->_detailSchema
         ]);
     }
 
@@ -191,6 +193,15 @@ class BaseController extends Controller
     protected function setForm(array $fields)
     {
         $this->_form = $fields;
+    }
+
+    /**
+     * untuk mengatur schema view detail
+     * @param array $schema
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+     */
+    protected function setDetailSchema(array $schema){
+        $this->_detailSchema = $schema;
     }
 
     /**

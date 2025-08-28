@@ -31,9 +31,7 @@ import {
 export default {
     name: "DetailDrawer",
     props: {
-        open: Boolean,
-        title: { type: String, default: "Detail" },
-        fields: { type: Array, default: () => [] },
+        open: Boolean, defaut: false,
         data: { type: Object, default: () => ({}) },
     },
     components: {
@@ -62,9 +60,7 @@ export default {
         },
     },
     beforeMount() {
-        this.fields.forEach((f) => {
-            this.form[f.name] = this.data[f.name] ?? "";
-        });
+        
     },
 };
 </script>

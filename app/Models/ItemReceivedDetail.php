@@ -22,4 +22,12 @@ class ItemReceivedDetail extends BaseModel
         return (double) $this->jumlah * (double) $this->harga;
     }
 
+    public function item(){
+       return $this->hasOne(Item::class, 'item_id', 'id');
+    }
+
+    public function unit(){
+       return $this->belongsTo(Master::class, 'unit_id', 'id');
+    }
+
 }
