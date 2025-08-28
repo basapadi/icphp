@@ -57,13 +57,16 @@ class DashboardController extends BaseController
 
         $grids = [
             'receive_duedate' => [ //listkan semua penerimaan barang yang type pembayarannya adalah tempo (Hutang) 2 minggu kedepan
-                ['kode_transaksi' => 'ttt','contact_name' => 'test', 'tanggal_duedate' => '2025/08/26', 'syarat' => '2/15 N30']
+                ['kode_transaksi' => 'Kode Transaksi','contact_name' => 'Nama Kontak', 'tanggal_duedate' => '2025/08/26', 'syarat' => '2/15 N30']
             ],
             'sale_duedate' => [ //listkan semua penjualan barang yang type pembayarannya adalah tempo (Hutang) 2 minggu kedepan
-                ['kode_transaksi' => 'ttt','contact_name' => 'test', 'tanggal_duedate' => '2025/08/26', 'syarat' => '2/15 N30']
+                ['kode_transaksi' => 'Kode Transaksi','contact_name' => 'Nama Kontak', 'tanggal_duedate' => '2025/08/26', 'syarat' => '2/15 N30']
             ],
-            'top_products' => [ //listkan 10 barang paling laku selama bulan ini
-                ['nama_barang' => 'ttt','sales' => 'test', 'revenue' => '15.000.000']
+            'top_products' => [ //listkan 10 barang paling laku selama bulan ini order by jumlah penjualan desc
+                ['nama_barang' => 'Nama Barang', 'revenue' => '15.000.000']
+            ],
+            'minimum_stocks' => [ //listkan 10 barang dengan stok dibawah minimum_stock (lihat di tabel item_stocks) order by jumlah stock asc
+                ['nama_barang' => 'Nama Barang', 'stock' => '7']
             ]
         ];
         return Response::ok('Loaded', [

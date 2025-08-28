@@ -12,7 +12,7 @@ class ItemController extends BaseController
         $this->setColumns([
             // ['value' => 'id', 'label'=> 'ID', 'align' => 'left', 'show' => false],
             ['value' => 'actions', 'label'=> 'Aksi', 'align' => 'left','options' => [$this->allowAccess('edit'),$this->allowAccess('delete')]],
-            ['value' => 'kode_barang', 'label'=> 'Kode Barang', 'align' => 'left'],
+            ['value' => 'kode_barang', 'label'=> 'SKU', 'align' => 'left'],
             ['value' => 'nama', 'label'=> 'Nama', 'align' => 'left'],
             // ['value' => 'gambar', 'label'=> 'Gambar', 'align' => 'left'],
             ['value' => 'kategori', 'label'=> 'Kategori', 'align' => 'left', 'option_filter' => true],

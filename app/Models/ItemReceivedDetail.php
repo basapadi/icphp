@@ -12,7 +12,9 @@ class ItemReceivedDetail extends BaseModel
         'item_id',
         'jumlah',
         'harga',
-        'unit_id'
+        'unit_id',
+        'keladuarsa',
+        'batch'
     ];
 
     public function getTotalHargaAttribute()
