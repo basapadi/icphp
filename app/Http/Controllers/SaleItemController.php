@@ -17,7 +17,11 @@ class SaleItemController extends BaseController
         $this->setModule('transaction.sale');
         $this->setColumns([
             // ['value' => 'id', 'label'=> 'ID', 'align' => 'left', 'show' => false],
-            ['value' => 'detail', 'label'=> 'Detil', 'align' => 'center','styles' => 'width:50px; item-align: center;'],
+            ['value' => 'actions', 'label'=> 'Aksi', 'align' => 'left','options' => [
+                'detail',
+                $this->allowAccess('edit'),
+                $this->allowAccess('delete')
+            ]], 
             ['value' => 'kode_transaksi', 'label'=> 'Kode Trx', 'align' => 'left','option_filter' => true],
             ['value' => 'contact__nama', 'label'=> 'Pelanggan', 'align' => 'left','option_filter' => true],
             ['value' => 'total_harga_formatted', 'label'=> 'Total Harga', 'align' => 'right', 'class' => 'font-mono font-bold'],
@@ -32,12 +36,7 @@ class SaleItemController extends BaseController
             ['value' => 'metode_pembayaran', 'label'=> 'Metode Bayar', 'type' => 'select','show' => false, 'option_filter' => true,'options' => ihandCashierConfigToOptions('payment_methods.sale')],
             ['value' => 'syarat_pembayaran', 'label'=> 'Syarat', 'align' => 'left','class' => 'font-mono text-red-500'],
             ['value' => 'tanggal_jatuh_tempo', 'label'=> 'Jatuh Tempo', 'align' => 'left'],
-            ['value' => 'catatan', 'label'=> 'Catatan', 'align' => 'left'],
-            ['value' => 'actions', 'label'=> 'Actions', 'align' => 'left','options' => [
-                $this->allowAccess('view'),
-                $this->allowAccess('edit'),
-                $this->allowAccess('delete')
-            ]]
+            ['value' => 'catatan', 'label'=> 'Catatan', 'align' => 'left']
         ]);
         $this->setGridProperties([
             'filterDateRange' => true,
