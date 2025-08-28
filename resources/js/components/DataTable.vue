@@ -56,7 +56,7 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <tr v-for="(data, i) in filterData" :key="data.id" class="hover:bg-gray-50 transition-colors">
+                        <tr v-for="(data,index) in filterData" :key="data.id" class="hover:bg-gray-50 transition-colors">
                             <template v-if="properties.multipleSelect">
                                 <td class="px-4 whitespace-nowrap border-2 border-gray-200" style="width: 10px">
                                     <input v-model="selectedData" :value="data.encode_id" type="checkbox"
@@ -64,38 +64,14 @@
                                 </td>
                             </template>
                             <template v-for="column in columns" :key="column.value">
-                                <td v-if="column.show"
-                                    :class="`px-4 py-1 whitespace-nowrap border-2 border-gray-200  text-${column.align}`">
-                                    <template v-if="column.name == 'detail'">
-                                        <div class="items-beetwen space-x-2" :style="`${column.style}`">
-                                            <button @click="viewData(data)" class="text-green-800 hover:text-blue-90"
-                                                style="cursor: pointer">
-                                                <EyeIcon class="h-5 text-green-800" />
-                                            </button>
-                                        </div>
-                                    </template>
+                                <td v-if="column.show" :class="`px-4 py-1 whitespace-nowrap border-2 border-gray-200 text-${column.align}`">
                                     <template v-if="column.name == 'actions'">
-                                        <div class="flex items-beetwen space-x-2">
-                                            <template v-if="
-                                                column.options.includes(
-                                                    'edit'
-                                                )
-                                            ">
-                                                <button @click="editData(data)"
-                                                    class="text-orange-600 hover:text-blue-90" style="cursor: pointer">
-                                                    <PencilSquareIcon class="h-5 text-orange-500" />
-                                                </button>
-                                            </template>
-                                            <template v-if="
-                                                column.options.includes(
-                                                    'delete'
-                                                )
-                                            ">
-                                                <button @click="hapusData(data.id)"
-                                                    class="text-red-600 hover:text-red-900" style="cursor: pointer">
-                                                    <TrashIcon class="h-5 text-red-500" />
-                                                </button>
-                                            </template>
+                                        <button @click.stop="toggleDropdown(index)" class="px-2 py-1 rounded hover:bg-gray-300" style="text-align:center;"><EllipsisVertical class="h-4 w-4"/></button>
+                                        <div v-if="openDropdown === index" class="absolute right--2 mt-2 w-40 bg-white border rounded shadow-md">
+                                            <a v-if="column.options.includes('detail')" href="#" @click.stop="viewData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><EyeIcon class="h-4 text-green-700 px-2" />Detail</a>
+                                            <a v-if="column.options.includes('edit')" href="#" @click.stop="editData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><PencilSquareIcon class="h-4 text-orange-500 px-2" />Ubah</a>
+                                            <div class="border-t border-gray-200 my-1"></div>
+                                            <a v-if="column.options.includes('delete')" href="#" @click.stop="hapusData(data.id)" class="flex items-center px-4 py-1 hover:bg-gray-100"><TrashIcon class="h-4 text-red-500 px-2" />Hapus</a>
                                         </div>
                                     </template>
                                     <template v-else-if="column.type === 'badge'">
@@ -174,12 +150,12 @@
 
 <script>
 import * as operator from "./../constants/operator";
-import { Search,LoaderCircle } from "lucide-vue-next"
+import { Search,LoaderCircle, EllipsisVertical } from "lucide-vue-next"
 import { mapGetters } from "vuex";
 import {
     TrashIcon,
     PencilSquareIcon,
-    EyeIcon,
+    EyeIcon
 } from "@heroicons/vue/24/outline";
 import { Badge } from "@/components/ui";
 import FormDialog from "@/components/FormDialog.vue";
@@ -214,7 +190,8 @@ export default {
         PaginationLast,
         PaginationNext,
         PaginationPrevious,
-        LoaderCircle
+        LoaderCircle,
+        EllipsisVertical
     },
     props: {
         title: {
@@ -252,7 +229,8 @@ export default {
                 value: '',
             },
             operators: operator.Operator,
-            loading: false
+            loading: false,
+            openDropdown: false
         };
     },
     watch: {
@@ -367,9 +345,20 @@ export default {
             alert("Action view detail data:");
         },
         handleSubmit() { },
+        toggleDropdown(index) {
+            this.openDropdown = this.openDropdown === index ? null : index
+        },
+        handleClickOutside(e) {
+            // cek apakah klik berada di dalam dropdown
+            if (!this.$el.contains(e.target)) this.openDropdown = null
+        }
     },
     mounted() {
         this.load();
+        document.addEventListener("click", this.handleClickOutside)
     },
+    beforeUnmount() {
+        document.removeEventListener("click", this.handleClickOutside)
+    }
 };
 </script>

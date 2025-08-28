@@ -17,7 +17,11 @@ class ReceivedItemController extends BaseController
         $this->setModule('transaction.receive');
         $this->setColumns([
             // ['value' => 'id', 'label'=> 'ID', 'align' => 'left', 'show' => false],
-            ['value' => 'detail', 'label'=> 'Detil', 'align' => 'center','styles' => 'width:50px; item-align: center;'],
+            ['value' => 'actions', 'label'=> 'Aksi', 'align' => 'left','options' => [
+                'detail',
+                $this->allowAccess('edit'),
+                $this->allowAccess('delete')
+            ]],
             ['value' => 'kode_transaksi', 'label'=> 'Kode Trx', 'align' => 'left','option_filter' => true],
             ['value' => 'contact__nama', 'label'=> 'Pemasok', 'align' => 'left','option_filter' => true],
             ['value' => 'total_harga_formatted', 'label'=> 'Total Harga', 'align' => 'right', 'class' => 'font-mono font-bold'],
@@ -34,11 +38,6 @@ class ReceivedItemController extends BaseController
             ['value' => 'syarat_pembayaran', 'label'=> 'Syarat', 'align' => 'left','class' => 'font-mono text-red-500'],
             ['value' => 'tanggal_jatuh_tempo', 'label'=> 'Jatuh Tempo', 'align' => 'left'],
             ['value' => 'catatan', 'label'=> 'Catatan', 'align' => 'left'],
-            ['value' => 'actions', 'label'=> 'Actions', 'align' => 'left','options' => [
-                $this->allowAccess('view'),
-                $this->allowAccess('edit'),
-                $this->allowAccess('delete')
-            ]]
         ]);
         $this->setGridProperties([
             'filterDateRange' => true,

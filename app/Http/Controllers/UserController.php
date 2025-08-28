@@ -13,6 +13,7 @@ class UserController extends BaseController
         $this->setModule('master.user');
         $this->setColumns([
             // ['value' => 'id', 'label'=> 'ID', 'align' => 'left', 'show' => false],
+            ['value' => 'actions', 'label'=> 'Aksi', 'align' => 'left','options' => [$this->allowAccess('edit'),$this->allowAccess('delete')]],
             ['value' => 'username', 'label'=> 'Username', 'align' => 'left','option_filter' => true],
             ['value' => 'email', 'label'=> 'Email', 'align' => 'left','option_filter' => true],
             ['value' => 'name', 'label'=> 'Fullname', 'align' => 'left','option_filter' => true],
@@ -21,8 +22,7 @@ class UserController extends BaseController
             ['value' => 'status', 'label'=> 'Status', 'align' => 'left', 'type' => 'select', 'show' => false, 'option_filter' => true,'options' => [
                 ['label' => 'Aktif', 'value' => '1'],
                 ['label' => 'Tidak Aktif', 'value' => '0']
-            ]],
-            ['value' => 'actions', 'label'=> 'Actions', 'align' => 'left','options' => [$this->allowAccess('edit'),$this->allowAccess('delete')]]
+            ]] 
         ]);
         $this->setFilterColumnsLike(['username','name'],request('q')??'');
     }

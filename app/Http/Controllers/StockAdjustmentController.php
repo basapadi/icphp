@@ -16,6 +16,10 @@ class StockAdjustmentController extends BaseController
             ->leftJoin('items', 'items.id', '=', 'item_stock_adjustments.item_id');
         $this->setModule('transaction.warehouse.adjustment');
         $this->setColumns([
+            ['value' => 'actions', 'label'=> 'Aksi', 'align' => 'left','options' => [
+                $this->allowAccess('edit'),
+                $this->allowAccess('delete')
+            ]],
             ['value' => 'item__nama', 'label'=> 'Barang', 'align' => 'left','option_filter' => true],
             ['value' => 'adjustment_type', 'label'=> 'Tipe Penyesuaian', 'align' => 'left','option_filter' => true,'show' => false,'type'=> 'select','options' => ihandCashierConfigToOptions('adjustment_types')],
             ['value' => 'adjustment_type_label', 'label'=> 'Tipe Penyesuaian', 'align' => 'left','option_filter' => false,'type'=> 'badge'],
@@ -26,12 +30,7 @@ class StockAdjustmentController extends BaseController
             ['value' => 'unit__nama', 'label'=> 'Satuan', 'align' => 'left','option_filter' => true],
             ['value' => 'catatan', 'label'=> 'Catatan', 'align' => 'left'],
             ['value' => 'created_at_formatted', 'label'=> 'Tanggal', 'align' => 'left','option_filter' => false, 'type' => 'date_range'],
-            ['value' => 'created_at', 'label'=> 'Tanggal', 'align' => 'left','option_filter' => true, 'show' => false,'type' => 'date_range'],
-            ['value' => 'actions', 'label'=> 'Actions', 'align' => 'left','options' => [
-                $this->allowAccess('view'),
-                $this->allowAccess('edit'),
-                $this->allowAccess('delete')
-            ]]
+            ['value' => 'created_at', 'label'=> 'Tanggal', 'align' => 'left','option_filter' => true, 'show' => false,'type' => 'date_range']
         ]);
         $this->setGridProperties([
             'filterDateRange' => true,

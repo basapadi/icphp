@@ -12,6 +12,7 @@ class UnitController extends BaseController
         $this->setModule('master.unit');
         $this->setColumns([
             // ['value' => 'id', 'label'=> 'ID', 'align' => 'left', 'show' => false],
+            ['value' => 'actions', 'label'=> 'aksi', 'align' => 'left','options' => [$this->allowAccess('edit'),$this->allowAccess('delete')]],
             ['value' => 'type', 'label'=> 'Tipe', 'align' => 'left','option_filter' => true, 'type' => 'select','options' => [
                 ['label' => 'Basic Unit', 'value' => 'BASIC_UNIT'],
                 ['label' => 'Unit', 'value' => 'UNIT']
@@ -22,8 +23,7 @@ class UnitController extends BaseController
             ['value' => 'status', 'label'=> 'Status', 'align' => 'left', 'type' => 'select', 'show' => false, 'option_filter' => true,'options' => [
                 ['label' => 'Aktif', 'value' => '1'],
                 ['label' => 'Tidak Aktif', 'value' => '0']
-            ]],
-            ['value' => 'actions', 'label'=> 'Actions', 'align' => 'left','options' => [$this->allowAccess('edit'),$this->allowAccess('delete')]]
+            ]]
         ]);
         $this->setFilterColumnsLike(['kode','nama'],request('q')??'');
         $this->setForm([

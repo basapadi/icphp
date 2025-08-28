@@ -11,6 +11,7 @@ class ItemController extends BaseController
         $this->setModule('master.item');
         $this->setColumns([
             // ['value' => 'id', 'label'=> 'ID', 'align' => 'left', 'show' => false],
+            ['value' => 'actions', 'label'=> 'Aksi', 'align' => 'left','options' => [$this->allowAccess('edit'),$this->allowAccess('delete')]],
             ['value' => 'kode_barang', 'label'=> 'Kode Barang', 'align' => 'left'],
             ['value' => 'nama', 'label'=> 'Nama', 'align' => 'left'],
             // ['value' => 'gambar', 'label'=> 'Gambar', 'align' => 'left'],
@@ -19,8 +20,7 @@ class ItemController extends BaseController
             ['value' => 'status', 'label'=> 'Status', 'align' => 'left', 'type' => 'select', 'show' => false, 'option_filter' => true,'options' => [
                 ['label' => 'Aktif', 'value' => '1'],
                 ['label' => 'Tidak Aktif', 'value' => '0']
-            ]],
-            ['value' => 'actions', 'label'=> 'Actions', 'align' => 'left','options' => [$this->allowAccess('edit'),$this->allowAccess('delete')]],
+            ]]
             
         ]);
         $this->setFilterColumnsLike(['kode_barang','nama'],request('q')??'');
