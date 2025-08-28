@@ -9,6 +9,7 @@ class Item extends BaseModel
 
     protected $fillable = [
         'kode_barang',
+        'barcode',
         'nama',
         'gambar',
         'kategori',

@@ -79,9 +79,12 @@ class BaseController extends Controller
 
     public function delete(Request $request, $id) {}
 
+
     /**
-     * Mengatur column response untuk grid
-     * @param array $columns Array Kolom dengan format Btx\Query\Transformer::quasarColumn
+     * Set the columns for the grid response.
+     *
+     * @param array $columns Columns in the format required by Btx\Query\Transformer::quasarColumn
+     * @return void
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      */
     protected function setColumns(array $columns)
@@ -89,10 +92,12 @@ class BaseController extends Controller
         $this->_columns = Transformer::quasarColumn($columns);
     }
 
+
     /**
-     * Mengatur Model untuk controller tertentu
-     * @param string $model class path Model
-     * @return \Illuminate\Database\Eloquent\Builder<\Btx\Query\Model> Query Builder
+     * Set the model for this controller and initialize its query builder.
+     *
+     * @param string $model Fully qualified class name of the model
+     * @return \Illuminate\Database\Eloquent\Builder<\Btx\Query\Model>
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      */
     protected function setModel(string $model)
@@ -102,10 +107,15 @@ class BaseController extends Controller
         return $this->_queryBuilder;
     }
 
+
     /**
-     * Mengatur query filter untuk grid diluar ketentuan dari request query Btx\Query\Model
+     * Set custom filter columns and parameter for LIKE queries in the grid.
+     *
+     * @param array $columns List of column names to apply LIKE filter
+     * @param string $param The filter value to use in LIKE queries
+     * @return void
+     * @see https://btx.basapadi.com/query/request-query
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
-     * @description lihat detail request query di https://btx.basapadi.com/query/request-query
      */
     protected function setFilterColumnsLike(array $columns, string $param)
     {
@@ -113,8 +123,12 @@ class BaseController extends Controller
         $this->_filterParamLike = $param;
     }
 
+
     /**
-     * Mengatur view mutipleselect di grid
+     * Enable or disable multiple select in the grid view.
+     *
+     * @param bool $value
+     * @return void
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      */
     protected function setMultipleSelectGrid(bool $value)
@@ -122,10 +136,12 @@ class BaseController extends Controller
         $this->_multipleSelectGrid = $value;
     }
 
+
     /**
-     * untuk mendecoding id yang sudah di encode secara default dari model
-     * @param string $encodeId ID yang sudah di encode
-     * @return string ID yang sudah di decode
+     * Decode an encoded ID using Hashids.
+     *
+     * @param string $encodeId Encoded ID string
+     * @return mixed Decoded ID or null on failure
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      */
     protected function decodeId(string $encodeId)
@@ -133,14 +149,17 @@ class BaseController extends Controller
         try {
             $decrypted = Hashids::decode($encodeId);
         } catch (Exception $e) {
-            $decrypted = null; // atau return default value
+            $decrypted = null;
         }
         return $decrypted;
     }
 
+
     /**
-     * untuk mengatur module controller
-     * @param string $module nama module
+     * Set the module name for this controller.
+     *
+     * @param string $module Module name
+     * @return void
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      */
     protected function setModule(string $module)
@@ -148,11 +167,14 @@ class BaseController extends Controller
         $this->_module = $module;
     }
 
+
     /**
-     * untuk mengecek hak akses ke action tertentu
-     * @param string $module nama module
-     * @param string $action nama action
-     * @param boolean $asBoolean type return sebagai boolean?
+     * Check access permission for a specific module action.
+     *
+     * @param string $module Module name
+     * @param string $action Action name (e.g., view, create, update)
+     * @param bool $asBoolean If true, return boolean; otherwise abort with 401 on failure
+     * @return bool|null
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      */
     protected function allowAccessModule(string $module, string $action, bool $asBoolean = false)
@@ -175,9 +197,12 @@ class BaseController extends Controller
         ], 401)) : false;
     }
 
+
     /**
-     * untuk mengecek hak akses ke action tertentu, apabila true maka return action namenya jika tidak return string kosong
-     * @param $action actions antara lain: view,create,edit,update,download
+     * Check access for a given action and return the action name if allowed, or an empty string if not.
+     *
+     * @param string $action Action name (e.g., view, create, edit, update, download)
+     * @return string
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      */
     protected function allowAccess(string $action)
@@ -185,9 +210,12 @@ class BaseController extends Controller
         return $this->allowAccessModule($this->_module, $action, true) ? $action : '';
     }
 
+
     /**
-     * untuk mengatur field form controller
+     * Set the form fields for the controller.
+     *
      * @param array $fields
+     * @return void
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      */
     protected function setForm(array $fields)
@@ -195,25 +223,34 @@ class BaseController extends Controller
         $this->_form = $fields;
     }
 
+
     /**
-     * untuk mengatur schema view detail
+     * Set the detail schema for the view.
+     *
      * @param array $schema
+     * @return void
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      */
-    protected function setDetailSchema(array $schema){
+    protected function setDetailSchema(array $schema)
+    {
         $this->_detailSchema = $schema;
     }
 
+
     /**
-     * untuk mengatur property grid
-     * @param $properties - 
-     * Available attributes: 
-     *  - multipleSelect (boolean) default TRUE, 
-     *  - filterDateRange (booelan) default FALSE, 
-     *  - advanceFilter (boolean) default TRUE
+     * Set grid properties for the controller.
+     *
+     * Available attributes in $properties:
+     *  - multipleSelect (bool, default: true)
+     *  - filterDateRange (bool, default: false)
+     *  - advanceFilter (bool, default: true)
+     *
+     * @param array $properties
+     * @return void
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      */
-    protected function setGridProperties(array $properties){
+    protected function setGridProperties(array $properties)
+    {
         $this->_gridProperties = $properties;
     }
 }
