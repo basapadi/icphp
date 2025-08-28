@@ -22,6 +22,7 @@ class ItemSeeder extends Seeder
             array_push($preInsert,[
                 'id' => $item['id'],
                 'kode_barang' => $item['kode_barang'],
+                'barcode' => $item['barcode'],
                 'nama' => $item['nama'],
                 'gambar' => fake()->imageUrl(640, 480, 'products', true, 'Barang'),
                 'kategori' => $item['kategori'],
