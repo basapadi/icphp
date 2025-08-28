@@ -19,6 +19,7 @@ class ReceivedItemController extends BaseController
             // ['value' => 'id', 'label'=> 'ID', 'align' => 'left', 'show' => false],
             ['value' => 'actions', 'label'=> 'Aksi', 'align' => 'left','options' => [
                 'detail',
+                'return',
                 $this->allowAccess('edit'),
                 $this->allowAccess('delete')
             ]],
