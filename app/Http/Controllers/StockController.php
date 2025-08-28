@@ -17,7 +17,8 @@ class StockController extends BaseController
         $this->setColumns([
             ['value' => 'item__nama', 'label'=> 'Nama Barang', 'align' => 'left','option_filter' => true],
             ['value' => 'unit__nama', 'label'=> 'Satuan', 'align' => 'left','option_filter' => true],
-            ['value' => 'jumlah', 'label'=> 'Jumlah', 'align' => 'right','styles' => 'width:50px','class' => 'font-mono font-bold'],
+            ['value' => 'jumlah', 'label'=> 'Jumlah', 'align' => 'right','styles' => 'width:50px','class' => 'font-mono font-bold','option_filter' => true],
+            ['value' => 'minimum_stock', 'label'=> 'Stok Minimal', 'align' => 'right','styles' => 'width:50px','class' => 'font-mono font-bold','option_filter' => true],
         ]);
         $this->setGridProperties([
             'filterDateRange' => true,
