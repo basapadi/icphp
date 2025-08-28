@@ -6,7 +6,7 @@
       class="bg-white border border-gray-200 rounded-lg shadow-sm"
     >
       <div class="flex flex-row items-center justify-between space-y-0 pb-2 p-4">
-        <h3 class="text-sm font-medium text-gray-600">{{ stat.title }}</h3>
+        <h3 class="text-sm font-semibold text-gray-500">{{ stat.title }}</h3>
         <component :is="stat.icon" class="h-4 w-4 text-gray-400" />
       </div>
       <div class="px-4 pb-4">
