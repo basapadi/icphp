@@ -64,10 +64,10 @@
                                 </td>
                             </template>
                             <template v-for="column in columns" :key="column.value">
-                                <td v-if="column.show" :class="`px-4 py-1 whitespace-nowrap border-2 border-gray-200 relative text-${column.align}`">
+                                <td v-if="column.show" :class="`px-4 py-1 whitespace-nowrap border-2 border-gray-200 text-${column.align}`">
                                     <template v-if="column.name == 'actions'">
                                         <button @click.stop="toggleDropdown(index)" class="px-2 py-1 rounded hover:bg-gray-300" style="text-align:center;"><EllipsisVertical class="h-4 w-4"/></button>
-                                        <div v-if="openDropdown === index" class="absolute right--2 mt-2 w-40 bg-white border rounded shadow-md z-10">
+                                        <div v-if="openDropdown === index" class="absolute right--2 mt-2 w-40 bg-white border rounded shadow-md">
                                             <a v-if="column.options.includes('detail')" href="#" @click.stop="viewData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><EyeIcon class="h-4 text-green-700 px-2" />Detail</a>
                                             <a v-if="column.options.includes('edit')" href="#" @click.stop="editData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><PencilSquareIcon class="h-4 text-orange-500 px-2" />Ubah</a>
                                             <div class="border-t border-gray-200 my-1"></div>
