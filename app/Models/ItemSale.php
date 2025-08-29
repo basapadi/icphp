@@ -4,6 +4,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Carbon\Carbon;
+use Btx\Common\SpellNumber;
 class ItemSale extends BaseModel
 {
     use SoftDeletes, HasFactory;
@@ -18,7 +19,8 @@ class ItemSale extends BaseModel
         'color_status_pembayaran_label',
         'color_tipe_pembayaran_label',
         'color_metode_pembayaran_label',
-        'tanggal_jatuh_tempo'
+        'tanggal_jatuh_tempo',
+        'total_terbilang'
     ];
 
     protected $fillable = [
@@ -53,7 +55,7 @@ class ItemSale extends BaseModel
 
     public function getTanggalJualFormattedAttribute()
     {
-        return $this->tanggal_jual ? Carbon::parse($this->tanggal_jual)->locale('id')->translatedFormat('d M Y H:i') : null;
+        return $this->tanggal_jual ? Carbon::parse($this->tanggal_jual)->locale('id')->translatedFormat('l, d M Y H:i') : null;
     }
     public function getTanggalJatuhTempoAttribute(){
         $tgl = '';
@@ -76,6 +78,11 @@ class ItemSale extends BaseModel
         $paymentStatus = config('ihandcashier.payment_status');
         return $paymentStatus[$this->status_pembayaran]['class'];
         
+    }
+
+    public function getTotalTerbilangAttribute()
+    {
+        return strtoupper(SpellNumber::generate($this->total_harga));
     }
 
     public function getColorTipePembayaranLabelAttribute()

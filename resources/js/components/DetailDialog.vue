@@ -1,8 +1,8 @@
 <template>
     <!-- Overlay -->
     <div v-if="open" class="h-screen fixed inset-0 flex items-center justify-center bg-black/50 z-50" >
-        <Card class="w-full max-w-7xl max-h-[80vh] overflow-y-auto">
-            <CardContent>
+        <Card class="w-full max-w-7xl">
+            <CardContent class="max-h-[80vh] overflow-y-auto">
                 <div v-for="(sub, i) in schema" :key="i">
                     <template v-if="i == 'main' && sub.type == 'object'">
                         <div class="bg-white shadow-sm rounded-md py-2 px-2 mb-2">
@@ -26,14 +26,17 @@
                                 <table class="w-full border border-gray-200 rounded-md overflow-hidden">
                                     <thead class="bg-orange-100 text-gray-700">
                                         <tr>
-                                            <th v-for="(f,k) in sub.fields" class="px-4 py-2 text-left text-sm border-b border-gray-200" :key="k" :class="f?.class">{{ f?.label }}</th>
+                                            <th v-for="(f,k) in sub.fields" class="px-4 py-2 text-left text-sm border-b border-gray-200" :key="k" :class="f?.class" :style="f?.style">{{ f?.label }}</th>
                                             
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-200">
                                         <template v-if="data[i].length > 0">
                                             <tr v-for="(row, r) in data[i]" class="hover:bg-gray-50" :key="r">
-                                                <td class="px-4 py-2 text-gray-500 text-sm"  v-for="(col, c) in sub.fields" :key="c" :class="col?.class">{{ $helpers.getSubObjectValue(row,c) }}</td>
+                                                <td class="px-4 py-2 text-gray-500 text-sm"  v-for="(col, c) in sub.fields" :key="c" :class="col?.class">
+                                                    <span v-if="c == 'no'">{{ r+1 }}</span>
+                                                    <span v-else>{{ $helpers.getSubObjectValue(row,c) }}</span>
+                                                </td>
                                             </tr>
                                         </template>
                                     </tbody>
@@ -43,7 +46,7 @@
                     </template>
                 </div>
             </CardContent>
-            <div class="mt-2 flex justify-end gap-2 pr-8">
+            <div class="flex justify-end gap-2 pr-8">
                 <Button variant="outline" @click="close">Tutup</Button>
             </div>
         </Card>
