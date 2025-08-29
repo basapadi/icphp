@@ -68,7 +68,7 @@
                                     <template v-if="column.name == 'actions'">
                                         <button @click.stop="toggleDropdown(index)" class="px-2 py-1 rounded hover:bg-gray-300" style="text-align:center;"><EllipsisVertical class="h-4 w-4"/></button>
                                         <div v-if="openDropdown === index" class="absolute right--2 mt-2 w-40 bg-white border rounded shadow-md">
-                                            <a v-if="column.options.includes('detail')" href="#" @click="viewData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><SquareChartGantt class="w-8 text-green-700 px-2" />Detail</a>
+                                            <a v-if="column.options.includes('detail')" href="#" @click.stop="viewData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><SquareChartGantt class="w-8 text-green-700 px-2" />Detail</a>
                                             <a v-if="column.options.includes('edit')" href="#" @click.stop="editData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><SquarePen class="w-8 text-orange-500 px-2" />Ubah</a>
                                             <a v-if="column.options.includes('return')" href="#" @click.stop="returData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><Blocks class="w-8 text-blue-500 px-2" />Retur</a>
                                             <div class="border-t border-gray-200 my-1"></div>
@@ -119,7 +119,7 @@
                         dari <span class="font-medium">{{ total }}</span> hasil
                     </div>
                     <div>
-                        <Pagination v-slot="{ page }" :total="total" :items-per-page="pagination._limit"
+                        <Pagination :total="total" :items-per-page="pagination._limit"
                             :page="pagination._page" @update:page="(val) => (pagination._page = val)">
                             <PaginationContent v-slot="items">
                                 <PaginationPrevious />

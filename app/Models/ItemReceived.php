@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Carbon\Carbon;
+use Btx\Common\SpellNumber;
 class ItemReceived extends BaseModel
 {
     use SoftDeletes, HasFactory;
@@ -18,7 +19,8 @@ class ItemReceived extends BaseModel
         'color_status_pembayaran_label',
         'color_tipe_pembayaran_label',
         'color_metode_pembayaran_label',
-        'tanggal_jatuh_tempo'
+        'tanggal_jatuh_tempo',
+        'total_terbilang'
     ];
     protected $fillable = [
         'kode_transaksi',
@@ -52,7 +54,7 @@ class ItemReceived extends BaseModel
 
     public function getTanggalTerimaFormattedAttribute()
     {
-        return $this->tanggal_terima ? Carbon::parse($this->tanggal_terima)->locale('id')->translatedFormat('d M Y H:i') : null;
+        return $this->tanggal_terima ? Carbon::parse($this->tanggal_terima)->locale('id')->translatedFormat('l, d M Y H:i') : null;
     }
     public function getTanggalJatuhTempoAttribute(){
         $tgl = '';
@@ -68,6 +70,11 @@ class ItemReceived extends BaseModel
     public function getTotalHargaFormattedAttribute()
     {
         return 'Rp.'.number_format($this->total_harga, 0, ',', '.');
+    }
+
+    public function getTotalTerbilangAttribute()
+    {
+        return strtoupper(SpellNumber::generate($this->total_harga));
     }
 
     public function getColorStatusPembayaranLabelAttribute()
@@ -101,5 +108,13 @@ class ItemReceived extends BaseModel
 
     public function payments(){
         return $this->hasMany(ItemReceivedPayment::class,'trx_received_item_id','id');
+    }
+
+    public function createdBy(){
+       return $this->belongsTo(User::class, 'created_by', 'id');
+    }
+
+    public function updatedBy(){
+       return $this->belongsTo(User::class, 'updated_by', 'id');
     }
 }
