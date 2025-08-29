@@ -36,9 +36,6 @@
                                                 <td class="px-4 py-2 text-gray-500 text-sm"  v-for="(col, c) in sub.fields" :key="c" :class="col?.class">{{ $helpers.getSubObjectValue(row,c) }}</td>
                                             </tr>
                                         </template>
-                                        <template>
-                                            <tr colspan="10">Belum ada data</tr>
-                                        </template>
                                     </tbody>
                                 </table>
                             </div>
