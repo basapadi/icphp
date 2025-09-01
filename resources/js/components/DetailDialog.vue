@@ -63,7 +63,7 @@ export default {
         open: Boolean,
         title: { type: String, default: () => {''}},
         data: { type: Object, default: () => ({}) },
-        schema: {type: Array, defautl: () => ([])}
+        schema: {type: Object, defautl: () => ({})}
     },
     components: {
         Input,

@@ -15,14 +15,17 @@ use Vinkla\Hashids\Facades\Hashids;
 use App\Models\Menu;
 use App\Transformers\FormTransformer;
 use Spatie\Fractalistic\ArraySerializer;
+use App\Traits\{HasQueryBuilder,QueryHelper,DataBuilder};
 
 class BaseController extends Controller
 {
+    use HasQueryBuilder,QueryHelper,DataBuilder;
+
     private Model $_model;
     private ?Fractal $_columns;
     private ?array $_filterColumnsLike = [];
     private string $_filterParamLike = '';
-    private $_queryBuilder;
+    protected $_queryBuilder;
     private $_multipleSelectGrid = true;
     private $_module = '';
     private ?array $_form = [];
@@ -51,6 +54,8 @@ class BaseController extends Controller
         // dd($rows->toSql(),$this->_filterParamLike);
         $rows = $rows->get();
         $total = $total->count();
+
+        if(!empty($this->_mergeData))$this->mergeData($rows);
         $this->_gridProperties['filterDateRange'] = $this->_gridProperties['filterDateRange']??false;
         $this->_gridProperties['advanceFilter'] = $this->_gridProperties['advanceFilter']??true;
         $this->_gridProperties['multipleSelect'] = $this->_gridProperties['multipleSelect']??$this->_multipleSelectGrid;
@@ -72,13 +77,6 @@ class BaseController extends Controller
             'data' => [] //data yang dibawa saat pertama kali dibuka, contoh data options pada selecbox
         ]);
     }
-
-    public function create(Request $request) {}
-
-    public function update(Request $request, $id) {}
-
-    public function delete(Request $request, $id) {}
-
 
     /**
      * Set the columns for the grid response.
@@ -253,4 +251,10 @@ class BaseController extends Controller
     {
         $this->_gridProperties = $properties;
     }
+
+    public function create(Request $request) {}
+
+    public function update(Request $request, $id) {}
+
+    public function delete(Request $request, $id) {}
 }
