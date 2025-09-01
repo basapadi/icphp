@@ -20,7 +20,9 @@ class ItemReceived extends BaseModel
         'color_tipe_pembayaran_label',
         'color_metode_pembayaran_label',
         'tanggal_jatuh_tempo',
-        'total_terbilang'
+        'total_terbilang',
+        'sisa_bayar_formatted',
+        'terbayar_formatted'
     ];
     protected $fillable = [
         'kode_transaksi',
@@ -72,6 +74,16 @@ class ItemReceived extends BaseModel
         return 'Rp.'.number_format($this->total_harga, 0, ',', '.');
     }
 
+    public function getSisaBayarFormattedAttribute()
+    {
+        return 'Rp.'.number_format($this->sisa_bayar, 0, ',', '.');
+    }
+
+    public function getTerbayarFormattedAttribute()
+    {
+        return 'Rp.'.number_format($this->terbayar, 0, ',', '.');
+    }
+
     public function getTotalTerbilangAttribute()
     {
         return strtoupper(SpellNumber::generate($this->total_harga));
@@ -80,22 +92,22 @@ class ItemReceived extends BaseModel
     public function getColorStatusPembayaranLabelAttribute()
     {
         $paymentStatus = config('ihandcashier.payment_status');
-        return $paymentStatus[$this->status_pembayaran]['class'];
-        
+        if(isset($this->status_pembayaran)) return $paymentStatus[$this->status_pembayaran]['class'];
+        else return null;
     }
 
     public function getColorTipePembayaranLabelAttribute()
     {
         $paymentType = config('ihandcashier.payment_types');
-        return $paymentType[$this->tipe_pembayaran]['class'];
-        
+        if(isset($this->tipe_pembayaran)) return $paymentType[$this->tipe_pembayaran]['class'];
+        else return null;
     }
 
     public function getColorMetodePembayaranLabelAttribute()
     {
         $paymentMethod = config('ihandcashier.payment_methods')['receive'];
-        return $paymentMethod[$this->metode_pembayaran]['class'];
-        
+        if(isset($this->metode_pembayaran)) return $paymentMethod[$this->metode_pembayaran]['class'];
+        else return null;
     }
 
     public function contact(){
