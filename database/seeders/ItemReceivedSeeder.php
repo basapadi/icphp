@@ -79,7 +79,7 @@ class ItemReceivedSeeder extends Seeder
 
             if(in_array($r->tipe_pembayaran, ['tempo','cash']) && in_array($r->status_pembayaran,['partially_paid','paid'])){
                 $harga = $r->total_harga;
-                if($r->type_pembayaran == 'tempo') $harga*(30/100);
+                if($r->type_pembayaran == 'tempo') $harga += $harga*(30/100);
                 array_push($payments, [
                     'trx_received_item_id' => $r->id,
                     'jumlah' => $harga,
