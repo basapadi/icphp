@@ -14,13 +14,13 @@ class PayableController extends BaseController
 {
     public function __construct(){
         $this->setModule('finance.payable');
-        $exceptStatus = ['canceled','refunded','paid'];
+        $status = ['partially_paid','unpaid','overdue'];
         $mergeData = new MergeData();
         $mergeData->attribute = 'details';
         $mergeData->class = ItemReceived::class;
         $mergeData->key = 'contact_id';
         $mergeData->relations = [];
-        $mergeData->whereNotIn = new DataArray('status_pembayaran',$exceptStatus );
+        $mergeData->whereIn = new DataArray('status_pembayaran',$status );
         $this->setMergeData($mergeData);
 
         $query = $this->setModel(ItemReceived::class)
@@ -30,7 +30,7 @@ class PayableController extends BaseController
                 $this->raw('COALESCE(SUM(trx_received_payment_items.jumlah),0) as terbayar'),
                 $this->raw('SUM(trx_received_items.total_harga) - COALESCE(SUM(trx_received_payment_items.jumlah),0) as sisa_bayar')
             )
-            ->whereNotIn('status_pembayaran',$exceptStatus)
+            ->whereIn('status_pembayaran',$status)
             ->leftJoin('trx_received_payment_items', 'trx_received_payment_items.trx_received_item_id', '=', 'trx_received_items.id')
             ->havingRaw('SUM(trx_received_items.total_harga) - COALESCE(SUM(trx_received_payment_items.jumlah),0) > 0');
         $this->setQuery($query)->with(['contact'])->groupBy('contact_id');

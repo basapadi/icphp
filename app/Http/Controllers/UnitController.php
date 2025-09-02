@@ -8,7 +8,7 @@ use App\Models\Master;
 class UnitController extends BaseController
 {
     public function __construct(){
-        $this->setModel(Master::class)->whereIn('type',['BASIC_UNIT','UNIT']);
+        $this->setModel(Master::class)->whereIn('type',['UNIT']);
         $this->setModule('master.unit');
         $this->setColumns([
             // ['value' => 'id', 'label'=> 'ID', 'align' => 'left', 'show' => false],

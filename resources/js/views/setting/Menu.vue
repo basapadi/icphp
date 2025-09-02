@@ -3,7 +3,7 @@
     <div class="w-full max-h-1">
       <PageHeader title="Menu" description="Daftar Menu Aplikasi"/>
       <div class="p-2">
-        <DataTable title="Daftar Menu" store_grid="dataMenu/grid" store_form="dataMenu/form"/>
+        <DataTable title="Daftar Menu" module="dataMenu"/>
       </div>
     </div>
   </AdminLayout>

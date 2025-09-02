@@ -4,7 +4,7 @@
       <PageHeader title="Barang" description="Daftar Barang"/>
 
       <div class="p-2">
-        <DataTable title="Barang" store_grid="item/grid" store_form="item/form"/>
+        <DataTable title="Barang" module="item"/>
        
       </div>
     </div>

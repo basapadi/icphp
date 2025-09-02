@@ -4,7 +4,7 @@
       <PageHeader title="Penyesuaian Barang" description="Daftar Penyesuaian Barang"/>
 
       <div class="p-2">
-        <DataTable title="Penyesuaian Barang" store_grid="adjustment/grid" store_form="adjustment/form"/>
+        <DataTable title="Penyesuaian Barang" module="adjustment"/>
       </div>
     </div>
   </AdminLayout>

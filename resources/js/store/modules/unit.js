@@ -46,7 +46,7 @@ const actions = {
             throw err
         }
     },
-    async form({ commit, rootState }, payload) { 
+    async form({ commit, rootState }, payload) {
         try {
             const resp = await axios.get('/api/unit/form', {
                 params: payload,
@@ -55,6 +55,14 @@ const actions = {
                 }
             });
             commit('setForm', resp.data)
+            return resp
+        } catch (err) {
+            throw err
+        }
+    },
+    async delete({ commit, rootState }, id) {
+        try {
+            const resp = await axios.delete('/api/unit/'+id);
             return resp
         } catch (err) {
             throw err

@@ -72,7 +72,7 @@
                                             <a v-if="column.options.includes('edit')" href="#" @click.stop="editData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><SquarePen class="w-8 text-orange-500 px-2" />Ubah</a>
                                             <a v-if="column.options.includes('return')" href="#" @click.stop="returData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><Blocks class="w-8 text-blue-500 px-2" />Retur</a>
                                             <div class="border-t border-gray-200 my-1"></div>
-                                            <a v-if="column.options.includes('delete')" href="#" @click.stop="hapusData(data.id)" class="flex items-center px-4 py-1 hover:bg-gray-100"><SquareX class="w-8 text-red-500 px-2" />Hapus</a>
+                                            <a v-if="column.options.includes('delete')" href="#" @click.stop="hapusData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><SquareX class="w-8 text-red-500 px-2" />Hapus</a>
                                         </div>
                                     </template>
                                     <template v-else-if="column.type === 'badge'">
@@ -197,14 +197,10 @@ export default {
             type: String,
             default: "title",
         },
-        store_grid: {
+        module: {
             type: String,
-            default: "",
-        },
-        store_form: {
-            type: String,
-            default: "",
-        },
+            default: ""
+        }
     },
     data() {
         return {
@@ -307,7 +303,7 @@ export default {
             }
 
             await this.$store
-                .dispatch(this.store_grid, params)
+                .dispatch(this.module+'/grid', params)
                 .then(({ data }) => {
                     data = data.data;
                     this.rows = data.rows;
@@ -333,7 +329,7 @@ export default {
             }
         },
         async tambahData() {
-            await this.$store.dispatch(this.store_form).then(({ data }) => {
+            await this.$store.dispatch(this.module+'/form').then(({ data }) => {
                 this.form = data.data;
             });
             this.showDialog = true;
@@ -341,8 +337,32 @@ export default {
         editData(user) {
             alert("Action Edit disini:", user);
         },
-        hapusData(userId) {
-            alert("Action Hapus disini:", userId);
+        async hapusData(data) {
+            this.$confirm(
+                {
+                    message: `Apakah anda yakin menghapus data ini?`,
+                    button: {
+                        no: 'Tidak',
+                        yes: 'Ya'
+                    },
+                    callback: async confirm => {
+                        if (confirm) {
+                            this.loading = true
+                            await this.$store.dispatch(this.module+'/delete', data.encode_id)
+                                .then(({ data }) => {
+                                    this.load(); // Refresh the data table after deletion
+                                })
+                                .catch((resp) => {
+                                    alert(resp.response.data.message)
+                                })
+                                .finally((f) => {
+                                    this.openDropdown = null
+                                    this.loading = false
+                                })
+                        }
+                    }
+                }
+            )
         },
         viewData(data) {
             this.selected = data
