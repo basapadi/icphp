@@ -13,49 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.4'
-          extensions: mbstring, bcmath, pdo, pdo_mysql, fileinfo, tokenizer, ctype, xml, json, openssl, gd
-          tools: composer:v2
-
-      - name: Cache Composer
-        uses: actions/cache@v3
-        with:
-          path: vendor
-          key: composer-${{ hashFiles('**/composer.lock') }}
-
-      - name: Install Composer dependencies
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
-
-      - name: Setup Node.js 22
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      
-      - name: Cache Node.js modules
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: npm-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Build frontend
-        run: |
-          npm install
-          npm run build
-
-      - name: Deploy to Server Basapadi via SSH
-        uses: burnett01/rsync-deployments@6.0.0
-        with:
-          switches: -avzr --delete
-          path: ./ # semua isi project
-          remote_path: /var/www/html/icphp
-          remote_host: ${{ secrets.SERVER_HOST }}
-          remote_user: ${{ secrets.SERVER_USER }}
-          remote_key: ${{ secrets.SERVER_SSH_KEY }}
-      
-      - name: Run artisan commands
+      - name: Deploy & Build on Server
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -63,6 +21,19 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd /var/www/html/icphp
+
+            # Update kode
+            git reset --hard
+            git pull origin master
+
+            # Install PHP dependencies
+            composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+
+            # Install & build frontend
+            npm install
+            npm run build
+
+            # Jalankan migrasi & cache
             php artisan migrate --force
             php artisan config:cache
             php artisan route:cache
