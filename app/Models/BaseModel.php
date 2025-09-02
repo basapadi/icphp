@@ -3,6 +3,7 @@
 namespace App\Models;
 use Btx\Query\Model;
 use Vinkla\Hashids\Facades\Hashids;
+use Exception;
 
 class BaseModel extends Model
 {

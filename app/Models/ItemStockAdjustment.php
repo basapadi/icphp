@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Exception;
 class ItemStockAdjustment extends BaseModel
 {
     use HasFactory;
@@ -41,5 +42,35 @@ class ItemStockAdjustment extends BaseModel
 
     public function unit(){
         return $this->belongsTo(Master::class,'unit_id','id');
+    }
+
+    public function stock()
+    {
+        return $this->belongsTo(ItemStock::class, 'item_id', 'item_id');
+    }
+
+    protected static function booted()
+    {
+        static::deleting(function ($data) {
+            $type = config("ihandcashier.adjustment_types.{$data->adjustment_type}");
+            if (!$type || !isset($type['action_delete'])) throw new Exception('Tidak dapat menghapus penyesuaian ini.');
+
+            $stock = ItemStock::where('item_id', $data->item_id)->first();
+            if(!$stock) throw new Exception('Data ini tidak memiliki stok.');
+
+            $qty = $data->adjustment_stock;
+            switch ($type['action_delete']) {
+                case 'addition':
+                    // hapus adjustment → stok ditambah
+                    $stock->jumlah += $qty;
+                    break;
+                case 'reduction':
+                    // hapus adjustment → stok dikurangi
+                    $stock->jumlah -= $qty;
+                    break;
+            }
+
+            $stock->save();
+        });
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Carbon\Carbon;
 use Btx\Common\SpellNumber;
+use Exception;
 class ItemReceived extends BaseModel
 {
     use SoftDeletes, HasFactory;
@@ -128,5 +129,27 @@ class ItemReceived extends BaseModel
 
     public function updatedBy(){
        return $this->belongsTo(User::class, 'updated_by', 'id');
+    }
+
+    protected static function booted()
+    {
+        static::deleting(function ($data) {
+            if ($data->payments()->exists()) {
+                throw new Exception('Transaksi ini tidak dapat dihapus karena sudah melakukan pembayaran');
+            }
+
+            //memperbarui stok:: stok dikurangi
+            $details = $data->details()->get();
+            foreach ($details as $key => $d) {
+               $stock = ItemStock::where('item_id',$d->item_id)->first();
+               if(empty($stock)) continue;
+
+               $stock->jumlah -= (double) $d->jumlah;
+               $stock->save();
+            }
+
+            $data->details()->delete();
+            $data->payments()->delete();
+        });
     }
 }

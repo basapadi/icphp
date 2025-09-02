@@ -409,18 +409,26 @@ return [
         'lost' => [
             'label' => 'Hilang',
             'class' => 'black-800',
+            'action_delete' => 'addition',
+            'action_create' => 'reduction' 
         ],
         'broke' => [
             'label' => 'Rusak',
-            'class' => 'red-600'
+            'class' => 'red-600',
+            'action_delete' => 'addition',
+            'action_create' => 'reduction' 
         ],
         'return_in' => [
             'label' => 'Retur Penjualan',
-            'class' =>  'blue-600'
+            'class' =>  'blue-600',
+            'action_delete' => 'reduction',
+            'action_create' => 'addition'
         ],
         'return_out' => [
             'label' => 'Retur Pembelian',
-            'class' =>  'green-800'
+            'class' =>  'green-800',
+            'action_delete' => 'reduction',
+            'action_create' => 'addition'
         ]
     ]
 

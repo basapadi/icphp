@@ -264,9 +264,12 @@ class BaseController extends Controller
         if(empty($id)) return Response::badRequest('ID tidak ditemukan');
 
         try {
+            DB::beginTransaction();
             $this->_model->find($id)->delete();
+            DB::commit();
             return Response::ok('Data berhasil dihapus');
         }catch(Exception $e){
+            DB::rollBack();
             return Response::badRequest($e->getMessage());
         }
     }

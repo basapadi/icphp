@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-
+use Exception;
 class User extends BaseUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -58,5 +58,46 @@ class User extends BaseUser
     public function getStatusAttribute()
     {
         return $this->active;
+    }
+
+    public function itemReceiveds()
+    {
+        return $this->hasMany(ItemReceived::class,'created_by');
+    }
+
+    public function itemSales()
+    {
+        return $this->hasMany(ItemSale::class,'created_by');
+    }
+
+    public function itemReceivedPayments()
+    {
+        return $this->hasMany(ItemReceivedPayment::class,'created_by');
+    }
+
+    public function itemSalePayments()
+    {
+        return $this->hasMany(ItemSalePayment::class,'created_by');
+    }
+
+    protected static function booted()
+    {
+        static::deleting(function ($data) {
+            if ($data->itemReceiveds()->exists()) {
+                throw new Exception('Tidak dapat menghapus pengguna ini karena sudah pernah melakukan transaksi');
+            }
+
+            if ($data->itemReceivedPayments()->exists()) {
+                throw new Exception('Tidak dapat menghapus pengguna ini karena sudah pernah melakukan pembelian');
+            }
+
+            if ($data->itemSales()->exists()) {
+                throw new Exception('Tidak dapat menghapus pengguna ini karena sudah pernah melakukan transaksi');
+            }
+
+            if ($data->itemSalePayments()->exists()) {
+                throw new Exception('Tidak dapat menghapus pengguna ini karena sudah pernah melakukan penjualan');
+            }
+        });
     }
 }
