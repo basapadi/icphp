@@ -40,6 +40,7 @@ Route::prefix('api')->group(function () {
     Route::controller(UserController::class)->middleware('auth:sanctum')->prefix('user')->group(function () {
         Route::get('grid', 'grid');
         Route::get('form', 'form');
+        Route::delete('/{id}', 'delete');
     });
     Route::controller(UnitController::class)->middleware('auth:sanctum')->prefix('unit')->group(function () {
         Route::get('grid', 'grid');
@@ -49,6 +50,7 @@ Route::prefix('api')->group(function () {
     Route::controller(ItemController::class)->middleware('auth:sanctum')->prefix('item')->group(function () {
         Route::get('grid', 'grid');
         Route::get('form', 'form');
+        Route::delete('/{id}', 'delete');
     });
     Route::controller(DataMenuController::class)->middleware('auth:sanctum')->prefix('data-menu')->group(function () {
         Route::get('grid', 'grid');
@@ -61,14 +63,17 @@ Route::prefix('api')->group(function () {
     Route::controller(ContactController::class)->middleware('auth:sanctum')->prefix('contact')->group(function () {
         Route::get('grid', 'grid');
         Route::get('form', 'form');
+        Route::delete('/{id}', 'delete');
     });
     Route::controller(ReceivedItemController::class)->middleware('auth:sanctum')->prefix('receive')->group(function () {
         Route::get('grid', 'grid');
         Route::get('form', 'form');
+        Route::delete('/{id}', 'delete');
     });
     Route::controller(SaleItemController::class)->middleware('auth:sanctum')->prefix('sale')->group(function () {
         Route::get('grid', 'grid');
         Route::get('form', 'form');
+        Route::delete('/{id}', 'delete');
     });
     Route::controller(StockController::class)->middleware('auth:sanctum')->prefix('stock')->group(function () {
         Route::get('grid', 'grid');
@@ -80,6 +85,7 @@ Route::prefix('api')->group(function () {
     Route::controller(StockAdjustmentController::class)->middleware('auth:sanctum')->prefix('adjustment')->group(function () {
         Route::get('grid', 'grid');
         Route::get('form', 'form');
+        Route::delete('/{id}', 'delete');
     });
     Route::controller(PayableController::class)->middleware('auth:sanctum')->prefix('payable')->group(function () {
         Route::get('grid', 'grid');

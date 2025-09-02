@@ -16,7 +16,7 @@ class ItemSaleFactory extends Factory
      */
     public function definition(): array
     {
-        $pemasokIds = Contact::select('id')->where('type','pelanggan')->where('status',1)->get()->pluck('id');
+        $pemasokIds = Contact::select('id')->where('type','pelanggan')->take(10)->where('status',1)->get()->pluck('id');
         $statpem = [];
         $typem = [];
         $mepem = [];

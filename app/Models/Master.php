@@ -19,25 +19,30 @@ class Master extends BaseModel
         'attributes' => 'object',
     ];
 
-    public function received_item_details()
+    public function itemReceivedDetails()
     {
         return $this->hasMany(ItemReceivedDetail::class,'unit_id');
     }
 
-    public function sale_item_details()
+    public function itemSaleDetails()
     {
         return $this->hasMany(ItemSaleDetail::class,'unit_id');
     }
 
+    public function itemStocks()
+    {
+        return $this->hasMany(ItemStock::class,'unit_id');
+    }
+
     protected static function booted()
     {
-        static::deleting(function ($satuan) {
-            if ($satuan->received_item_details()->exists()) {
-                throw new Exception('Tidak dapat menghapus data ini karena sudah digunakan di penerimaan barang');
+        static::deleting(function ($data) {
+            if ($data->itemReceivedDetails()->exists()) {
+                throw new Exception('Tidak dapat menghapus data ini karena sudah digunakan di data penerimaan barang');
             }
 
-            if ($satuan->sale_item_details()->exists()) {
-                throw new Exception('Tidak dapat menghapus data ini karena sudah digunakan di penjualan barang');
+            if ($data->itemSaleDetails()->exists()) {
+                throw new Exception('Tidak dapat menghapus data ini karena sudah digunakan di data penjualan barang');
             }
         });
     }
