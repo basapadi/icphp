@@ -62,7 +62,7 @@ const actions = {
     },
     async delete({ commit, rootState }, id) {
         try {
-            const resp = await axios.delete('/api/unit/delete/'+id);
+            const resp = await axios.delete('/api/unit/'+id);
             return resp
         } catch (err) {
             throw err

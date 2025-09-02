@@ -348,10 +348,15 @@ export default {
                     callback: async confirm => {
                         if (confirm) {
                             this.loading = true
-                            await this.$store.dispatch(this.module+'/delete', data.encode_id).then(({ data }) => {
-                                    console.log(data)
+                            await this.$store.dispatch(this.module+'/delete', data.encode_id)
+                                .then(({ data }) => {
                                     this.load(); // Refresh the data table after deletion
-                                }).finally((f) => {
+                                })
+                                .catch((resp) => {
+                                    alert(resp.response.data.message)
+                                })
+                                .finally((f) => {
+                                    this.openDropdown = null
                                     this.loading = false
                                 })
                         }

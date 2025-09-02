@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Btx\Query\Model;
-use Btx\Http\Response;
-use Btx\Http\Libraries\ApiResponse;
 use Btx\File\Upload;
 use Btx\Query\Transformer;
 use Exception;
@@ -15,6 +13,7 @@ use Vinkla\Hashids\Facades\Hashids;
 use App\Models\Menu;
 use App\Transformers\FormTransformer;
 use Spatie\Fractalistic\ArraySerializer;
+use App\Http\Response;
 use App\Traits\{HasQueryBuilder,QueryHelper,DataBuilder};
 
 class BaseController extends Controller
@@ -149,7 +148,7 @@ class BaseController extends Controller
         } catch (Exception $e) {
             $decrypted = null;
         }
-        return $decrypted;
+        return $decrypted[0];
     }
 
 
@@ -254,7 +253,21 @@ class BaseController extends Controller
 
     public function create(Request $request) {}
 
-    public function update(Request $request, $id) {}
+    public function update(Request $request, $id) {
+        dd($request->all(),$id);
+    }
 
-    public function delete(Request $request, $id) {}
+    public function delete(Request $request, $id) {
+        $this->allowAccessModule($this->_module, 'delete');
+        if(empty($id)) return Response::badRequest('ID tidak boleh kosong');
+        $id = $this->decodeId($id);
+        if(empty($id)) return Response::badRequest('ID tidak ditemukan');
+
+        try {
+            $this->_model->find($id)->delete();
+            return Response::ok('Data berhasil dihapus');
+        }catch(Exception $e){
+            return Response::badRequest($e->getMessage());
+        }
+    }
 }

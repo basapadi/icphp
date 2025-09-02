@@ -44,6 +44,7 @@ Route::prefix('api')->group(function () {
     Route::controller(UnitController::class)->middleware('auth:sanctum')->prefix('unit')->group(function () {
         Route::get('grid', 'grid');
         Route::get('form', 'form');
+        Route::delete('/{id}', 'delete');
     });
     Route::controller(ItemController::class)->middleware('auth:sanctum')->prefix('item')->group(function () {
         Route::get('grid', 'grid');
