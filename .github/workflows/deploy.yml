@@ -27,7 +27,7 @@ jobs:
             git pull origin master
 
             # Install PHP dependencies
-            composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+            composer install --no-interaction --prefer-dist --optimize-autoloader
 
             # Install & build frontend
             npm install
