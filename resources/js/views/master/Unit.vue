@@ -3,7 +3,7 @@
     <div class="w-full max-h-1">
       <PageHeader title="Satuan Barang" description="Daftar Satuan Barang"/>
       <div class="p-2">
-         <DataTable title="Satuan Barang" store_grid="unit/grid" store_form="unit/form"/>
+         <DataTable title="Satuan Barang" module="unit"/>
       </div>
     </div>
   </AdminLayout>

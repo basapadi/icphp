@@ -3,7 +3,7 @@
     <div class="w-full max-h-1">
       <PageHeader title="Hak Akses" description="Pengaturan Hak Akses"/>
       <div class="p-2">
-        <RoleGrid title="Hak Akses" store_grid="role/grid" storeSingleUpdate="role/singleUpdate"/>
+        <RoleGrid title="Hak Akses" module="role"/>
       </div>
     </div>
   </AdminLayout>

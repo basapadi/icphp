@@ -4,7 +4,7 @@
       <PageHeader title="Stok Barang" description="Daftar Stok Barang"/>
 
       <div class="p-2">
-        <DataTable title="Stok Barang" store_grid="stock/grid" store_form="stock/form"/>
+        <DataTable title="Stok Barang" module="stock"/>
       </div>
     </div>
   </AdminLayout>

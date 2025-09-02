@@ -105,7 +105,7 @@ export default {
             type: String,
             default: 'title'
         },
-        store_grid: {
+        module: {
             type: String,
             default: ''
         },
@@ -155,7 +155,7 @@ export default {
     },
     methods: {
         async load() {
-            await this.$store.dispatch(this.store_grid, { q: this.searchQuery, _page: this.currentPage, _limit: this.itemsPerPage }).then(({ data }) => {
+            await this.$store.dispatch(this.module+'/grid', { q: this.searchQuery, _page: this.currentPage, _limit: this.itemsPerPage }).then(({ data }) => {
                 data = data.data
                 this.rows = data.rows
                 this.columns = data.columns
@@ -164,7 +164,7 @@ export default {
             })
         },
         async onCheck(event, data, column) {
-            await this.$store.dispatch(this.storeSingleUpdate, { value: event.target.checked, id: data.encode_id, column }).then(() => {
+            await this.$store.dispatch(this.module+'/singleUpdate', { value: event.target.checked, id: data.encode_id, column }).then(() => {
                 this.load()
             })
         },
