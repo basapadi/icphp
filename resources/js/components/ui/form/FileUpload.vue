@@ -19,7 +19,7 @@
       @change="onFileChange"
     />
 
-    <p v-if="hint" class="text-xs text-muted-foreground">{{ hint }}</p>
+    <p v-if="hint" class="text-xs text-muted-foreground">{{ hint }} ekstensi: {{extension}}</p>
   </div>
 </template>
 
@@ -38,7 +38,7 @@ export default {
     hint: { type: String, default: "" },
     class: { type: String, default: "" },
     required: { type: Boolean, default: false },
-    accept: { type: String, default: "" }, // contoh: "image/*" atau ".pdf"
+    extension: { type: String, default: "image/*" }, // contoh: "image/*" atau ".pdf"
     multiple: { type: Boolean, default: false }
   },
   computed: {

@@ -28,16 +28,17 @@ class ItemController extends BaseController
         // $this->setMultipleSelectGrid(false);
         $this->setForm([
             'main' => [
-                'label' => 'Form Satuan',
-                'fields' => [
+                'label' => 'Form Utama',
+                'forms' => [
                     ['name' => 'kode_barang','type' => 'text', 'label' =>'Kode Barang','required' => true,'hint' => 'Masukkan Kode Barang'],
+                    ['name' => 'barcode','type' => 'text', 'label' =>'Barcode','required' => false,'hint' => 'Masukkan Barcode'],
                     ['name' => 'nama','type' => 'text', 'label' =>'Nama Barang','required' => true,'hint' => 'Masukkan Nama Barang'],
-                    ['name' => 'gambar','type' => 'file', 'label' =>'Gambar','required' => false,'hint' => 'Gambar', 'multiple' => false, 'accept' => '.jpg,.png'],
+                    ['name' => 'gambar','type' => 'file', 'label' =>'Gambar','required' => false,'hint' => 'Gambar', 'multiple' => false, 'extension' => '.jpg,.png'],
                     ['name' => 'kategori','type' => 'select', 'label' =>'Kategori','required' => true,'hint' => 'Pilih Kategori', 'options' => [
-                        'elektronik' => 'ELektronik',
+                        'elektronik' => 'Elektronik',
                         'alat_rumah_tangga' => 'Alat Rumah Tangga'
                     ]],
-                    ['name' => 'status','type' => 'radio', 'label' => 'Status','hint' => 'Status Kontak', 'options' => [
+                    ['name' => 'status','type' => 'radio', 'label' => 'Status','required' => true,'hint' => 'Status Kontak', 'options' => [
                         '0' => 'Tidak Aktif',
                         '1' => 'Aktif'
                     ]]

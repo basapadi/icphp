@@ -16,7 +16,7 @@ class FormTransformer extends TransformerAbstract {
             'hint' => @$resp['hint']??'',
             'value' => @$resp['value']??'',
             'api'   => $resp['api']??null,
-            'accept' => @$resp['accept']??'',
+            'extension' => @$resp['extension']??'',
             'multiple' => @$resp['multiple']??false,
         ];
     }
