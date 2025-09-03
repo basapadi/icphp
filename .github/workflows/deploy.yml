@@ -26,7 +26,10 @@ jobs:
       - name: Setup Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '22.17.0'
+
+      - name: Check Node version
+        run: node -v
 
       - name: Build frontend di Runner
         run: |
@@ -45,5 +48,6 @@ jobs:
             composer install --no-dev --optimize-autoloader
             php artisan migrate --force
             php artisan config:cache
+            nvm use 22
             npm install
             npm run build
