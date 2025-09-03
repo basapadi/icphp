@@ -1,0 +1,74 @@
+[
+    {
+        "name": "actions",
+        "required": true,
+        "label": "Aksi",
+        "align": "left",
+        "field": "actions",
+        "sortable": true,
+        "type": "text",
+        "options": [
+            "detail"
+        ],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "contact__nama",
+        "required": true,
+        "label": "Pelanggan",
+        "align": "left",
+        "field": "contact__nama",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "total_harga_formatted",
+        "required": true,
+        "label": "Total Transaksi",
+        "align": "right",
+        "field": "total_harga_formatted",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "font-mono",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "terbayar_formatted",
+        "required": true,
+        "label": "Total Dibayar",
+        "align": "right",
+        "field": "terbayar_formatted",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "font-mono",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "sisa_bayar_formatted",
+        "required": true,
+        "label": "Sisa Bayar",
+        "align": "right",
+        "field": "sisa_bayar_formatted",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "font-mono",
+        "styles": "",
+        "option_filter": false
+    }
+]

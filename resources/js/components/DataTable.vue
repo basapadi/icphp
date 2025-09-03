@@ -73,6 +73,7 @@
                                             <a v-if="column.options.includes('return')" href="#" @click.stop="returData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><Blocks class="w-8 text-blue-500 px-2" />Retur</a>
                                             <div class="border-t border-gray-200 my-1"></div>
                                             <a v-if="column.options.includes('delete')" href="#" @click.stop="hapusData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><SquareX class="w-8 text-red-500 px-2" />Hapus</a>
+                                            <a v-if="column.options.includes('undo')" href="#" @click.stop="undoData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><Undo2 class="w-8 text-red-500 px-2" />Urungkan</a>
                                         </div>
                                     </template>
                                     <template v-else-if="column.type === 'badge'">
@@ -151,7 +152,7 @@
 
 <script>
 import * as operator from "./../constants/operator";
-import { Search,LoaderCircle, EllipsisVertical,Blocks,SquareChartGantt,SquarePen,SquareX } from "lucide-vue-next"
+import { Search,LoaderCircle, EllipsisVertical,Blocks,SquareChartGantt,SquarePen,SquareX,Undo2 } from "lucide-vue-next"
 import { mapGetters } from "vuex";
 import { Badge } from "@/components/ui";
 import FormDialog from "@/components/FormDialog.vue";
@@ -190,7 +191,8 @@ export default {
         Blocks,
         SquareChartGantt,
         SquarePen,
-        SquareX
+        SquareX,
+        Undo2
     },
     props: {
         title: {
@@ -370,6 +372,9 @@ export default {
         },
         returData(data) {
             alert("Action retur data:");
+        },
+        undoData(data){
+            alert("Action urungkan data:");
         },
         handleSubmit() { },
         toggleDropdown(index) {

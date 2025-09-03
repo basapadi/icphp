@@ -1,0 +1,112 @@
+[
+    {
+        "name": "actions",
+        "required": true,
+        "label": "Aksi",
+        "align": "left",
+        "field": "actions",
+        "sortable": true,
+        "type": "text",
+        "options": [
+            "edit",
+            "delete"
+        ],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "kode_barang",
+        "required": true,
+        "label": "SKU",
+        "align": "left",
+        "field": "kode_barang",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "nama",
+        "required": true,
+        "label": "Nama",
+        "align": "left",
+        "field": "nama",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "barcode",
+        "required": true,
+        "label": "Barcode",
+        "align": "left",
+        "field": "barcode",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "kategori",
+        "required": true,
+        "label": "Kategori",
+        "align": "left",
+        "field": "kategori",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "status_label",
+        "required": true,
+        "label": "Status",
+        "align": "left",
+        "field": "status_label",
+        "sortable": true,
+        "type": "badge",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "width:50px;",
+        "option_filter": false
+    },
+    {
+        "name": "status",
+        "required": true,
+        "label": "Status",
+        "align": "left",
+        "field": "status",
+        "sortable": true,
+        "type": "select",
+        "options": [
+            {
+                "label": "Aktif",
+                "value": "1"
+            },
+            {
+                "label": "Tidak Aktif",
+                "value": "0"
+            }
+        ],
+        "show": false,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    }
+]

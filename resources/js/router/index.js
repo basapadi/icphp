@@ -17,6 +17,7 @@ import Adjustment from "@/views/transaction/warehouse/Adjustment.vue"
 import Payable from "@/views/finance/Payable.vue"
 import Receivable from "@/views/finance/Receivable.vue"
 import Expense from "@/views/finance/Expense.vue"
+import Trash from "@/views/Trash.vue"
 
 const routes = [
   { path: "/login", name: "Login", component: Login },
@@ -36,7 +37,8 @@ const routes = [
   { path: "/transaction/warehouse/adjustment", name: "Transaction.Warehouse.Adjustment", component: Adjustment, meta: { requiresAuth: true } },
   { path: "/finance/payable", name: "Finance.Payable", component: Payable, meta: { requiresAuth: true } },
   { path: "/finance/receivable", name: "Finance.Receivable", component: Receivable, meta: { requiresAuth: true } },
-  { path: "/finance/expense", name: "Finance.Expense", component: Expense, meta: { requiresAuth: true } }
+  { path: "/finance/expense", name: "Finance.Expense", component: Expense, meta: { requiresAuth: true } },
+  { path: "/trash", name: "Trash", component: Trash, meta: { requiresAuth: true } }
 ]
 
 const router = createRouter({

@@ -1,0 +1,135 @@
+[
+    {
+        "name": "actions",
+        "required": true,
+        "label": "Aksi",
+        "align": "left",
+        "field": "actions",
+        "sortable": true,
+        "type": "text",
+        "options": [
+            "edit",
+            "delete"
+        ],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "type",
+        "required": true,
+        "label": "Tipe Kontak",
+        "align": "left",
+        "field": "type",
+        "sortable": true,
+        "type": "select",
+        "options": [
+            {
+                "label": "Pemasok",
+                "value": "pemasok"
+            },
+            {
+                "label": "Pelanggan",
+                "value": "pelanggan"
+            }
+        ],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "nama",
+        "required": true,
+        "label": "Nama",
+        "align": "left",
+        "field": "nama",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "alamat",
+        "required": true,
+        "label": "Alamat",
+        "align": "left",
+        "field": "alamat",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "telepon",
+        "required": true,
+        "label": "Telepon",
+        "align": "left",
+        "field": "telepon",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "email",
+        "required": true,
+        "label": "Email",
+        "align": "left",
+        "field": "email",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "status_label",
+        "required": true,
+        "label": "Status",
+        "align": "left",
+        "field": "status_label",
+        "sortable": true,
+        "type": "badge",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "width:50px;",
+        "option_filter": false
+    },
+    {
+        "name": "status",
+        "required": true,
+        "label": "Status",
+        "align": "left",
+        "field": "status",
+        "sortable": true,
+        "type": "select",
+        "options": [
+            {
+                "label": "Aktif",
+                "value": "1"
+            },
+            {
+                "label": "Tidak Aktif",
+                "value": "0"
+            }
+        ],
+        "show": false,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    }
+]

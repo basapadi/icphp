@@ -16,7 +16,8 @@ use App\Http\Controllers\{
     PayableController,
     ReceivableController,
     ExpenseController,
-    StockAdjustmentController
+    StockAdjustmentController,
+    TrashController
 };
 use Illuminate\Support\Facades\Route;
 
@@ -94,6 +95,10 @@ Route::prefix('api')->group(function () {
         Route::get('grid', 'grid');
     });
     Route::controller(ExpenseController::class)->middleware('auth:sanctum')->prefix('expense')->group(function () {
+        Route::get('grid', 'grid');
+    });
+
+    Route::controller(TrashController::class)->middleware('auth:sanctum')->prefix('trash')->group(function () {
         Route::get('grid', 'grid');
     });
 });

@@ -1,0 +1,67 @@
+{
+    "main": {
+        "type": "object",
+        "title": "Transaksi",
+        "fields": {
+            "contact__nama": {
+                "label": "Nama Pemasok"
+            },
+            "contact__email": {
+                "label": "Email"
+            },
+            "contact__alamat": {
+                "label": "Alamat"
+            },
+            "contact__telepon": {
+                "label": "Telepon"
+            },
+            "total_harga_formatted": {
+                "label": "Total Harga",
+                "class": "font-mono"
+            },
+            "terbayar_formatted": {
+                "label": "Total Terbayar",
+                "class": "font-mono"
+            },
+            "sisa_bayar_formatted": {
+                "label": "Sisa Bayar",
+                "class": "font-mono font-bold"
+            }
+        }
+    },
+    "details": {
+        "type": "array",
+        "title": "Detail Transaksi",
+        "fields": {
+            "no": {
+                "label": "No",
+                "style": "width: 20px"
+            },
+            "kode_transaksi": {
+                "label": "Kode Transaksi"
+            },
+            "tanggal_terima_formatted": {
+                "label": "Tanggal Terima"
+            },
+            "syarat_pembayaran": {
+                "label": "Syarat"
+            },
+            "tanggal_jatuh_tempo": {
+                "label": "Jatuh Tempo"
+            },
+            "metode_pembayaran_label": {
+                "label": "Metode Bayar"
+            },
+            "tipe_pembayaran_label": {
+                "label": "Tipe Bayar"
+            },
+            "status_pembayaran_label": {
+                "label": "Status Bayar"
+            },
+            "total_harga_formatted": {
+                "label": "Total Harga",
+                "class": "font-mono font-bold text-right"
+            }
+        }
+    }
+}

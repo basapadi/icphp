@@ -1,0 +1,125 @@
+[
+    {
+        "name": "actions",
+        "required": true,
+        "label": "Aksi",
+        "align": "left",
+        "field": "actions",
+        "sortable": true,
+        "type": "text",
+        "options": [
+            "edit",
+            "delete"
+        ],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "username",
+        "required": true,
+        "label": "Username",
+        "align": "left",
+        "field": "username",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "email",
+        "required": true,
+        "label": "Email",
+        "align": "left",
+        "field": "email",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "name",
+        "required": true,
+        "label": "Fullname",
+        "align": "left",
+        "field": "name",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "role",
+        "required": true,
+        "label": "Hak Akses",
+        "align": "left",
+        "field": "role",
+        "sortable": true,
+        "type": "select",
+        "options": [
+            {
+                "value": "admin",
+                "label": "admin"
+            },
+            {
+                "value": "kasir",
+                "label": "kasir"
+            },
+            {
+                "value": "keuangan",
+                "label": "keuangan"
+            }
+        ],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "status_label",
+        "required": true,
+        "label": "Status",
+        "align": "left",
+        "field": "status_label",
+        "sortable": true,
+        "type": "badge",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "width:50px;",
+        "option_filter": false
+    },
+    {
+        "name": "status",
+        "required": true,
+        "label": "Status",
+        "align": "left",
+        "field": "status",
+        "sortable": true,
+        "type": "select",
+        "options": [
+            {
+                "label": "Aktif",
+                "value": "1"
+            },
+            {
+                "label": "Tidak Aktif",
+                "value": "0"
+            }
+        ],
+        "show": false,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    }
+]

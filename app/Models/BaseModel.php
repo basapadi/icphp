@@ -1,12 +1,16 @@
 <?php
 
 namespace App\Models;
+
+use App\Traits\HasOptionalRelation;
 use Btx\Query\Model;
 use Vinkla\Hashids\Facades\Hashids;
 use Exception;
 
 class BaseModel extends Model
 {
+    use HasOptionalRelation;
+
     // protected $hidden = ['id'];
     public function __construct(array $attributes = [])
     {

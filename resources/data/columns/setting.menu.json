@@ -1,0 +1,103 @@
+[
+    {
+        "name": "actions",
+        "required": true,
+        "label": "Aksi",
+        "align": "left",
+        "field": "actions",
+        "sortable": true,
+        "type": "text",
+        "options": [
+            "edit",
+            "delete"
+        ],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "module",
+        "required": true,
+        "label": "Module",
+        "align": "left",
+        "field": "module",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "icon",
+        "required": true,
+        "label": "Icon",
+        "align": "left",
+        "field": "icon",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "label",
+        "required": true,
+        "label": "Label",
+        "align": "left",
+        "field": "label",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "route",
+        "required": true,
+        "label": "Route",
+        "align": "left",
+        "field": "route",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "parent__label",
+        "required": true,
+        "label": "Parent Label",
+        "align": "left",
+        "field": "parent__label",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "order",
+        "required": true,
+        "label": "Order",
+        "align": "left",
+        "field": "order",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    }
+]

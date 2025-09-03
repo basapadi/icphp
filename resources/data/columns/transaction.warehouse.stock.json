@@ -1,0 +1,58 @@
+[
+    {
+        "name": "item__nama",
+        "required": true,
+        "label": "Nama Barang",
+        "align": "left",
+        "field": "item__nama",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "unit__nama",
+        "required": true,
+        "label": "Satuan",
+        "align": "left",
+        "field": "unit__nama",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "jumlah",
+        "required": true,
+        "label": "Jumlah",
+        "align": "right",
+        "field": "jumlah",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "font-mono font-bold",
+        "styles": "width:50px",
+        "option_filter": true
+    },
+    {
+        "name": "minimum_stock",
+        "required": true,
+        "label": "Stok Minimal",
+        "align": "right",
+        "field": "minimum_stock",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "font-mono font-bold",
+        "styles": "width:50px",
+        "option_filter": true
+    }
+]

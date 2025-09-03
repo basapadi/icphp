@@ -331,6 +331,14 @@ return [
             'parent'=> 17,
             'module'=>'finance.expense'
         ],
+        [
+            'id'    => 31,
+            'icon'  => 'PackageOpen',
+            'label' => 'Keranjang Sampah',
+            'route' => '/trash',
+            'order' => 7,
+            'module'=>'trash'
+        ],
         //last_id:28
     ],
     'units' => [

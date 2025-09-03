@@ -40,7 +40,8 @@ import {
   Calendar,
   CreditCard,
   DollarSign,
-  ScrollText
+  ScrollText,
+  PackageOpen
 } from 'lucide-vue-next'
 
 </script>
@@ -61,7 +62,8 @@ import {
           shoppingcart: ShoppingCart,
           package: Package,
           dollarsign: DollarSign,
-          scrolltext: ScrollText
+          scrolltext: ScrollText,
+          packageopen: PackageOpen
         },
         menus: [],
         loading: true,

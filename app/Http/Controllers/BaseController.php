@@ -15,6 +15,7 @@ use App\Transformers\FormTransformer;
 use Spatie\Fractalistic\ArraySerializer;
 use App\Http\Response;
 use App\Traits\{HasQueryBuilder,QueryHelper,DataBuilder};
+use App\Models\Trash;
 
 class BaseController extends Controller
 {
@@ -33,6 +34,8 @@ class BaseController extends Controller
 
     public function grid(Request $request)
     {
+        // $this->generateDetailSchemaToJson($this->_detailSchema);
+        // $this->generateColumnsToJson($this->_columns);
         $this->allowAccessModule($this->_module, 'view');
         $query = $this->_queryBuilder;
         $totalQuery = clone $this->_queryBuilder;
@@ -50,7 +53,6 @@ class BaseController extends Controller
         }
         $rows = $query->filter();
         $total = $totalQuery->filter(false);
-        // dd($rows->toSql(),$this->_filterParamLike);
         $rows = $rows->get();
         $total = $total->count();
 
@@ -58,13 +60,12 @@ class BaseController extends Controller
         $this->_gridProperties['filterDateRange'] = $this->_gridProperties['filterDateRange']??false;
         $this->_gridProperties['advanceFilter'] = $this->_gridProperties['advanceFilter']??true;
         $this->_gridProperties['multipleSelect'] = $this->_gridProperties['multipleSelect']??$this->_multipleSelectGrid;
-
         return Response::ok('Loaded', [
             'rows' => $rows->toArray(),
             'total' => $total,
-            'columns' => $this->_columns,
+            'columns' => $this->getColumns(),
             'properties' => $this->_gridProperties,
-            'detail_schemes' => $this->_detailSchema
+            'detail_schemes' => $this->getDetailSchema()
         ]);
     }
 
@@ -257,6 +258,40 @@ class BaseController extends Controller
         $this->_gridProperties = $properties;
     }
 
+    protected function getDetailSchema(){
+        $path = base_path('resources/data/detail_schemas/'.$this->_module.'.json');
+        $schema = file_get_contents($path);
+        return json_decode($schema, true);
+    }
+
+    protected function getColumns(){
+        $path = base_path('resources/data/columns/'.$this->_module.'.json');
+        $schema = file_get_contents($path);
+        return json_decode($schema, true);
+    }
+
+    private function generateDetailSchemaToJson($data){
+        $json = json_encode($data, JSON_PRETTY_PRINT);
+        $path = base_path('resources/data/detail_schemas/'.$this->_module.'.json');
+        file_put_contents($path, $json);
+    }
+
+    private function generateColumnsToJson($data){
+        $json = json_encode($data, JSON_PRETTY_PRINT);
+        $path = base_path('resources/data/columns/'.$this->_module.'.json');
+        file_put_contents($path, $json);
+    }
+
+    private function saveTrash($data){
+        Trash::create([
+            'module' => $data->__module,
+            'data' => json_encode($data),
+            'created_by' => $data->__user,
+            'can_rollback' => $data->__can_rollback,
+            'schema' => json_encode($this->getDetailSchema())
+        ]);
+    }
+
     public function create(Request $request) {}
 
     public function update(Request $request, $id) {
@@ -268,10 +303,20 @@ class BaseController extends Controller
         if(empty($id)) return Response::badRequest('ID tidak boleh kosong');
         $id = $this->decodeId($id);
         if(empty($id)) return Response::badRequest('ID tidak ditemukan');
-
         try {
             DB::beginTransaction();
-            $this->_model->find($id)->delete();
+            $data = $this->_model->find($id);
+            $data->__module = $this->_module;
+            $data->__user = auth()->user()->id;
+            $data->__can_rollback = true;
+
+            $relations = ['details','payments','unit','item'];
+            foreach ($relations as $key => $r) {
+               $data->{$r} = $data->getRelationIfExist($r);
+            }
+            $data->delete();
+            $this->saveTrash($data);
+
             DB::commit();
             return Response::ok('Data berhasil dihapus');
         }catch(Exception $e){

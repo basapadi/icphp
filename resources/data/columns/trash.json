@@ -1,0 +1,89 @@
+[
+    {
+        "name": "actions",
+        "required": true,
+        "label": "Aksi",
+        "align": "left",
+        "field": "actions",
+        "sortable": true,
+        "type": "text",
+        "options": [
+            "detail",
+            "undo"
+        ],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "module",
+        "required": true,
+        "label": "Modul",
+        "align": "left",
+        "field": "module",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": false,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "module_label",
+        "required": true,
+        "label": "Modul",
+        "align": "left",
+        "field": "module_label",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "created_at_formatted",
+        "required": true,
+        "label": "Tanggal",
+        "align": "left",
+        "field": "created_at_formatted",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "created_at",
+        "required": true,
+        "label": "Tanggal",
+        "align": "left",
+        "field": "created_at",
+        "sortable": true,
+        "type": "date_range",
+        "options": [],
+        "show": false,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "short_data",
+        "required": true,
+        "label": "Data",
+        "align": "left",
+        "field": "short_data",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    }
+]

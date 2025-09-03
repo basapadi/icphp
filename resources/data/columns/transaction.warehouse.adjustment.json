@@ -1,0 +1,190 @@
+[
+    {
+        "name": "actions",
+        "required": true,
+        "label": "Aksi",
+        "align": "left",
+        "field": "actions",
+        "sortable": true,
+        "type": "text",
+        "options": [
+            "edit",
+            "delete"
+        ],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "item__nama",
+        "required": true,
+        "label": "Barang",
+        "align": "left",
+        "field": "item__nama",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "adjustment_type",
+        "required": true,
+        "label": "Tipe Penyesuaian",
+        "align": "left",
+        "field": "adjustment_type",
+        "sortable": true,
+        "type": "select",
+        "options": [
+            {
+                "value": "lost",
+                "label": "Hilang"
+            },
+            {
+                "value": "broke",
+                "label": "Rusak"
+            },
+            {
+                "value": "return_in",
+                "label": "Retur Penjualan"
+            },
+            {
+                "value": "return_out",
+                "label": "Retur Pembelian"
+            }
+        ],
+        "show": false,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "adjustment_type_label",
+        "required": true,
+        "label": "Tipe Penyesuaian",
+        "align": "left",
+        "field": "adjustment_type_label",
+        "sortable": true,
+        "type": "badge",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "system_stock",
+        "required": true,
+        "label": "Jumlah (sistem)",
+        "align": "right",
+        "field": "system_stock",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "font-mono font-bold",
+        "styles": "width:50px",
+        "option_filter": true
+    },
+    {
+        "name": "actual_stock",
+        "required": true,
+        "label": "Jumlah (Aktual)",
+        "align": "right",
+        "field": "actual_stock",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "font-mono font-bold",
+        "styles": "width:50px",
+        "option_filter": true
+    },
+    {
+        "name": "adjustment_stock",
+        "required": true,
+        "label": "Jumlah (Penyesuaian)",
+        "align": "right",
+        "field": "adjustment_stock",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "font-mono font-bold",
+        "styles": "width:50px",
+        "option_filter": true
+    },
+    {
+        "name": "final_stock",
+        "required": true,
+        "label": "Jumlah (Akhir)",
+        "align": "right",
+        "field": "final_stock",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "font-mono font-bold",
+        "styles": "width:50px",
+        "option_filter": true
+    },
+    {
+        "name": "unit__nama",
+        "required": true,
+        "label": "Satuan",
+        "align": "left",
+        "field": "unit__nama",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "catatan",
+        "required": true,
+        "label": "Catatan",
+        "align": "left",
+        "field": "catatan",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "created_at_formatted",
+        "required": true,
+        "label": "Tanggal",
+        "align": "left",
+        "field": "created_at_formatted",
+        "sortable": true,
+        "type": "date_range",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "created_at",
+        "required": true,
+        "label": "Tanggal",
+        "align": "left",
+        "field": "created_at",
+        "sortable": true,
+        "type": "date_range",
+        "options": [],
+        "show": false,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    }
+]
