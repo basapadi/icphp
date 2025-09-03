@@ -9,25 +9,53 @@
                 <CardTitle>Form {{ title }}</CardTitle>
             </CardHeader>
             <CardContent>
-                <form @submit.prevent="submit">
-                    <div
-                        class="space-y-2 grid grid-cols-1 md:grid-cols-2 gap-4"
-                    >
-                        <template v-for="field in fields">
-                            <Input
-                                v-if="
-                                    ['text', 'email', 'phone'].includes(
-                                        field.type
-                                    )
-                                "
+                <form @submit.prevent="submit" enctype="multipart/form-data">
+                    <div class="space-y-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <template v-for="(field,i) in sections" :key="i">
+                            <Input v-if="['text', 'email', 'phone'].includes(field.type)"
                                 :key="field.name"
                                 :label="field.label"
                                 :type="field.type"
-                                :modelValue="form[field.name]"
+                                v-model="form[field.name]"
                                 :name="field.name"
                                 :id="field.id"
                                 :hint="field.hint"
                                 :required="field.required"
+                                class=""
+                            />
+                            <Select v-if="field.type == 'select'"
+                                :key="field.name"
+                                :label="field.label"
+                                :type="field.type"
+                                v-model="form[field.name]"
+                                :name="field.name"
+                                :id="field.id"
+                                :hint="field.hint"
+                                :required="field.required"
+                                :options="field.options"
+                            />
+                            <Radio v-if="field.type == 'radio'"
+                                :key="field.name"
+                                :label="field.label"
+                                :type="field.type"
+                                v-model="form[field.name]"
+                                :name="field.name"
+                                :id="field.id"
+                                :hint="field.hint"
+                                :required="field.required"
+                                :options="field.options"
+                            />
+                            <FileUpload v-if="field.type == 'file'"
+                                :key="field.name"
+                                :label="field.label"
+                                :type="field.type"
+                                v-model="form[field.name]"
+                                :name="field.name"
+                                :id="field.id"
+                                :hint="field.hint"
+                                :required="field.required"
+                                :multiple="field.multiple"
+                                :accept="field.accpet"
                             />
                         </template>
                     </div>
@@ -43,7 +71,7 @@
     </div>
 </template>
 <script>
-import { Input } from "@/components/ui";
+import { Input,Select,Radio,FileUpload } from "@/components/ui/form";
 import { Card, CardTitle, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "./ui/button";
 
@@ -52,11 +80,14 @@ export default {
     props: {
         open: Boolean,
         title: { type: String, default: "Form" },
-        fields: { type: Array, default: () => [] },
+        sections: { type: Array, default: () => [] },
         data: { type: Object, default: () => ({}) },
     },
     components: {
         Input,
+        Select,
+        Radio,
+        FileUpload,
         Card,
         CardTitle,
         CardContent,
@@ -72,6 +103,7 @@ export default {
         load() {},
         close() {
             this.$emit("close");
+            this.form = {}
         },
         submit() {
             this.$emit("submit", this.form);
@@ -79,8 +111,8 @@ export default {
         },
     },
     beforeMount() {
-        this.fields.forEach((f) => {
-            this.form[f.name] = this.data[f.name] ?? "";
+        this.sections.forEach((f) => {
+            this.form[f.name] = this.data[f.name] ?? null;
         });
     },
 };

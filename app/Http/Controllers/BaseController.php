@@ -71,9 +71,15 @@ class BaseController extends Controller
     public function form(Request $request)
     {
         $this->allowAccessModule($this->_module, 'create');
+        $forms = [];
+        foreach ($this->_form as $key => $f) {
+            $nf = $f;
+            $nf['forms'] = fractal($f['forms'], new FormTransformer(), ArraySerializer::class);
+            $forms[$key] = $nf;
+        }
         return Response::ok('Form', [
-            'fields' => fractal($this->_form, new FormTransformer(), ArraySerializer::class),
-            'data' => [] //data yang dibawa saat pertama kali dibuka, contoh data options pada selecbox
+            'sections' => $forms,
+            'data' => [] //data yang dibawa saat form dibuka
         ]);
     }
 

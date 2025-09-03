@@ -398,11 +398,11 @@ return [
     'status' => [
         '0' => [
             'label' => 'Tidak Aktif',
-            'color' => 'red-800'
+            'color' => 'red-600'
         ],
         '1' => [
             'label' => 'Aktif',
-            'color' => 'green-800'
+            'color' => 'green-600'
         ]
     ],
     'adjustment_types' => [
@@ -426,7 +426,7 @@ return [
         ],
         'return_out' => [
             'label' => 'Retur Pembelian',
-            'class' =>  'green-800',
+            'class' =>  'green-700',
             'action_delete' => 'reduction',
             'action_create' => 'addition'
         ]

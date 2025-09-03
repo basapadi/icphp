@@ -145,7 +145,7 @@
             </div>
         </div>
     </div>
-    <FormDialog :open="showDialog" :title="title" :fields="form.fields" :data="form.data" @close="showDialog = false" @submit="handleSubmit" />
+    <FormDialog :open="showDialog" :title="title" :sections="form.sections" :data="form.data" @close="showDialog = false" @submit="handleSubmit" />
     <DetailDialog :title="title" :open="showDetail" :data="selected" :schema="detail_schema" @close="showDetail=false"/>
 </template> 
 

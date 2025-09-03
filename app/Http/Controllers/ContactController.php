@@ -20,7 +20,7 @@ class ContactController extends BaseController
             ['value' => 'alamat', 'label'=> 'Alamat', 'align' => 'left'],
             ['value' => 'telepon', 'label'=> 'Telepon', 'align' => 'left'],
             ['value' => 'email', 'label'=> 'Email', 'align' => 'left'],
-            ['value' => 'status_label', 'label'=> 'Status', 'align' => 'left', 'type' => 'badge'],
+            ['value' => 'status_label', 'label'=> 'Status', 'align' => 'left', 'type' => 'badge','styles' => 'width:50px;'],
             ['value' => 'status', 'label'=> 'Status', 'align' => 'left', 'type' => 'select', 'show' => false, 'option_filter' => true,'options' => [
                 ['label' => 'Aktif', 'value' => '1'],
                 ['label' => 'Tidak Aktif', 'value' => '0']

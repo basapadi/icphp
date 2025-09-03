@@ -53,7 +53,6 @@
     </div>
 </template>
 <script>
-import { Input } from "@/components/ui";
 import { Card, CardTitle, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "./ui/button";
 
@@ -66,7 +65,6 @@ export default {
         schema: {type: Object, defautl: () => ({})}
     },
     components: {
-        Input,
         Card,
         CardTitle,
         CardContent,

@@ -39,7 +39,7 @@ class ReceivableController extends BaseController
         
         $this->setColumns([
             ['value' => 'actions', 'label'=> 'Aksi', 'align' => 'left','options' => [ 'detail' ] ],
-            ['value' => 'contact__nama', 'label'=> 'Pemasok', 'align' => 'left','option_filter' => true],
+            ['value' => 'contact__nama', 'label'=> 'Pelanggan', 'align' => 'left','option_filter' => true],
             ['value' => 'total_harga_formatted', 'label'=> 'Total Transaksi', 'align' => 'right', 'class' => 'font-mono'],
             ['value' => 'terbayar_formatted', 'label'=> 'Total Dibayar', 'align' => 'right','class' => 'font-mono'],
             ['value' => 'sisa_bayar_formatted', 'label'=> 'Sisa Bayar', 'align' => 'right','class' => 'font-mono'],

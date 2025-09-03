@@ -2,7 +2,7 @@
 import type { HTMLAttributes } from "vue";
 import { useVModel } from "@vueuse/core";
 import { cn } from "@/lib/utils";
-import Label from "./Label.vue";
+import Label from "@/components/ui/Label.vue";
 
 const props = defineProps<{
     defaultValue?: string | number;

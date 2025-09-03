@@ -19,7 +19,7 @@ class UnitController extends BaseController
             ]],
             ['value' => 'kode', 'label'=> 'Kode', 'align' => 'left'],
             ['value' => 'nama', 'label'=> 'Nama', 'align' => 'left'],
-            ['value' => 'status_label', 'label'=> 'Status Aktif', 'align' => 'left', 'type' => 'badge'],
+            ['value' => 'status_label', 'label'=> 'Status', 'align' => 'left', 'type' => 'badge','styles' => 'width:50px;'],
             ['value' => 'status', 'label'=> 'Status', 'align' => 'left', 'type' => 'select', 'show' => false, 'option_filter' => true,'options' => [
                 ['label' => 'Aktif', 'value' => '1'],
                 ['label' => 'Tidak Aktif', 'value' => '0']
@@ -27,16 +27,21 @@ class UnitController extends BaseController
         ]);
         $this->setFilterColumnsLike(['kode','nama'],request('q')??'');
         $this->setForm([
-            ['name' => 'type','type' => 'select', 'label' =>'Tipe','required' => true,'hint' => 'Pilih Tipe', 'options' => [
-                '0' => 'Unit',
-                '1' => 'Basic Unit'
-            ]],
-            ['name' => 'code','type' => 'text', 'label' =>'Kode','required' => true,'hint' => 'Masukkan Kode Satuan'],
-            ['name' => 'nama','type' => 'text', 'label' =>'Nama','required' => false,'hint' => 'Masukkan Nama Satuan'],
-            ['name' => 'status','type' => 'radio', 'label' => 'Status','hint' => 'Status Kontak', 'options' => [
-                '0' => 'Tidak Aktif',
-                '1' => 'Aktif'
-            ]],
+            'main' => [
+                'label' => 'Form Satuan',
+                'forms' => [
+                    ['name' => 'type','type' => 'select', 'label' =>'Tipe','required' => true,'hint' => 'Pilih Tipe', 'options' => [
+                        'UNIT' => 'Unit',
+                        'BASIC_UNIT' => 'Basic Unit'
+                    ]],
+                    ['name' => 'code','type' => 'text', 'label' =>'Kode','required' => true,'hint' => 'Masukkan Kode Satuan'],
+                    ['name' => 'nama','type' => 'text', 'label' =>'Nama','required' => true,'hint' => 'Masukkan Nama Satuan'],
+                    ['name' => 'status','type' => 'radio','required' => true, 'label' => 'Status','hint' => 'Status Kontak', 'options' => [
+                        '0' => 'Tidak Aktif',
+                        '1' => 'Aktif'
+                    ]]
+                ]
+            ]
         ]);
     }
 }
