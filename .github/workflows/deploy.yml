@@ -13,7 +13,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Deploy & Build on Server
+      - name: Setup PHP di Runner
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, bcmath, pdo, pdo_mysql, fileinfo, tokenizer, ctype, xml, json, openssl, gd
+          tools: composer:v2
+
+      - name: Install Composer dependencies di Runner
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Build frontend di Runner
+        run: |
+          npm install
+          npm run build
+
+      - name: Deploy to Server Basapadi via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -21,20 +41,9 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd /var/www/html/icphp
-
-            # Update kode
-            git reset --hard
             git pull origin master
-
-            # Install PHP dependencies
-            composer install --no-interaction --prefer-dist --optimize-autoloader
-
-            # Install & build frontend
-            npm install
-            npm run build
-
-            # Jalankan migrasi & cache
+            composer install --no-dev --optimize-autoloader
             php artisan migrate --force
             php artisan config:cache
-            php artisan route:cache
-            php artisan view:cache
+            npm install
+            npm run build
