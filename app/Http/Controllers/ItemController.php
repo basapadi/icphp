@@ -28,12 +28,12 @@ class ItemController extends BaseController
         // $this->setMultipleSelectGrid(false);
         $this->setForm([
             'main' => [
-                'label' => 'Form Utama',
+                'label' => 'Form Barang',
                 'forms' => [
                     ['name' => 'kode_barang','type' => 'text', 'label' =>'Kode Barang','required' => true,'hint' => 'Masukkan Kode Barang'],
                     ['name' => 'barcode','type' => 'text', 'label' =>'Barcode','required' => false,'hint' => 'Masukkan Barcode'],
                     ['name' => 'nama','type' => 'text', 'label' =>'Nama Barang','required' => true,'hint' => 'Masukkan Nama Barang'],
-                    ['name' => 'gambar','type' => 'file', 'label' =>'Gambar','required' => false,'hint' => 'Gambar', 'multiple' => false, 'extension' => '.jpg,.png'],
+                    ['name' => 'gambar','type' => 'file', 'label' =>'Gambar','required' => true,'hint' => 'Gambar', 'multiple' => false, 'extension' => '.jpg,.png','maxfile' => 1,'maxsize' => 3],
                     ['name' => 'kategori','type' => 'select', 'label' =>'Kategori','required' => true,'hint' => 'Pilih Kategori', 'options' => [
                         'elektronik' => 'Elektronik',
                         'alat_rumah_tangga' => 'Alat Rumah Tangga'

@@ -18,6 +18,8 @@ class FormTransformer extends TransformerAbstract {
             'api'   => $resp['api']??null,
             'extension' => @$resp['extension']??'',
             'multiple' => @$resp['multiple']??false,
+            'maxsize' => @$resp['maxsize']??0,
+            'maxfile' => @$resp['maxfile']??0,
         ];
     }
 }

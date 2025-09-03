@@ -4,7 +4,7 @@
       :for="id"
       class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
     >
-      {{ label }}
+      <span class="text-gray-500 text-shadow-2xs">{{ label }}</span>
       <span v-if="required" class="text-red-800"> *</span>
     </Label>
 
@@ -20,8 +20,9 @@
           :name="name || id"
           :value="i"
           :checked="modelValue === i"
-          :required="required"
           :class="computeClass"
+          @invalid="e => e.target.setCustomValidity(`Inputan ${label} tidak boleh kosong`)"
+          @input="e => e.target.setCustomValidity('')"
           @change="$emit('update:modelValue', i)"
         />
         <span>{{ o }}</span>
@@ -58,7 +59,7 @@ export default {
     wrapperClass() {
       return cn(
         "flex gap-4",
-        this.direction === "row" ? "flex-row" : "flex-col"
+        this.direction === "row" ? "flex-row pt-1.5" : "flex-col"
       );
     }
   }

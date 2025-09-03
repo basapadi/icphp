@@ -28,9 +28,9 @@ class UnitController extends BaseController
         $this->setFilterColumnsLike(['kode','nama'],request('q')??'');
         $this->setForm([
             'main' => [
-                'label' => 'Form Utama',
+                'label' => 'Form Satuan Barang',
                 'forms' => [
-                    ['name' => 'type','type' => 'select', 'label' =>'Tipe','required' => true,'hint' => 'Pilih Tipe', 'options' => [
+                    ['name' => 'type','type' => 'select', 'label' =>'Tipe','required' => true,'hint' => 'Pilih tipe satuan', 'options' => [
                         'UNIT' => 'Unit',
                         'BASIC_UNIT' => 'Basic Unit'
                     ]],

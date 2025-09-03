@@ -29,7 +29,7 @@ const modelValue = useVModel(props, "modelValue", emits, {
 <template>
     <div class="flex flex-col gap-1.5">
         <Label :for="id">
-            {{ label }}
+            <span class="text-gray-500 text-shadow-2xs">{{ label }}</span>
             <span v-if="required" class="text-red-800"> *</span>
         </Label>
         <input
@@ -37,11 +37,13 @@ const modelValue = useVModel(props, "modelValue", emits, {
             v-model="modelValue"
             :type="type"
             :name="name"
-            :hint="hint"
+            :placeholder="hint"
             :required="required"
+            @invalid="e => e.target.setCustomValidity(`Inputan ${label} tidak boleh kosong`)"
+            @input="e => e.target.setCustomValidity('')"
             :class="
                 cn(
-                    'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-foreground file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+                    'flex h-8 w-full text-sm rounded-md border border-input bg-background px-3 py-2 ring-offset-background file:border-0 file:bg-transparent file:text-foreground file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
                     props.class
                 )
             "

@@ -2,9 +2,6 @@
     <!-- Overlay -->
     <div v-if="open" class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
         <Card class="w-full max-w-4xl">
-            <CardHeader>
-                <CardTitle>Form {{ title }}</CardTitle>
-            </CardHeader>
             <CardContent>
                 <form @submit.prevent="submit" enctype="multipart/form-data">
                     <template v-for="(section,i) in sections" :key="i"> 
@@ -55,13 +52,15 @@
                                     :required="field.required"
                                     :multiple="field.multiple"
                                     :extension="field.extension"
+                                    :maxsize="field.maxsize"
+                                    :maxfile="field.maxfile"
                                 />
                             </template>
                         </div>
                     </template>
                     <!-- Actions -->
                     <div class="mt-6 flex justify-end gap-2">
-                        <Button variant="outline" @click="close">Batal</Button>
+                        <Button variant="secondary" @click="close">Batal</Button>
                         <Button variant="secondary" type="submit">Simpan</Button>
                     </div>
                 </form>
@@ -79,7 +78,7 @@ export default {
     props: {
         open: Boolean,
         title: { type: String, default: "Form" },
-        sections: { type: Array, default: () => [] },
+        sections: { type: Object, default: () => {} },
         data: { type: Object, default: () => ({}) },
     },
     components: {
