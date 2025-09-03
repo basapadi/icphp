@@ -10,32 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup PHP di Runner
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.4'
-          extensions: mbstring, bcmath, pdo, pdo_mysql, fileinfo, tokenizer, ctype, xml, json, openssl, gd
-          tools: composer:v2
-
-      - name: Install Composer dependencies di Runner
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
-
-      - name: Setup Node.js 22
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22.17.0'
-
-      - name: Check Node version
-        run: node -v
-
-      - name: Build frontend di Runner
-        run: |
-          npm install
-          npm run build
-
       - name: Deploy to Server Basapadi via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
