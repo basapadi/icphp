@@ -28,7 +28,7 @@
         "type": "text",
         "options": [],
         "show": true,
-        "class": "",
+        "class": "font-mono",
         "styles": "",
         "option_filter": true
     },

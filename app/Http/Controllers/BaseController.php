@@ -324,10 +324,8 @@ class BaseController extends Controller
             $data->__user = auth()->user()->id;
             $data->__can_rollback = true;
 
-            $relations = ['details','payments','unit','item'];
-            foreach ($relations as $key => $r) {
-               $data->{$r} = $data->getRelationIfExist($r);
-            }
+            $relations = ['details','details.unit','details.item','payments','unit','item'];
+            $data->loadRelationsWithNested($relations);
             $data->delete();
             $this->saveTrash($data);
 

@@ -366,7 +366,12 @@ export default {
             )
         },
         viewData(data) {
-            this.selected = data
+            if(data.schema != undefined){
+                this.detail_schema = JSON.parse(data.schema)
+                this.selected = JSON.parse(data.data)
+            } else {
+                this.selected = data
+            }
             this.showDetail = true
         },
         returData(data) {
