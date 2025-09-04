@@ -27,12 +27,12 @@
         <div class="h-screen relative">
             <!-- Table -->
             <div class="overflow-x-auto max-h-3/4">
-                <table class="min-w-full border-collapse border border-gray-200">
-                    <thead class="bg-gray-50 sticky top-0">
+                <table class="min-w-full border-collapse border border-orange-100">
+                    <thead class="bg-orange-50 sticky top-0">
                         <tr>
                             <template v-if="properties.multipleSelect">
                                 <th
-                                    class="px-4 py-1 text-left text-xs text-gray-500 uppercase tracking-wider border-2 border-gray-200">
+                                    class="px-4 py-1 text-left text-xs text-shadow-2xs text-gray-500 uppercase tracking-wider border-2 border-gray-100">
                                     <input v-model="selectAll" @change="toggleSelectAll" type="checkbox"
                                         class="rounded border-gray-300 text-orange-600 focus:ring-orange-500" />
                                 </th>
@@ -40,13 +40,13 @@
                             <template v-for="column in columns" :key="column.value">
                                 <template v-if="column.show">
                                     <template v-if="column.name == 'actions'">
-                                        <th class="px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider border-2 border-gray-200"
+                                        <th class="px-4 py-2 text-left font-bold text-xs text-gray-500 text-shadow-2xs uppercase tracking-wider border-2 border-gray-100"
                                             style="width: 50px !important">
                                             {{ column.label }}
                                         </th>
                                     </template>
                                     <template v-else>
-                                        <th :class="`px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider border-2 border-gray-200 text-${column.align}`"
+                                        <th :class="`px-4 py-2 text-left font-bold text-xs text-gray-500 text-shadow-2xs uppercase tracking-wider border-2 border-gray-100 text-${column.align}`"
                                             :style="`${column.styles}`">
                                             {{ column.label }}
                                         </th>
@@ -60,18 +60,17 @@
                             <template v-if="properties.multipleSelect">
                                 <td class="px-4 whitespace-nowrap border-2 border-gray-200" style="width: 10px">
                                     <input v-model="selectedData" :value="data.encode_id" type="checkbox"
-                                        class="rounded border-gray-300 text-orange-600 focus:ring-orange-500" />
+                                        class="rounded border-gray-100 text-orange-600 focus:ring-orange-500" />
                                 </td>
                             </template>
                             <template v-for="column in columns" :key="column.value">
-                                <td v-if="column.show" :class="`px-4 py-1 whitespace-nowrap border-2 border-gray-200 text-${column.align}`">
+                                <td v-if="column.show" :class="`px-4 py-1 whitespace-nowrap border-2 border-gray-100 text-${column.align}`">
                                     <template v-if="column.name == 'actions'">
                                         <button @click.stop="toggleDropdown(index)" class="px-2 py-1 rounded hover:bg-gray-300" style="text-align:center;"><EllipsisVertical class="h-4 w-4"/></button>
                                         <div v-if="openDropdown === index" class="absolute right--2 mt-2 w-40 bg-white border rounded shadow-md">
                                             <a v-if="column.options.includes('detail')" href="#" @click.stop="viewData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><SquareChartGantt class="w-8 text-green-700 px-2" />Detail</a>
                                             <a v-if="column.options.includes('edit')" href="#" @click.stop="editData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><SquarePen class="w-8 text-orange-500 px-2" />Ubah</a>
                                             <a v-if="column.options.includes('return')" href="#" @click.stop="returData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><Blocks class="w-8 text-blue-500 px-2" />Retur</a>
-                                            <div class="border-t border-gray-200 my-1"></div>
                                             <a v-if="column.options.includes('delete')" href="#" @click.stop="hapusData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><SquareX class="w-8 text-red-500 px-2" />Hapus</a>
                                             <a v-if="column.options.includes('undo')" href="#" @click.stop="undoData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><Undo2 class="w-8 text-red-500 px-2" />Urungkan</a>
                                         </div>

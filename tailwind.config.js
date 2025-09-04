@@ -7,7 +7,10 @@ module.exports = {
   ],
   theme: {
     extend: {
-      
+      fontFamily: {
+        sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+        mono: ['Fira Code', 'ui-monospace'],
+      },
     },
   },
   plugins: [

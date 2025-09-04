@@ -7,9 +7,9 @@
             :class="linkClasses"
             :style="{ paddingLeft }"
         >
-            <div class="flex items-center">
+            <div class="flex items-center ">
                 <component v-if="item.icon" :is="item.icon" class="w-4 h-4 mr-3 text-gray-600" />
-                {{ item.label }}
+                <span class="text-gray-500">{{ item.label }}</span>
             </div>
             <div class="flex items-center">
                 <ChevronDown v-if="hasSubItems && isOpen" class="w-4 h-4" />
@@ -24,11 +24,11 @@
             :style="{ paddingLeft }"
         >
             <div class="flex items-center" v-if="hasSubItems">
-                <GripVertical class="w-3 h-3 text-orange-400"/>{{ item.label }} 
+                <GripVertical class="w-3 h-3 text-orange-400"/><span class=" text-gray-600">{{ item.label }}</span>
             </div>
             <div class="flex items-center" v-else>
                 <component v-if="item.icon" :is="item.icon" class="w-4 h-4 mr-2" />
-                <EllipsisVertical class="w-3 h-3 text-orange-400"/>{{ item.label }} 
+                <EllipsisVertical class="w-3 h-3 text-orange-400"/><span class=" text-gray-600">{{ item.label }}</span>
             </div>
             <div class="flex items-center">
                 <ChevronDown v-if="hasSubItems && isOpen" class="w-4 h-4" />
@@ -77,10 +77,10 @@ const paddingLeft = computed(() => `${0.75}rem`);
 
 const linkClasses = computed(
     () =>
-        `flex items-left justify-between mx-2 py-2 text-sm font-medium transition-all duration-200 rounded-xs  ${
+        `flex items-left justify-between mx-2 py-2 text-sm transition delay-50 duration-100 ease-in-out hover:translate-x-1 hover:scale-105 rounded-sm ${
             props.item.active
-                ? "bg-orange-500 outline-orange-400 text-white outline-1 my-2 font-1200 "
-                : "text-gray-700 hover:bg-gray-200 hover:text-gray-900 hover:rounded-xs"
+                ? "text-gray-300 border-1 bg-gray-100 border-gray-100 shadow-sm my-2"
+                : "text-gray-500 hover:bg-gray-100 hover:shadow-sm hover:rounded-sm"
         }`
 );
 

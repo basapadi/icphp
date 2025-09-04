@@ -10,6 +10,9 @@
         <meta name="description" content="Simple POS Ihand Cashier Mobile and Desktop for your business" />
         <link rel="canonical" href="https://ihandcashier.basapadi.com" />
         <title>IhandCashier</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
         @vite('resources/js/app.js')
     </head>
     <body>

@@ -261,13 +261,27 @@ class BaseController extends Controller
     protected function getDetailSchema(){
         $path = base_path('resources/data/detail_schemas/'.$this->_module.'.json');
         $schema = file_get_contents($path);
-        return json_decode($schema, true);
+        return json_decode($schema, false);
     }
 
     protected function getColumns(){
         $path = base_path('resources/data/columns/'.$this->_module.'.json');
-        $schema = file_get_contents($path);
-        return json_decode($schema, true);
+        $schema = json_decode(file_get_contents($path),true);
+        $schema = collect($schema)->map(function($col){
+            if($col['name'] == 'actions'){
+                $options = [];
+                foreach($col['options'] as $o){
+                    if(in_array($o,['view','edit','delete'])){
+                        $op = $this->allowAccess($o);
+                        if($op != '') array_push($options,$op);
+                    } else array_push($options,$o);
+                    
+                }
+                $col['options'] = $options;
+            }
+            return $col;
+        });
+        return $schema;
     }
 
     private function generateDetailSchemaToJson($data){
