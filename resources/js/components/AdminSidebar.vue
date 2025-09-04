@@ -41,7 +41,8 @@ import {
   CreditCard,
   DollarSign,
   ScrollText,
-  PackageOpen
+  PackageOpen,
+  Trash
 } from 'lucide-vue-next'
 
 </script>
@@ -63,7 +64,8 @@ import {
           package: Package,
           dollarsign: DollarSign,
           scrolltext: ScrollText,
-          packageopen: PackageOpen
+          packageopen: PackageOpen,
+          trash: Trash
         },
         menus: [],
         loading: true,

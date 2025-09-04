@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Trash;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ItemReceivedSeeder::class); //seeder penerimaan barang
         $this->call(ItemSaleSeeder::class); //seeder penjualan barang
         $this->call(ItemAdjustmentSeeder::class); //seeder penyesuaian jumlah barang
+        Trash::truncate();
     }
 }

@@ -333,7 +333,7 @@ return [
         ],
         [
             'id'    => 31,
-            'icon'  => 'PackageOpen',
+            'icon'  => 'Trash',
             'label' => 'Keranjang Sampah',
             'route' => '/trash',
             'order' => 7,
