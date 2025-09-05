@@ -102,7 +102,7 @@
             </div>
             <div class="text-right">
               <p class="text-xs text-gray-500">Total Penjualan</p>
-              <p class="text-sm font-medium text-gray-900">Rp.{{ product.revenue }}</p>
+              <p class="text-sm font-medium text-gray-900">IDR {{ product.revenue }}</p>
             </div>
           </div>
         </div>

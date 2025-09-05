@@ -21,12 +21,12 @@ class ItemSaleDetail extends BaseModel
 
     public function getTotalHargaFormattedAttribute()
     {
-        return 'Rp.'.number_format($this->total_harga, 0, ',', '.');
+        return 'IDR '.number_format($this->total_harga, 0, ',', '.');
     }
 
     public function getHargaFormattedAttribute()
     {
-        return 'Rp.'.number_format($this->harga, 0, ',', '.');
+        return 'IDR '.number_format($this->harga, 0, ',', '.');
     }
 
     public function getTotalHargaAttribute()

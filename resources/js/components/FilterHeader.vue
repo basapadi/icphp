@@ -61,11 +61,11 @@
         </template>
 
       <!-- Tombol Aksi -->
-        <button class="px-3 py-1.5 bg-orange-100 text-orange-600 rounded-md border-1 hover:bg-orange-200 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103"  @click="load()">
-            <Funnel class="h-5 w-5 text-orange-600"/>
+        <button class="px-3 py-1.5 bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103"  @click="load()">
+            <Funnel class="h-5 w-5 text-orange-500"/>
         </button>
-        <button @click="reset()" class="px-3 py-1.5 bg-orange-100 text-white border-1 rounded-md hover:bg-orange-200 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103">
-            <FunnelX class="h-5 w-5 text-orange-600"/>
+        <button @click="reset()" class="px-3 py-1.5 bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103">
+            <FunnelX class="h-5 w-5 text-orange-500"/>
         </button> 
     </div>
   </div>

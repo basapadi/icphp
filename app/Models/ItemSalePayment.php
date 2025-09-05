@@ -39,7 +39,7 @@ class ItemSalePayment extends BaseModel
 
     public function getJumlahFormattedAttribute()
     {
-        return 'Rp.'.number_format($this->jumlah, 0, ',', '.');
+        return 'IDR '.number_format($this->jumlah, 0, ',', '.');
     }
 
     public function createdBy(){

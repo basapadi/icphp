@@ -23,7 +23,7 @@
     <div class="h-screen">
         <div class="overflow-x-auto max-h-3/4">
             <table class="min-w-full border-collapse border border-gray-200">
-                <thead class="bg-gray-50 sticky top-0">
+                <thead class="bg-orange-50 sticky top-0">
                 <tr>
                     <th  class="px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider border-2 border-gray-200" style="width:50px">No</th>
                     <template v-for="column in columns" :key="column.value">

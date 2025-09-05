@@ -20,35 +20,35 @@ class DashboardController extends BaseController
         $cards = [
             [
                 'title' => 'Total Penjualan Bulan '.date('M'), //total nilai penjualan barang periode bulan berjalan (bruto)
-                'value' => 'Rp.157.002.000',
+                'value' => 'IDR 157.002.000',
                 'change' => '+2.05%',
                 'trend' => 'up',
                 'icon' => 'DollarSign'
             ],
             [
                 'title' => 'Total Laba Bersih Penjualan '.date('M'), //total nilai netto (harga jual - harga beli) dari semua brang terjual bulan berjalan
-                'value' => 'Rp.57.579.000',
+                'value' => 'IDR 57.579.000',
                 'change' => '+1.05%',
                 'trend' => 'up',
                 'icon' => 'DollarSign'
             ],
             // [
             //     'title' => 'Total Pengeluaran Bulan '.date('M'), //ini diskip karena belum ada modul transaksi pengeluaran
-            //     'value' => 'Rp.0',
+            //     'value' => 'IDR 0',
             //     'change' => '0%',
             //     'trend' => '-',
             //     'icon' => 'DollarSign'
             // ],
             [
                 'title' => 'Total Piutang Bulan '.date('M'), //ini diskip, tunggu modul piutang selesai kita buat
-                'value' => 'Rp.25.970.000',
+                'value' => 'IDR 25.970.000',
                 'change' => '+1.09%',
                 'trend' => 'up',
                 'icon' => 'DollarSign'
             ],
             [
                 'title' => 'Total Hutang Bulan '.date('M'), // ini diskip, tunggu selesai modul hutang kita buat
-                'value' => 'Rp.15.240.000',
+                'value' => 'IDR 15.240.000',
                 'change' => '+1.09%',
                 'trend' => 'up',
                 'icon' => 'DollarSign'

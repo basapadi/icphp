@@ -56,7 +56,7 @@
         "type": "text",
         "options": [],
         "show": true,
-        "class": "font-mono font-bold",
+        "class": "font-mono",
         "styles": "",
         "option_filter": false
     },

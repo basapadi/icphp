@@ -72,17 +72,17 @@ class ItemReceived extends BaseModel
 
     public function getTotalHargaFormattedAttribute()
     {
-        return 'Rp.'.number_format($this->total_harga, 0, ',', '.');
+        return 'IDR '.number_format($this->total_harga, 0, ',', '.');
     }
 
     public function getSisaBayarFormattedAttribute()
     {
-        return 'Rp.'.number_format($this->sisa_bayar, 0, ',', '.');
+        return 'IDR '.number_format($this->sisa_bayar, 0, ',', '.');
     }
 
     public function getTerbayarFormattedAttribute()
     {
-        return 'Rp.'.number_format($this->terbayar, 0, ',', '.');
+        return 'IDR '.number_format($this->terbayar, 0, ',', '.');
     }
 
     public function getTotalTerbilangAttribute()

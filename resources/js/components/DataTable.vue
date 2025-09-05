@@ -8,20 +8,20 @@
                 </div>
                 <div class="">
                     <div class="flex flex-col md:flex-row md:items-center gap-3">
-                        <div class="relative">
-                            <input v-model="searchQuery" type="text" :placeholder="`Cari Data ${title}`"
+                        <div class="relative delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103">
+                            <input v-model="searchQuery" type="text" :placeholder="`Cari ${title}`"
                                 class="pl-8 pr-3 py-1.5 text-sm border-1 border-gray-300 rounded-md focus:border-transparent" />
                             <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
                                 <Search class="h-4 w-4 text-gray-400" />
                             </div>
                         </div>
                         <div class="relative mr-2" v-if="this.module == 'trash'">
-                            <Button @click="truncateData" v-if="allowDelete" size="sm">
+                            <Button class="bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103" @click="truncateData" v-if="allowDelete" size="sm">
                                 Hapus Semua
                             </Button>
                         </div>
                         <div class="relative mr-2" v-else>
-                            <Button @click="tambahData" v-if="allowCreate" size="sm">
+                            <Button class="bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103" @click="tambahData" v-if="allowCreate" size="sm">
                                 Tambah
                             </Button>
                         </div>
@@ -127,19 +127,19 @@
                         <Pagination :total="total" :items-per-page="pagination._limit"
                             :page="pagination._page" @update:page="(val) => (pagination._page = val)">
                             <PaginationContent v-slot="items">
-                                <PaginationPrevious />
-                                <PaginationFirst />
-                                <PaginationEllipsis v-if="pagination._page > 2"/>
+                                <PaginationPrevious class="bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500" />
+                                <PaginationFirst class="bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500" />
+                                <PaginationEllipsis class="bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500" v-if="pagination._page > 2"/>
                                 <template v-for="(item, index) in items.items" :key="index">
-                                    <PaginationItem v-if="item.type === 'page' && item.value >= pagination._page-1 && item.value <= pagination._page + 1 "
+                                    <PaginationItem class="bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500" v-if="item.type === 'page' && item.value >= pagination._page-1 && item.value <= pagination._page + 1 "
                                         :value="item.value" :is-active="item.value === pagination._page"
                                         @click="pagination._page = item.value">
                                         {{ item.value }}
                                     </PaginationItem>
                                 </template>
-                                <PaginationEllipsis v-if="pagination._page < items.items.length -1"/>
-                                <PaginationLast />
-                                <PaginationNext />
+                                <PaginationEllipsis class="bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500" v-if="pagination._page < items.items.length -1"/>
+                                <PaginationLast class="bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500" />
+                                <PaginationNext class="bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500" />
                             </PaginationContent>
                         </Pagination>
                     </div>
