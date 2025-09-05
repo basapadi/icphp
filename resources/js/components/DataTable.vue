@@ -15,7 +15,12 @@
                                 <Search class="h-4 w-4 text-gray-400" />
                             </div>
                         </div>
-                        <div class="relative mr-2">
+                        <div class="relative mr-2" v-if="this.module == 'trash'">
+                            <Button @click="truncateData" v-if="allowDelete" size="sm">
+                                Hapus Semua
+                            </Button>
+                        </div>
+                        <div class="relative mr-2" v-else>
                             <Button @click="tambahData" v-if="allowCreate" size="sm">
                                 Tambah
                             </Button>
@@ -215,6 +220,7 @@ export default {
             properties: {},
             detail_schema: [],
             allowCreate: false,
+            allowDelete: false,
             showDialog: false,
             pagination: {
                 _limit: 25,
@@ -248,7 +254,7 @@ export default {
     },
     computed: {
         ...mapGetters({
-            menuRoles: "menu/getMenuRoles",
+            menuRoles: "menu/getMenuRoles"
         }),
         filterData() {
             if (this.searchQuery) {
@@ -315,9 +321,12 @@ export default {
                 }).finally((f) => {
                     this.loading = false
                 })
-            this.allowCreate = this.menuRoles.find(
+            const rm = this.menuRoles.find(
                 (role) => role.route === this.$route.path
-            )?.create;
+            )
+
+            this.allowCreate = rm?.create
+            this.allowDelete = rm?.delete
         },
         formatDate(dateString) {
             return new Date(dateString).toLocaleDateString();
@@ -379,6 +388,34 @@ export default {
         },
         undoData(data){
             alert("Action urungkan data:");
+        },
+        truncateData(){
+            this.$confirm(
+                {
+                    message: `Apakah anda yakin menghapus semua data di modul ini?`,
+                    button: {
+                        no: 'Tidak',
+                        yes: 'Ya'
+                    },
+                    callback: async confirm => {
+                        if (confirm) {
+                            this.loading = true
+                            await this.$store.dispatch(this.module+'/truncate')
+                                .then(({ data }) => {
+                                    this.load();
+                                    alert(data.message)
+                                })
+                                .catch((resp) => {
+                                    alert(resp.response.data.message)
+                                })
+                                .finally((f) => {
+                                    this.openDropdown = null
+                                    this.loading = false
+                                })
+                        }
+                    }
+                }
+            )
         },
         handleSubmit() { },
         toggleDropdown(index) {

@@ -1,1 +1,35 @@
-[]
+{
+    "main": {
+        "type": "object",
+        "title": "Detail Penyesuaian Barang",
+        "fields": {
+            "item__nama": {
+                "label": "Nama Barang"
+            },
+            "unit__kode": {
+                "label": "Satuan"
+            },
+            "adjustment_type_label": {
+                "label": "Tipe Penyesuaian"
+            },
+            "system_stock": {
+                "label": "Jumlah Di System"
+            },
+            "actual_stock": {
+                "label": "Jumlah Sebenarnya"
+            },
+            "adjustment_stock": {
+                "label": "Jumlah Penyesuaian"
+            },
+            "final_stock": {
+                "label": "Jumlah Akhir"
+            },
+            "catatan": {
+                "label": "Catatan"
+            },
+            "created_at_formatted": {
+                "label": "Tanggal"
+            }
+        }
+    }
+}

@@ -30,17 +30,25 @@ const mutations = {
 }
 
 const actions = {
-    async grid({ commit, rootState }, payload) { 
+  async grid({ commit, rootState }, payload) { 
+    try {
+        const resp = await axios.get('/api/trash/grid', {
+            params: payload,
+            paramsSerializer: params => {
+                return qs.stringify(params, { arrayFormat: 'repeat' })
+            }
+        });
+        commit('setRows', resp.data.rows)
+        commit('setTotal', resp.data.total)
+        commit('setColumns', resp.data.columns)
+        return resp
+    } catch (err) {
+        throw err
+    }
+  },
+  async truncate({ commit, rootState }, id) {
         try {
-            const resp = await axios.get('/api/trash/grid', {
-                params: payload,
-                paramsSerializer: params => {
-                    return qs.stringify(params, { arrayFormat: 'repeat' })
-                }
-            });
-            commit('setRows', resp.data.rows)
-            commit('setTotal', resp.data.total)
-            commit('setColumns', resp.data.columns)
+            const resp = await axios.delete('/api/trash/truncate');
             return resp
         } catch (err) {
             throw err

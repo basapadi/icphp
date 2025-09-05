@@ -100,5 +100,6 @@ Route::prefix('api')->group(function () {
 
     Route::controller(TrashController::class)->middleware('auth:sanctum')->prefix('trash')->group(function () {
         Route::get('grid', 'grid');
+        Route::delete('truncate', 'truncate');
     });
 });

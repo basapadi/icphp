@@ -26,11 +26,11 @@ class BaseController extends Controller
     private ?array $_filterColumnsLike = [];
     private string $_filterParamLike = '';
     protected $_queryBuilder;
-    private $_multipleSelectGrid = true;
-    private $_module = '';
+    private bool $_multipleSelectGrid = true;
+    private string $_module = '';
     private ?array $_form = [];
-    private $_gridProperties = [];
-    private $_detailSchema = [];
+    private ?array $_gridProperties = [];
+    private ?array $_detailSchema = [];
 
     public function grid(Request $request)
     {
@@ -261,7 +261,7 @@ class BaseController extends Controller
     protected function getDetailSchema(){
         $path = base_path('resources/data/detail_schemas/'.$this->_module.'.json');
         $schema = file_get_contents($path);
-        return json_decode($schema, false);
+        return json_decode($schema, true);
     }
 
     protected function getColumns(){
@@ -275,7 +275,7 @@ class BaseController extends Controller
                         $op = $this->allowAccess($o);
                         if($op != '') array_push($options,$op);
                     } else array_push($options,$o);
-                    
+
                 }
                 $col['options'] = $options;
             }

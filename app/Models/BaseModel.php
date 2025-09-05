@@ -6,7 +6,7 @@ use App\Traits\HasOptionalRelation;
 use Btx\Query\Model;
 use Vinkla\Hashids\Facades\Hashids;
 use Exception;
-
+use Carbon\Carbon;
 class BaseModel extends Model
 {
     use HasOptionalRelation;
@@ -30,12 +30,12 @@ class BaseModel extends Model
 
     public function getCreatedAtFormattedAttribute()
     {
-        return $this->created_at ? $this->created_at->format('d-m-Y H:i') : null;
+       return $this->created_at ? Carbon::parse($this->created_at)->locale('id')->translatedFormat('l, d M Y H:i') : null;
     }
 
     public function getUpdatedAtFormattedAttribute()
     {
-        return $this->updated_at ? $this->updated_at->format('d-m-Y H:i') : null;
+       return $this->updated_at ? Carbon::parse($this->updated_at)->locale('id')->translatedFormat('l, d M Y H:i') : null;
     }
 
     public function getEncodeIdAttribute(){
