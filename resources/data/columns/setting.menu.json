@@ -8,8 +8,7 @@
         "sortable": true,
         "type": "text",
         "options": [
-            "edit",
-            "delete"
+            "edit"
         ],
         "show": true,
         "class": "",

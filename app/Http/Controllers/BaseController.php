@@ -59,6 +59,7 @@ class BaseController extends Controller
         if(!empty($this->_mergeData))$this->mergeData($rows);
         $this->_gridProperties['filterDateRange'] = $this->_gridProperties['filterDateRange']??false;
         $this->_gridProperties['advanceFilter'] = $this->_gridProperties['advanceFilter']??true;
+        $this->_gridProperties['simpleFilter'] = $this->_gridProperties['simpleFilter']??true;
         $this->_gridProperties['multipleSelect'] = $this->_gridProperties['multipleSelect']??$this->_multipleSelectGrid;
         return Response::ok('Loaded', [
             'rows' => $rows->toArray(),

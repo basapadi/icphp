@@ -36,5 +36,8 @@ class ReceivableController extends BaseController
         $this->setQuery($query)
             ->with(['contact'])
             ->groupBy('contact_id');
+        $this->setGridProperties([
+            'simpleFilter' => false
+        ]);
     }
 }
