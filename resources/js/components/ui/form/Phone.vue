@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import Label from "@/components/ui/Label.vue";
 
 export default {
-  name: "Text",
+  name: "Phone",
   components: { Label },
   props: {
     defaultValue: { type: [String, Number], default: "" },
@@ -28,33 +28,28 @@ export default {
 
     function handleInput(e: Event) {
       const target = e.target as HTMLInputElement;
-      const value = target.value;
-
       if (props.format) {
-        try {
-          const regex = new RegExp(props.format);
-          if (!regex.test(value)) {
-            target.setCustomValidity("Data tidak boleh kosong atau format tidak sesuai");
-          } else {
-            target.setCustomValidity("");
-          }
-        } catch (err) {
+        const regex = new RegExp(props.format);
+        if (!regex.test(target.value)) {
+          target.setCustomValidity("Data tidak boleh kosong atau format tidak sesuai");
+        } else {
           target.setCustomValidity("");
         }
       } else {
         target.setCustomValidity("");
       }
-
-      modelValue.value = value;
+      // Update modelValue
+      modelValue.value = target.value;
     }
 
-    const inputClass = cn(
-      "flex h-8 w-full text-sm rounded-md border border-input bg-background px-3 py-2 ring-offset-background file:border-0 file:bg-transparent file:text-foreground file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-      props.class
-    );
+    const inputClass = (propsClass: HTMLAttributes["class"]) =>
+      cn(
+        'flex h-8 w-full text-sm rounded-md border border-input bg-background px-3 py-2 ring-offset-background file:border-0 file:bg-transparent file:text-foreground file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+        propsClass
+      );
 
     return { props, modelValue, handleInput, inputClass };
-  }
+  },
 };
 </script>
 
@@ -71,9 +66,9 @@ export default {
       :name="name"
       :placeholder="hint"
       :required="required"
-      :pattern="props.format || undefined"
       @input="handleInput"
-      :class="inputClass"
+      :pattern="props.format || undefined"
+      :class="inputClass(props.class)"
     />
   </div>
 </template>

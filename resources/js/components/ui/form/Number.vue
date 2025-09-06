@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import Label from "@/components/ui/Label.vue";
 
 export default {
-  name: "Text",
+  name: "Number",
   components: { Label },
   props: {
     defaultValue: { type: [String, Number], default: "" },
@@ -17,7 +17,9 @@ export default {
     hint: { type: String, default: "" },
     required: { type: Boolean, default: false },
     class: { type: [String, Array, Object] as unknown as HTMLAttributes["class"], default: "" },
-    format: { type: String, default: "" }
+    min: { type: [String, Number], default: undefined },
+    max: { type: [String, Number], default: undefined },
+    step: { type: [String, Number], default: 1 }
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
@@ -26,35 +28,8 @@ export default {
       defaultValue: props.defaultValue,
     });
 
-    function handleInput(e: Event) {
-      const target = e.target as HTMLInputElement;
-      const value = target.value;
-
-      if (props.format) {
-        try {
-          const regex = new RegExp(props.format);
-          if (!regex.test(value)) {
-            target.setCustomValidity("Data tidak boleh kosong atau format tidak sesuai");
-          } else {
-            target.setCustomValidity("");
-          }
-        } catch (err) {
-          target.setCustomValidity("");
-        }
-      } else {
-        target.setCustomValidity("");
-      }
-
-      modelValue.value = value;
-    }
-
-    const inputClass = cn(
-      "flex h-8 w-full text-sm rounded-md border border-input bg-background px-3 py-2 ring-offset-background file:border-0 file:bg-transparent file:text-foreground file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-      props.class
-    );
-
-    return { props, modelValue, handleInput, inputClass };
-  }
+    return { props, modelValue, cn };
+  },
 };
 </script>
 
@@ -71,9 +46,18 @@ export default {
       :name="name"
       :placeholder="hint"
       :required="required"
+      @invalid="e => e.target.setCustomValidity(`Inputan ${label} tidak boleh kosong atau tidak sesuai format`)"
+      @input="e => e.target.setCustomValidity('')"
+      :min="min?? null"
+      :max="max?? null"
+      :step="step?? 1"
       :pattern="props.format || undefined"
-      @input="handleInput"
-      :class="inputClass"
+      :class="
+        cn(
+          'flex h-8 w-full text-sm rounded-md border border-input bg-background px-3 py-2 ring-offset-background file:border-0 file:bg-transparent file:text-foreground file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+          props.class
+        )
+      "
     />
   </div>
 </template>

@@ -6,9 +6,9 @@
                 <form @submit.prevent="submit" enctype="multipart/form-data">
                     <template v-for="(section,i) in sections" :key="i"> 
                         <span class="text-gray-400 font-bold text-shadow-2xs">{{section?.label}}</span>
-                        <div class="space-y-2 p-4 grid grid-cols-1 md:grid-cols-2 gap-2 border-2 rounded-sm ">
+                        <div :class="`space-y-2 p-4 grid grid-cols-1 md:grid-cols-${section.column} gap-2 border-2 rounded-sm mb-4`">
                             <template v-for="(field,x) in section['forms']" :key="x">
-                                <Input v-if="['text', 'email', 'phone'].includes(field.type)"
+                                <Input v-if="['text', 'email'].includes(field.type)"
                                     :key="field.name"
                                     :label="field.label"
                                     :type="field.type"
@@ -17,9 +17,37 @@
                                     :id="field.id"
                                     :hint="field.hint"
                                     :required="field.required"
-                                    class=""
+                                    :format="field?.format"
                                 />
-                                <Select v-if="field.type == 'select'"
+                                <Number v-else-if="field.type == 'number'"
+                                    :key="field.name"
+                                    :label="field.label"
+                                    :type="field.type"
+                                    v-model="form[field.name]"
+                                    :name="field.name"
+                                    :id="field.id"
+                                    :hint="field.hint"
+                                    :required="field.required"
+                                    :min="field?.min"
+                                    :max="field?.max"
+                                    :step="field?.step"
+                                    :format="field?.format"
+                                />
+                                <Phone v-else-if="field.type == 'phone'"
+                                    :key="field.name"
+                                    :label="field.label"
+                                    :type="field.type"
+                                    v-model="form[field.name]"
+                                    :name="field.name"
+                                    :id="field.id"
+                                    :hint="field.hint"
+                                    :required="field.required"
+                                    :min="field?.min"
+                                    :max="field?.max"
+                                    :step="field?.step"
+                                    :format="field?.format"
+                                />
+                                <Select v-else-if="field.type == 'select'"
                                     :key="field.name"
                                     :label="field.label"
                                     :type="field.type"
@@ -30,7 +58,7 @@
                                     :required="field.required"
                                     :options="field.options"
                                 />
-                                <Radio v-if="field.type == 'radio'"
+                                <Radio v-else-if="field.type == 'radio'"
                                     :key="field.name"
                                     :label="field.label"
                                     :type="field.type"
@@ -40,8 +68,9 @@
                                     :hint="field.hint"
                                     :required="field.required"
                                     :options="field.options"
+                                    :direction="field?.direction"
                                 />  
-                                <FileUpload v-if="field.type == 'file'"
+                                <FileUpload v-else-if="field.type == 'file'"
                                     :key="field.name"
                                     :label="field.label"
                                     :type="field.type"
@@ -54,6 +83,16 @@
                                     :extension="field.extension"
                                     :maxsize="field.maxsize"
                                     :maxfile="field.maxfile"
+                                />
+                                <Textarea v-else-if="field.type == 'textarea'"
+                                    :key="field.name"
+                                    :label="field.label"
+                                    :type="field.type"
+                                    v-model="form[field.name]"
+                                    :name="field.name"
+                                    :id="field.id"
+                                    :hint="field.hint"
+                                    :required="field.required"
                                 />
                             </template>
                         </div>
@@ -69,7 +108,7 @@
     </div>
 </template>
 <script>
-import { Input,Select,Radio,FileUpload } from "@/components/ui/form";
+import { Input,Select,Radio,FileUpload,Textarea,Number,Phone } from "@/components/ui/form";
 import { Card, CardTitle, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "./ui/button";
 
@@ -86,6 +125,9 @@ export default {
         Select,
         Radio,
         FileUpload,
+        Textarea,
+        Number,
+        Phone,
         Card,
         CardTitle,
         CardContent,

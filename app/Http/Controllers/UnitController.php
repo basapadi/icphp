@@ -26,9 +26,12 @@ class UnitController extends BaseController
             ]]
         ]);
         $this->setFilterColumnsLike(['kode','nama'],request('q')??'');
+
+        $basicUnits = Master::select('id','nama')->where('type','BASIC_UNIT')->get()->pluck('nama','id')->toArray();
         $this->setForm([
             'main' => [
                 'label' => 'Form Satuan Barang',
+                'column' => 1,
                 'forms' => [
                     ['name' => 'type','type' => 'select', 'label' =>'Tipe','required' => true,'hint' => 'Pilih tipe satuan', 'options' => [
                         'UNIT' => 'Unit',
@@ -36,10 +39,18 @@ class UnitController extends BaseController
                     ]],
                     ['name' => 'code','type' => 'text', 'label' =>'Kode','required' => true,'hint' => 'Masukkan Kode Satuan'],
                     ['name' => 'nama','type' => 'text', 'label' =>'Nama','required' => true,'hint' => 'Masukkan Nama Satuan'],
-                    ['name' => 'status','type' => 'radio','required' => true, 'label' => 'Status','hint' => 'Status Kontak', 'options' => [
+                    ['name' => 'status','type' => 'radio','required' => true,'direction'=> 'row', 'label' => 'Status','hint' => 'Status Kontak', 'options' => [
                         '0' => 'Tidak Aktif',
                         '1' => 'Aktif'
                     ]]
+                ]
+            ],
+            'conversion' => [
+                'label' => 'Konversi Satuan',
+                'column' => 2,
+                'forms' => [
+                    ['name' => 'to', 'type' => 'select', 'label' => 'Konversi Ke Satuan', 'options' => $basicUnits],
+                    ['name' => 'conversion', 'type' => 'number', 'label' => 'Jumlah Konversi','min'=> 0, 'step' => 1]
                 ]
             ]
         ]);

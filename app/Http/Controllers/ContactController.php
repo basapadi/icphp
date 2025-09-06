@@ -13,16 +13,17 @@ class ContactController extends BaseController
         $this->setForm([
             'main' => [
                 'label' => 'Form Satuan Barang',
+                'column' => 2,
                 'forms' => [
                     ['name' => 'type','type' => 'select', 'label' =>'Tipe Kontak','required' => true,'hint' => 'Silahkan Pilih Tipe Kontak', 'options' => [
                         'pelanggan' => 'Pelanggan',
                         'pemasok' => 'Pemasok'
                     ]],
                     ['name' => 'nama','type' => 'text', 'label' => 'Nama','required' => true,'hint' => 'Nama Kontak'],
-                    ['name' => 'alamat','type' => 'textarea', 'label' => 'Alamat','required' => true,'hint' => 'Alamat'],
-                    ['name' => 'telepon','type' => 'phone', 'label' => 'Telepon','required' => true,'hint' => 'Telepon'],
+                    ['name' => 'telepon','type' => 'phone', 'label' => 'Telepon','required' => true,'hint' => 'Telepon', 'format' => '^(?:\\+62|62|0)8[1-9][0-9]{6,10}$'],
                     ['name' => 'email','type' => 'email', 'label' => 'Email','hint' => 'Email'],
-                    ['name' => 'status','type' => 'radio','required' => true, 'label' => 'Status','hint' => 'Status Kontak', 'options' => [
+                    ['name' => 'alamat','type' => 'textarea', 'label' => 'Alamat','required' => true,'hint' => 'Alamat'],
+                    ['name' => 'status','type' => 'radio','required' => true,'direction'=> 'row', 'label' => 'Status','hint' => 'Status Kontak', 'options' => [
                         '0' => 'Tidak Aktif',
                         '1' => 'Aktif'
                     ]]

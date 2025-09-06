@@ -1,6 +1,6 @@
 <template>
-  <div class="">
-    <Label :for="id" class="text-sm font-medium">
+  <div class="flex flex-col gap-1.5">
+    <Label :for="id" class="text-sm font-medium leading-none">
       <span class="text-gray-500 text-shadow-2xs">{{ label }}</span> <span v-if="required" class="text-red-600">*</span>
     </Label>
 
