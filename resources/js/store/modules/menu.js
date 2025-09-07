@@ -32,16 +32,17 @@ const actions = {
             commit('setMenuRoles', resp.data.menu_roles)
             return resp
         } catch (err) {
-            if (err.response && err.response.status === 401) {
-              // hapus token & user dari store/localStorage
-              commit('auth/setToken', null, { root: true })
-              commit('auth/setUser', null, { root: true })
-              localStorage.removeItem('token')
-              localStorage.removeItem('user')
-              // redirect ke login
-              router.push('/login')
-            }
-            throw err
+          if (err.response && err.response.status === 401) {
+            console.log('401 detected')
+            // hapus token & user dari store/localStorage
+            commit('auth/setToken', null, { root: true })
+            commit('auth/setUser', null, { root: true })
+            localStorage.removeItem('token')
+            localStorage.removeItem('user')
+            // redirect ke login
+            router.push('/login')
+          }
+          throw err
         }
     }
 }

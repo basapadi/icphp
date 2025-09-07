@@ -16,6 +16,7 @@ import payable from './modules/payable'
 import receivable from './modules/receivable'
 import expense from './modules/expense'
 import trash from './modules/trash'
+import database from './modules/database'
 
 export default createStore({
   modules: {
@@ -35,6 +36,7 @@ export default createStore({
     payable,
     receivable,
     expense,
-    trash
+    trash,
+    database
   }
 })
