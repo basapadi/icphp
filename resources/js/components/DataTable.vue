@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white rounded-lg shadow-md border border-gray-200 pb-18">
+    <div class="bg-white rounded-lg border border-gray-200">
         <!-- Table Header -->
         <div class="px-1 py-1 border-b border-gray-200">
             <div class="flex justify-between">
@@ -31,7 +31,7 @@
         </div>
         <div class="h-screen relative">
             <!-- Table -->
-            <div class="overflow-x-auto max-h-3/4">
+            <div class="overflow-x-auto max-h-7/10">
                 <table class="min-w-full border-collapse border border-orange-100">
                     <thead class="bg-orange-50 sticky top-0">
                         <tr>
@@ -110,7 +110,7 @@
             </div>
 
             <!-- Table Footer -->
-            <div class="px-4 py-3 border-t border-gray-200 bg-gray-50">
+            <div class="px-4 py-3 border-t border-gray-200 bg-white">
                 <div class="flex items-center justify-between">
                     <div class="text-sm text-gray-700">
                         Data

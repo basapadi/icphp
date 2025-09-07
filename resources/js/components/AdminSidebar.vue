@@ -1,9 +1,16 @@
 <template>
   <aside :class="[
-    'fixed left-0 top-10 h-[calc(120vh-4rem)] bg-white border-r border-gray-200 overflow-y-auto transition-all duration-300 ease-in-out w-64'
+    'fixed left-0 top-10 h-[calc(100vh-4rem)] bg-white border-r border-gray-200 overflow-y-auto overflow-x-hidden transition-all duration-300 ease-in-out w-64'
   ]">
-
     <nav class="p-1">
+      <div class="relative pl-2 pt-2 sticky top-0 bg-white z-10">
+        <Search class="absolute left-3 top-5/8 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+        <input
+          v-model="searchQuery"
+          placeholder="Cari..."
+          class="pl-7 h-7 text-xs bg-white border border-gray-300 rounded w-58 px-2"
+        />
+      </div>
       <ul class="space-y-1">
         <MenuItem 
           v-for="(item, index) in menus" 
@@ -13,7 +20,9 @@
         />
       </ul>
     </nav>
-
+    <div class="sticky bottom-0 border-t border-gray-200 p-2 text-center">
+      <label class="text-xs italic antialiased text-gray-500 hover:bg-gray-200 px-3 py-1">© HMP Basapadi Version v1.0.0</label>
+    </div>
     <!-- Modern status indicator at bottom -->
     <!-- <div class="absolute bottom-0 left-0 right-0 bg-gray-50 border-t border-gray-200 p-4">
       <div class="flex items-center space-x-3">
@@ -42,7 +51,8 @@ import {
   DollarSign,
   ScrollText,
   PackageOpen,
-  Trash
+  Trash,
+  Search
 } from 'lucide-vue-next'
 
 </script>

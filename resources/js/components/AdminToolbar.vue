@@ -1,23 +1,14 @@
 <template>
-  <div class="bg-gray-50 border-b border-gray-300 fixed left-0 right-0 z-40 h-10">
+  <div class="bg-gray-50 border-b border-gray-300 fixed left-0 right-0 pt-1 z-40 h-10">
     <div class="flex items-center justify-between px-2 h-full">
       <!-- Menu Bar -->
       <div class="flex items-center">
-        <button class="text-sm text-gray-700 hover:bg-gray-200 px-3 py-1">Alat</button>
-        <button class="text-sm text-gray-700 hover:bg-gray-200 px-3 py-1">Bantuan</button>
-        <button class="text-sm text-gray-700 hover:bg-gray-200 px-3 py-1">Tutup</button>
+        <button class="text-xs text-gray-500 hover:bg-gray-200 px-3 py-1">Alat</button>
+        <button class="text-xs text-gray-500 hover:bg-gray-200 px-3 py-1">Bantuan</button>
       </div>
 
       <!-- Toolbar Actions -->
       <div class="flex items-center space-x-2">
-        <div class="relative">
-          <Search class="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-3 h-3" />
-          <input 
-            v-model="searchQuery"
-            placeholder="Cari..." 
-            class="pl-7 h-7 text-xs bg-white border border-gray-300 rounded w-48 px-2"
-          />
-        </div>
         <div class="w-px h-6 bg-gray-300"></div>
         <button class="h-7 w-7 p-0 relative hover:bg-gray-200 flex items-center justify-center">
           <Bell class="w-3 h-3" />

@@ -21,7 +21,7 @@
         </div>
     <div>
     <div class="h-screen">
-        <div class="overflow-x-auto max-h-3/4">
+        <div class="overflow-x-auto max-h-7/10">
             <table class="min-w-full border-collapse border border-gray-200">
                 <thead class="bg-orange-50 sticky top-0">
                 <tr>
@@ -65,24 +65,24 @@
                 <div class="flex items-center space-x-2">
                     <button
                         @click="initPage"
-                        class="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        class="bg-orange-50 text-sm border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 px-4 py-1.5"
                         >
                         Awal
                     </button>
                     <button
                         @click="previousPage"
                         :disabled="currentPage === 1"
-                        class="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        class="bg-orange-50 text-sm border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 px-4 py-1.5"
                     >
                         Sebelumnya
                     </button>
-                    <button class="px-3 py-1 text-sm bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors">
+                    <button class="bg-orange-50 text-sm border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 px-4 py-1.5">
                         {{ currentPage }}
                     </button>
                     <button
                         @click="nextPage"
                         :disabled="currentPage === totalPages"
-                        class="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        class="bg-orange-50 text-sm border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 px-4 py-1.5"
                     >
                         Selanjutnya
                     </button>
