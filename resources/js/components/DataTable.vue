@@ -247,6 +247,12 @@ export default {
         },
         currentPage() {
             this.load();
+            const rm = this.menuRoles.find(
+                (role) => role.route === this.$route.path
+            )
+
+            this.allowCreate = rm?.create
+            this.allowDelete = rm?.delete
         },
         "pagination._page"() {
             this.load();
@@ -321,12 +327,6 @@ export default {
                 }).finally((f) => {
                     this.loading = false
                 })
-            const rm = this.menuRoles.find(
-                (role) => role.route === this.$route.path
-            )
-
-            this.allowCreate = rm?.create
-            this.allowDelete = rm?.delete
         },
         formatDate(dateString) {
             return new Date(dateString).toLocaleDateString();

@@ -13,7 +13,7 @@ class ItemReceivedDetail extends BaseModel
         'jumlah',
         'harga',
         'unit_id',
-        'keladuarsa',
+        'kedaluarsa',
         'batch'
     ];
 

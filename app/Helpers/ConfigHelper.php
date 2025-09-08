@@ -1,4 +1,9 @@
 <?php
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\JsonResponse;
+
 if (!function_exists('ihandCashierConfigToOptions')) {
     function ihandCashierConfigToOptions(string $config) {
         $result=[];

@@ -8,6 +8,8 @@ return [
      */
     'version' => env('NATIVEPHP_APP_VERSION', '1.0.0'),
 
+    'nativephp_running' => env('NATIVEPHP_RUNNING', false),
+
     /**
      * The ID of your application. This should be a unique identifier
      * usually in the form of a reverse domain name.

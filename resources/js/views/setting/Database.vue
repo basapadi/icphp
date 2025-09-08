@@ -1,6 +1,6 @@
 <template>
   <AdminLayout>
-    <div class="w-full max-h-1">
+    <div class="w-full">
       <PageHeader title="Basis Data" description="Pengaturan Basis Data"/>
       <div class="flex gap-4 p-2">
         <Card class="flex-1 max-w-2xl">
@@ -8,11 +8,11 @@
             <CardTitle>[Lokal] Konfigurasi Basis Data</CardTitle>
           </CardHeader>
           <CardContent>
-            <form @submit.prevent="handleSubmit" >
+            <form @submit.prevent="saveLocalConfig" >
               <div class="space-y-4 grid grid-cols-1 md:grid-cols-1 gap-2">
                 <Select
                   v-model="form.driver"
-                  :options="databaseTypes"
+                  :options="drivers"
                   label="Tipe Database"
                   hint="Pilih tipe database yang akan digunakan"
                   required
@@ -28,7 +28,7 @@
                   name="database"
                   id="database"
                 />
-                <template >
+                <template v-else>
                   <Input
                     v-model="form.host"
                     label="Host"
@@ -99,7 +99,6 @@
                 </button>
                 <button
                   type="submit"
-                  @click="saveLocalConfig"
                   class="w-full py-1 bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103"
                 >
                   Simpan
@@ -127,7 +126,7 @@
                   id="migrate_db"
                   hint="Migrasi Basis Data"
                   :options="data_options_migrate"
-                  direction="row"
+                  direction="col"
               />
               <Radio
                   label="Seed Data"
@@ -136,7 +135,7 @@
                   id="seed_db"
                   hint="Seed Basis Data"
                   :options="data_options"
-                  direction="row"
+                  direction="col"
               />
               <Radio
                   label="Config Cache"
@@ -145,7 +144,7 @@
                   id="config_cache"
                   hint="Config Cache"
                   :options="data_options"
-                  direction="row"
+                  direction="col"
               />
               <Radio
                   label="Route Cache"
@@ -154,7 +153,7 @@
                   id="route_cache"
                   hint="Route Cache"
                   :options="data_options"
-                  direction="row"
+                  direction="col"
               />
               
             </div>
@@ -170,7 +169,7 @@
           </CardHeader>
           <CardContent> 
             <form @submit.prevent="handleSubmit" >
-              <div class="space-y-2 grid grid-cols-1 md:grid-cols-2 gap-1">
+              <div class="space-y-2 grid grid-cols-1 md:grid-cols-1 gap-1">
                 <Select
                   v-model="backup.driver"
                   :options="backupDatabaseTypes"
@@ -298,7 +297,7 @@ export default {
     LoaderCircle
   },
   setup() {
-    const databaseTypes = {
+    let drivers = {
       sqlite: 'SQLite'
     }
 
@@ -308,15 +307,9 @@ export default {
       pgsql: 'PostgreSQL'
     }
 
-    const handleSubmit = () => {
-      // TODO: Implement form submission logic
-      console.log('Form submitted:', form.value)
-    }
-
     return {
-      databaseTypes,
-      backupDatabaseTypes,
-      handleSubmit
+      drivers,
+      backupDatabaseTypes
     }
   },
   computed: {
@@ -361,9 +354,11 @@ export default {
     async load(){
       try {
        const {data} = await this.$store.dispatch('database/edit')
-        this.form = data.data
+        this.form = data.data.config
+        this.drivers = data.data.drivers
       } catch (resp) {
-        alert(resp.response.message)
+        // alert(resp?.response?.message)
+        console.log('LOAD :',resp?.response)
       }
     },
     async testDb(){
@@ -376,10 +371,14 @@ export default {
         }
     },
     async saveLocalConfig(){
+        this.loading = true;
         let payload = this.form
         try {
-          await this.$store.dispatch('database/saveLocalConfig', payload)
+          await this.$store.dispatch('database/saveLocalConfig', payload).finally(() => {
+            this.loading = false;
+          })
         } catch (resp) {
+          this.loading = false;
           alert(resp.response?.data?.message)
         }
     },

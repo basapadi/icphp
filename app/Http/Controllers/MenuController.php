@@ -7,12 +7,14 @@ use App\Models\{
     RoleMenu
 };
 use Illuminate\Http\Request;
+use Native\Laravel\Facades\App as ICApp;
 
 class MenuController extends BaseController
 {
     public function getMenu(){
         $this->allowAccessModule('setting.menu', 'view');
-        $role = auth()->user()->role;
+        $role = (string) auth()->user()->role;
+        
         $menuIds = RoleMenu::where('role', $role)->where('view', true)->pluck('menu_id');
         $menus = Menu::with('subItems.subItems')
         ->whereIn('id', $menuIds)
@@ -26,7 +28,11 @@ class MenuController extends BaseController
             ->get()->toArray();
         return [
             'menus' => $menus,
-            'menu_roles' => $menuRoles
+            'menu_roles' => $menuRoles,
+            'app' => [
+                'version' => config('nativephp.version'),
+                'copyright' => config('nativephp.copyright')
+            ]
         ];
     }
 

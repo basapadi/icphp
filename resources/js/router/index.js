@@ -50,7 +50,7 @@ router.beforeEach((to, from, next) => {
     const isAuthenticated = !!localStorage.getItem("token"); // atau cek Vuex/Pinia store
 
     if (to.meta.requiresAuth && !isAuthenticated) {
-        next({ name: "Login" }); // redirect ke login
+        next({ name: "Login" });
     } else {
         next(); // lanjut
     }

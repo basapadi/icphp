@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Menu;
+use Illuminate\Support\Facades\DB;
+
 class MenuSeeder extends Seeder
 {
     /**
@@ -14,7 +16,6 @@ class MenuSeeder extends Seeder
     {
         $menus = config('ihandcashier.menus');
 
-        \DB::beginTransaction();
         Menu::truncate();
         $preInsertMenu = [];
         foreach($menus as $k => $menu){
@@ -29,7 +30,5 @@ class MenuSeeder extends Seeder
             ]);
         }
         Menu::insert($preInsertMenu);
-
-        \DB::commit();
     }
 }

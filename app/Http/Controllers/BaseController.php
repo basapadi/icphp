@@ -14,12 +14,12 @@ use App\Models\Menu;
 use App\Transformers\FormTransformer;
 use Spatie\Fractalistic\ArraySerializer;
 use App\Http\Response;
-use App\Traits\{HasQueryBuilder,QueryHelper,DataBuilder};
+use App\Traits\{HasQueryBuilder,QueryHelper,DataBuilder,BaseHelper};
 use App\Models\Trash;
 
 class BaseController extends Controller
 {
-    use HasQueryBuilder,QueryHelper,DataBuilder;
+    use HasQueryBuilder,QueryHelper,DataBuilder,BaseHelper;
 
     private Model $_model;
     private ?Fractal $_columns;
@@ -184,13 +184,16 @@ class BaseController extends Controller
      */
     protected function allowAccessModule(string $module, string $action, bool $asBoolean = false)
     {
-        $auth = auth()->user();
+        $role = (string) auth()->user()->role;
         if (!empty($module) && !empty($action)) {
             $can = Menu::select('menus.id', 'module', 'role_menus.' . $action)
-                ->where('module', $module)->join('role_menus', function ($join) use ($auth) {
+                ->where('module', $module)
+                ->join('role_menus', function ($join) use ($role) {
                     $join->on('role_menus.menu_id', '=', 'menus.id')
-                        ->on('role_menus.role', '=', $auth->role);
-                })->first()->{$action};
+                        ->where('role_menus.role', '=', $role); // ← perbaikan
+                })
+                ->first()
+                ->{$action};
             return !$can ? (!$asBoolean ? abort(response()->json([
                 'status' => false,
                 'message' => 'Unauthorized'
@@ -333,9 +336,11 @@ class BaseController extends Controller
             $this->saveTrash($data);
 
             DB::commit();
+            $this->setAlert('info','Berhasil','Data berhasil dihapus, silahkan periksa keranjang sampah untuk melihat data terhapus');
             return Response::ok('Data berhasil dihapus');
         }catch(Exception $e){
             DB::rollBack();
+            $this->setAlert('error','Galat!',$e->getMessage());
             return Response::badRequest($e->getMessage());
         }
     }
