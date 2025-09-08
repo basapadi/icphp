@@ -32,3 +32,19 @@ if (!function_exists('roleConfigToOptions')) {
         return $result;
     }
 }
+
+if(!function_exists('updateEnv')){
+    function updateEnv($key, $value) {
+        $envPath = base_path('.env');
+        $envContent = file_get_contents($envPath);
+        $pattern = "/^{$key}=.*$/m";
+
+        if (preg_match($pattern, $envContent)) {
+            $envContent = preg_replace($pattern, "{$key}={$value}", $envContent);
+        } else {
+            $envContent .= "\n{$key}={$value}";
+        }
+
+        file_put_contents($envPath, $envContent);
+    }
+}

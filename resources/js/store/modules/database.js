@@ -15,9 +15,9 @@ const mutations = {
 }
 
 const actions = {
-    async get({ commit, rootState }, payload) { 
+    async edit({ commit, rootState }, payload) { 
           try {
-              const resp = await axios.get('/api/database/form', {
+              const resp = await axios.get('/api/database/edit', {
                   params: payload,
                   paramsSerializer: params => {
                       return qs.stringify(params, { arrayFormat: 'repeat' })
@@ -28,7 +28,33 @@ const actions = {
           } catch (err) {
               throw err
           }
-    }
+    },
+
+    async test({ commit, rootState }, payload) { 
+          try {
+              const resp = await axios.post('/api/database/test',payload);
+              return resp
+          } catch (err) {
+              throw err
+          }
+    },
+
+    async saveLocalConfig({ commit, rootState }, payload) { 
+          try {
+              const resp = await axios.post('/api/database/save-local-config',payload);
+              return resp
+          } catch (err) {
+              throw err
+          }
+    },
+    async runCommand({ commit, rootState }, payload) { 
+          try {
+              const resp = await axios.post('/api/database/run-command',payload);
+              return resp
+          } catch (err) {
+              throw err
+          }
+    },
 }
 
 export default {

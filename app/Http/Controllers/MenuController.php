@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class MenuController extends BaseController
 {
     public function getMenu(){
-       
+        $this->allowAccessModule('setting.menu', 'view');
         $role = auth()->user()->role;
         $menuIds = RoleMenu::where('role', $role)->where('view', true)->pluck('menu_id');
         $menus = Menu::with('subItems.subItems')

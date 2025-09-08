@@ -13,6 +13,7 @@ use App\Http\Controllers\{
     SaleItemController,
     StockController,
     DashboardController,
+    DatabaseController,
     PayableController,
     ReceivableController,
     ExpenseController,
@@ -101,5 +102,12 @@ Route::prefix('api')->group(function () {
     Route::controller(TrashController::class)->middleware('auth:sanctum')->prefix('trash')->group(function () {
         Route::get('grid', 'grid');
         Route::delete('truncate', 'truncate');
+    });
+
+    Route::controller(DatabaseController::class)->middleware('auth:sanctum')->prefix('database')->group(function () {
+        Route::get('edit', 'form');
+        Route::post('test', 'test');
+        Route::post('save-local-config', 'saveLocalConfig');
+        Route::post('run-command', 'runCommnad');
     });
 });
