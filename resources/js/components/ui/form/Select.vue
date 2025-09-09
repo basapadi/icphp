@@ -66,7 +66,7 @@
       :name="name"
       :required="required"
       :class="computeClass"
-      @invalid="e => e.target.setCustomValidity(`Pilihan ${label} tidak boleh kosong`)"
+      @invalid="e => e.target.setCustomValidity(`${label} tidak boleh kosong`)"
       @input="setInput"
     >
       <option value="">-- Pilih --</option>

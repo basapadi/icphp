@@ -1,7 +1,7 @@
 <template>
-    <div class="bg-white rounded-lg border border-gray-200">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200">
         <!-- Table Header -->
-        <div class="px-1 py-1 border-b border-gray-200">
+        <div class="px-1 py-1 border-b border-gray-300">
             <div class="flex justify-between">
                 <div>
                     <FilterHeader :columns="columns" @load="load" :pagination="pagination" :operators="operators" :filter="filter" :properties="properties"/>

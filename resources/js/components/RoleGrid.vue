@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white rounded-lg shadow-sm border-2 border-gray-100">
+    <div class="bg-white rounded-xl shadow-sm border-1 border-gray-200">
         <!-- Table Header -->
         <div class="px-1 py-1 border-b border-gray-100">
             <div class="flex items-center justify-between">

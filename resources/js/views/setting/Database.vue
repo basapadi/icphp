@@ -2,10 +2,10 @@
   <AdminLayout>
     <div class="w-full">
       <PageHeader title="Basis Data" description="Pengaturan Basis Data"/>
-      <div class="flex gap-4 p-2">
+      <div class="flex gap-1 p-2">
         <Card class="flex-1 max-w-2xl">
           <CardHeader>
-            <CardTitle>[Lokal] Konfigurasi Basis Data</CardTitle>
+            <CardTitle>Konfigurasi Basis Data</CardTitle>
           </CardHeader>
           <CardContent>
             <form @submit.prevent="saveLocalConfig" >
@@ -28,7 +28,7 @@
                   name="database"
                   id="database"
                 />
-                <template v-else>
+                <template v-else-if="['mysql','pgsql','mariadb'].includes(form.driver)">
                   <Input
                     v-model="form.host"
                     label="Host"
@@ -109,7 +109,7 @@
         </Card>
         <Card class="flex-1 max-w-lg">
           <CardHeader>
-            <CardTitle>[Lokal] Command Konfigurasi Data</CardTitle>
+            <CardTitle>Command Konfigurasi Data</CardTitle>
             <ul class="list-disc text-red-600 pl-4 text-xs">
                 <li class="mb-2 rounded text-xs italic"><b>[Peringatan]</b> Migrasi basis data : akan mempengaruhi struktur basis data anda ke versi terbaru, silakan backup data terlebih dahulu.</li>
                 <li class="mb-2 rounded text-xs italic"><b>[Peringatan]</b> Seed Data : akan menghapus data yang sudah ada dan memuat data contoh ke basis data anda, silakan backup data terlebih dahulu.</li>
@@ -165,7 +165,7 @@
         </Card>
         <Card class="flex-1 max-w-2xl">
           <CardHeader>
-            <CardTitle>[Backup] Konfigurasi Basis Data</CardTitle>
+            <CardTitle>Konfigurasi Pencadangan Basis Data</CardTitle>
           </CardHeader>
           <CardContent> 
             <form @submit.prevent="handleSubmit" >

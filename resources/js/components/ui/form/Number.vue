@@ -46,7 +46,7 @@ export default {
       :name="name"
       :placeholder="hint"
       :required="required"
-      @invalid="e => e.target.setCustomValidity(`Inputan ${label} tidak boleh kosong atau tidak sesuai format`)"
+      @invalid="e => e.target.setCustomValidity(`${label} tidak boleh kosong atau tidak sesuai format`)"
       @input="e => e.target.setCustomValidity('')"
       :min="min?? null"
       :max="max?? null"

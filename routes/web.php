@@ -108,6 +108,6 @@ Route::prefix('api')->group(function () {
         Route::get('edit', 'form');
         Route::post('test', 'test');
         Route::post('save-local-config', 'saveLocalConfig');
-        Route::post('run-command', 'runCommnad');
+        Route::post('run-command', 'runCommand');
     });
 });

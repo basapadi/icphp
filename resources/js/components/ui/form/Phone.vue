@@ -66,6 +66,7 @@ export default {
       :name="name"
       :placeholder="hint"
       :required="required"
+      @invalid="e => e.target.setCustomValidity(`${label} tidak boleh kosong atau tidak sesuai format`)"
       @input="handleInput"
       :pattern="props.format || undefined"
       :class="inputClass(props.class)"

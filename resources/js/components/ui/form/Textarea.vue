@@ -11,7 +11,8 @@
           :name="name || id"
           :value="modelValue"
           :class="computeClass"
-          @invalid="e => e.target.setCustomValidity(`Inputan ${label} tidak boleh kosong`)"
+          :required="required"
+          @invalid="e => e.target.setCustomValidity(`${label} tidak boleh kosong`)"
           @input.capture="e => e.target.setCustomValidity('')"
           @input="$emit('update:modelValue', $event.target.value)"
         ></textarea>

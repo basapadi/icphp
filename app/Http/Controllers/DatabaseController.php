@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Response;
+use App\Objects\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use PDO;
@@ -131,7 +132,8 @@ class DatabaseController extends BaseController
         return Response::ok('Data tersimpan');
     }
 
-    public function runCommnad(Request $request){
+    public function runCommand(Request $request){
+        $this->setNotification(new Notification('Menjalankan Command','Command sedang dalam proses silahkan tunggu...'));
         if(isset($request->migrate_db)){
             if($request->migrate_db == 1) Artisan::call('migrate');
             if($request->migrate_db == 2) Artisan::call('migrate:rollback');
