@@ -336,12 +336,10 @@ class BaseController extends Controller
             $this->saveTrash($data);
 
             DB::commit();
-            $this->setAlert('info','Berhasil','Data berhasil dihapus, silahkan periksa keranjang sampah untuk melihat data terhapus');
-            return Response::ok('Data berhasil dihapus');
+            return $this->setAlert('info','Berhasil','Data berhasil dihapus, silahkan periksa keranjang sampah untuk melihat data terhapus');
         }catch(Exception $e){
             DB::rollBack();
-            $this->setAlert('error','Galat!',$e->getMessage());
-            return Response::badRequest($e->getMessage());
+            return $this->setAlert('error','Galat!',$e->getMessage());
         }
     }
 }
