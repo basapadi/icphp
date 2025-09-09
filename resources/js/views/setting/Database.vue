@@ -118,7 +118,7 @@
             </ul>
           </CardHeader>
           <CardContent>
-            <div class="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-2">
+            <div class="space-y-4 grid grid-cols-1 md:grid-cols-3 pb-4   gap-2">
               <Radio
                   label="Migrasi Basis Data"
                   v-model="command.migrate_db"
@@ -143,6 +143,24 @@
                   name="config_cache"
                   id="config_cache"
                   hint="Config Cache"
+                  :options="data_options"
+                  direction="col"
+              />
+              <Radio
+                  label="Config Clear"
+                  v-model="command.config_clear"
+                  name="config_clear"
+                  id="config_clear"
+                  hint="Config Clear"
+                  :options="data_options"
+                  direction="col"
+              />
+              <Radio
+                  label="Cache Clear"
+                  v-model="command.cache_clear"
+                  name="cache_clear"
+                  id="cache_clear"
+                  hint="Cache clear"
                   :options="data_options"
                   direction="col"
               />
@@ -344,10 +362,12 @@ export default {
         migrate_db: 0,
         seed_db:0,
         config_cache:0,
-        route_cache:0
+        config_clear:0,
+        route_cache:0,
+        cache_clear:0
       },
       data_options:["Tidak","Ya"],
-      data_options_migrate:["Tidak","Ya","Rollback"]
+      data_options_migrate:["Tidak","Ya","Rollback","Refresh"]
     }
   },
   methods:{

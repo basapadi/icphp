@@ -137,10 +137,13 @@ class DatabaseController extends BaseController
         if(isset($request->migrate_db)){
             if($request->migrate_db == 1) Artisan::call('migrate');
             if($request->migrate_db == 2) Artisan::call('migrate:rollback');
+            if($request->migrate_db == 3) Artisan::call('migrate:refresh');
         }
         if(isset($request->seed_db) && $request->seed_db) Artisan::call('db:seed');
         if(isset($request->config_cache) && $request->config_cache) Artisan::call('config:cache');
+        if(isset($request->config_clear) && $request->config_clear) Artisan::call('config:clear');
         if(isset($request->route_cache) && $request->route_cache) Artisan::call('route:cache');
+        if(isset($request->cache_clear) && $request->cache_clear) Artisan::call('cache:clear');
 
         return Response::ok('Command berhasil dijalankan');
     }
