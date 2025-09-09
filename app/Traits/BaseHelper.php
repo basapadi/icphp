@@ -11,7 +11,10 @@ trait BaseHelper
     public function setAlert($type = 'info',$title = '', $message = ''){
         if(config('nativephp.nativephp_running')){
             Alert::new()->type($type)->title($title)->show($message);
-            return null;
+            return response()->json([
+                'status' => false,
+                'message' => ''
+            ]);
         } else {
             switch ($type) {
                 case 'info':

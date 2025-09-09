@@ -79,6 +79,9 @@ class UnitController extends BaseController
                 $conversion['conversion'] = (int) $request->conversion;
             }
 
+            $exist = Master::where('nama',$data['nama'])->orWhere('kode',$data['kode'])->first();
+            if($exist) return $this->setAlert('error','Duplikat Data','Data dengan nama atau kode yang anda masukkan sudah ada');
+
             $preInsert = [
                 'kode' => trim($data['kode']),
                 'nama' => trim($data['nama']),
@@ -88,9 +91,9 @@ class UnitController extends BaseController
             $preInsert['attributes'] = json_encode($conversion);
            
             $insert = Master::insert($preInsert);
-            return Response::ok('Data disimpan',$insert);
+            return $this->setAlert('info','Berhasil','Data berhasil disimpan');
         }catch(Exception $e){
-            return Response::badRequest($e->getMessage());
+            return $this->setAlert('error','Gagal',$e->getMessage());
         }
     }
 }

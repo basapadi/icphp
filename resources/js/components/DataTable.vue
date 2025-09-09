@@ -423,8 +423,10 @@ export default {
             await this.$store.dispatch(this.module+'/create',form)
             .then(({ data }) => {
                 this.load();
-                this.showDialog = false
-                alert(data.message)
+                if(data.message != undefined && data.status == true) {
+                    alert(data.message)
+                    this.showDialog = false
+                }
             }).catch((resp) => {
                 let msgError = '';
                 if(resp.response.data?.data?.errors != undefined){
