@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http;
-use Btx\Http\Traits\StaticResponse;
+use App\Traits\StaticResponse;
 
 class Response {
     use StaticResponse;
@@ -11,8 +11,8 @@ class Response {
         return response()->json($resp, $resp['code']);
     }
 
-    public static function badRequest($text,$dir = ''){
-        $resp =  self::response400($text,$dir);
+    public static function badRequest($text,$dir = '',$data = null){
+        $resp =  self::response400($text,$dir,$data);
         return response()->json($resp, $resp['code']);
     }
 

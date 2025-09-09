@@ -21,7 +21,7 @@
       </ul>
     </nav>
     <div class="sticky bottom-0 border-t bg-white border-gray-200 p-2 text-center">
-      <label class="text-xs italic antialiased text-gray-500  px-3 py-1">© {{app.copyright}} v{{app.version}}</label>
+      <label class="text-xs italic antialiased text-gray-500  px-3 py-1">{{app.copyright}} {{app.version}}</label>
     </div>
     <!-- Modern status indicator at bottom -->
     <!-- <div class="absolute bottom-0 left-0 right-0 bg-gray-50 border-t border-gray-200 p-4">

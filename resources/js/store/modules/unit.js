@@ -67,7 +67,15 @@ const actions = {
         } catch (err) {
             throw err
         }
-    }
+    },
+    async create({ commit, rootState }, payload) { 
+          try {
+              const resp = await axios.post('/api/unit',payload);
+              return resp
+          } catch (err) {
+              throw err
+          }
+    },
 }
 
 export default {

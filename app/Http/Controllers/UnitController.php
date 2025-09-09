@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Response;
 use Illuminate\Http\Request;
 use App\Models\Master;
+use Exception;
 
 class UnitController extends BaseController
 {
@@ -37,7 +39,7 @@ class UnitController extends BaseController
                         'UNIT' => 'Unit',
                         'BASIC_UNIT' => 'Basic Unit'
                     ]],
-                    ['name' => 'code','type' => 'text', 'label' =>'Kode','required' => true,'hint' => 'Masukkan Kode Satuan'],
+                    ['name' => 'kode','type' => 'text', 'label' =>'Kode','required' => true,'hint' => 'Masukkan Kode Satuan'],
                     ['name' => 'nama','type' => 'text', 'label' =>'Nama','required' => true,'hint' => 'Masukkan Nama Satuan'],
                     ['name' => 'status','type' => 'radio','required' => true,'direction'=> 'row', 'label' => 'Status','hint' => 'Status Kontak', 'options' => [
                         '0' => 'Tidak Aktif',
@@ -54,5 +56,41 @@ class UnitController extends BaseController
                 ]
             ]
         ]);
+    }
+
+    public function store(Request $request) {
+        $this->allowAccessModule('master.unit', 'create');
+
+        $rules = [
+            'type' => 'required|string|in:UNIT,BASIC_UNIT',
+            'kode' => 'required|string',
+            'nama' => 'required|string',
+            'status' => 'required|numeric|in:0,1',
+            'to' => 'nullable|numeric',
+            'conversion' => 'nullable|numeric',
+        ];
+
+        //validasi request
+        $data = $this->validate($rules);
+        $conversion = [];
+        try {
+            if(isset($request->to)&& isset($request->conversion)){
+                $conversion['to'] = Master::select('id','kode','nama')->where('id',$request->to)->first()->toArray();
+                $conversion['conversion'] = (int) $request->conversion;
+            }
+
+            $preInsert = [
+                'kode' => trim($data['kode']),
+                'nama' => trim($data['nama']),
+                'type' => trim($data['type']),
+                'status' => trim($data['status']),
+            ];
+            $preInsert['attributes'] = json_encode($conversion);
+           
+            $insert = Master::insert($preInsert);
+            return Response::ok('Data disimpan',$insert);
+        }catch(Exception $e){
+            return Response::badRequest($e->getMessage());
+        }
     }
 }

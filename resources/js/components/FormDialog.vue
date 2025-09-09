@@ -3,7 +3,7 @@
     <div v-if="open" class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
         <Card class="w-full max-w-4xl">
             <CardContent>
-                <form @submit.prevent="submit" enctype="multipart/form-data">
+                <form @submit="submit" enctype="multipart/form-data">
                     <template v-for="(section,i) in sections" :key="i"> 
                         <span class="text-gray-400 font-bold text-shadow-2xs">{{section?.label}}</span>
                         <div :class="`space-y-2 p-4 grid grid-cols-1 md:grid-cols-${section.column} gap-2 border-2 rounded-sm mb-4`">
@@ -145,9 +145,9 @@ export default {
             this.$emit("close");
             this.form = {}
         },
-        submit() {
-            this.$emit("submit", this.form);
-            this.close();
+        submit(e) {
+            e.preventDefault();
+            this.$emit("onSubmit", this.form);
         },
     },
     beforeMount() {

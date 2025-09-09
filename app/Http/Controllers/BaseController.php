@@ -31,6 +31,8 @@ class BaseController extends Controller
     private ?array $_form = [];
     private ?array $_gridProperties = [];
     private ?array $_detailSchema = [];
+    private ?array $_createRules = [];
+    private ?array $_updateRules = [];
 
     public function grid(Request $request)
     {
@@ -310,8 +312,11 @@ class BaseController extends Controller
         ]);
     }
 
-    public function create(Request $request) {
-        dd($request->all());
+    public function store(Request $request) {
+        $this->allowAccessModule($this->_module, 'create');
+
+        //TODO:: Store default
+
     }
 
     public function update(Request $request, $id) {

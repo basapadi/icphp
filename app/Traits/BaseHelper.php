@@ -4,6 +4,7 @@ namespace App\Traits;
 use Native\Laravel\Facades\{Alert,Notification};
 use App\Http\Response;
 use App\Objects\Notification as ObjectsNotification;
+use Illuminate\Support\Facades\Validator;
 
 trait BaseHelper
 {
@@ -37,5 +38,35 @@ trait BaseHelper
             $notif->hasReply($notification->reply);
             $notif->show();
         }
+    }
+
+    public function validate(array $rules){
+        $validator = Validator::make(request()->all(),$rules,[
+            'required'             => 'Inputan :attribute wajib diisi.',
+            'max'                  => 'Inputan :attribute maksimal :max karakter.',
+            'min'                  => 'Inputan :attribute minimal :min karakter.',
+            'email'                => 'Inputan :attribute harus berupa email yang valid.',
+            'unique'               => 'Inputan :attribute sudah digunakan.',
+            'confirmed'            => 'Konfirmasi :attribute tidak cocok.',
+            'date'                 => 'Inputan :attribute harus berupa tanggal yang valid.',
+            'numeric'              => 'Inputan :attribute harus berupa angka.',
+            'integer'              => 'Inputan :attribute harus berupa bilangan bulat.',
+            'string'               => 'Inputan :attribute harus berupa teks.',
+            'boolean'              => 'Inputan :attribute harus true atau false.',
+            'array'                => 'Inputan :attribute harus berupa array.',
+            'regex'                => 'Format  :attribute tidak valid.',
+            'url'                  => 'Inputan :attribute harus berupa URL yang valid.',
+            'in'                   => 'Inputan :attribute harus salah satu dari :values.',
+            'not_in'               => 'Inputan :attribute tidak boleh salah satu dari :values.',
+            'same'                 => 'Inputan :attribute harus sama dengan :other.',
+            'exists'               => 'Inputan :attribute tidak valid.',
+        ]);
+        if ($validator->fails()) {
+            abort(Response::badRequest('Validasi Gagal','',[
+                'errors' => $validator->errors()
+            ]));
+        }
+
+        return request()->all();
     }
 }

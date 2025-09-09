@@ -20,7 +20,7 @@
                                 Hapus Semua
                             </Button>
                         </div>
-                        <div class="relative mr-2" v-else>
+                        <div class="relative mr-2" v-if="allowCreate">
                             <Button class="bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103" @click="tambahData" v-if="allowCreate" size="sm">
                                 Tambah
                             </Button>
@@ -150,7 +150,7 @@
             </div>
         </div>
     </div>
-    <FormDialog :open="showDialog" :title="title" :sections="form.sections" :data="form.data" @close="showDialog = false" @submit="handleSubmit" />
+    <FormDialog :open="showDialog" :title="title" :sections="form.sections" :data="form.data" @close="closeFormDialog()" @onSubmit="handleSubmit" />
     <DetailDialog :title="title" :open="showDetail" :data="selected" :schema="detail_schema" @close="showDetail=false"/>
 </template> 
 
@@ -247,16 +247,17 @@ export default {
         },
         currentPage() {
             this.load();
-            const rm = this.menuRoles.find(
-                (role) => role.route === this.$route.path
-            )
-
-            this.allowCreate = rm?.create
-            this.allowDelete = rm?.delete
         },
         "pagination._page"() {
             this.load();
         },
+        "rows"(){
+            const rm = this.menuRoles.find(
+                (role) => role.route === this.$route.path
+            )
+            this.allowCreate = rm?.create
+            this.allowDelete = rm?.delete
+        }
     },
     computed: {
         ...mapGetters({
@@ -417,9 +418,31 @@ export default {
                 }
             )
         },
-        handleSubmit() { },
+        async handleSubmit(form) {
+            this.loading = true
+            await this.$store.dispatch(this.module+'/create',form)
+            .then(({ data }) => {
+                this.load();
+                this.showDialog = false
+                alert(data.message)
+            }).catch((resp) => {
+                let msgError = '';
+                if(resp.response.data?.data?.errors != undefined){
+                    const errors = Object.values(resp.response.data.data.errors);
+                    msgError = errors[0][0]
+                }
+                alert(resp.response.data.message+ ' : '+msgError)
+            })
+            .finally((f) => {
+                this.openDropdown = null
+                this.loading = false
+            })
+        },
         toggleDropdown(index) {
             this.openDropdown = this.openDropdown === index ? null : index
+        },
+        closeFormDialog(){
+            this.showDialog = false;
         },
         handleClickOutside(e) {
             // cek apakah klik berada di dalam dropdown
