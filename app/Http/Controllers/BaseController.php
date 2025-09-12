@@ -83,7 +83,7 @@ class BaseController extends Controller
         }
         return Response::ok('Form', [
             'sections' => $forms,
-            'data' => [] //data yang dibawa saat form dibuka
+            'data' => null
         ]);
     }
 
