@@ -6,56 +6,21 @@ use App\Http\Response;
 use Illuminate\Http\Request;
 use App\Models\Master;
 use Exception;
+use App\Objects\Notification;
 
 class UnitController extends BaseController
 {
     public function __construct(){
         $this->setModel(Master::class)->whereIn('type',['UNIT']);
         $this->setModule('master.unit');
-        $this->setColumns([
-            // ['value' => 'id', 'label'=> 'ID', 'align' => 'left', 'show' => false],
-            ['value' => 'actions', 'label'=> 'aksi', 'align' => 'left','options' => [$this->allowAccess('edit'),$this->allowAccess('delete')]],
-            ['value' => 'type', 'label'=> 'Tipe', 'align' => 'left','option_filter' => true, 'type' => 'select','options' => [
-                ['label' => 'Basic Unit', 'value' => 'BASIC_UNIT'],
-                ['label' => 'Unit', 'value' => 'UNIT']
-            ]],
-            ['value' => 'kode', 'label'=> 'Kode', 'align' => 'left'],
-            ['value' => 'nama', 'label'=> 'Nama', 'align' => 'left'],
-            ['value' => 'status_label', 'label'=> 'Status', 'align' => 'left', 'type' => 'badge','styles' => 'width:50px;'],
-            ['value' => 'status', 'label'=> 'Status', 'align' => 'left', 'type' => 'select', 'show' => false, 'option_filter' => true,'options' => [
-                ['label' => 'Aktif', 'value' => '1'],
-                ['label' => 'Tidak Aktif', 'value' => '0']
-            ]]
-        ]);
         $this->setFilterColumnsLike(['kode','nama'],request('q')??'');
 
         $basicUnits = Master::select('id','nama')->where('type','BASIC_UNIT')->get()->pluck('nama','id')->toArray();
-        $this->setForm([
-            'main' => [
-                'label' => 'Form Satuan Barang',
-                'column' => 1,
-                'forms' => [
-                    ['name' => 'type','type' => 'select', 'label' =>'Tipe','required' => true,'hint' => 'Pilih tipe satuan', 'options' => [
-                        'UNIT' => 'Unit',
-                        'BASIC_UNIT' => 'Basic Unit'
-                    ]],
-                    ['name' => 'kode','type' => 'text', 'label' =>'Kode','required' => true,'hint' => 'Masukkan Kode Satuan'],
-                    ['name' => 'nama','type' => 'text', 'label' =>'Nama','required' => true,'hint' => 'Masukkan Nama Satuan'],
-                    ['name' => 'status','type' => 'radio','required' => true,'direction'=> 'row', 'label' => 'Status','hint' => 'Status Kontak', 'options' => [
-                        '0' => 'Tidak Aktif',
-                        '1' => 'Aktif'
-                    ]]
-                ]
-            ],
-            'conversion' => [
-                'label' => 'Konversi Satuan',
-                'column' => 2,
-                'forms' => [
-                    ['name' => 'to', 'type' => 'select', 'label' => 'Konversi Ke Satuan', 'options' => $basicUnits],
-                    ['name' => 'conversion', 'type' => 'number', 'label' => 'Jumlah Konversi','min'=> 0, 'step' => 1]
-                ]
-            ]
+        $form = $this->getResourceForm('unit');
+        injectData($form, [
+            'basic_units' => $basicUnits
         ]);
+        $this->setForm($form);
     }
 
     public function store(Request $request) {
@@ -68,6 +33,7 @@ class UnitController extends BaseController
             'status' => 'required|numeric|in:0,1',
             'to' => 'nullable|numeric',
             'conversion' => 'nullable|numeric',
+            'id' => 'nullable|numeric',
         ];
 
         //validasi request
@@ -79,21 +45,52 @@ class UnitController extends BaseController
                 $conversion['conversion'] = (int) $request->conversion;
             }
 
-            $exist = Master::where('nama',$data['nama'])->orWhere('kode',$data['kode'])->first();
-            if($exist) return $this->setAlert('error','Duplikat Data','Data dengan nama atau kode yang anda masukkan sudah ada');
+            if(!isset($request->id)){
+                $exist = Master::where('nama',$data['nama'])->orWhere('kode',$data['kode'])->first();
+                if($exist) return $this->setAlert('error','Duplikat Data','Data dengan nama atau kode yang anda masukkan sudah ada');
 
-            $preInsert = [
-                'kode' => trim($data['kode']),
-                'nama' => trim($data['nama']),
-                'type' => trim($data['type']),
-                'status' => trim($data['status']),
-            ];
-            $preInsert['attributes'] = json_encode($conversion);
-           
-            $insert = Master::insert($preInsert);
-            return $this->setAlert('info','Berhasil','Data berhasil disimpan');
+                $preInsert = [
+                    'kode' => trim($data['kode']),
+                    'nama' => trim($data['nama']),
+                    'type' => trim($data['type']),
+                    'status' => trim($data['status']),
+                ];
+                $preInsert['attributes'] = json_encode($conversion);
+            
+                Master::insert($preInsert);
+                return $this->setAlert('info','Berhasil',$preInsert['nama'].' berhasil disimpan');
+            } else {
+                $exist = Master::where('id',$data['id'])->first();
+                if(empty($exist)) return $this->setAlert('error','Galat!','Data tidak ditemukan');
+                $exist->type = $data['type'];
+                $exist->kode = $data['kode'];
+                $exist->nama = $data['nama'];
+                $exist->status = $data['status'];
+                $exist->attributes = $conversion;
+                $exist->save();
+                return $this->setAlert('info','Berhasil',$exist->nama.' berhasil disimpan');
+            }
+            
         }catch(Exception $e){
             return $this->setAlert('error','Gagal',$e->getMessage());
         }
+    }
+
+    public function edit(Request $request,$id){
+        $id = $this->decodeId($id);
+        $data = Master::where('id',$id)->first();
+        if(empty($data)) return $this->setAlert('error','Galat!','Data yang tidak ditemukan!.');
+        $form = $this->getResourceForm('unit');
+        $basicUnits = Master::select('id','nama')->where('type','BASIC_UNIT')->get()->pluck('nama','id')->toArray();
+        injectData($form, [
+            'basic_units' => $basicUnits
+        ]);
+        $data['conversion'] = @$data->attributes->conversion ?? null;
+        $data['to'] = @$data->attributes->to->id ?? null;
+        return Response::ok('loaded',[
+            'data' => $data,
+            'sections' => $form
+        ]);
+
     }
 }

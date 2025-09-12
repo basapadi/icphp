@@ -270,6 +270,12 @@ class BaseController extends Controller
         return json_decode($schema, true);
     }
 
+    protected function getResourceForm($name){
+        $path = base_path('resources/data/forms/'.$name.'.json');
+        $form = file_get_contents($path);
+        return json_decode($form, true);
+    }
+
     protected function getColumns(){
         $path = base_path('resources/data/columns/'.$this->_module.'.json');
         $schema = json_decode(file_get_contents($path),true);
@@ -344,7 +350,7 @@ class BaseController extends Controller
             return $this->setAlert('info','Berhasil','Data berhasil dihapus, silahkan periksa keranjang sampah untuk melihat data terhapus');
         }catch(Exception $e){
             DB::rollBack();
-            return $this->setAlert('error','Galat!',$e->getMessage());
+            return $this->setAlert('error','Gagal!',$e->getMessage());
         }
     }
 }

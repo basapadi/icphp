@@ -53,3 +53,22 @@ if(!function_exists('updateEnv')){
         file_put_contents($envPath, $envContent);
     }
 }
+
+if(!function_exists('injectData')){
+    function injectData(&$data, array $replacements)
+    {
+        if (is_array($data)) {
+            foreach ($data as $key => &$value) {
+                if (is_array($value)) {
+                    injectData($value, $replacements);
+                } elseif (is_string($value) && str_starts_with($value, ':')) {
+                    $placeholder = substr($value, 1);
+                    if (array_key_exists($placeholder, $replacements)) {
+                        $value = $replacements[$placeholder];
+                    }
+                }
+            }
+            unset($value);
+        }
+    }
+}

@@ -10,7 +10,7 @@ trait BaseHelper
 {
     public function setAlert($type = 'info',$title = '', $message = ''){
         if(config('nativephp.nativephp_running')){
-            Alert::new()->type($type)->title($title)->show($message);
+            Notification::title(strtoupper($type).' : '.$title)->message($message)->show($message);
             return response()->json([
                 'status' => false,
                 'message' => ''
@@ -32,7 +32,7 @@ trait BaseHelper
 
     public function setNotification(ObjectsNotification $notification){
         if(config('nativephp.nativephp_running')){
-            $notif = Notification::title('IhandCashier : '.$notification->title)
+            $notif = Notification::title('Ihand Cashier : '.$notification->title)
                     ->message($notification->message);
             foreach ($notification->actions as $key => $act) {
                 $notif->addAction($act);

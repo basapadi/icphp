@@ -76,6 +76,15 @@ const actions = {
               throw err
           }
     },
+    async edit({ commit, rootState }, id) {
+        try {
+            const resp = await axios.get('/api/unit/edit/'+ id);
+            commit('setForm', resp.data)
+            return resp
+        } catch (err) {
+            throw err
+        }
+    },
 }
 
 export default {

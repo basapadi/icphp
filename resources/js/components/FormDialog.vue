@@ -139,6 +139,11 @@ export default {
             form: {},
         };
     },
+    watch: {
+        'data'() {
+            this.form = this.data
+        }
+    },
     methods: {
         load() {},
         close() {
@@ -149,11 +154,6 @@ export default {
             e.preventDefault();
             this.$emit("onSubmit", this.form);
         },
-    },
-    beforeMount() {
-        // this.sections.forEach((f) => {
-        //     this.form[f.name] = this.data[f.name] ?? null;
-        // });
-    },
+    }
 };
 </script>
