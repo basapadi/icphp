@@ -55,6 +55,8 @@ Route::prefix('api')->group(function () {
         Route::get('grid', 'grid');
         Route::get('form', 'form');
         Route::delete('/{id}', 'delete');
+        Route::post('/', 'store');
+        Route::get('/edit/{id}', 'edit');
     });
     Route::controller(DataMenuController::class)->middleware('auth:sanctum')->prefix('data-menu')->group(function () {
         Route::get('grid', 'grid');

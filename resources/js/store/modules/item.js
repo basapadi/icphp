@@ -67,6 +67,44 @@ const actions = {
         } catch (err) {
             throw err
         }
+    },
+    async create({ commit, rootState }, payload) {
+        const formData = new FormData();
+
+        for (const key in payload) {
+            if (Object.hasOwnProperty.call(payload, key)) {
+                const value = payload[key];
+
+                // Jika value bukan File / Blob, skip (misal string URL lama)
+                if (key === 'gambar' && typeof value === 'string') continue;
+
+                // Untuk multiple file, bisa array File[]
+                if (Array.isArray(value)) {
+                value.forEach(v => formData.append(key, v));
+                } else {
+                formData.append(key, value);
+                }
+            }
+        }
+        try {
+            const resp = await axios.post('/api/item', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+            });
+            return resp
+        } catch (err) {
+            throw err
+        }
+    },
+    async edit({ commit, rootState }, id) {
+        try {
+            const resp = await axios.get('/api/item/edit/'+ id);
+            commit('setForm', resp.data)
+            return resp
+        } catch (err) {
+            throw err
+        }
     }
 }
 

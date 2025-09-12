@@ -12,9 +12,10 @@ trait BaseHelper
         if(config('nativephp.nativephp_running')){
             Notification::title(strtoupper($type).' : '.$title)->message($message)->show($message);
             return response()->json([
-                'status' => false,
-                'message' => ''
-            ]);
+                'status' => $type == 'info'?true: false,
+                'isnativephp'  => config('nativephp.nativephp_running'),
+                'message' => $message
+            ],$type == 'info'?200:400);
         } else {
             switch ($type) {
                 case 'info':
@@ -63,6 +64,9 @@ trait BaseHelper
             'not_in'               => 'Inputan :attribute tidak boleh salah satu dari :values.',
             'same'                 => 'Inputan :attribute harus sama dengan :other.',
             'exists'               => 'Inputan :attribute tidak valid.',
+            'file.file'            => ':attribute harus berupa file yang valid.',
+            'file.mimes'           => ':attribute hanya boleh berupa file tipe: :values',
+            'file.max'             => ':attribute maksimal berukuran :max KB.',
         ]);
         if ($validator->fails()) {
             abort(Response::badRequest('Validasi Gagal','',[

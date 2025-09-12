@@ -1,0 +1,58 @@
+{
+    "main": {
+        "label": "Form Barang",
+        "column": 1,
+        "forms": [
+            {
+                "name": "kode_barang",
+                "type": "text",
+                "label": "Kode Barang",
+                "required": true,
+                "hint": "Masukkan Kode Barang"
+            },
+            {
+                "name": "barcode",
+                "type": "text",
+                "label": "Barcode",
+                "required": false,
+                "hint": "Masukkan Barcode"
+            },
+            {
+                "name": "nama",
+                "type": "text",
+                "label": "nama Barang",
+                "required": true,
+                "hint": "Masukkan nama Barang"
+            },
+            {
+                "name": "kategori",
+                "type": "select",
+                "label": "Kategori",
+                "required": true,
+                "hint": "Pilih kategori",
+                "options": ":categories"
+            },
+            {
+                "name": "status",
+                "type": "radio",
+                "required": true,
+                "direction": "row",
+                "label": "Status",
+                "hint": "Status Kontak",
+                "options": [
+                    "Tidak Aktif",
+                    "Aktif"
+                ]
+            },
+            {
+                "name": "gambar",
+                "type": "file",
+                "label": "Gambar Barang",
+                "required": false,
+                "extension" : ".png,.jpg",
+                "maxSize" : 2,
+                "maxFile" : 1
+            }
+        ]
+    }
+}

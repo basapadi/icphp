@@ -33,11 +33,12 @@ class RoleController extends BaseController
                 ['value' => 'menu__route', 'label'=> 'Route', 'align' => 'left', 'type' => 'badge', 'class' => 'inline-flex items-center rounded-md text-gray-400 inset-ring inset-ring-gray-400 px-2 py-1'],
                 ['value' => 'menu__parent__label', 'label'=> 'Parent Menu', 'align' => 'left'],
                 ['value' => 'menu__label', 'label'=> 'Menu', 'align' => 'left'],
-                ['value' => 'view', 'label'=> 'Lihat', 'align' => 'left'],
-                ['value' => 'create', 'label'=> 'Tambah', 'align' => 'left'],
-                ['value' => 'edit', 'label'=> 'Ubah', 'align' => 'left'],
-                ['value' => 'delete', 'label'=> 'Hapus', 'align' => 'left'],
-                ['value' => 'download', 'label'=> 'Unduh', 'align' => 'left']
+                ['value' => 'view', 'label'=> 'View', 'align' => 'left'],
+                ['value' => 'create', 'label'=> 'Add', 'align' => 'left'],
+                ['value' => 'edit', 'label'=> 'Edit', 'align' => 'left'],
+                ['value' => 'update', 'label'=> 'Update', 'align' => 'left'],
+                ['value' => 'delete', 'label'=> 'Delete', 'align' => 'left'],
+                ['value' => 'download', 'label'=> 'Download', 'align' => 'left']
             ]),
             'total' => $total,
             'properties' => [

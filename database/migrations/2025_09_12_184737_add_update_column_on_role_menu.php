@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('role_menus', function (Blueprint $table) {
-            $table->boolean('edit')->after('create')->default(0);
+            $table->boolean('update')->after('edit')->default(0);
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('role_menus', function (Blueprint $table) {
-            $table->dropColumn('edit');
+            $table->dropColumn('update');
         });
     }
 };

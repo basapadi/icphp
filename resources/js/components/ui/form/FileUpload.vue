@@ -10,7 +10,7 @@
 
     <!-- Label custom -->
     <div class="flex items-center gap-2">
-      <label :for="id" class="cursor-pointer px-4 py-1 bg-orange-600 text-sm text-white rounded-md hover:bg-orange-700 transition" >
+      <label @click.stop="triggerFileInput" class="cursor-pointer px-4 py-1 bg-orange-600 text-sm text-white rounded-md hover:bg-orange-700 transition" >
         Pilih File
       </label>
 
@@ -40,6 +40,13 @@
       @invalid="e => e.target.setCustomValidity(`File ${label} tidak boleh kosong`)"
       @input="e => e.target.setCustomValidity('')"
     />
+    <div v-if="preview">
+      <img 
+        :src="preview" 
+        alt="Thumbnail"
+        class="w-24 h-24 object-cover rounded-md"
+      />
+    </div>
   </div>
 </template>
 <style>
@@ -63,7 +70,7 @@ export default {
   name: "FileUpload",
   components: { Label },
   props: {
-    modelValue: { type: [File, Array, null], default: null },
+    modelValue: { type: String, default: null },
     id: { type: String, default: "" },
     name: { type: String, default: "" },
     label: { type: String, default: "" },
@@ -77,22 +84,46 @@ export default {
   },
   data() {
     return {
-      fileLabel: "Belum ada file"
+      fileLabel: "Belum ada file",
+      preview: null
     };
   },
   methods: {
+    triggerFileInput() {
+      this.$refs.fileInput.click();
+    },
     onFileChange(e) {
       const files = e.target.files;
+
       if (this.multiple) {
-        this.$emit("update:modelValue", Array.from(files));
-        this.fileLabel = files.length
-          ? Array.from(files).map(f => f.name).join(", ")
+        // Untuk multiple file
+        const fileArray = Array.from(files);
+        if (fileArray.length && fileArray[0] instanceof File) {
+          this.$emit("update:modelValue", fileArray);
+        }
+        this.fileLabel = fileArray.length
+          ? fileArray.map(f => f.name).join(", ")
           : "Belum ada file";
       } else {
-        this.$emit("update:modelValue", files[0] || null);
-        this.fileLabel = files.length ? files[0].name : "Belum ada file";
+        const uploadedFile = files[0];
+        if (uploadedFile instanceof File) {
+          this.$emit("update:modelValue", uploadedFile);
+        }
+
+        this.fileLabel = uploadedFile ? uploadedFile.name : "Belum ada file";
+        if (uploadedFile) {
+          this.preview = URL.createObjectURL(uploadedFile);
+        }
+      }
+    },
+    load(){
+      if (this.modelValue && typeof this.modelValue === "string") {
+        this.preview = this.modelValue
       }
     }
+  },
+  mounted(){
+    this.load()
   }
 };
 </script>

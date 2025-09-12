@@ -34,7 +34,7 @@
         "required": true,
         "direction": "row",
         "label": "Status",
-        "hint": "Status Kontak",
+        "hint": "Status Satuan",
         "options": [
           "Tidak Aktif",
           "Aktif"

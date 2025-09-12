@@ -44,7 +44,7 @@
                 <tr v-for="(data,i) in filterData" :key="data.id"  class="hover:bg-gray-50 transition-colors" >
                     <td class="px-4 whitespace-nowrap border-2 border-gray-200"><span class="text-sm text-gray-600">{{ i+1 }}</span></td>
                     <template v-for="column in columns" :key="column.value">
-                        <td class="px-4 whitespace-nowrap border-2 border-gray-200 text-center" v-if="['view','create','edit','delete','download'].includes(column.name)">
+                        <td class="px-4 whitespace-nowrap border-2 border-gray-200 text-center" v-if="['view','create','edit','update','delete','download'].includes(column.name)">
                             <input :checked="data[column.name]" @click="onCheck($event,data,column.name)" type="checkbox" class="role-cb h-4 w-4 text-orange-600" style="align-items: center;"/>
                         </td>
                         <td class="px-4 whitespace-nowrap border-2 border-gray-200" v-else>

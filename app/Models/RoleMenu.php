@@ -9,6 +9,8 @@ class RoleMenu extends BaseModel
         'menu_id',
         'view',
         'create',
+        'edit',
+        'update',
         'delete',
         'download'
     ];

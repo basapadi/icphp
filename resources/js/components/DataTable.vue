@@ -428,8 +428,9 @@ export default {
                 this.load();
                 if(data.message != undefined && data.status == true) {
                     alert(data.message)
+                    this.showDialog = false
                 }
-                this.showDialog = false
+
             }).catch((resp) => {
                 let msgError = '';
                 if(resp.response.data?.data?.errors != undefined){

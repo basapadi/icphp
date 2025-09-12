@@ -276,6 +276,12 @@ class BaseController extends Controller
         return json_decode($form, true);
     }
 
+    protected function getResourceStatic($name){
+        $path = base_path('resources/data/statics/'.$name.'.json');
+        $data = file_get_contents($path);
+        return json_decode($data, true);
+    }
+
     protected function getColumns(){
         $path = base_path('resources/data/columns/'.$this->_module.'.json');
         $schema = json_decode(file_get_contents($path),true);

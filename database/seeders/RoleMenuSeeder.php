@@ -26,6 +26,7 @@ class RoleMenuSeeder extends Seeder
                     'view'      => $all,
                     'create'    => $all,
                     'edit'    => $all,
+                    'update'    => $all,
                     'delete'    => $all,
                     'download'  => $all,
                 ]);
