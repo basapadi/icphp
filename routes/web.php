@@ -33,6 +33,9 @@ Route::prefix('api')->group(function () {
         });
         Route::controller(AuthController::class)->group(function () {
             Route::post('login', 'login');
+            Route::get('init', 'init');
+            Route::post('test', 'test');
+            Route::post('save-local-config', 'saveLocalConfig');
             Route::middleware('auth:sanctum')->group(function(){
                 Route::get('me', 'me');
                 Route::post('logout', 'logout');

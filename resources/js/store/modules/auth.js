@@ -34,6 +34,31 @@ const actions = {
       throw err
     }
   },
+  async getInit({commit}) {
+    try {
+      const resp = await axios.get('/api/auth/init')
+      return resp
+    } catch (err) {
+      throw err
+    }
+  },
+  async testDb({ commit, rootState }, payload) { 
+    try {
+        const resp = await axios.post('/api/auth/test',payload);
+        return resp
+    } catch (err) {
+        throw err
+    }
+  },
+
+  async saveLocalConfig({ commit, rootState }, payload) { 
+    try {
+        const resp = await axios.post('/api/auth/save-local-config',payload);
+        return resp
+    } catch (err) {
+        throw err
+    }
+  },
   async fetchUser() {
     if (!state.token) return
     try {

@@ -7,12 +7,13 @@
         </div>
       </div>
       <h2 class="mt-6 text-center text-3xl font-bold text-gray-500 text-shadow-sm">
-        Masuk ke Akun Anda
+        Ihand Cashier
       </h2>
     </div>
 
     <div v-if="!initial" class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <h2 class="text-lg font-medium text-gray-900 pb-4">Masukkan akun anda</h2>
         <form @submit.prevent="handleLogin" class="space-y-6">
           <div>
             <label for="username" class="block text-sm font-medium text-gray-700">
@@ -79,6 +80,11 @@
                 Ingat saya
               </label>
             </div>
+            <div class="text-sm">
+              <a href="#" @click="initial = true" class="font-medium text-orange-600 hover:text-orange-500">
+                Konfigurasi Basis Data
+              </a>
+            </div>
           </div>
 
           <div>
@@ -124,7 +130,7 @@
                 v-model="form.driver"
                 :options="drivers"
                 label="Tipe Database"
-                hint="Pilih tipe database yang akan digunakan"
+                hint="Pilih tipe database"
                 required
                 name="type"
                 id="type"
@@ -211,10 +217,18 @@
                 type="submit"
                 class="w-full py-1 bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103"
               >
-                Simpan COnfigurasi Database
+                Simpan Configurasi Basis Data
               </button>
             </div>
           </form>
+          <div class="flex items-center justify-between py-4">
+            <div class="flex items-center"></div>
+            <div class="text-sm">
+              <a href="#" @click="initial = false" class="font-medium text-orange-600 hover:text-orange-500">
+                Halaman Login
+              </a>
+            </div>
+          </div>
         </CardContent>
       </Card>
     </div>
@@ -223,9 +237,19 @@
 
 <script>
 import { mapActions } from 'vuex'
-
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import {Input,Select,Radio} from '@/components/ui/form'
 export default {
   name: 'LoginPage',
+  components: {
+    Card,
+    CardHeader,
+    CardTitle,
+    CardContent,
+    Input,
+    Select,
+    Radio
+  },
   data() {
     return {
       username: '',
@@ -236,11 +260,12 @@ export default {
       usernameError: '',
       passwordError: '',
       loginError: '',
-      initial: false,
+      initial: true,
       form: {
-        driver: 'sqlite'
+        driver: ''
       },
-      drivers: []
+      drivers: [],
+      dbConfig: {}
     }
   },
   methods: {
@@ -276,7 +301,36 @@ export default {
       } finally {
         this.isLoading = false
       }
-    }
+    },
+    async testDb(){
+      await this.$store.dispatch('auth/testDb',this.form).then((resp) => {
+        alert(resp.data.message || 'Koneksi terhubung')
+      }).catch((err) => {
+        alert(err.response?.data?.message || 'Koneksi gagal terhubung')
+      })
+    },
+    async saveLocalConfig(){
+      await this.$store.dispatch('auth/saveLocalConfig',this.form).then((resp) => {
+        alert(resp.data.message || 'Koneksi berhasil disimpan')
+      }).catch((err) => {
+        alert(err.response?.data?.message || 'Koneksi gagal disimpan')
+      })
+    },
+  },
+  async mounted() {
+    await this.$store.dispatch('auth/getInit').then((resp) => {
+      this.initial = resp.data.initial
+      this.drivers = resp.data.drivers
+      this.dbConfig = resp.data.config
+      if(this.initial){
+        this.form.driver = this.dbConfig.driver
+      }
+      if(this.dbConfig.database != undefined){
+        this.form.database = this.dbConfig.database
+      }
+    }).catch((err) => {
+      console.error('Error fetching initial config:', err)
+    })
   }
 }
 </script>
