@@ -41,7 +41,7 @@ return [
     /**
      * The description of your application.
      */
-    'description' => env('NATIVEPHP_APP_DESCRIPTION', 'An Simple POS Cashier for your bussiness'),
+    'description' => env('NATIVEPHP_APP_DESCRIPTION', 'An Single Entry POS Cashier for your bussiness'),
 
     /**
      * The Website of your application.
@@ -161,8 +161,8 @@ return [
     ],
 
     'postbuild' => [
-        'php artisan migrate',
-        'php artisan db:seed'
+        'php artisan native:migrate',
+        'php artisan native:seed'
     ],
 
     /**

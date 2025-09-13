@@ -18,10 +18,17 @@ class NativeAppServiceProvider implements ProvidesPhpIni
      */
     public function boot(): void
     {
-        Menu::create();
+        // Menu::create();
         // MenuBar::create()->label('Status: Online');
         // ->icon(public_path('ihand-512.png'));
-        Window::open()->width(1200)->height(800)->rememberState();
+        Window::open()
+            ->minWidth(800)
+            ->minHeight(500)
+            ->width(1200)
+            ->height(800)
+            ->title('Ihand Cashier')
+            ->hasShadow(true)
+            ->rememberState();
         
         // ->hideMenu();
     }
@@ -32,7 +39,7 @@ class NativeAppServiceProvider implements ProvidesPhpIni
     public function phpIni(): array
     {
         return [
-            'memory_limit' => '512M',
+            'memory_limit' => '1048M',
             'display_errors' => '1',
             'error_reporting' => 'E_ALL',
             'max_execution_time' => '0',

@@ -158,8 +158,8 @@ class AuthController extends BaseController
             DB::reconnect($data['driver']);
 
             if (!Schema::hasTable('migrations')) {
-                Artisan::call('migrate', ['--force' => true]);
-                Artisan::call('db:seed', ['--force' => true]);
+                Artisan::call('native:migrate');
+                Artisan::call('native:seed');
             }
 
             updateEnv('DB_CONNECTION', trim($request->driver));
@@ -172,7 +172,7 @@ class AuthController extends BaseController
             updateEnv('DB_CHARSET', trim($request->charset));
         }
         Settings::set('initial_setup', false);
-        Artisan::call('config:cache');
+        Artisan::call('native:config');
         return Response::ok('Data tersimpan');
     }
 }
