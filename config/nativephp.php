@@ -8,7 +8,7 @@ return [
      */
     'version' => env('NATIVEPHP_APP_VERSION', '1.0.0'),
 
-    'nativephp_running' => env('NATIVEPHP_RUNNING', false),
+    'nativephp_running' => env('NATIVEPHP_RUNNING', true),
 
     /**
      * The ID of your application. This should be a unique identifier
