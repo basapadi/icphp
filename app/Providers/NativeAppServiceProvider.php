@@ -6,6 +6,9 @@ use Native\Laravel\Facades\Window;
 use Native\Laravel\Contracts\ProvidesPhpIni;
 use Native\Laravel\Facades\Menu;
 use Native\Laravel\Facades\MenuBar;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schema;
+use Native\Laravel\Facades\Settings;
 
 class NativeAppServiceProvider implements ProvidesPhpIni
 {
@@ -19,6 +22,7 @@ class NativeAppServiceProvider implements ProvidesPhpIni
         // MenuBar::create()->label('Status: Online');
         // ->icon(public_path('ihand-512.png'));
         Window::open()->width(1200)->height(800)->rememberState();
+        
         // ->hideMenu();
     }
 

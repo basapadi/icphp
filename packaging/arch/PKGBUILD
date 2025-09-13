@@ -1,0 +1,23 @@
+pkgname=IhandCashier
+pkgver=$(grep NATIVEPHP_APP_VERSION ../../.env | cut -d '=' -f2 | tr -d '"')
+pkgrel=1
+pkgdesc="Ihand Cashier"
+arch=('x86_64')
+url="https://ihandcashier.basapadi.com"
+license=('custom')
+depends=('fuse2')
+source=("IhandCashier-${pkgver}.AppImage")
+sha256sums=('SKIP')
+
+package() {
+  install -Dm755 "IhandCashier-${pkgver}.AppImage" "$pkgdir/usr/bin/${pkgname}"
+
+  install -Dm644 /dev/stdin "$pkgdir/usr/share/applications/${pkgname}.desktop" <<EOF
+[Desktop Entry]
+Name=IhandCashier
+Exec=${pkgname}
+Icon=${pkgname}
+Type=Application
+Categories=Utility;
+EOF
+}

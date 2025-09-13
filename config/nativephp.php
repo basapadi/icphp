@@ -156,11 +156,13 @@ return [
      * Define your own scripts to run before and after the build process.
      */
     'prebuild' => [
-        // 'npm run build',
+        'npm run build',
+        'php artisan optimize'
     ],
 
     'postbuild' => [
-        // 'rm -rf public/build',
+        'php artisan migrate',
+        'php artisan db:seed'
     ],
 
     /**
