@@ -59,8 +59,10 @@ class ItemController extends BaseController
                     'status'   => trim($data['status']),
                     'kategori'   => trim($data['kategori']),
                 ];
-                if(!isset($path['status'])) $preInsert['gambar'] = $path['path'];
-                else return $this->setAlert('error','Gagal!', $path['message']);
+                if($path != null){
+                    if(!isset($path['status'])) $preInsert['gambar'] = $path['path'];
+                    else return $this->setAlert('error','Gagal!', $path['message']);
+                }
 
                 Item::insert($preInsert);
                 return $this->setAlert('info','Berhasil',$preInsert['nama'].' berhasil disimpan');
@@ -74,9 +76,11 @@ class ItemController extends BaseController
                 $exist->status = trim($data['status']);
                 $exist->kategori = trim($data['kategori']);
 
-                if(!isset($path['status'])) $exist->gambar = $path['path'];
-                else return $this->setAlert('error','Gagal!', $path['message']);
-
+                if($path != null){
+                    if(!isset($path['status'])) $exist->gambar = $path['path'];
+                    else return $this->setAlert('error','Gagal!', $path['message']);
+                }
+                
                 $exist->save();
 
                 return $this->setAlert('info','Berhasil',$exist->nama.' berhasil disimpan');

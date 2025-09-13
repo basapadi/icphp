@@ -14,7 +14,7 @@
     left:35px;
     opacity:1;
     z-index:9999;
-    font-size: 1.2em;
+    font-size: 1em;
     font-weight: 800;
     margin: 5px;
     border-radius: 5px;
@@ -25,7 +25,6 @@
     padding-bottom: 5px;
     text-shadow: 1em;
     background-color: rgb(247, 132, 0);
-    font-family:'monospace';
     color:rgb(255, 255, 255);
   }
 </style>

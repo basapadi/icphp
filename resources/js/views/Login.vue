@@ -13,7 +13,7 @@
 
     <div v-if="!initial" class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-        <h2 class="text-lg font-medium text-gray-900 pb-4">Masukkan akun anda</h2>
+        <CardTitle class="py-4">Masukkan akun anda</CardTitle>
         <form @submit.prevent="handleLogin" class="space-y-6">
           <div>
             <label for="username" class="block text-sm font-medium text-gray-700">
@@ -119,13 +119,13 @@
       </div>
     </div>
     <div v-else class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-      <Card class="flex-1 max-w-2xl">
+      <Card class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-4">
         <CardHeader>
           <CardTitle>Konfigurasi Basis Data</CardTitle>
         </CardHeader>
         <CardContent>
           <form @submit.prevent="saveLocalConfig" >
-            <div class="space-y-4 grid grid-cols-1 md:grid-cols-1 gap-2">
+            <div class="space-y-4 grid grid-cols-1 md:grid-cols-1 gap-4">
               <Select
                 v-model="form.driver"
                 :options="drivers"
