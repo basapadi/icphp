@@ -28,9 +28,7 @@ class NativeAppServiceProvider implements ProvidesPhpIni
             ->height(800)
             ->title('Ihand Cashier')
             ->hasShadow(true)
-            ->rememberState();
-        
-        // ->hideMenu();
+            ->rememberState()->hideMenu();
     }
 
     /**

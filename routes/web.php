@@ -73,6 +73,8 @@ Route::prefix('api')->group(function () {
         Route::get('grid', 'grid');
         Route::get('form', 'form');
         Route::delete('/{id}', 'delete');
+        Route::post('/', 'store');
+        Route::get('/edit/{id}', 'edit');
     });
     Route::controller(ReceivedItemController::class)->middleware('auth:sanctum')->prefix('receive')->group(function () {
         Route::get('grid', 'grid');
