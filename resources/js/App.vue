@@ -2,7 +2,7 @@
   <div id="app">
     <vue3-confirm-dialog></vue3-confirm-dialog>
     <div class="watermark shadow-lg">
-      Demo Version
+      Demo v{{ appVersion }}
     </div>
     <router-view />
   </div>
@@ -31,7 +31,7 @@
 </style>
 <script setup>
 import { onMounted, onBeforeUnmount } from 'vue'
-
+const appVersion = import.meta.env.VITE_APP_VERSION
 onMounted(() => {
   document.addEventListener('contextmenu', preventRightClick)
 })

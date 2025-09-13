@@ -6,9 +6,9 @@
           <img src="./../../assets/ihand-512.png" alt="Logo" class="w-40 h-40 object-contain" />
         </div>
       </div>
-      <h2 class="mt-6 text-center text-3xl font-bold text-gray-500 text-shadow-sm">
-        Ihand Cashier
-      </h2>
+      <div class="mt-6 text-center text-gray-500 text-shadow-sm">
+        <span class="text-3xl font-bold pr-2">Ihand Cashier</span> v{{ appVersion }}
+      </div>
     </div>
 
     <div v-if="!initial" class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -241,6 +241,13 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import {Input,Select,Radio} from '@/components/ui/form'
 export default {
   name: 'LoginPage',
+  setup(){
+    const appVersion = import.meta.env.VITE_APP_VERSION
+
+    return {
+      appVersion
+    }
+  },
   components: {
     Card,
     CardHeader,
@@ -260,7 +267,7 @@ export default {
       usernameError: '',
       passwordError: '',
       loginError: '',
-      initial: true,
+      initial: false,
       form: {
         driver: ''
       },
