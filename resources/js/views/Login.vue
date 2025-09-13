@@ -242,7 +242,7 @@ import {Input,Select,Radio} from '@/components/ui/form'
 export default {
   name: 'LoginPage',
   setup(){
-    const appVersion = import.meta.env.VITE_APP_VERSION
+    const appVersion = import.meta.env.VITE_APP_VERSION ?? process.env.NATIVEPHP_APP_VERSION
 
     return {
       appVersion

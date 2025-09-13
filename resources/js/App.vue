@@ -31,7 +31,7 @@
 </style>
 <script setup>
 import { onMounted, onBeforeUnmount } from 'vue'
-const appVersion = import.meta.env.VITE_APP_VERSION
+const appVersion = import.meta.env.VITE_APP_VERSION ?? process.env.NATIVEPHP_APP_VERSION
 onMounted(() => {
   document.addEventListener('contextmenu', preventRightClick)
 })
