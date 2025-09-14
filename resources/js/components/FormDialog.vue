@@ -186,6 +186,7 @@ export default {
     watch: {
         'data'() {
             if(this.data != null || this.data?.id != undefined) this.form = this.data
+            else this.form = {}
         }
     },
     methods: {
@@ -197,7 +198,6 @@ export default {
         submit(e) {
             e.preventDefault();
             this.$emit("onSubmit", this.form);
-            // this.form = {}
         },
     }
 };

@@ -343,6 +343,7 @@ export default {
             this.loading = true
             await this.$store.dispatch(this.module+'/form').then(({ data }) => {
                 this.form = data.data;
+                this.selected = {}
             }).finally(() => {
                 this.showDialog = true
                 this.loading = false
