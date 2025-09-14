@@ -32,7 +32,7 @@
         <div class="h-screen relative">
             <!-- Table -->
             <div class="overflow-x-auto max-h-7/10" ref="tableContainer">
-                <table class="min-w-full border-collapse border border-orange-100">
+                <table class="min-w-full border-collapse border border-orange-100" @contextmenu.prevent="handleRightClick">
                     <thead class="bg-orange-50 sticky top-0" style="z-index:11">
                         <tr>
                             <template v-if="properties.multipleSelect">
@@ -73,11 +73,11 @@
                                     <template v-if="column.name == 'actions'">
                                         <button @click.stop="toggleDropdown(index)" class="px-2 py-1 rounded hover:bg-gray-300" style="text-align:center;"><EllipsisVertical class="h-4 w-4"/></button>
                                         <div v-if="openDropdown === index" class="absolute right--2 mt-2 w-40 bg-white border rounded shadow-md" style="z-index:10">
-                                            <a v-if="column.options.includes('detail')" href="#" @click.stop="viewData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><SquareChartGantt class="w-8 text-green-700 px-2" />Detail</a>
-                                            <a v-if="column.options.includes('edit')" href="#" @click.stop="editData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><SquarePen class="w-8 text-orange-500 px-2" />Ubah</a>
-                                            <a v-if="column.options.includes('return')" href="#" @click.stop="returData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><Blocks class="w-8 text-blue-500 px-2" />Retur</a>
-                                            <a v-if="column.options.includes('delete')" href="#" @click.stop="hapusData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><SquareX class="w-8 text-red-500 px-2" />Hapus</a>
-                                            <a v-if="column.options.includes('undo')" href="#" @click.stop="undoData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><Undo2 class="w-8 text-red-500 px-2" />Urungkan</a>
+                                            <a v-if="column.options.includes('detail')" href="#" @click.stop="viewData(data)" class="flex text-sm items-center px-4 py-1 hover:bg-gray-100"><SquareChartGantt class="w-8 text-green-700 px-2" />Detail</a>
+                                            <a v-if="column.options.includes('edit')" href="#" @click.stop="editData(data)" class="flex text-sm items-center px-4 py-1 hover:bg-gray-100"><SquarePen class="w-8 text-orange-500 px-2" />Ubah</a>
+                                            <a v-if="column.options.includes('return')" href="#" @click.stop="returData(data)" class="flex text-sm items-center px-4 py-1 hover:bg-gray-100"><Blocks class="w-8 text-blue-500 px-2" />Retur</a>
+                                            <a v-if="column.options.includes('delete')" href="#" @click.stop="hapusData(data)" class="flex text-sm items-center px-4 py-1 hover:bg-gray-100"><SquareX class="w-8 text-red-500 px-2" />Hapus</a>
+                                            <a v-if="column.options.includes('undo')" href="#" @click.stop="undoData(data)" class="flex text-sm items-center px-4 py-1 hover:bg-gray-100"><Undo2 class="w-8 text-red-500 px-2" />Urungkan</a>
                                         </div>
                                     </template>
                                     <template v-else-if="column.type === 'badge'">
@@ -152,11 +152,20 @@
     </div>
     <FormDialog :open="showDialog" :title="title" :sections="form.sections" :data="form.data" @close="closeFormDialog()" @onSubmit="handleSubmit" />
     <DetailDialog :title="title" :open="showDetail" :data="selected" :schema="detail_schema" @close="showDetail=false"/>
+    <div v-if="openContextMenu" class="absolute bg-white border rounded shadow-md w-50 z-50" :style="{ top: contextMenuPosition.y + 'px', left: contextMenuPosition.x + 'px' }">
+        <div v-if="selectedData.length > 0">
+            <a @click.stop="hapusDataMultiple()" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><SquareX class="w-8 text-red-500 px-2" />Hapus Terpilih</a>
+        </div>
+        <a @click.stop="load();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><RefreshCcw class="w-8 text-green-700 px-2" />Muat Ulang</a>
+        <div v-if="allowCreate">
+            <a @click.stop="tambahData();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><SquarePen class="w-8 text-orange-700 px-2" />Tambah Data</a>
+        </div>
+    </div>
 </template> 
 
 <script>
 import * as operator from "./../constants/operator";
-import { Search,LoaderCircle, EllipsisVertical,Blocks,SquareChartGantt,SquarePen,SquareX,Undo2 } from "lucide-vue-next"
+import { Search,LoaderCircle, EllipsisVertical,Blocks,SquareChartGantt,SquarePen,SquareX,Undo2,RefreshCcw } from "lucide-vue-next"
 import { mapGetters } from "vuex";
 import { ref } from "vue"
 import { Badge } from "@/components/ui";
@@ -197,7 +206,8 @@ export default {
         SquareChartGantt,
         SquarePen,
         SquareX,
-        Undo2
+        Undo2,
+        RefreshCcw
     },
     props: {
         title: {
@@ -235,8 +245,13 @@ export default {
             operators: operator.Operator,
             loading: false,
             openDropdown: false,
+            openContextMenu: false,
             tableContainer: ref(null),
             scrollPosition: 0,
+            contextMenuPosition: {
+                x:0,
+                y:0
+            },
             showDetail: false,
             selected: {}
         };
@@ -454,11 +469,18 @@ export default {
                 this.loading = false
             })
         },
+        hapusDataMultiple(){
+            alert('hapus data terpilih')
+        },
         toggleDropdown(index) {
             this.openDropdown = this.openDropdown === index ? null : index
+            this.openContextMenu = false
         },
         closeFormDialog(){
             this.showDialog = false;
+        },
+        closeContextMenu(){
+            this.openContextMenu = false
         },
         handleClickOutside(e) {
             if (!this.$el.contains(e.target)) this.openDropdown = null
@@ -467,16 +489,24 @@ export default {
             let position = e.target.scrollTop
             if(position != this.scrollPosition)this.openDropdown = null
             this.scrollPosition = position
+        },
+        handleRightClick(e) {
+            this.contextMenuPosition.x = e.clientX
+            this.contextMenuPosition.y = e.clientY
+            this.openContextMenu = true
+            this.openDropdown = false
         }
     },
     mounted() {
         this.load();
         document.addEventListener("click", this.handleClickOutside)
         this.$refs.tableContainer.addEventListener("scroll", this.handleScroll)
+        document.addEventListener("click", this.closeContextMenu)
     },
     beforeUnmount() {
         document.removeEventListener("click", this.handleClickOutside)
         this.$refs.tableContainer.removeEventListener("scroll", this.handleScroll)
+        document.removeEventListener("click", this.closeContextMenu)
     }   
 };
 </script>

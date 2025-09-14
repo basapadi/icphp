@@ -21,7 +21,7 @@ class StockAdjustmentController extends BaseController
         $this->setGridProperties([
             'filterDateRange' => true,
             'filterDateName' => 'created_at',
-            'multipleSelect' => false
+            'multipleSelect' => true
         ]);
         $this->setFilterColumnsLike(['masters.nama','items.nama'],request('q')??'');
 
