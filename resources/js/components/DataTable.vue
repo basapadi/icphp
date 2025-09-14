@@ -31,12 +31,12 @@
         </div>
         <div class="h-screen relative">
             <!-- Table -->
-            <div class="overflow-x-auto max-h-7/10">
+            <div class="overflow-x-auto max-h-7/10" ref="tableContainer">
                 <table class="min-w-full border-collapse border border-orange-100">
-                    <thead class="bg-orange-50 sticky top-0">
+                    <thead class="bg-orange-50 sticky top-0" style="z-index:11">
                         <tr>
                             <template v-if="properties.multipleSelect">
-                                <th
+                                <th 
                                     class="px-4 py-1 text-left text-xs text-shadow-2xs text-gray-500 uppercase tracking-wider border-2 border-gray-100">
                                     <input v-model="selectAll" @change="toggleSelectAll" type="checkbox"
                                         class="rounded border-gray-300 text-orange-600 focus:ring-orange-500" />
@@ -69,10 +69,10 @@
                                 </td>
                             </template>
                             <template v-for="column in columns" :key="column.value">
-                                <td v-if="column.show" :class="`px-4 py-1 whitespace-nowrap border-2 border-gray-100 text-${column.align}`">
+                                <td v-if="column.show" :class="`relative px-4 py-1 whitespace-nowrap border-2 border-gray-100 text-${column.align}`">
                                     <template v-if="column.name == 'actions'">
                                         <button @click.stop="toggleDropdown(index)" class="px-2 py-1 rounded hover:bg-gray-300" style="text-align:center;"><EllipsisVertical class="h-4 w-4"/></button>
-                                        <div v-if="openDropdown === index" class="absolute right--2 mt-2 w-40 bg-white border rounded shadow-md">
+                                        <div v-if="openDropdown === index" class="absolute right--2 mt-2 w-40 bg-white border rounded shadow-md" style="z-index:10">
                                             <a v-if="column.options.includes('detail')" href="#" @click.stop="viewData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><SquareChartGantt class="w-8 text-green-700 px-2" />Detail</a>
                                             <a v-if="column.options.includes('edit')" href="#" @click.stop="editData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><SquarePen class="w-8 text-orange-500 px-2" />Ubah</a>
                                             <a v-if="column.options.includes('return')" href="#" @click.stop="returData(data)" class="flex items-center px-4 py-1 hover:bg-gray-100"><Blocks class="w-8 text-blue-500 px-2" />Retur</a>
@@ -158,6 +158,7 @@
 import * as operator from "./../constants/operator";
 import { Search,LoaderCircle, EllipsisVertical,Blocks,SquareChartGantt,SquarePen,SquareX,Undo2 } from "lucide-vue-next"
 import { mapGetters } from "vuex";
+import { ref } from "vue"
 import { Badge } from "@/components/ui";
 import FormDialog from "@/components/FormDialog.vue";
 import FilterHeader from "@/components/FilterHeader.vue";
@@ -234,6 +235,8 @@ export default {
             operators: operator.Operator,
             loading: false,
             openDropdown: false,
+            tableContainer: ref(null),
+            scrollPosition: 0,
             showDetail: false,
             selected: {}
         };
@@ -458,16 +461,22 @@ export default {
             this.showDialog = false;
         },
         handleClickOutside(e) {
-            // cek apakah klik berada di dalam dropdown
             if (!this.$el.contains(e.target)) this.openDropdown = null
+        },
+        handleScroll(e) {
+            let position = e.target.scrollTop
+            if(position != this.scrollPosition)this.openDropdown = null
+            this.scrollPosition = position
         }
     },
     mounted() {
         this.load();
         document.addEventListener("click", this.handleClickOutside)
+        this.$refs.tableContainer.addEventListener("scroll", this.handleScroll)
     },
     beforeUnmount() {
         document.removeEventListener("click", this.handleClickOutside)
-    }
+        this.$refs.tableContainer.removeEventListener("scroll", this.handleScroll)
+    }   
 };
 </script>
