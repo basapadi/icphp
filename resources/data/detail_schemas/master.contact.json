@@ -1,1 +1,28 @@
-{}
+{
+  "main": {
+    "type": "object",
+    "title": "Detail Kontak",
+    "column": 2,
+    "fields": {
+        "type": {
+            "label": "Tipe Kontak"
+        },
+        "nama": {
+            "label": "Nama"
+        },
+        "alamat": {
+            "label": "Alamat"
+        },
+        "telepon": {
+            "label": "Telepon"
+        },
+        "email": {
+            "label": "Email"
+        },
+        "status_label": {
+            "label": "Status"
+        }
+    }
+    
+  }
+}

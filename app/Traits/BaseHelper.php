@@ -5,6 +5,7 @@ use Native\Laravel\Facades\{Alert,Notification};
 use App\Http\Response;
 use App\Objects\Notification as ObjectsNotification;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 trait BaseHelper
 {
@@ -22,8 +23,8 @@ trait BaseHelper
                    return Response::ok($message);
                     break;
                 case 'error':
-                   return Response::badRequest($message);
-                    break;
+                   return Response::badRequest($title.':'.$message);
+                    break;  
                 default:
                     return Response::ok($message);
                     break;
@@ -69,11 +70,9 @@ trait BaseHelper
             'file.max'             => ':attribute maksimal berukuran :max KB.',
         ]);
         if ($validator->fails()) {
-            abort(Response::badRequest('Validasi Gagal','',[
-                'errors' => $validator->errors()
-            ]));
+            return Response::badRequest('validasi Gagal','',$validator->errors());
         }
-
-        return request()->all();
+        return $validator->validated();
+       
     }
 }

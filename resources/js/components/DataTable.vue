@@ -433,9 +433,9 @@ export default {
 
             }).catch((resp) => {
                 let msgError = '';
-                if(resp.response.data?.data?.errors != undefined){
-                    const errors = Object.values(resp.response.data.data.errors);
-                    msgError = errors[0][0]
+                if(resp.response.data?.data != undefined){
+                    const errors = Object.values(resp.response.data.data);
+                    msgError = errors[0]
                 }
                 alert(resp.response.data.message+ ' : '+msgError)
             })

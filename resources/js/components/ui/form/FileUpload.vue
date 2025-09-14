@@ -36,6 +36,8 @@
       :accept="extension"
       :multiple="multiple"
       class="input-hidden"
+      :disabled="disabled"
+      :readonly="readonly"
       @change="onFileChange"
       @invalid="e => e.target.setCustomValidity(`File ${label} tidak boleh kosong`)"
       @input="e => e.target.setCustomValidity('')"
@@ -81,6 +83,8 @@ export default {
     multiple: { type: Boolean, default: false },
     maxsize: { type: Number, default: 0 },
     maxfile: { type: Number, default: 0 },
+    disabled: {type: Boolean, default: false},
+    readonly: {type: Boolean, default: false}
   },
   data() {
     return {

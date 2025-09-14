@@ -1,1 +1,22 @@
-{}
+{
+  "main": {
+    "type": "object",
+    "title": "Detail Satuan",
+    "column": 2,
+    "fields": {
+        "type": {
+            "label": "Tipe Satuan"
+        },
+        "kode": {
+            "label": "Kode"
+        },
+        "nama": {
+            "label": "Nama"
+        },
+        "status_label": {
+            "label": "Status"
+        }
+    }
+    
+  }
+}

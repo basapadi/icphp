@@ -18,6 +18,21 @@
                                     :hint="field.hint"
                                     :required="field.required"
                                     :format="field?.format"
+                                    :disabled="field.disabled"
+                                    :readonly="field.readonly"
+                                />
+                                <Password v-if="field.type == 'password'"
+                                    :key="field.name"
+                                    :label="field.label"
+                                    :type="field.type"
+                                    v-model="form[field.name]"
+                                    :name="field.name"
+                                    :id="field.id"
+                                    :hint="field.hint"
+                                    :required="field.required"
+                                    :format="field?.format"
+                                    :disabled="field.disabled"
+                                    :readonly="field.readonly"
                                 />
                                 <Number v-else-if="field.type == 'number'"
                                     :key="field.name"
@@ -32,6 +47,8 @@
                                     :max="field?.max"
                                     :step="field?.step"
                                     :format="field?.format"
+                                    :disabled="field.disabled"
+                                    :readonly="field.readonly"
                                 />
                                 <Phone v-else-if="field.type == 'phone'"
                                     :key="field.name"
@@ -46,6 +63,8 @@
                                     :max="field?.max"
                                     :step="field?.step"
                                     :format="field?.format"
+                                    :disabled="field.disabled"
+                                    :readonly="field.readonly"
                                 />
                                 <Select v-else-if="field.type == 'select'"
                                     :key="field.name"
@@ -57,6 +76,8 @@
                                     :hint="field.hint"
                                     :required="field.required"
                                     :options="field.options"
+                                    :disabled="field.disabled"
+                                    :readonly="field.readonly"
                                 />
                                 <Radio v-else-if="field.type == 'radio'"
                                     :key="field.name"
@@ -69,6 +90,8 @@
                                     :required="field.required"
                                     :options="field.options"
                                     :direction="field?.direction"
+                                    :disabled="field.disabled"
+                                    :readonly="field.readonly"
                                 />  
                                 <FileUpload v-else-if="field.type == 'file'"
                                     :key="field.name"
@@ -83,6 +106,8 @@
                                     :extension="field.extension"
                                     :maxsize="field.maxsize"
                                     :maxfile="field.maxfile"
+                                    :disabled="field.disabled"
+                                    :readonly="field.readonly"
                                 />
                                 <Textarea v-else-if="field.type == 'textarea'"
                                     :key="field.name"
@@ -93,6 +118,8 @@
                                     :id="field.id"
                                     :hint="field.hint"
                                     :required="field.required"
+                                    :disabled="field.disabled"
+                                    :readonly="field.readonly"
                                 />
                             </template>
                         </div>
@@ -108,7 +135,7 @@
     </div>
 </template>
 <script>
-import { Input,Select,Radio,FileUpload,Textarea,Number,Phone } from "@/components/ui/form";
+import { Input,Select,Radio,FileUpload,Textarea,Number,Phone,Password } from "@/components/ui/form";
 import { Card, CardTitle, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "./ui/button";
 
@@ -128,6 +155,7 @@ export default {
         Textarea,
         Number,
         Phone,
+        Password,
         Card,
         CardTitle,
         CardContent,

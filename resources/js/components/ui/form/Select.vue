@@ -66,6 +66,8 @@
       :name="name"
       :required="required"
       :class="computeClass"
+      :disabled="disabled"
+      :readonly="readonly"
       @invalid="e => e.target.setCustomValidity(`${label} tidak boleh kosong`)"
       @input="setInput"
     >
@@ -91,6 +93,8 @@ export default {
     hint: { type: String, default: '' },
     multiple: { type: Boolean, default: false },
     class: { type: String, default: '' },
+    disabled: {type: Boolean, default: false},
+    readonly: {type: Boolean, default: false}
   },
   data() {
     return {

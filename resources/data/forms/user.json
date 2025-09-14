@@ -1,0 +1,64 @@
+{
+  "main": {
+    "label": "Form Pengguna",
+    "column": 2,
+    "forms": [
+        {
+            "name": "role",
+            "type": "select",
+            "label": "Role Pengguna",
+            "required": true,
+            "hint": "Pilih Role",
+            "options": ":roles"
+        },
+        {
+            "name": "username",
+            "type": "text",
+            "label": "Username",
+            "required": true,
+            "hint": "Masukkan Username",
+            "disabled": ":username_disabled"
+        },
+        {
+            "name": "name",
+            "type": "text",
+            "label": "Nama",
+            "required": true,
+            "hint": "Masukkan Nama Lengkap"
+        },
+        {
+            "name": "email",
+            "type": "email",
+            "label": "Email",
+            "required": true,
+            "hint": "Masukkan Email Pengguna"
+        },
+        {
+            "name": "password",
+            "type": "password",
+            "label": "Password",
+            "required": false,
+            "hint": "Masukkan Password"
+        },
+        {
+            "name": "password_confirmation",
+            "type": "password",
+            "label": "Konfirmasi Password",
+            "required": false,
+            "hint": "Masukkan Password"
+        },
+        {
+            "name": "active",
+            "type": "radio",
+            "required": true,
+            "direction": "row",
+            "label": "Status",
+            "hint": "Status Pengguna",
+            "options": [
+                "Tidak Aktif",
+                "Aktif"
+            ]
+        }
+    ]
+  }
+}

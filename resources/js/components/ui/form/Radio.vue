@@ -21,6 +21,8 @@
           :value="i"
           :checked="modelValue === i"
           :class="computeClass"
+          :disabled="disabled"
+          :readonly="readonly"
           @invalid="e => e.target.setCustomValidity(`Inputan ${label} tidak boleh kosong`)"
           @input="e => e.target.setCustomValidity('')"
           @change="$emit('update:modelValue', i)"
@@ -47,6 +49,8 @@ export default {
     class: { type: String, default: "" },
     required: { type: Boolean, default: false },
     options: { type: Array, default: () => [] },
+    disabled: {type: Boolean, default: false},
+    readonly: {type: Boolean, default: false},
     direction: { type: String, default: "row" } // "row" | "col"
   },
   computed: {

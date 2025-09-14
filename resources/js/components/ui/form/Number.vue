@@ -19,7 +19,9 @@ export default {
     class: { type: [String, Array, Object] as unknown as HTMLAttributes["class"], default: "" },
     min: { type: [String, Number], default: undefined },
     max: { type: [String, Number], default: undefined },
-    step: { type: [String, Number], default: 1 }
+    step: { type: [String, Number], default: 1 },
+    disabled: {type: Boolean, default: false},
+    readonly: {type: Boolean, default: false}
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
@@ -52,6 +54,8 @@ export default {
       :max="max?? null"
       :step="step?? 1"
       :pattern="props.format || undefined"
+      :disabled="disabled"
+      :readonly="readonly"
       :class="
         cn(
           'flex h-8 w-full text-sm rounded-md border border-input bg-background px-3 py-2 ring-offset-background file:border-0 file:bg-transparent file:text-foreground file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',

@@ -31,7 +31,7 @@ class ContactController extends BaseController
 
         //validasi request
         $data = $this->validate($rules);
-
+        if ($data instanceof \Illuminate\Http\JsonResponse) return $data;
         try {
             if(!isset($request->id)){
                 $this->allowAccessModule('master.contact', 'create');

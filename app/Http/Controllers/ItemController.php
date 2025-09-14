@@ -30,10 +30,12 @@ class ItemController extends BaseController
             'nama' => 'required|string',
             'status' => 'required|numeric|in:0,1',
             'gambar' => 'nullable|file|mimes:jpg,png|max:2048',
-            'kategori' => 'nullable|string'
+            'kategori' => 'nullable|string',
+            'id' => 'nullable|numeric'
         ];
 
         $data = $this->validate($rules);
+        if ($data instanceof \Illuminate\Http\JsonResponse) return $data;
         try {
             
             $path = null;

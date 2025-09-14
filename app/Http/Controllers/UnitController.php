@@ -36,6 +36,8 @@ class UnitController extends BaseController
 
         //validasi request
         $data = $this->validate($rules);
+        if ($data instanceof \Illuminate\Http\JsonResponse) return $data;
+        $data = $request->all();
         $conversion = [];
         try {
             if(isset($request->to)&& isset($request->conversion)){

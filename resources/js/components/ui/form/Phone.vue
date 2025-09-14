@@ -17,7 +17,9 @@ export default {
     hint: { type: String, default: "" },
     required: { type: Boolean, default: false },
     class: { type: [String, Array, Object] as unknown as HTMLAttributes["class"], default: "" },
-    format: { type: String, default: "" }
+    format: { type: String, default: "" },
+    disabled: {type: Boolean, default: false},
+    readonly: {type: Boolean, default: false}
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
@@ -66,6 +68,8 @@ export default {
       :name="name"
       :placeholder="hint"
       :required="required"
+      :disabled="disabled"
+      :readonly="readonly"
       @invalid="e => e.target.setCustomValidity(`${label} tidak boleh kosong atau tidak sesuai format`)"
       @input="handleInput"
       :pattern="props.format || undefined"

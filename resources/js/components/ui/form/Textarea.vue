@@ -12,6 +12,8 @@
           :value="modelValue"
           :class="computeClass"
           :required="required"
+          :disabled="disabled"
+          :readonly="readonly"
           @invalid="e => e.target.setCustomValidity(`${label} tidak boleh kosong`)"
           @input.capture="e => e.target.setCustomValidity('')"
           @input="$emit('update:modelValue', $event.target.value)"
@@ -34,7 +36,9 @@ export default {
     label: { type: String, default: "" },
     hint: { type: String, default: "" },
     class: { type: String, default: "" },
-    required: { type: Boolean, default: false }
+    required: { type: Boolean, default: false },
+    disabled: {type: Boolean, default: false},
+    readonly: {type: Boolean, default: false}
   },
   emits: ["update:modelValue"],
   computed: {
