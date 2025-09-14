@@ -51,7 +51,8 @@
         "name": "to",
         "type": "select",
         "label": "Konversi Ke Satuan",
-        "options": ":basic_units"
+        "options": ":basic_units",
+        "hint": "Satuan konversi dengan barang diatas denga nilai lebih kecil"
       },
       {
         "name": "conversion",

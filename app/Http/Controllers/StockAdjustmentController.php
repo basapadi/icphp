@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\{
     Item,
-    ItemStockAdjustment
+    ItemStockAdjustment,
+    Master,
+    ItemReceivedDetail
 };
 use Illuminate\Http\Request;
+use App\Http\Response;
 
 class StockAdjustmentController extends BaseController
 {
@@ -21,5 +24,64 @@ class StockAdjustmentController extends BaseController
             'multipleSelect' => false
         ]);
         $this->setFilterColumnsLike(['masters.nama','items.nama'],request('q')??'');
+
+        $unitReceivedDetail = ItemReceivedDetail::select('unit_id')->distinct()->get()->pluck('unit_id')->toArray();
+        $itemReceivedDetail = ItemReceivedDetail::select('item_id')->distinct()->get()->pluck('item_id')->toArray();
+        $items = Item::select(['id','nama'])->where('status',true)->whereIn('id',$itemReceivedDetail)->get()->pluck('nama','id')->toArray();
+        $units = Master::select('id','nama')->where('type','UNIT')->whereIn('id',$unitReceivedDetail)->get()->pluck('nama','id')->toArray();
+        $config = config('ihandcashier.adjustment_types');
+        $types = [];
+        foreach($config as $k => $c ){
+            $types[$k] = $c['label'];
+        }
+
+        $form = $this->getResourceForm('item_adjustment');
+        injectData($form, [
+            'items' => $items,
+            'units' => $units,
+            'types' => $types
+        ]);
+        $this->setForm($form);
+    }
+
+    public function store(Request $request) {
+        $rules = [
+            'type' => 'required|string|in:UNIT,BASIC_UNIT',
+            'kode' => 'required|string',
+            'nama' => 'required|string',
+            'status' => 'required|numeric|in:0,1',
+            'to' => 'nullable|numeric',
+            'conversion' => 'nullable|numeric',
+            'id' => 'nullable|numeric',
+        ];
+
+    }
+
+    public function edit(Request $request,$id){
+        $this->allowAccessModule('transaction.warehouse.adjustment', 'edit');
+        $id = $this->decodeId($id);
+        $data = ItemStockAdjustment::where('id',$id)->first();
+        if(empty($data)) return $this->setAlert('error','Galat!','Data yang tidak ditemukan!.');
+
+        $unitReceivedDetail = ItemReceivedDetail::select('unit_id')->distinct()->get()->pluck('unit_id')->toArray();
+        $itemReceivedDetail = ItemReceivedDetail::select('item_id')->distinct()->get()->pluck('item_id')->toArray();
+        $items = Item::select(['id','nama'])->where('status',true)->whereIn('id',$itemReceivedDetail)->get()->pluck('nama','id')->toArray();
+        $units = Master::select('id','nama')->where('type','UNIT')->whereIn('id',$unitReceivedDetail)->get()->pluck('nama','id')->toArray();
+        $config = config('ihandcashier.adjustment_types');
+        $types = [];
+        foreach($config as $k => $c ){
+            $types[$k] = $c['label'];
+        }
+        $form = $this->getResourceForm('item_adjustment');
+        injectData($form, [
+            'items' => $items,
+            'units' => $units,
+            'types' => $types
+        ]);
+        return Response::ok('loaded',[
+            'data' => $data,
+            'sections' => $form
+        ]);
+
     }
 }

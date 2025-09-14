@@ -67,7 +67,24 @@ const actions = {
         } catch (err) {
             throw err
         }
-    }
+    },
+    async create({ commit, rootState }, payload) { 
+            try {
+                const resp = await axios.post('/api/adjustment',payload);
+                return resp
+            } catch (err) {
+                throw err
+            }
+    },
+    async edit({ commit, rootState }, id) {
+        try {
+            const resp = await axios.get('/api/adjustment/edit/'+ id);
+            commit('setForm', resp.data)
+            return resp
+        } catch (err) {
+            throw err
+        }
+    },
 }
 
 export default {

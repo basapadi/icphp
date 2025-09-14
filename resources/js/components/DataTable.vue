@@ -340,16 +340,22 @@ export default {
             }
         },
         async tambahData() {
+            this.loading = true
             await this.$store.dispatch(this.module+'/form').then(({ data }) => {
                 this.form = data.data;
+            }).finally(() => {
+                this.showDialog = true
+                this.loading = false
             });
-            this.showDialog = true;
         },
         async editData(data) {
+            this.loading = true
             await this.$store.dispatch(this.module+'/edit', data.encode_id).then(({ data }) => {
                 this.form = data.data;
+            }).finally(() => {
+                this.showDialog = true
+                this.loading = false
             });
-            this.showDialog = true
         },
         async hapusData(data) {
             this.$confirm(

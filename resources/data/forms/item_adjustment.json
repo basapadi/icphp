@@ -1,0 +1,46 @@
+{
+    "main": {
+        "label": "Form Penyesuaian Barang",
+        "column": 1,
+        "forms": [
+            {
+                "name": "adjustment_type",
+                "type": "select",
+                "label": "Tipe Penyesuaian",
+                "required": true,
+                "hint": "Pilih Tipe Penyesuaian Barang",
+                "options": ":types"
+            },
+            {
+                "name": "item_id",
+                "type": "select",
+                "label": "Barang",
+                "required": true,
+                "hint": "Pilih barang yang akan disesuaikan",
+                "options": ":items"
+            },
+            {
+                "name": "actual_stock",
+                "type": "number",
+                "label": "Jumlah Sebenarnya",
+                "required": true,
+                "hint": "Masukkan jumlah stok gudang"
+            },
+            {
+                "name": "unit_id",
+                "type": "select",
+                "label": "Satuan",
+                "required": true,
+                "hint": "Pilih satuan untuk barang terpilih",
+                "options": ":units"
+            },
+            {
+                "name": "catatan",
+                "type": "textarea",
+                "label": "Catatan",
+                "required": false,
+                "hint": "Masukkan Catatan Penyesuaian"
+            }
+        ]
+    }
+}

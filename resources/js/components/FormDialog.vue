@@ -3,6 +3,20 @@
     <div v-if="open" class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
         <Card class="w-full max-w-4xl">
             <CardContent>
+                <ul class="list-disc list-outside px-4 pb-2">
+                    <li class="text-xs italic text-gray-600">
+                        Tanda <span class="text-red-600">*</span> harus diisi
+                    </li>
+                    <li class="text-xs italic text-gray-600">
+                        Pastikan data yang anda masukkan sudah benar
+                    </li>
+                    <li class="text-xs italic text-gray-600 list-disc items-center gap-1">
+                        Lihat info lebih lanjut pada icon
+                        <Info class="h-4 w-4 text-orange-300 inline-block align-middle cursor-pointer" />
+                    </li>
+                </ul>
+
+
                 <form @submit="submit" enctype="multipart/form-data">
                     <template v-for="(section,i) in sections" :key="i"> 
                         <span class="text-gray-400 font-bold text-shadow-2xs">{{section?.label}}</span>
@@ -14,7 +28,7 @@
                                     :type="field.type"
                                     v-model="form[field.name]"
                                     :name="field.name"
-                                    :id="field.id"
+                                    :id="field.name"
                                     :hint="field.hint"
                                     :required="field.required"
                                     :format="field?.format"
@@ -27,7 +41,7 @@
                                     :type="field.type"
                                     v-model="form[field.name]"
                                     :name="field.name"
-                                    :id="field.id"
+                                    :id="field.name"
                                     :hint="field.hint"
                                     :required="field.required"
                                     :format="field?.format"
@@ -40,7 +54,7 @@
                                     :type="field.type"
                                     v-model="form[field.name]"
                                     :name="field.name"
-                                    :id="field.id"
+                                    :id="field.name"
                                     :hint="field.hint"
                                     :required="field.required"
                                     :min="field?.min"
@@ -56,7 +70,7 @@
                                     :type="field.type"
                                     v-model="form[field.name]"
                                     :name="field.name"
-                                    :id="field.id"
+                                    :id="field.name"
                                     :hint="field.hint"
                                     :required="field.required"
                                     :min="field?.min"
@@ -72,7 +86,7 @@
                                     :type="field.type"
                                     v-model="form[field.name]"
                                     :name="field.name"
-                                    :id="field.id"
+                                    :id="field.name"
                                     :hint="field.hint"
                                     :required="field.required"
                                     :options="field.options"
@@ -85,7 +99,7 @@
                                     :type="field.type"
                                     v-model="form[field.name]"
                                     :name="field.name"
-                                    :id="field.id"
+                                    :id="field.name"
                                     :hint="field.hint"
                                     :required="field.required"
                                     :options="field.options"
@@ -99,7 +113,7 @@
                                     :type="field.type"
                                     v-model="form[field.name]"
                                     :name="field.name"
-                                    :id="field.id"
+                                    :id="field.name"
                                     :hint="field.hint"
                                     :required="field.required"
                                     :multiple="field.multiple"
@@ -115,7 +129,7 @@
                                     :type="field.type"
                                     v-model="form[field.name]"
                                     :name="field.name"
-                                    :id="field.id"
+                                    :id="field.name"
                                     :hint="field.hint"
                                     :required="field.required"
                                     :disabled="field.disabled"
@@ -137,6 +151,7 @@
 <script>
 import { Input,Select,Radio,FileUpload,Textarea,Number,Phone,Password } from "@/components/ui/form";
 import { Card, CardTitle, CardContent, CardHeader } from "@/components/ui/card";
+import {Info} from "lucide-vue-next";
 import { Button } from "./ui/button";
 
 export default {
@@ -160,7 +175,8 @@ export default {
         CardTitle,
         CardContent,
         CardHeader,
-        Button
+        Button,
+        Info
     },
     data() {
         return {

@@ -99,6 +99,8 @@ Route::prefix('api')->group(function () {
         Route::get('grid', 'grid');
         Route::get('form', 'form');
         Route::delete('/{id}', 'delete');
+        Route::post('/', 'store');
+        Route::get('/edit/{id}', 'edit');
     });
     Route::controller(PayableController::class)->middleware('auth:sanctum')->prefix('payable')->group(function () {
         Route::get('grid', 'grid');
