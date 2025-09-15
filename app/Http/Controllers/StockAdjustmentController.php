@@ -6,10 +6,12 @@ use App\Models\{
     Item,
     ItemStockAdjustment,
     Master,
-    ItemReceivedDetail
+    ItemReceivedDetail,
+    ItemStock
 };
 use Illuminate\Http\Request;
 use App\Http\Response;
+use Exception;
 
 class StockAdjustmentController extends BaseController
 {
@@ -45,15 +47,47 @@ class StockAdjustmentController extends BaseController
     }
 
     public function store(Request $request) {
+        $adjustmentTypes = config('ihandcashier.adjustment_types');
+        $types = [];
+        foreach ($adjustmentTypes as $key => $at) {
+            array_push($types,$key);
+        }
         $rules = [
-            'type' => 'required|string|in:UNIT,BASIC_UNIT',
-            'kode' => 'required|string',
-            'nama' => 'required|string',
-            'status' => 'required|numeric|in:0,1',
-            'to' => 'nullable|numeric',
-            'conversion' => 'nullable|numeric',
-            'id' => 'nullable|numeric',
+            'adjustment_type' => 'required|string|in:'.implode(',',$types),
+            'item_id' => 'required|numeric',
+            'adjustment_stock' => 'required|numeric',
+            'unit_id' => 'required|numeric',
+            'catatan' => 'nullable|string'
         ];
+
+        $data = $this->validate($rules);
+        if ($data instanceof \Illuminate\Http\JsonResponse) return $data;
+        $stock = ItemStock::where('item_id',$data['item_id'])->where('unit_id',$data['unit_id'])->first();
+        if(empty($stock)) return Response::badRequest('Barang belum terdaftar di stock');
+        try {
+            if(!isset($request->id)){
+                $this->allowAccessModule('transaction.warehouse.adjustment', 'create');
+
+                
+                $preInsert = [
+                    'adjustment_type' => trim($data['adjustment_type']),
+                    'item_id' => trim($data['item_id']),
+                    'adjustment_stock' => trim($data['adjustment_stock']),
+                    'unit_id' => trim($data['unit_id']),
+                    'catatan' => trim($data['catatan']),
+                    'system_stock' => @$stock->jumlah ?? 0,
+                    'actual_stock' => 0,
+                    'final_stock' => 0,
+                    'created_by' => auth()->user()->id
+                ];
+                ItemStockAdjustment::insert($preInsert);
+                return $this->setAlert('info','Berhasil',$preInsert['nama'].' berhasil disimpan');
+            } else {
+
+            }
+        }catch(Exception $e){
+            return $this->setAlert('error','Gagal',$e->getMessage());
+        }
 
     }
 

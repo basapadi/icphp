@@ -20,9 +20,9 @@
                 "options": ":items"
             },
             {
-                "name": "actual_stock",
+                "name": "adjustment_stock",
                 "type": "number",
-                "label": "Jumlah Sebenarnya",
+                "label": "Jumlah Penyesuaian",
                 "required": true,
                 "hint": "Masukkan jumlah stok gudang"
             },

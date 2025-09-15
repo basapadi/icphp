@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\JsonResponse;
+use App\Models\ItemStock;
 
 if (!function_exists('ihandCashierConfigToOptions')) {
     function ihandCashierConfigToOptions(string $config) {
@@ -70,5 +71,23 @@ if(!function_exists('injectData')){
             }
             unset($value);
         }
+    }
+}
+
+if(!function_exists('calculateStock')){
+    function calculateStock(ItemStock $stock,$type,$qty){
+        $type = config("ihandcashier.adjustment_types.{$type}");
+        switch ($type['action_delete']) {
+            case 'addition':
+                // hapus adjustment → stok ditambah
+                $stock->jumlah += $qty;
+                break;
+            case 'reduction':
+                // hapus adjustment → stok dikurangi
+                $stock->jumlah -= $qty;
+                break;
+        }
+
+        return $stock;
     }
 }
