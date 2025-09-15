@@ -24,7 +24,7 @@ class MenuController extends BaseController
         ->map(fn($menu) => $this->setOpenRecursive($menu));
         $menuRoles = RoleMenu::join('menus', 'role_menus.menu_id', '=', 'menus.id')
             ->where('role_menus.role', $role)
-            ->select('role_menus.id','menus.label','menus.route','menus.parent_id','view','create','delete','download')
+            ->select('role_menus.id','menus.label','menus.route','menus.parent_id','view','create','delete','edit','download')
             ->get()->toArray();
         return [
             'menus' => $menus,

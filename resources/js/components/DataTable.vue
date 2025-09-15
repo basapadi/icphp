@@ -32,7 +32,7 @@
         <div class="h-screen relative z-1">
             <!-- Table -->
             <div class="overflow-x-auto max-h-7/10 z-1" ref="tableContainer">
-                <table class="min-w-full border-collapse border border-orange-100 z-1" @contextmenu.prevent="handleRightClick">
+                <table class="min-w-full border-collapse border border-orange-100 z-1">
                     <thead class="bg-orange-50 sticky top-0" style="z-index:11">
                         <tr>
                             <template v-if="properties.multipleSelect">
@@ -61,7 +61,7 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <tr v-for="(data) in filterData" :key="data.id" class="hover:bg-gray-50 transition-colors">
+                        <tr v-for="(data) in filterData" :key="data.id" class="hover:bg-orange-50 transition-colors duration-200" @contextmenu.prevent="handleRightClick(data, $event)">
                             <template v-if="properties.multipleSelect">
                                 <td class="px-4 whitespace-nowrap border-2 border-gray-200" style="width: 10px">
                                     <input v-model="selectedData" :value="data.encode_id" type="checkbox"
@@ -158,14 +158,20 @@
         </div>
         <a @click.stop="load();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><RefreshCcw class="w-8 text-green-700 px-2" />Muat Ulang</a>
         <div v-if="allowCreate">
-            <a @click.stop="tambahData();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><SquarePen class="w-8 text-orange-700 px-2" />Tambah Data</a>
+            <a @click.stop="tambahData();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><Plus class="w-8 text-orange-700 px-2" />Tambah</a>
+        </div>
+        <div v-if="allowEdit">
+            <a @click.stop="editData();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><SquarePen class="w-8 text-orange-700 px-2" />Ubah</a>
+        </div>
+        <div v-if="allowDelete">
+            <a @click.stop="hapusData();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><SquareX class="w-8 text-red-700 px-2" />Hapus</a>
         </div>
     </div>
 </template> 
 
 <script>
 import * as operator from "./../constants/operator";
-import { Search,LoaderCircle, EllipsisVertical,Blocks,SquareChartGantt,SquarePen,SquareX,Undo2,RefreshCcw } from "lucide-vue-next"
+import { Search,LoaderCircle, EllipsisVertical,Blocks,SquareChartGantt,SquarePen,SquareX,Undo2,RefreshCcw,Plus } from "lucide-vue-next"
 import { mapGetters } from "vuex";
 import { ref } from "vue"
 import { Badge } from "@/components/ui";
@@ -207,7 +213,8 @@ export default {
         SquarePen,
         SquareX,
         Undo2,
-        RefreshCcw
+        RefreshCcw,
+        Plus
     },
     props: {
         title: {
@@ -231,6 +238,8 @@ export default {
             properties: {},
             detail_schema: [],
             allowCreate: false,
+            allowDelete: false,
+            allowEdit: false,
             allowDelete: false,
             showDialog: false,
             pagination: {
@@ -279,6 +288,8 @@ export default {
                 (role) => role.route === this.$route.path
             )
             this.allowCreate = rm?.create
+            this.allowDelete = rm?.delete
+            this.allowEdit = rm?.edit
             this.allowDelete = rm?.delete
         }
     },
@@ -504,7 +515,8 @@ export default {
             if(position != this.scrollPosition)this.openDropdown = null
             this.scrollPosition = position
         },
-        handleRightClick(e) {
+        handleRightClick(data,e) {
+            this.selected = data
             this.contextMenuPosition.x = e.clientX
             this.contextMenuPosition.y = e.clientY
             this.openContextMenu = true
