@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <vue3-confirm-dialog></vue3-confirm-dialog>
-    <div class="watermark shadow-lg">
+    <div class="watermark shadow-lg z-5">
       Demo v{{ appVersion }}
     </div>
     <router-view />
@@ -13,7 +13,6 @@
     bottom:20px;
     left:35px;
     opacity:1;
-    z-index:9999;
     font-size: 1em;
     font-weight: 800;
     margin: 5px;
