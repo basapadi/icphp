@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 z-1">
         <!-- Table Header -->
         <div class="px-1 py-1 border-b border-gray-300">
             <div class="flex justify-between">
@@ -29,10 +29,10 @@
                 </div>
             </div>
         </div>
-        <div class="h-screen relative">
+        <div class="h-screen relative z-1">
             <!-- Table -->
-            <div class="overflow-x-auto max-h-7/10" ref="tableContainer">
-                <table class="min-w-full border-collapse border border-orange-100" @contextmenu.prevent="handleRightClick">
+            <div class="overflow-x-auto max-h-7/10 z-1" ref="tableContainer">
+                <table class="min-w-full border-collapse border border-orange-100 z-1" @contextmenu.prevent="handleRightClick">
                     <thead class="bg-orange-50 sticky top-0" style="z-index:11">
                         <tr>
                             <template v-if="properties.multipleSelect">
@@ -61,7 +61,7 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <tr v-for="(data,index) in filterData" :key="data.id" class="hover:bg-gray-50 transition-colors">
+                        <tr v-for="(data) in filterData" :key="data.id" class="hover:bg-gray-50 transition-colors">
                             <template v-if="properties.multipleSelect">
                                 <td class="px-4 whitespace-nowrap border-2 border-gray-200" style="width: 10px">
                                     <input v-model="selectedData" :value="data.encode_id" type="checkbox"
@@ -71,14 +71,7 @@
                             <template v-for="column in columns" :key="column.value">
                                 <td v-if="column.show" :class="`relative px-4 py-1 whitespace-nowrap border-2 border-gray-100 text-${column.align}`">
                                     <template v-if="column.name == 'actions'">
-                                        <button @click.stop="toggleDropdown(index)" class="px-2 py-1 rounded hover:bg-gray-300" style="text-align:center;"><EllipsisVertical class="h-4 w-4"/></button>
-                                        <div v-if="openDropdown === index" class="absolute right--2 mt-2 w-40 bg-white border rounded shadow-md" style="z-index:10">
-                                            <a v-if="column.options.includes('detail')" href="#" @click.stop="viewData(data)" class="flex text-sm items-center px-4 py-1 hover:bg-gray-100"><SquareChartGantt class="w-8 text-green-700 px-2" />Detail</a>
-                                            <a v-if="column.options.includes('edit')" href="#" @click.stop="editData(data)" class="flex text-sm items-center px-4 py-1 hover:bg-gray-100"><SquarePen class="w-8 text-orange-500 px-2" />Ubah</a>
-                                            <a v-if="column.options.includes('return')" href="#" @click.stop="returData(data)" class="flex text-sm items-center px-4 py-1 hover:bg-gray-100"><Blocks class="w-8 text-blue-500 px-2" />Retur</a>
-                                            <a v-if="column.options.includes('delete')" href="#" @click.stop="hapusData(data)" class="flex text-sm items-center px-4 py-1 hover:bg-gray-100"><SquareX class="w-8 text-red-500 px-2" />Hapus</a>
-                                            <a v-if="column.options.includes('undo')" href="#" @click.stop="undoData(data)" class="flex text-sm items-center px-4 py-1 hover:bg-gray-100"><Undo2 class="w-8 text-red-500 px-2" />Urungkan</a>
-                                        </div>
+                                        <button @click.stop="toggleDropdown(column,data,$event)" class="px-2 py-1 rounded hover:bg-gray-300" style="text-align:center;"><EllipsisVertical class="h-4 w-4"/></button>
                                     </template>
                                     <template v-else-if="column.type === 'badge'">
                                         <div :class="`inline-flex items-center rounded-md bg-${data[`color_${column.name}`]
@@ -110,7 +103,7 @@
             </div>
 
             <!-- Table Footer -->
-            <div class="px-4 py-3 border-t border-gray-200 bg-white">
+            <div class="px-4 py-3 border-t border-gray-200 bg-white z-1">
                 <div class="flex items-center justify-between">
                     <div class="text-sm text-gray-700">
                         Data
@@ -152,6 +145,13 @@
     </div>
     <FormDialog :open="showDialog" :title="title" :sections="form.sections" :data="form.data" @close="closeFormDialog()" @onSubmit="handleSubmit" />
     <DetailDialog :title="title" :open="showDetail" :data="selected" :schema="detail_schema" @close="showDetail=false"/>
+    <div v-if="openDropdown" class="absolute bg-white border rounded shadow-md w-50 z-50" :style="{ top: dropDownPosition.y + 'px', left: dropDownPosition.x + 'px' }">
+        <a v-if="columnOptions.includes('detail')" href="#" @click.stop="viewData()" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><SquareChartGantt class="w-8 text-green-700 px-2" />Detail</a>
+        <a v-if="columnOptions.includes('edit')" href="#" @click.stop="editData()" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><SquarePen class="w-8 text-orange-500 px-2" />Ubah</a>
+        <a v-if="columnOptions.includes('return')" href="#" @click.stop="returData()" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><Blocks class="w-8 text-blue-500 px-2" />Retur</a>
+        <a v-if="columnOptions.includes('delete')" href="#" @click.stop="hapusData()" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><SquareX class="w-8 text-red-500 px-2" />Hapus</a>
+        <a v-if="columnOptions.includes('undo')" href="#" @click.stop="undoData()" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><Undo2 class="w-8 text-red-500 px-2" />Urungkan</a>
+    </div>
     <div v-if="openContextMenu" class="absolute bg-white border rounded shadow-md w-50 z-50" :style="{ top: contextMenuPosition.y + 'px', left: contextMenuPosition.x + 'px' }">
         <div v-if="selectedData.length > 0">
             <a @click.stop="hapusDataMultiple()" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><SquareX class="w-8 text-red-500 px-2" />Hapus Terpilih</a>
@@ -252,8 +252,13 @@ export default {
                 x:0,
                 y:0
             },
+            dropDownPosition: {
+                x:0,
+                y:0
+            },
             showDetail: false,
-            selected: {}
+            selected: {},
+            columnOptions:{}
         };
     },
     watch: {
@@ -365,18 +370,21 @@ export default {
             }).finally(() => {
                 this.showDialog = true
                 this.loading = false
+                this.openDropdown = false
             });
         },
-        async editData(data) {
+        async editData() {
             this.loading = true
-            await this.$store.dispatch(this.module+'/edit', data.encode_id).then(({ data }) => {
+            await this.$store.dispatch(this.module+'/edit', this.selected.encode_id).then(({ data }) => {
                 this.form = data.data;
             }).finally(() => {
                 this.showDialog = true
                 this.loading = false
+                this.openDropdown = false
             });
         },
-        async hapusData(data) {
+        async hapusData() {
+            this.openDropdown = false
             this.$confirm(
                 {
                     message: `Apakah anda yakin menghapus data ini?`,
@@ -387,7 +395,7 @@ export default {
                     callback: async confirm => {
                         if (confirm) {
                             this.loading = true
-                            await this.$store.dispatch(this.module+'/delete', data.encode_id)
+                            await this.$store.dispatch(this.module+'/delete', this.selected.encode_id)
                                 .then(({ data }) => {
                                     this.load(); // Refresh the data table after deletion
                                 })
@@ -403,19 +411,18 @@ export default {
                 }
             )
         },
-        viewData(data) {
-            if(data.schema != undefined){
-                this.detail_schema = JSON.parse(data.schema)
-                this.selected = JSON.parse(data.data)
-            } else {
-                this.selected = data
+        viewData() {
+            if(this.selected.schema != undefined){
+                this.detail_schema = JSON.parse(this.selected.schema)
+                this.selected = JSON.parse(this.selected.data)
             }
             this.showDetail = true
+            this.openDropdown = false
         },
-        returData(data) {
+        returData() {
             alert("Action retur data:");
         },
-        undoData(data){
+        undoData(){
             alert("Action undo data:");
         },
         truncateData(){
@@ -472,9 +479,13 @@ export default {
         hapusDataMultiple(){
             alert('hapus data terpilih')
         },
-        toggleDropdown(index) {
-            this.openDropdown = this.openDropdown === index ? null : index
+        toggleDropdown(column,data,e) {
+            this.columnOptions = column.options
+            this.openDropdown = true
             this.openContextMenu = false
+            this.selected = data
+            this.dropDownPosition.x = e.clientX
+            this.dropDownPosition.y = e.clientY
         },
         closeFormDialog(){
             this.showDialog = false;
