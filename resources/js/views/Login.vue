@@ -1,13 +1,19 @@
 <template>
-  <div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gradient-to-t from-white to-orange-100">
+  <div class="min-h-screen bg-gray-50 flex flex-col justify-center py-2 sm:px-6 lg:px-8 bg-gradient-to-t from-white to-orange-100">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
       <div class="flex justify-center">
         <div class="flex items-center justify-center">
-          <img src="./../../assets/ihand-512.png" alt="Logo" class="w-40 h-40 object-contain" />
+          <img src="./../../assets/ihand-512.png" alt="Logo" class="w-60 object-contain" />
         </div>
       </div>
       <div class="mt-6 text-center text-gray-500 text-shadow-sm">
         <span class="text-3xl font-bold pr-2">Ihand Cashier</span> v{{ appVersion }}
+      </div>
+      <div class="text-center text-gray-500 text-shadow-sm">
+        <span class="text-md font-bold pr-2">POS Single Entry Multiplatform App</span>
+      </div>
+      <div class="text-center text-gray-500 text-shadow-sm">
+        <span class="text-sm pr-2">Tersedia versi build Windows, MacOS dan Linux</span>
       </div>
     </div>
 
