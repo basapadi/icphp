@@ -3,21 +3,21 @@
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
       <div class="flex justify-center">
         <div class="flex items-center justify-center">
-          <img src="./../../assets/ihand-512.png" alt="Logo" class="w-60 object-contain" />
+          <img src="./../../assets/ihand-512.png" alt="Logo" class="w-40 object-contain" />
         </div>
       </div>
-      <div class="mt-6 text-center text-gray-500 text-shadow-sm">
+      <div class="mt-2 text-center text-gray-500 text-shadow-sm">
         <span class="text-3xl font-bold pr-2">Ihand Cashier</span> v{{ appVersion }}
       </div>
       <div class="text-center text-gray-500 text-shadow-sm">
         <span class="text-md font-bold pr-2">POS Single Entry Multiplatform App</span>
       </div>
       <div class="text-center text-gray-500 text-shadow-sm">
-        <span class="text-sm pr-2">Tersedia versi build Windows, MacOS dan Linux</span>
+        <span class="text-sm pr-2">Tersedia versi Windows, MacOS dan Linux</span>
       </div>
     </div>
 
-    <div v-if="!initial" class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div v-if="!initial" class="my-2 sm:mx-auto sm:w-full sm:max-w-md">
       <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
         <CardTitle class="py-4">Masukkan akun anda</CardTitle>
         <form @submit.prevent="handleLogin" class="space-y-6">
@@ -124,7 +124,7 @@
         </form>
       </div>
     </div>
-    <div v-else class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div v-else class="mt-2 sm:mx-auto sm:w-full sm:max-w-md">
       <Card class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-4">
         <CardHeader>
           <CardTitle>Konfigurasi Basis Data</CardTitle>
