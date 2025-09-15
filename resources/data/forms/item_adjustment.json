@@ -9,7 +9,8 @@
                 "label": "Tipe Penyesuaian",
                 "required": true,
                 "hint": "Pilih Tipe Penyesuaian Barang",
-                "options": ":types"
+                "options": ":types",
+                "readonly": ":adjustment_type_readonly"
             },
             {
                 "name": "item_id",
@@ -17,14 +18,15 @@
                 "label": "Barang",
                 "required": true,
                 "hint": "Pilih barang yang akan disesuaikan",
-                "options": ":items"
+                "options": ":items",
+                "readonly": ":item_id_readonly"
             },
             {
                 "name": "adjustment_stock",
                 "type": "number",
                 "label": "Jumlah Penyesuaian",
                 "required": true,
-                "hint": "Masukkan jumlah stok gudang"
+                "hint": "Masukkan jumlah barang yang disesuaikan"
             },
             {
                 "name": "unit_id",

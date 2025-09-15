@@ -90,20 +90,6 @@
         "option_filter": true
     },
     {
-        "name": "actual_stock",
-        "required": true,
-        "label": "Jumlah (Aktual)",
-        "align": "right",
-        "field": "actual_stock",
-        "sortable": true,
-        "type": "text",
-        "options": [],
-        "show": true,
-        "class": "font-mono font-bold",
-        "styles": "width:50px",
-        "option_filter": true
-    },
-    {
         "name": "adjustment_stock",
         "required": true,
         "label": "Jumlah (Penyesuaian)",

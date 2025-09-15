@@ -366,7 +366,8 @@ export default {
             this.loading = true
             await this.$store.dispatch(this.module+'/form').then(({ data }) => {
                 this.form = data.data;
-                this.selected = {}
+                this.selected = {}  
+                this.form.data = {}
             }).finally(() => {
                 this.showDialog = true
                 this.loading = false
@@ -461,6 +462,8 @@ export default {
                 if(data.message != undefined && data.status == true) {
                     alert(data.message)
                     this.showDialog = false
+                    this.form = {}
+                    this.selected = {}
                 }
 
             }).catch((resp) => {
