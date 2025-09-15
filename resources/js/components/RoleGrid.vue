@@ -45,7 +45,19 @@
                     <td class="px-4 whitespace-nowrap border-2 border-gray-200"><span class="text-sm text-gray-600">{{ i+1 }}</span></td>
                     <template v-for="column in columns" :key="column.value">
                         <td class="px-4 whitespace-nowrap border-2 border-gray-200 text-center" v-if="['view','create','edit','update','delete','download'].includes(column.name)">
-                            <input :checked="data[column.name]" @click="onCheck($event,data,column.name)" type="checkbox" class="role-cb h-4 w-4 text-orange-600" style="align-items: center;"/>
+                            <template v-if="['create','edit','update'].includes(column.name) && data.menu.module =='trash'">
+                                <input :checked="data[column.name]" disabled type="checkbox" class="role-cb h-4 w-4 text-orange-600" style="align-items: center;"/>
+                            </template>
+                            <template v-else-if="['create','edit','update','delete'].includes(column.name) && data.menu.module =='transaction.warehouse.stock'">
+                                <input :checked="data[column.name]" disabled type="checkbox" class="role-cb h-4 w-4 text-orange-600" style="align-items: center;"/>
+                            </template>
+                            <template v-else-if="['create','edit','update','delete'].includes(column.name) && ['report','report.cash','report.income','report.expense','report.profitloss','report.receivable','report.payable','report.inventory'].includes(data.menu.module)">
+                                <input :checked="data[column.name]" disabled type="checkbox" class="role-cb h-4 w-4 text-orange-600" style="align-items: center;"/>
+                            </template>
+                            <template v-else-if="['create','edit','update','delete','download'].includes(column.name) && data.menu.route == '#'">
+                                <input :checked="data[column.name]" disabled type="checkbox" class="role-cb h-4 w-4 text-orange-600" style="align-items: center;"/>
+                            </template>
+                            <template v-else><input :checked="data[column.name]" @click="onCheck($event,data,column.name)" type="checkbox" class="role-cb h-4 w-4 text-orange-600" style="align-items: center;"/></template>
                         </td>
                         <td class="px-4 whitespace-nowrap border-2 border-gray-200" v-else>
                             <span :class="`text-sm items-center text-gray-600 ${column.class}`">{{ $helpers.getSubObjectValue(data, column.name) }}</span>

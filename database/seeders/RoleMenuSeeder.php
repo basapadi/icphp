@@ -20,15 +20,48 @@ class RoleMenuSeeder extends Seeder
         foreach($roles as $r => $role){
             $all = $role == 'admin' ? 1: 0;
             foreach($menus as $m => $menu){
+                $view = $all;
+                $create = $all;
+                $edit = $all;
+                $update = $all;
+                $delete = $all;
+                $download = $all;
+                if(in_array($menu->id,[31])){ //trash
+                    $create = 0;
+                    $edit = 0;
+                    $update = 0;
+                    $download = 0;
+                }
+
+                if(in_array($menu->id,[22,23,24,25,26,27,28,29])){ //report
+                    $create = 0;
+                    $edit = 0;
+                    $update = 0;
+                    $delete = 0;
+                }
+
+                if($menu->id == 20){ //trash
+                    $create = 0;
+                    $edit = 0;
+                    $update = 0;
+                    $delete = 0;
+                }
+                if($menu->route == '#'){
+                    $create = 0;
+                    $edit = 0;
+                    $update = 0;
+                    $delete = 0;
+                    $download = 0;
+                }
                 array_push($roleMenus, [
                     'role'      => $role,
                     'menu_id'   => $menu->id,
-                    'view'      => $all,
-                    'create'    => $all,
-                    'edit'    => $all,
-                    'update'    => $all,
-                    'delete'    => $all,
-                    'download'  => $all,
+                    'view'      => $view,
+                    'create'    => $create,
+                    'edit'    => $edit,
+                    'update'    => $update,
+                    'delete'    => $delete,
+                    'download'  => $download,
                 ]);
             }
         }
