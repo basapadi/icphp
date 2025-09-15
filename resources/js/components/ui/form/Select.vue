@@ -68,10 +68,13 @@
         <li
           v-for="(o, i) in filteredOptions"
           :key="i"
-          class="py-1 text-sm text-gray-600  border-b border-gray-200 hover:bg-gray-3 00 cursor-pointer"
+          class="px-4 py-1 text-sm text-gray-600  border-b border-gray-200 hover:bg-gray-3 00 cursor-pointer"
           @click="addItem(i)"
         >
-          {{ o }}
+          <div class="flex items-center space-x-2">
+            <Cmp class="w-3 h-3 text-orange-400"/>
+            <span class="text-gray-600">{{ o }}</span>
+          </div>
         </li>
       </ul>
     </div>
@@ -132,11 +135,14 @@
         <li
           v-for="(option, index) in filteredSingleOptions"
           :key="option.key"
-          class="px-4 py-1 text-sm text-gray-600  border-b border-gray-200 hover:bg-gray-200 cursor-pointer"
+          class=" px-4 py-1 text-sm text-gray-600  border-b border-gray-200 hover:bg-gray-200 cursor-pointer"
           :class="{ 'bg-blue-100': highlightedIndex === index }"
           @click="selectSingleOption(option.key, option.value)"
         >
-          {{ option.value }}
+          <div class="flex items-center space-x-2">
+            <Cmp class="w-3 h-3 text-orange-400"/>
+            <span class="text-gray-600">{{ option.value }}</span>
+          </div>
         </li>
         <li v-if="filteredSingleOptions.length === 0" class="px-3 py-2 text-gray-500 italic">
           Tidak ada pilihan yang cocok
@@ -148,9 +154,9 @@
 
 <script>
 import Label from "@/components/ui/Label.vue";
-import {Info} from "lucide-vue-next";
+import {Info,Component as Cmp} from "lucide-vue-next";
 export default {
-  components: { Label,Info },
+  components: { Label,Info,Cmp },
   props: {
     modelValue: { type: [String, Array], default: '' },
     options: { type: Object, default: () => ({}) },

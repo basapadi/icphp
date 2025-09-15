@@ -92,6 +92,7 @@
                                     :options="field.options"
                                     :disabled="field.disabled"
                                     :readonly="field.readonly"
+                                    :multiple="field.multiple"
                                 />
                                 <Radio v-else-if="field.type == 'radio'"
                                     :key="field.name"
