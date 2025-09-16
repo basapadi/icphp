@@ -289,10 +289,15 @@ class BaseController extends Controller
             if($col['name'] == 'actions'){
                 $options = [];
                 foreach($col['options'] as $o){
-                    if(in_array($o,['view','edit','delete'])){
+                    if(in_array($o,['view','edit','update','delete'])){
                         $op = $this->allowAccess($o);
                         if($op != '') array_push($options,$op);
                     } else array_push($options,$o);
+
+                    if(in_array($o,['no_view','no_create','no_edit','no_update','no_delete'])){
+                        $no =  explode('_',$o);
+                        $options = array_diff($options, [explode('_',$o)[1]]);
+                    }
 
                 }
                 $col['options'] = $options;

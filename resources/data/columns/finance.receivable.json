@@ -8,7 +8,8 @@
         "sortable": true,
         "type": "text",
         "options": [
-            "detail"
+            "detail",
+            "no_create"
         ],
         "show": true,
         "class": "",

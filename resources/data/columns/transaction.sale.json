@@ -11,7 +11,8 @@
             "detail",
             "return",
             "edit",
-            "delete"
+            "delete",
+            "create"
         ],
         "show": true,
         "class": "",

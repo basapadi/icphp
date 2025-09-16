@@ -9,7 +9,8 @@
         "type": "text",
         "options": [
             "edit",
-            "delete"
+            "delete",
+            "create"
         ],
         "show": true,
         "class": "",

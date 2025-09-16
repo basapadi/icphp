@@ -20,7 +20,7 @@
                                 Hapus Semua
                             </Button>
                         </div>
-                        <div class="relative mr-2" v-if="allowCreate">
+                        <div class="relative mr-2" v-if="allowCreate && columnOptions.includes('create')">
                             <Button class="bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103" @click="tambahData" v-if="allowCreate" size="sm">
                                 Tambah
                             </Button>
@@ -157,13 +157,22 @@
             <a @click.stop="hapusDataMultiple()" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><SquareX class="w-8 text-red-500 px-2" />Hapus Terpilih</a>
         </div>
         <a @click.stop="load();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><RefreshCcw class="w-8 text-green-700 px-2" />Muat Ulang</a>
-        <div v-if="allowCreate">
+        <div v-if="allowCreate && columnOptions.includes('create')">
             <a @click.stop="tambahData();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><Plus class="w-8 text-orange-700 px-2" />Tambah</a>
         </div>
-        <div v-if="allowEdit">
+        <div v-if="columnOptions.includes('detail')">
+            <a @click.stop="viewData();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><SquareChartGantt class="w-8 text-green-700 px-2" />Detail</a>
+        </div>
+        <div v-if="allowEdit && columnOptions.includes('edit')">
             <a @click.stop="editData();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><SquarePen class="w-8 text-orange-700 px-2" />Ubah</a>
         </div>
-        <div v-if="allowDelete">
+        <div v-if="columnOptions.includes('undo')">
+            <a @click.stop="hapusData();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><Undo2 class="w-8 text-red-700 px-2" />Urungkan</a>
+        </div>
+        <div v-if="columnOptions.includes('return')">
+            <a @click.stop="returData();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><Blocks class="w-8 text-blue-700 px-2" />Retur</a>
+        </div>
+        <div v-if="allowDelete && columnOptions.includes('delete')">
             <a @click.stop="hapusData();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><SquareX class="w-8 text-red-700 px-2" />Hapus</a>
         </div>
     </div>
@@ -362,6 +371,9 @@ export default {
                 }).finally((f) => {
                     this.loading = false
                 })
+            
+            const action = this.columns.find(x => x.name == 'actions');
+            this.columnOptions = action.options
         },
         formatDate(dateString) {
             return new Date(dateString).toLocaleDateString();
