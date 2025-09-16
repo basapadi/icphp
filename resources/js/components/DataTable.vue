@@ -20,8 +20,8 @@
                                 Hapus Semua
                             </Button>
                         </div>
-                        <div class="relative mr-2" v-if="allowCreate && columnOptions.includes('create')">
-                            <Button class="bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103" @click="tambahData" v-if="allowCreate" size="sm">
+                        <div class="relative mr-2" v-if="allowCreate && columnOptions.length > 0 ">
+                            <Button v-if="columnOptions.includes('create')" class="bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103" @click="tambahData" size="sm">
                                 Tambah
                             </Button>
                         </div>
@@ -276,7 +276,7 @@ export default {
             },
             showDetail: false,
             selected: {},
-            columnOptions:{}
+            columnOptions:[]
         };
     },
     watch: {
@@ -536,10 +536,12 @@ export default {
         }
     },
     mounted() {
-        this.load();
         document.addEventListener("click", this.handleClickOutside)
         this.$refs.tableContainer.addEventListener("scroll", this.handleScroll)
         document.addEventListener("click", this.closeContextMenu)
+    },
+    beforeMount(){
+        this.load();
     },
     beforeUnmount() {
         document.removeEventListener("click", this.handleClickOutside)
