@@ -76,7 +76,9 @@ class BaseController extends Controller
     {
         $this->allowAccessModule($this->_module, 'create');
         $forms = [];
-        $dialog = [];
+        $dialog = [
+            'width' => 2
+        ];
         foreach ($this->_form as $key => $f) {
             if($key == 'dialog'){
                 $dialog = $f;

@@ -97,6 +97,7 @@ export default {
       :class="inputClass"
       :disabled="disabled"
       :readonly="readonly"
+      autocomplete="false"
       placeholder="DD-MM-YYYY"
     />
   </div>

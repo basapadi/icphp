@@ -1,6 +1,6 @@
 {
     "dialog": {
-        "width": 8
+        "width": 7
     },
     "main": {
         "label": "Form Penerimaan",
@@ -39,7 +39,7 @@
                 "name": "potongan_harga",
                 "type": "number",
                 "label": "Potongan",
-                "required": true,
+                "required": false,
                 "hint": "Potongan Harga"
             },
             {

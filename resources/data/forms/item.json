@@ -1,4 +1,7 @@
 {
+    "dialog": {
+        "width": 2
+    },
     "main": {
         "label": "Form Barang",
         "column": 1,

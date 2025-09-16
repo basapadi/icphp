@@ -143,7 +143,7 @@
             </div>
         </div>
     </div>
-    <FormDialog :open="showDialog" :title="title" :dialog="form.dialog" :sections="form.sections" :data="form.data" @close="closeFormDialog()" @onSubmit="handleSubmit" />
+    <FormDialog :open="showDialog" :title="title" :dialog="form.dialog" :sections="form.sections" :formData="form.data" @close="closeFormDialog()" @onSubmit="handleSubmit" />
     <DetailDialog :title="title" :open="showDetail" :data="selected" :schema="detail_schema" @close="showDetail=false"/>
     <div v-if="openDropdown" class="absolute bg-white border rounded shadow-md w-50 z-50" :style="{ top: dropDownPosition.y + 'px', left: dropDownPosition.x + 'px' }">
         <a v-if="columnOptions.includes('detail')" href="#" @click.stop="viewData()" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><SquareChartGantt class="w-8 text-green-700 px-2" />Detail</a>

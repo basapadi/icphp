@@ -158,7 +158,7 @@ import {Info,Component as Cmp} from "lucide-vue-next";
 export default {
   components: { Label,Info,Cmp },
   props: {
-    modelValue: { type: [String, Array], default: '' },
+    modelValue: { type: [String, Array, Number], default: '' },
     options: { type: Object, default: () => ({}) },
     label: { type: String, default: '' },
     required: { type: Boolean, default: false },
