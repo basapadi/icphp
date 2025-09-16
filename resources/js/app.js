@@ -8,6 +8,7 @@ import store from './store'
 import '../css/app.css';
 import * as helpers from "./helpers/datautils";
 import 'vue3-confirm-dialog/style';
+import "flatpickr/dist/flatpickr.css";
 
 const app = createApp(App)
 app.config.globalProperties.$helpers = helpers;

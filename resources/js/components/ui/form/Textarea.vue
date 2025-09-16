@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-1.5">
+  <div class="flex flex-col gap-1.5 w-full">
     <Label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" >
       <span class="text-gray-500 text-shadow-2xs">{{ label }}</span>
       <span v-if="required" class="text-red-800"> *</span>

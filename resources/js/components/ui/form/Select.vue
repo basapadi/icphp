@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-1.5">
+  <div class="flex flex-col gap-1.5 w-full">
     <Label
       :for="id"
       class="flex items-center gap-1 text-sm font-medium leading-none"

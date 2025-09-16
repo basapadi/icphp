@@ -1,0 +1,137 @@
+{
+    "dialog": {
+        "width": 8
+    },
+    "main": {
+        "label": "Form Penerimaan",
+        "column": 3,
+        "forms": [
+            {
+                "name": "kode_transaksi",
+                "type": "text",
+                "label": "Kode Transaksi",
+                "required": true,
+                "hint": "Masukkan Kode Barang atau autogenerate"
+            },
+            {
+                "name": "contact_id",
+                "type": "select",
+                "label": "Pemasok",
+                "required": false,
+                "hint": "Pilih Pemasok barang",
+                "options": ":contacts"
+            },
+            {
+                "name": "tanggal_terima",
+                "type": "date",
+                "label": "Tanggal Penerimaan",
+                "required": true,
+                "hint": "Masukkan Tanggal Terima"
+            },
+            {
+                "name": "diterima_oleh",
+                "type": "text",
+                "label": "Diterima Oleh",
+                "required": true,
+                "hint": "Masukkan Penerima"
+            },
+            {
+                "name": "potongan_harga",
+                "type": "number",
+                "label": "Potongan",
+                "required": true,
+                "hint": "Potongan Harga"
+            },
+            {
+                "name": "status_pembayaran",
+                "type": "select",
+                "label": "Status Pembayaran",
+                "required": true,
+                "hint": "Pilih Status Pembayaran",
+                "options": ":payment_status"
+            },
+            {
+                "name": "tipe_pembayaran",
+                "type": "select",
+                "label": "Tipe Pembayaran",
+                "required": true,
+                "hint": "Pilih Tipe Pembayaran",
+                "options": ":payment_type"
+            },
+            {
+                "name": "metode_pembayaran",
+                "type": "select",
+                "label": "Metode Pembayaran",
+                "required": true,
+                "hint": "Pilih Metode Pembayaran",
+                "options": ":payment_method"
+            },
+            {
+                "name": "syarat_pembayaran",
+                "type": "text",
+                "label": "Syarat Pembayaran",
+                "required": false,
+                "hint": "Contoh syarat pembayaran: 2/15 N30"
+            },
+            {
+                "name": "catatan",
+                "type": "textarea",
+                "label": "Catatan",
+                "required": false,
+                "hint": "Pilih Catatan"
+            }
+            
+        ]
+    },
+    "detail": {
+        "label": "Detail Penerimaan",
+        "column": 7,
+        "type": "addtable",
+        "forms": [
+            {
+                "name": "item_id",
+                "type": "select",
+                "label": "Barang",
+                "required": true,
+                "hint": "Pilih Barang",
+                "options": ":items"
+            },
+            {
+                "name": "unit_id",
+                "type": "select",
+                "label": "Satuan",
+                "required": true,
+                "hint": "Pilih Satuan Barang",
+                "options": ":units"
+            },
+            {
+                "name": "jumlah",
+                "type": "number",
+                "label": "Jumlah",
+                "required": true,
+                "hint": "Masukkan Jumlah Barang"
+            },
+            {
+                "name": "harga",
+                "type": "number",
+                "label": "Harga",
+                "required": true,
+                "hint": "Masukkan Harga Barang"
+            },
+            {
+                "name": "kedaluarsa",
+                "type": "date",
+                "label": "Tanggal Expired",
+                "required": false,
+                "hint": "Masukkan Tanggal Expired"
+            },
+            {
+                "name": "batch",
+                "type": "text",
+                "label": "Kode Batch",
+                "required": false,
+                "hint": "Masukkan Batch"
+            }
+        ]
+    }
+}

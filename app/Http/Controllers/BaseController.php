@@ -76,13 +76,19 @@ class BaseController extends Controller
     {
         $this->allowAccessModule($this->_module, 'create');
         $forms = [];
+        $dialog = [];
         foreach ($this->_form as $key => $f) {
+            if($key == 'dialog'){
+                $dialog = $f;
+                continue;
+            }
             $nf = $f;
             $nf['forms'] = fractal($f['forms'], new FormTransformer(), ArraySerializer::class);
             $forms[$key] = $nf;
         }
         return Response::ok('Form', [
             'sections' => $forms,
+            'dialog' => $dialog,
             'data' => null
         ]);
     }

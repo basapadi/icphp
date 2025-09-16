@@ -16,6 +16,20 @@ if (!function_exists('ihandCashierConfigToOptions')) {
     }
 }
 
+if (!function_exists('ihandCashierConfigToSelect')) {
+    function ihandCashierConfigToSelect(string $config) {
+        $result=[];
+        $configs = config('ihandcashier.'.$config);
+        if(!isset($configs) || empty($configs)) return [];
+        
+        foreach ($configs as $key => $c) {
+            $result[$key] = $c['label'];
+        }
+
+        return $result;
+    }
+}
+
 if (!function_exists('roleConfigToOptions')) {
     function roleConfigToOptions() {
         $result=[];

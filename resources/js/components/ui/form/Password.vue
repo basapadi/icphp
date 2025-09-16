@@ -68,7 +68,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col gap-1.5 relative">
+  <div class="flex flex-col gap-1.5 relative w-full">
     <Label :for="id">
       <span class="text-gray-500 text-shadow-2xs">{{ label }}</span>
       <span v-if="required" class="text-red-800"> *</span>
