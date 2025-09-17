@@ -61,7 +61,7 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <tr v-for="(data) in filterData" :key="data.id" class="hover:bg-orange-50 transition-colors duration-200" @contextmenu.prevent="handleRightClick(data, $event)">
+                        <tr v-for="(data,index) in filterData" :key="data.id" :class="['transition-colors duration-100',selectedIndex === index ? 'bg-orange-200' : 'hover:bg-orange-100']" @dblclick="viewData(data)" @click="handleClickRow(data,index,$event)" @contextmenu.prevent="handleRightClick($event)">
                             <template v-if="properties.multipleSelect">
                                 <td class="px-4 whitespace-nowrap border-2 border-gray-200" style="width: 10px">
                                     <input v-model="selectedData" :value="data.encode_id" type="checkbox"
@@ -153,9 +153,6 @@
         <a v-if="columnOptions.includes('undo')" href="#" @click.stop="undoData()" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><Undo2 class="w-8 text-red-500 px-2" />Urungkan</a>
     </div>
     <div v-if="openContextMenu" class="absolute bg-white border rounded shadow-md w-50 z-50" :style="{ top: contextMenuPosition.y + 'px', left: contextMenuPosition.x + 'px' }">
-        <div v-if="selectedData.length > 0">
-            <a @click.stop="hapusDataMultiple()" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><SquareX class="w-8 text-red-500 px-2" />Hapus Terpilih</a>
-        </div>
         <a @click.stop="load();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><RefreshCcw class="w-8 text-green-700 px-2" />Muat Ulang</a>
         <div v-if="allowCreate && columnOptions.includes('create')">
             <a @click.stop="tambahData();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><Plus class="w-8 text-orange-700 px-2" />Tambah</a>
@@ -172,8 +169,11 @@
         <div v-if="columnOptions.includes('return')">
             <a @click.stop="returData();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><Blocks class="w-8 text-blue-700 px-2" />Retur</a>
         </div>
-        <div v-if="allowDelete && columnOptions.includes('delete')">
+        <div v-if="allowDelete && columnOptions.includes('delete') && selectedData.length <= 0">
             <a @click.stop="hapusData();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><SquareX class="w-8 text-red-700 px-2" />Hapus</a>
+        </div>
+        <div v-if="selectedData.length > 0">
+            <a @click.stop="hapusDataMultiple()" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><SquareX class="w-8 text-red-500 px-2" />Hapus Data Terpilih</a>
         </div>
     </div>
 </template> 
@@ -240,6 +240,7 @@ export default {
             searchQuery: '',
             selectAll: false,
             selectedData: [],
+            selectedIndex: null,
             total: 0,
             rows: [],
             form: [],
@@ -526,12 +527,18 @@ export default {
             if(position != this.scrollPosition)this.openDropdown = null
             this.scrollPosition = position
         },
-        handleRightClick(data,e) {
-            this.selected = data
+        handleRightClick(e) {
             this.contextMenuPosition.x = e.clientX
             this.contextMenuPosition.y = e.clientY
             this.openContextMenu = true
             this.openDropdown = false
+        },
+        handleClickRow(data, index,e) {
+            if (e.target.type !== 'checkbox') {
+                this.selected = data
+                this.selectedIndex = index
+            }
+            
         }
     },
     mounted() {

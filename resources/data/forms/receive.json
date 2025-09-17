@@ -11,7 +11,7 @@
                 "type": "text",
                 "label": "Kode Transaksi",
                 "required": true,
-                "disabled": true,
+                "readonly": true,
                 "hint": "Masukkan Kode Barang atau autogenerate"
             },
             {
