@@ -17,14 +17,17 @@ class ReceivedItemController extends BaseController
             ->select('trx_received_items.*')
             ->with(['details','details.item','details.unit','contact','payments','payments.createdBy','createdBy'])
             ->leftJoin('contacts', 'contacts.id', '=', 'trx_received_items.contact_id')->orderBy('tanggal_terima','desc');
-        $this->setModule('transaction.receive');
+        $this->setModule('transaction.item.receive');
         $this->setGridProperties([
             'filterDateRange' => true,
             'filterDateName' => 'tanggal_terima'
         ]);
         $this->setFilterColumnsLike(['contacts.nama','kode_transaksi'],request('q')??'');
 
+        //ambil form json
         $form = $this->getResourceForm('receive');
+
+        //inject data ke form
         injectData($form, [
             'contacts'          => $this->getContactToSelect(),
             'payment_status'    => ihandCashierConfigToSelect('payment_status'),
@@ -33,9 +36,14 @@ class ReceivedItemController extends BaseController
             'items'             => $this->getItemToSelect(),
             'units'             => $this->getUnitToSelect()
         ]);
-        $this->setForm($form);
-    }
 
+        //set default value
+        $this->setForm($form,[
+            'kode_transaksi' => generateTransactionCode('TR'),
+            'tanggal_terima' => now(),
+            'diterima_oleh' => auth()->user()->name
+        ]);
+    }
 
     private function getContactToSelect(){
         $data = Contact::where('status', true)->where('type','pemasok')->get();

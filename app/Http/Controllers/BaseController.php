@@ -33,6 +33,7 @@ class BaseController extends Controller
     private ?array $_detailSchema = [];
     private ?array $_createRules = [];
     private ?array $_updateRules = [];
+    private ?array $_formData = [];
 
     public function grid(Request $request)
     {
@@ -91,7 +92,7 @@ class BaseController extends Controller
         return Response::ok('Form', [
             'sections' => $forms,
             'dialog' => $dialog,
-            'data' => null
+            'data' => $this->_formData
         ]);
     }
 
@@ -236,9 +237,10 @@ class BaseController extends Controller
      * @return void
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      */
-    protected function setForm(array $fields)
+    protected function setForm(array $fields,array $data = [])
     {
         $this->_form = $fields;
+        $this->_formData = $data;
     }
 
 

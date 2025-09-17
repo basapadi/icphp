@@ -20,7 +20,7 @@ export default {
     class: { type: [String, Array, Object] as unknown as HTMLAttributes["class"], default: "" },
     format: { type: String, default: "" },
     disabled: {type: Boolean, default: false},
-    readonly: {type: Boolean, default: false}
+    readonly: { type: Boolean, default: false }
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {

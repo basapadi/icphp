@@ -390,7 +390,6 @@ export default {
             await this.$store.dispatch(this.module+'/form').then(({ data }) => {
                 this.form = data.data;
                 this.selected = {}  
-                this.form.data = {}
             }).finally(() => {
                 this.showDialog = true
                 this.loading = false
@@ -513,7 +512,7 @@ export default {
             this.dropDownPosition.x = e.clientX
             this.dropDownPosition.y = e.clientY
         },
-        closeFormDialog(){
+        closeFormDialog() {
             this.showDialog = false;
         },
         closeContextMenu(){

@@ -6,12 +6,8 @@ return [
             'label' => 'Lunas',
             'class' => 'green-700'
         ],
-        'credit'        => [
-            'label' => 'Cicilan',
-            'class' => 'orange-600'
-        ],
         'tempo'         => [
-            'label' => 'Hutang',
+            'label' => 'Hutang/Tempo',
             'class' => 'red-600'
         ]
     ],
@@ -181,13 +177,67 @@ return [
             'module'=>'transaction'
         ],
         [
+            'id'    => 32,
+            'icon'  => '',
+            'label' => 'Pesanan',
+            'route' => '#',
+            'order' => 0,
+            'parent'=> 10,
+            'module'=>'transaction.order'
+        ],
+        [
+            'id'    => 33,
+            'icon'  => '',
+            'label' => 'Pembelian (PO)',
+            'route' => '/transaction/order/purchase',
+            'order' => 0,
+            'parent'=> 32,
+            'module'=>'transaction.order.purchase'
+        ],
+        [
+            'id'    => 34,
+            'icon'  => '',
+            'label' => 'Penjualan (SO)',
+            'route' => '/transaction/order/sale',
+            'order' => 1,
+            'parent'=> 32,
+            'module'=>'transaction.order.sale'
+        ],
+        [
             'id'    => 11,
             'icon'  => '',
             'label' => 'Gudang',
             'route' => '#',
-            'order' => 2,
+            'order' => 4,
             'parent'=> 10,
             'module'=>'transaction.warehouse'
+        ],
+        [
+            'id'    => 20,
+            'icon'  => '',
+            'label' => 'Stok',
+            'route' => '/transaction/warehouse/stock',
+            'order' => 0,
+            'parent'=> 11,
+            'module'=>'transaction.warehouse.stock'
+        ],
+         [
+            'id'    => 21,
+            'icon'  => '',
+            'label' => 'Penyesuaian',
+            'route' => '/transaction/warehouse/adjustment',
+            'order' => 1,
+            'parent'=> 11,
+            'module'=>'transaction.warehouse.adjustment'
+        ],
+        [
+            'id'    => 35,
+            'icon'  => '',
+            'label' => 'Barang',
+            'route' => '#',
+            'order' => 2,
+            'parent'=> 10,
+            'module'=>'transaction.item'
         ],
         [
             'id'    => 12,
@@ -195,8 +245,8 @@ return [
             'label' => 'Penerimaan',
             'route' => '/transaction/receive',
             'order' => 0,
-            'parent'=> 10,
-            'module'=>'transaction.receive'
+            'parent'=> 35,
+            'module'=>'transaction.item.receive'
         ],
         [
             'id'    => 13,
@@ -204,8 +254,35 @@ return [
             'label' => 'Penjualan',
             'route' => '/transaction/sale',
             'order' => 1,
+            'parent'=> 35,
+            'module'=>'transaction.item.sale'
+        ],
+        [
+            'id'    => 36,
+            'icon'  => '',
+            'label' => 'Faktur',
+            'route' => '#',
+            'order' => 3,
             'parent'=> 10,
-            'module'=>'transaction.sale'
+            'module'=>'transaction.invoice'
+        ],
+        [
+            'id'    => 37,
+            'icon'  => '',
+            'label' => 'Pembelian',
+            'route' => '/transaction/invoice/purchase',
+            'order' => 0,
+            'parent'=> 36,
+            'module'=>'transaction.invoice.purchase'
+        ],
+        [
+            'id'    => 38,
+            'icon'  => '',
+            'label' => 'Penjualan',
+            'route' => '/transaction/invoice/sale',
+            'order' => 1,
+            'parent'=> 36,
+            'module'=>'transaction.invoice.sale'
         ],
         [
             'id'    => 17,
@@ -232,24 +309,6 @@ return [
             'order' => 1,
             'parent'=> 17,
             'module'=>'finance.receivable'
-        ],
-        [
-            'id'    => 20,
-            'icon'  => '',
-            'label' => 'Stok',
-            'route' => '/transaction/warehouse/stock',
-            'order' => 0,
-            'parent'=> 11,
-            'module'=>'transaction.warehouse.stock'
-        ],
-         [
-            'id'    => 21,
-            'icon'  => '',
-            'label' => 'Penyesuaian',
-            'route' => '/transaction/warehouse/adjustment',
-            'order' => 1,
-            'parent'=> 11,
-            'module'=>'transaction.warehouse.adjustment'
         ],
         [
             'id'    => 22,
@@ -339,7 +398,7 @@ return [
             'order' => 7,
             'module'=>'trash'
         ],
-        //last_id:28
+        //last_id:34
     ],
     'units' => [
         'pcs'      => [1, 'Piece', 1, 'pcs'],

@@ -17,7 +17,7 @@
                 </ul>
 
                 <form @submit="submit" enctype="multipart/form-data">
-                    <div v-if="sections && Object.keys(sections).length">
+                    <div class="h-150 overflow-y-auto" v-if="sections && Object.keys(sections).length">
                         <template v-for="(section, sectionKey) in sections" :key="sectionKey">
                             <span class="text-gray-400 font-bold text-shadow-2xs">{{section?.label}}</span>
                             <div class="space-y-2 gap-2 border-2 rounded-sm mb-4">
@@ -37,6 +37,7 @@
                                                 :format="field?.format"
                                                 :disabled="field.disabled"
                                                 :readonly="field.readonly"
+                                                :modelValue="field.value"
                                             />
                                             <Password v-if="field.type == 'password'"
                                                 :key="field.name"
@@ -51,7 +52,7 @@
                                                 :disabled="field.disabled"
                                                 :readonly="field.readonly"
                                             />
-                                            <Number v-else-if="field.type == 'number'"
+                                            <Number v-if="field.type == 'number'"
                                                 :key="field.name"
                                                 :label="field.label"
                                                 :type="field.type"
@@ -67,7 +68,7 @@
                                                 :disabled="field.disabled"
                                                 :readonly="field.readonly"
                                             />
-                                            <Phone v-else-if="field.type == 'phone'"
+                                            <Phone v-if="field.type == 'phone'"
                                                 :key="field.name"
                                                 :label="field.label"
                                                 :type="field.type"
@@ -83,7 +84,7 @@
                                                 :disabled="field.disabled"
                                                 :readonly="field.readonly"
                                             />
-                                            <Select v-else-if="field.type == 'select'"
+                                            <Select v-if="field.type == 'select'"
                                                 :key="field.name"
                                                 :label="field.label"
                                                 :type="field.type"
@@ -97,7 +98,7 @@
                                                 :readonly="field.readonly"
                                                 :multiple="field.multiple"
                                             />
-                                            <Radio v-else-if="field.type == 'radio'"
+                                            <Radio v-if="field.type == 'radio'"
                                                 :key="field.name"
                                                 :label="field.label"
                                                 :type="field.type"
@@ -111,7 +112,7 @@
                                                 :disabled="field.disabled"
                                                 :readonly="field.readonly"
                                             />  
-                                            <FileUpload v-else-if="field.type == 'file'"
+                                            <FileUpload v-if="field.type == 'file'"
                                                 :key="field.name"
                                                 :label="field.label"
                                                 :type="field.type"
@@ -127,7 +128,7 @@
                                                 :disabled="field.disabled"
                                                 :readonly="field.readonly"
                                             />
-                                            <Textarea v-else-if="field.type == 'textarea'"
+                                            <Textarea v-if="field.type == 'textarea'"
                                                 :key="field.name"
                                                 :label="field.label"
                                                 :type="field.type"
@@ -139,7 +140,7 @@
                                                 :disabled="field.disabled"
                                                 :readonly="field.readonly"
                                             />
-                                            <Date v-else-if="field.type == 'date'"
+                                            <Date v-if="field.type == 'date'"
                                                 :key="field.name"
                                                 :label="field.label"
                                                 :type="field.type"
@@ -189,7 +190,7 @@
                                             :disabled="field.disabled"
                                             :readonly="field.readonly"
                                         />
-                                        <Number v-else-if="field.type == 'number'"
+                                        <Number v-if="field.type == 'number'"
                                             :key="field.name"
                                             :label="field.label"
                                             :type="field.type"
@@ -205,7 +206,7 @@
                                             :disabled="field.disabled"
                                             :readonly="field.readonly"
                                         />
-                                        <Phone v-else-if="field.type == 'phone'"
+                                        <Phone v-if="field.type == 'phone'"
                                             :key="field.name"
                                             :label="field.label"
                                             :type="field.type"
@@ -221,7 +222,7 @@
                                             :disabled="field.disabled"
                                             :readonly="field.readonly"
                                         />
-                                        <Select v-else-if="field.type == 'select'"
+                                        <Select v-if="field.type == 'select'"
                                             :key="field.name"
                                             :label="field.label"
                                             :type="field.type"
@@ -235,7 +236,7 @@
                                             :readonly="field.readonly"
                                             :multiple="field.multiple"
                                         />
-                                        <Radio v-else-if="field.type == 'radio'"
+                                        <Radio v-if="field.type == 'radio'"
                                             :key="field.name"
                                             :label="field.label"
                                             :type="field.type"
@@ -249,7 +250,7 @@
                                             :disabled="field.disabled"
                                             :readonly="field.readonly"
                                         />  
-                                        <FileUpload v-else-if="field.type == 'file'"
+                                        <FileUpload v-if="field.type == 'file'"
                                             :key="field.name"
                                             :label="field.label"
                                             :type="field.type"
@@ -265,7 +266,7 @@
                                             :disabled="field.disabled"
                                             :readonly="field.readonly"
                                         />
-                                        <Textarea v-else-if="field.type == 'textarea'"
+                                        <Textarea v-if="field.type == 'textarea'"
                                             :key="field.name"
                                             :label="field.label"
                                             :type="field.type"
@@ -277,7 +278,7 @@
                                             :disabled="field.disabled"
                                             :readonly="field.readonly"
                                         />
-                                        <Date v-else-if="field.type == 'date'"
+                                        <Date v-if="field.type == 'date'"
                                             :key="field.name"
                                             :label="field.label"
                                             :type="field.type"
@@ -351,7 +352,7 @@ export default {
     },
     watch: {
         'formData'(newVal) {
-            if (newVal && newVal.id !== undefined) {
+            if (newVal !== undefined) {
                 Object.assign(this.form, newVal);
             } else {
                 this.form.addtable = {};
@@ -392,6 +393,9 @@ export default {
         },
         close() {
             this.$emit("close");
+            this.form = reactive({
+                addtable: {}
+            })
         },
         submit(e) {
             e.preventDefault();

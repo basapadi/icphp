@@ -14,7 +14,7 @@ class SaleItemController extends BaseController
             ->select('trx_sale_items.*')
             ->with(['details','details.item','details.unit','contact','payments','payments.createdBy','createdBy'])
             ->leftJoin('contacts', 'contacts.id', '=', 'trx_sale_items.contact_id')->orderBy('tanggal_jual','desc');
-        $this->setModule('transaction.sale');
+        $this->setModule('transaction.item.receive');
         $this->setGridProperties([
             'filterDateRange' => true,
             'filterDateName' => 'tanggal_jual'

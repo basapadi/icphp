@@ -18,6 +18,10 @@ import Payable from "@/views/finance/Payable.vue"
 import Receivable from "@/views/finance/Receivable.vue"
 import Expense from "@/views/finance/Expense.vue"
 import Trash from "@/views/Trash.vue"
+import PurchaseOrder from "@/views/transaction/order/Purchase.vue"
+import SaleOrder from "@/views/transaction/order/Sale.vue"
+import PurchaseInvoice from "@/views/transaction/invoice/Purchase.vue"
+import SaleInvoice from "@/views/transaction/invoice/Sale.vue"
 
 const routes = [
   { path: "/login", name: "Login", component: Login },
@@ -38,7 +42,11 @@ const routes = [
   { path: "/finance/payable", name: "Finance.Payable", component: Payable, meta: { requiresAuth: true } },
   { path: "/finance/receivable", name: "Finance.Receivable", component: Receivable, meta: { requiresAuth: true } },
   { path: "/finance/expense", name: "Finance.Expense", component: Expense, meta: { requiresAuth: true } },
-  { path: "/trash", name: "Trash", component: Trash, meta: { requiresAuth: true } }
+  { path: "/trash", name: "Trash", component: Trash, meta: { requiresAuth: true } },
+  { path: "/transaction/order/purchase", name: "Transaction.Order.Purchase", component: PurchaseOrder, meta: { requiresAuth: true } },
+  { path: "/transaction/order/sale", name: "Transaction.Order.Sale", component: SaleOrder, meta: { requiresAuth: true } },
+  { path: "/transaction/invoice/purchase", name: "Transaction.Invoice.Purchase", component: PurchaseInvoice, meta: { requiresAuth: true } },
+  { path: "/transaction/invoice/sale", name: "Transaction.Invoice.Sale", component: SaleInvoice, meta: { requiresAuth: true } }
 ]
 
 const router = createRouter({

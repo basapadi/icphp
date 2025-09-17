@@ -21,7 +21,7 @@ class Menu extends BaseModel
     }
 
     public function subItems(){
-        return $this->hasMany($this,'parent_id','id');
+        return $this->hasMany($this,'parent_id','id')->orderBy('order');;
     }
 
     public function parent(){

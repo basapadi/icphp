@@ -1,6 +1,6 @@
 {
     "dialog": {
-        "width": 7
+        "width": 8
     },
     "main": {
         "label": "Form Penerimaan",
@@ -11,6 +11,7 @@
                 "type": "text",
                 "label": "Kode Transaksi",
                 "required": true,
+                "disabled": true,
                 "hint": "Masukkan Kode Barang atau autogenerate"
             },
             {
