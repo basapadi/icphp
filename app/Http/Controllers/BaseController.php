@@ -346,10 +346,6 @@ class BaseController extends Controller
 
     }
 
-    public function update(Request $request, $id) {
-        dd($request->all(),$id);
-    }
-
     public function delete(Request $request, $id) {
         $this->allowAccessModule($this->_module, 'delete');
         if(empty($id)) return Response::badRequest('ID tidak boleh kosong');

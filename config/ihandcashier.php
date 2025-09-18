@@ -204,6 +204,15 @@ return [
             'module'=>'transaction.order.sale'
         ],
         [
+            'id'    => 39,
+            'icon'  => '',
+            'label' => 'Pengiriman Penjualan',
+            'route' => '/transaction/order/shipment',
+            'order' => 2,
+            'parent'=> 32,
+            'module'=>'transaction.order.shipment'
+        ],
+        [
             'id'    => 11,
             'icon'  => '',
             'label' => 'Gudang',
@@ -398,7 +407,7 @@ return [
             'order' => 7,
             'module'=>'trash'
         ],
-        //last_id:34
+        //last_id:39
     ],
     'units' => [
         'pcs'      => [1, 'Piece', 1, 'pcs'],
