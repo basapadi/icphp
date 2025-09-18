@@ -17,6 +17,7 @@ use App\Http\Controllers\{
     PayableController,
     ReceivableController,
     ExpenseController,
+    PurchaseOrderController,
     StockAdjustmentController,
     TrashController
 };
@@ -82,6 +83,13 @@ Route::prefix('api')->group(function () {
         Route::get('grid', 'grid');
         Route::get('form', 'form');
         Route::delete('/{id}', 'delete');
+    });
+    Route::controller(PurchaseOrderController::class)->middleware('auth:sanctum')->prefix('purchase')->group(function () {
+        Route::prefix('order')->group(function(){
+            Route::get('grid', 'grid');
+            Route::get('form', 'form');
+            Route::delete('/{id}', 'delete');
+        });
     });
     Route::controller(SaleItemController::class)->middleware('auth:sanctum')->prefix('sale')->group(function () {
         Route::get('grid', 'grid');

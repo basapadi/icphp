@@ -63,6 +63,28 @@ return [
             'class'  => 'blue-600'
         ]
     ],
+    'purchase_order_status' => [
+        'draft'            => [
+            'label' => 'Draft',
+            'class' => 'gray-800'
+        ],
+        'submitted'    => [
+            'label' => 'Terkirim',
+            'class' => 'orange-500'
+        ],
+        'approved'              => [
+            'label' => 'Disetujui',
+            'class' => 'green-700'
+        ],
+        'received'          => [
+            'label'  => 'Diterima',
+            'class'  => 'blue-600'
+        ],
+        'canceled'          => [
+            'label'   => 'Dibatalkan',
+            'class'   => 'red-800'
+        ]
+    ],
     'menus' => [
         [
             'id'    => 1,

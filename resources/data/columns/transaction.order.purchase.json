@@ -1,0 +1,151 @@
+[
+    {
+        "name": "actions",
+        "required": true,
+        "label": "Aksi",
+        "align": "left",
+        "field": "actions",
+        "sortable": true,
+        "type": "text",
+        "options": [
+            "detail",
+            "create",
+            "edit",
+            "delete"
+        ],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "kode",
+        "required": true,
+        "label": "Kode PO",
+        "align": "left",
+        "field": "kode",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "font-mono",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "contact__nama",
+        "required": true,
+        "label": "Pemasok",
+        "align": "left",
+        "field": "contact__nama",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "tanggal_formatted",
+        "required": true,
+        "label": "Tanggal",
+        "align": "left",
+        "field": "tanggal_formatted",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "tanggal_perkiraan_formatted",
+        "required": true,
+        "label": "Tanggal Perkiraan Datang",
+        "align": "left",
+        "field": "tanggal_perkiraan_formatted",
+        "sortable": true,
+        "type": "date_range",
+        "options": [],
+        "show": false,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "status_label",
+        "required": true,
+        "label": "Status",
+        "align": "left",
+        "field": "status_label",
+        "sortable": true,
+        "type": "badge",
+        "show": true,
+        "option_filter": false
+    },
+    {
+        "name": "status",
+        "required": true,
+        "label": "Status PO",
+        "align": "left",
+        "field": "status",
+        "sortable": true,
+        "type": "select",
+        "options": [
+            {
+                "value": "draft",
+                "label": "Draft"
+            },
+            {
+                "value": "submitted",
+                "label": "Terkirim"
+            },
+            {
+                "value": "approved",
+                "label": "Disetujui"
+            },
+            {
+                "value": "received",
+                "label": "Diterima"
+            },
+            {
+                "value": "canceled",
+                "label": "Dibatalkan"
+            }
+        ],
+        "show": false,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "total_formatted",
+        "required": true,
+        "label": "Total Harga",
+        "align": "right",
+        "field": "total_formatted",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "font-mono",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "catatan",
+        "required": true,
+        "label": "Catatan",
+        "align": "left",
+        "field": "catatan",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    }
+]
