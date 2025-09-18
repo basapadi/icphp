@@ -61,6 +61,18 @@
         "option_filter": false
     },
     {
+        "name": "tanggal",
+        "required": true,
+        "label": "Tanggal",
+        "align": "left",
+        "field": "tanggal",
+        "sortable": true,
+        "type": "date_range",
+        "options": [],
+        "show": false,
+        "option_filter": true
+    },
+    {
         "name": "tanggal_perkiraan_formatted",
         "required": true,
         "label": "Tanggal Perkiraan Datang",
@@ -99,8 +111,8 @@
                 "label": "Draft"
             },
             {
-                "value": "submitted",
-                "label": "Terkirim"
+                "value": "sended",
+                "label": "Dikirim"
             },
             {
                 "value": "approved",

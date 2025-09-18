@@ -70,7 +70,7 @@ return [
             'color' => 'gray-400'
         ],
         'sended'    => [
-            'label' => 'Terkirim',
+            'label' => 'Dikirim',
             'class' => 'orange-500',
             'color' => 'orange-500'
         ],
