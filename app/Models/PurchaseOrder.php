@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Carbon\Carbon;
+use Btx\Common\SpellNumber;
+use Exception;
 class PurchaseOrder extends BaseModel
 {
     use SoftDeletes,HasFactory;
     public $table = 'trx_purchase_orders';
-    protected $appends = ['total_formatted','status_label','tanggal_perkiraan_formatted','tanggal_formatted'];
+    protected $appends = ['total_formatted','status_label','tanggal_perkiraan_formatted','tanggal_formatted','total_terbilang','approval_status_label','color_approval_status_label','approved_at_formatted'];
     protected $fillable = [
         'kode',
         'contact_id',
@@ -18,6 +20,9 @@ class PurchaseOrder extends BaseModel
         'status',
         'total',
         'catatan',
+        'approval_by',
+        'approval_status',
+        'approved_at',
         'created_by',
         'updated_by',
         'deleted_by',
@@ -33,9 +38,40 @@ class PurchaseOrder extends BaseModel
         return isset($this->status) ? config('ihandcashier.purchase_order_status')[$this->status]['label'] : null;
     }
 
+    public function getColorStatusLabelAttribute()
+    {
+        $statuses = config('ihandcashier.purchase_order_status');
+        if(isset($this->active)){
+            return $statuses[$this->active]['color'];
+        }else if(isset($this->status)){
+            return $statuses[$this->status]['color'];
+        } else return '';
+        
+    }
+
+    public function getApprovalStatusLabelAttribute(){
+        return isset($this->approval_status) ? config('ihandcashier.purchase_approval_status')[$this->approval_status]['label'] : null;
+    }
+
+    public function getColorApprovalStatusLabelAttribute()
+    {
+        $statuses = config('ihandcashier.purchase_approval_status');
+        return isset($this->approval_status) ? $statuses[$this->approval_status]['color']: null;
+    }
+
+    public function getTotalTerbilangAttribute()
+    {
+        return strtoupper(SpellNumber::generate($this->total_harga));
+    }
+
     public function getTanggalPerkiraanFormattedAttribute()
     {
         return $this->tanggal_perkiraan_datang ? Carbon::parse($this->tanggal_perkiraan_datang)->locale('id')->translatedFormat('l, d M Y H:i') : null;
+    }
+
+    public function getApprovedAtFormattedAttribute()
+    {
+        return $this->approved_at ? Carbon::parse($this->approved_at)->locale('id')->translatedFormat('l, d M Y H:i') : null;
     }
 
     public function getTanggalFormattedAttribute()
@@ -45,6 +81,10 @@ class PurchaseOrder extends BaseModel
 
     public function contact(){
        return $this->belongsTo(Contact::class, 'contact_id', 'id');
+    }
+
+    public function approvalBy(){
+       return $this->belongsTo(User::class, 'approval_by', 'id');
     }
 
     public function details(){
@@ -57,6 +97,18 @@ class PurchaseOrder extends BaseModel
 
     public function updatedBy(){
        return $this->belongsTo(User::class, 'updated_by', 'id');
+    }
+
+    protected static function booted()
+    {
+        static::deleting(function ($data) {
+            $statuses = config('ihandcashier.purchase_order_status');
+            if (in_array($data->status,['approved','submitted','received'])) {
+                throw new Exception('Pesanan ini tidak dapat dihapus karena sudah '.$statuses[$data->status]['label']);
+            }
+
+            $data->details()->delete();
+        });
     }
 
 }

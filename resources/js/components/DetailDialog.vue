@@ -19,7 +19,7 @@
                             </div>
                         </div>
                     </template>
-                    <template v-if="i != 'main' && sub.type == 'array'">
+                    <template v-else-if="sub.type == 'array'">
                         <div class="bg-white shadow-sm rounded-md py-2 px-2 mb-2">
                             <div class="py-2 px-5"><span class="text-gray-500 uppercase tracking-wider">{{ sub.title }}</span></div>
                             <div class="overflow-x-auto">
@@ -39,6 +39,21 @@
                                                 </td>
                                             </tr>
                                         </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </template>
+                    <template v-else>
+                        <div class="bg-white shadow-sm rounded-md py-2 px-2 mb-2">
+                            <div class="py-2 px-5"><span class="text-gray-500 uppercase tracking-wider">{{ sub.title }}</span></div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full border border-gray-200 rounded-lg overflow-hidden">
+                                    <tbody>
+                                        <tr class="border-b" v-for="(f,k) in sub.fields" :key="k">
+                                            <td class="px-4 py-2 border-r text-gray-500 text-sm" style="width:250px;">{{ f?.label }}</td>
+                                            <td :class="`px-4 py-2 text-gray-500 text-sm text-${data['color_'+k]} ${f?.class}`">{{ $helpers.getSubObjectValue(data,k) }}</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>

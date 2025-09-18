@@ -131,6 +131,10 @@ class ItemReceived extends BaseModel
        return $this->belongsTo(User::class, 'updated_by', 'id');
     }
 
+    public function purchaseOrder(){
+       return $this->belongsTo(PurchaseOrder::class, 'purchase_order_id', 'id');
+    }
+
     protected static function booted()
     {
         static::deleting(function ($data) {

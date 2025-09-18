@@ -19,6 +19,9 @@ return new class extends Migration
             $table->date('tanggal_perkiraan_datang')->nullable();
             $table->string('status',20)->default('draft');
             $table->decimal('total')->default(0);   
+            $table->integer('approval_by')->nullable();   
+            $table->string('approval_status',15)->default('pending');   
+            $table->dateTime('approved_at')->nullable();   
             $table->text('catatan')->nullable();
             $table->integer('created_by');
             $table->integer('updated_by')->nullable();

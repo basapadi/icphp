@@ -17,7 +17,7 @@ class PurchaseOrderController extends BaseController
     public function __construct(){
         $this->setModel(PurchaseOrder::class)
             ->select('trx_purchase_orders.*')
-            ->with(['details','details.item','details.unit','contact','createdBy'])
+            ->with(['details','details.item','details.unit','contact','createdBy','approvalBy'])
             ->leftJoin('contacts', 'contacts.id', '=', 'trx_purchase_orders.contact_id')->orderBy('tanggal','desc');
         $this->setModule('transaction.order.purchase');
         $this->setGridProperties([

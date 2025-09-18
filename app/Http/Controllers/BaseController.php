@@ -64,6 +64,7 @@ class BaseController extends Controller
         $this->_gridProperties['advanceFilter'] = $this->_gridProperties['advanceFilter']??true;
         $this->_gridProperties['simpleFilter'] = $this->_gridProperties['simpleFilter']??true;
         $this->_gridProperties['multipleSelect'] = $this->_gridProperties['multipleSelect']??$this->_multipleSelectGrid;
+        // dd($rows->toArray()[0],$this->getDetailSchema());
         return Response::ok('Loaded', [
             'rows' => $rows->toArray(),
             'total' => $total,

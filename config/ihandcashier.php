@@ -66,23 +66,50 @@ return [
     'purchase_order_status' => [
         'draft'            => [
             'label' => 'Draft',
-            'class' => 'gray-800'
+            'class' => 'gray-400',
+            'color' => 'gray-400'
         ],
-        'submitted'    => [
+        'sended'    => [
             'label' => 'Terkirim',
-            'class' => 'orange-500'
+            'class' => 'orange-500',
+            'color' => 'orange-500'
         ],
         'approved'              => [
             'label' => 'Disetujui',
-            'class' => 'green-700'
+            'class' => 'green-700',
+            'color' => 'green-700'
         ],
         'received'          => [
             'label'  => 'Diterima',
-            'class'  => 'blue-600'
+            'class'  => 'black-400',
+            'color'  => 'black-400'
+        ],
+        'partial_received'   => [
+            'label'  => 'Diterima Sebagian',
+            'class'  => 'blue-600',
+            'color'  => 'blue-600'
         ],
         'canceled'          => [
             'label'   => 'Dibatalkan',
-            'class'   => 'red-800'
+            'class'   => 'red-800',
+            'color'   => 'red-800'
+        ]
+    ],
+    'purchase_approval_status' => [
+        'pending'            => [
+            'label' => 'Pending',
+            'class' => 'gray-800',
+            'color' => 'gray-800'
+        ],
+        'approved'              => [
+            'label' => 'Disetujui',
+            'class' => 'green-700',
+            'color' => 'green-700'
+        ],
+        'rejected'          => [
+            'label'   => 'Ditolak',
+            'class'   => 'red-800',
+            'color'   => 'red-800'
         ]
     ],
     'menus' => [

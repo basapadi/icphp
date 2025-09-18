@@ -16,8 +16,8 @@ return new class extends Migration
             $table->bigInteger('purchase_order_id')->index();
             $table->integer('item_id');
             $table->integer('unit_id');
-            $table->integer('qty')->default(1);
-            $table->decimal('unit_price');
+            $table->integer('jumlah')->default(1);
+            $table->decimal('harga');
             $table->integer('sub_total')->default(0);
         });
     }

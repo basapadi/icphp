@@ -61,7 +61,7 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <tr v-for="(data,index) in filterData" :key="data.id" :class="['transition-colors duration-100',selectedIndex === index ? 'bg-orange-200' : 'hover:bg-orange-100']" @dblclick="viewData(data)" @click="handleClickRow(data,index,$event)" @contextmenu.prevent="handleRightClick($event)">
+                        <tr v-for="(data,index) in filterData" :key="data.id" :class="['transition-colors duration-100',selectedIndex === index ? 'bg-orange-200' : 'hover:bg-orange-100']" @dblclick="viewData(data)" @click="handleClickRow(data,index,$event)" @contextmenu.prevent="handleRightClick(data,index,$event)">
                             <template v-if="properties.multipleSelect">
                                 <td class="px-4 whitespace-nowrap border-2 border-gray-200" style="width: 10px">
                                     <input v-model="selectedData" :value="data.encode_id" type="checkbox"
@@ -283,6 +283,11 @@ export default {
     watch: {
         searchQuery: {
             handler() {
+                this.filter = {
+                    operator: '',
+                    column: '',
+                    value: '',
+                }
                 this.load();
             },
             //immediate: true // langsung load pertama kali juga
@@ -527,7 +532,9 @@ export default {
             if(position != this.scrollPosition)this.openDropdown = null
             this.scrollPosition = position
         },
-        handleRightClick(e) {
+        handleRightClick(data,index, e) {
+            this.selected = data
+            this.selectedIndex = index
             this.contextMenuPosition.x = e.clientX
             this.contextMenuPosition.y = e.clientY
             this.openContextMenu = true
