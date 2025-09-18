@@ -98,11 +98,11 @@
         "option_filter": false
     },
     {
-        "name": "status",
+        "name": "po_status",
         "required": true,
         "label": "Status PO",
         "align": "left",
-        "field": "status",
+        "field": "po_status",
         "sortable": true,
         "type": "select",
         "options": [
@@ -128,8 +128,6 @@
             }
         ],
         "show": false,
-        "class": "",
-        "styles": "",
         "option_filter": true
     },
      {

@@ -16,7 +16,7 @@ class PurchaseOrderController extends BaseController
 {
     public function __construct(){
         $this->setModel(PurchaseOrder::class)
-            ->select('trx_purchase_orders.*')
+            ->select(['trx_purchase_orders.*', 'trx_purchase_orders.status as po_status'])
             ->with(['details','details.item','details.unit','contact','createdBy','approvalBy'])
             ->leftJoin('contacts', 'contacts.id', '=', 'trx_purchase_orders.contact_id')->orderBy('tanggal','desc');
         $this->setModule('transaction.order.purchase');
