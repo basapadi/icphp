@@ -162,7 +162,9 @@ return [
 
     'postbuild' => [
         'php artisan native:migrate',
-        'php artisan native:seed'
+        'php artisan native:seed',
+        'composer dump-autoload',
+        'php artisan config:clear'
     ],
 
     /**
