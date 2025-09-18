@@ -11,11 +11,8 @@
       <!-- Changed mt-20 to mt-12 to account for only toolbar height -->
        <main :class="`flex-1 bg-white ${!isFullscreen ? 'ml-side mt-10' : 'ml-0 mt-0'}`">
         <div class="max-w-full">
-          <div class="mb-2 bg-gray-50 border-b border-gray-200 p-2 flex justify-between items-center">
-            <div>
-              <h1 class="text-lg font-bold text-gray-900 mb-0">POS Cashier</h1>
-              <p class="text-xs text-gray-600">Point of Sale Terminal - Process customer transactions</p>
-            </div>
+          <div class="mb-2 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
+            <PageHeader title="POS" description="Proses transaksi pelanggan"/>
             <button
               @click="toggleFullscreen"
               class="flex items-center gap-1 px-2 py-1 text-xs bg-gray-200 hover:bg-gray-300 border border-gray-400 rounded-lg shadow-sm text-gray-700"
@@ -48,6 +45,7 @@ import AdminToolbar from '@/components/AdminToolbar.vue'
 import AdminSidebar from '@/components/AdminSidebar.vue'
 import POSInterface from '@/components/POSInterface.vue'
 import { Maximize, Minimize } from 'lucide-vue-next'
+import PageHeader from '@/components/PageHeader.vue'
 
 const isFullscreen = ref(false)
 const collapsed = localStorage.getItem('sidebarCollapsed')

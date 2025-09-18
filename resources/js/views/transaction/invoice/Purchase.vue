@@ -4,7 +4,7 @@
       <PageHeader title="Faktur Pembelian" description="Daftar Faktur Pembelian"/>
 
       <div class="p-2">
-        <DataTable title="Faktur Pembelian" module="transaction.invoice.purchase"/>
+        <DataTable title="Faktur Pembelian" module="invoicePurchase"/>
       </div>
     </div>
   </AdminLayout>

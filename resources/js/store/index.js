@@ -17,6 +17,11 @@ import receivable from './modules/receivable'
 import expense from './modules/expense'
 import trash from './modules/trash'
 import database from './modules/database'
+import purchaseOrder from './modules/purchaseOrder'
+import saleOrder from './modules/saleOrder'
+import shipment from './modules/shipment'
+import invoicePurchase from './modules/invoicePurchase'
+import invoiceSale from './modules/invoiceSale'
 
 export default createStore({
   modules: {
@@ -37,6 +42,11 @@ export default createStore({
     receivable,
     expense,
     trash,
-    database
+    database,
+    purchaseOrder,
+    saleOrder,
+    shipment,
+    invoicePurchase,
+    invoiceSale
   }
 })

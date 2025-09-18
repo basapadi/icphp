@@ -4,7 +4,7 @@
       <PageHeader title="Pemesanan Pembelian" description="Daftar Pemesanan Pembelian"/>
 
       <div class="p-2">
-        <DataTable title="Pemesanan Pembelian" module="transaction.order.purchase"/>
+        <DataTable title="Pemesanan Pembelian" module="purchaseOrder"/>
       </div>
     </div>
   </AdminLayout>
