@@ -1,31 +1,34 @@
 {
     "main": {
         "type": "object",
-        "title": "Pesanan Pembelian",
+        "title": "Pesanan Penjualan",
         "fields": {
             "tanggal_formatted": {
                 "label": "Tanggal"
             },
             "kode": {
-                "label": "Kode PO"
+                "label": "Kode SO"
             },
             "contact__nama": {
-                "label": "Pemasok"
+                "label": "Pelanggan"
             },
             "contact__email": {
-                "label": "Email Pemasok"
+                "label": "Email Pelanggan"
             },
             "contact__telepon": {
-                "label": "Telepon Pemasok"
+                "label": "Telepon Pelanggan"
             },
             "tanggal_formatted": {
-                "label": "Tanggal PO"
+                "label": "Tanggal SO"
             },
-            "tanggal_perkiraan_formatted": {
-                "label": "Tanggal Perkiraan Datang"
+            "tanggal_permintaan_formatted": {
+                "label": "Tanggal Permintaan"
             },
             "status_label": {
-                "label": "Status PO"
+                "label": "Status SO"
+            },
+            "status_pembayaran_label": {
+                "label": "Status Pembayaran"
             },
             "total_formatted": {
                 "label": "Total Harga (Rupiah)",
@@ -48,7 +51,7 @@
     },
     "details": {
         "type": "array",
-        "title": "Detail Pesanan Pembelian",
+        "title": "Detail Pesanan Penjualan",
         "fields": {
             "no": {
                 "label": "No",
@@ -58,7 +61,8 @@
                 "label": "Nama Barang"
             },
             "item__kode_barang": {
-                "label": "SKU"
+                "label": "SKU",
+                "class": "font-mono"
             },
             "jumlah": {
                 "label": "Jumlah",
@@ -71,24 +75,13 @@
             "unit__nama": {
                 "label": "Satuan"
             },
+            "discount_formatted": {
+                "label": "Diskon (Rupiah)",
+                "class": "font-mono text-right"
+            },
             "total_harga_formatted": {
                 "label": "Sub Total (Rupiah)",
                 "class": "font-mono text-right"
-            }
-        }
-    },
-    "approval": {
-        "type": "object",
-        "title": "Detail Persetujuan",
-        "fields": {
-            "approval_by__name": {
-                "label": "Persetujuan Dari"
-            },
-            "approval_status_label": {
-                "label": "Status Persetujuan"
-            },
-            "approved_at_formatted": {
-                "label": "Tanggal"
             }
         }
     }

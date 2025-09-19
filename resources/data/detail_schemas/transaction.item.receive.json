@@ -63,14 +63,14 @@
             },
             "harga_formatted": {
                 "label": "Harga (Rupiah)",
-                "class": "font-mono text-right font-bold"
+                "class": "font-mono text-right"
             },
             "unit__nama": {
                 "label": "Satuan"
             },
             "total_harga_formatted": {
                 "label": "Sub Total (Rupiah)",
-                "class": "font-mono text-right font-bold"
+                "class": "font-mono text-right"
             }
         }
     },

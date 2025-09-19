@@ -59,6 +59,14 @@ const actions = {
         } catch (err) {
             throw err
         }
+    },
+    async delete({ commit, rootState }, id) {
+        try {
+            const resp = await axios.delete('/api/sale/order/'+id);
+            return resp
+        } catch (err) {
+            throw err
+        }
     }
 }
 

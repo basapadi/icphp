@@ -95,6 +95,38 @@ return [
             'color'   => 'red-800'
         ]
     ],
+    'sale_order_status' => [
+        'draft'            => [
+            'label' => 'Draft',
+            'class' => 'gray-400',
+            'color' => 'gray-400'
+        ],
+        'confirmed'    => [
+            'label' => 'Dikonfirmasi',
+            'class' => 'orange-500',
+            'color' => 'orange-500'
+        ],
+        'shipped'          => [
+            'label'  => 'Dikirim',
+            'class'  => 'black-400',
+            'color'  => 'black-400'
+        ],
+        'partial_shipped'   => [
+            'label'  => 'Dikirim Sebagian',
+            'class'  => 'blue-600',
+            'color'  => 'blue-600'
+        ],
+        'completed' => [
+            'label' => 'Selesai',
+            'class' => 'green-700',
+            'color' => 'green-700'
+        ],
+        'canceled'          => [
+            'label'   => 'Dibatalkan',
+            'class'   => 'red-800',
+            'color'   => 'red-800'
+        ]
+    ],
     'purchase_approval_status' => [
         'pending'            => [
             'label' => 'Pending',

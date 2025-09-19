@@ -21,7 +21,6 @@ class NativeAppServiceProvider implements ProvidesPhpIni
     {
         // Menu::create();
         // MenuBar::create()->label('Status: Online');
-        // ->icon(public_path('ihand-512.png'));
         Window::open()
             ->minWidth(800)
             ->minHeight(500)
@@ -34,12 +33,13 @@ class NativeAppServiceProvider implements ProvidesPhpIni
         $firstRun = Settings::get('first_run', false);
 
         if (!$firstRun) {
-            Artisan::call('migrate', [
-                '--seed' => true,
-                '--force' => true,
-            ]);
+            Artisan::call('migrate', ['--force' => true]);
+            Artisan::call('route:cache');
 
             Settings::set('first_run', true);
+        } else {
+            Artisan::call('migrate', ['--force' => true]);
+            Artisan::call('route:cache');
         }
     }
 

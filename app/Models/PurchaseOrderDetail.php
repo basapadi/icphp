@@ -11,7 +11,7 @@ class PurchaseOrderDetail extends BaseModel
         'item_id',
         'unit_id',
         'harga',
-        'qty',
+        'jumlah',
         'sub_total'
     ];
 
@@ -35,6 +35,6 @@ class PurchaseOrderDetail extends BaseModel
 
     public function getTotalHargaAttribute()
     {
-        return (double) $this->qty * (double) $this->harga;
+        return (double) $this->jumlah * (double) $this->harga;
     }
 }

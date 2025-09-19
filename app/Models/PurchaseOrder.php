@@ -29,7 +29,7 @@ class PurchaseOrder extends BaseModel
         'deleted_at',
     ];
 
-     public function getTotalFormattedAttribute()
+    public function getTotalFormattedAttribute()
     {
         return 'IDR '.number_format($this->total, 0, ',', '.');
     }
@@ -103,7 +103,7 @@ class PurchaseOrder extends BaseModel
     {
         static::deleting(function ($data) {
             $statuses = config('ihandcashier.purchase_order_status');
-            if (in_array($data->status,['approved','submitted','received'])) {
+            if (in_array($data->status,['approved','sended','received','partial_received'])) {
                 throw new Exception('Pesanan ini tidak dapat dihapus karena sudah '.$statuses[$data->status]['label']);
             }
 

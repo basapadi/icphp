@@ -1,0 +1,186 @@
+[
+    {
+        "name": "actions",
+        "required": true,
+        "label": "Aksi",
+        "align": "left",
+        "field": "actions",
+        "sortable": true,
+        "type": "text",
+        "options": [
+            "detail",
+            "create",
+            "edit",
+            "delete"
+        ],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "kode",
+        "required": true,
+        "label": "Kode SO",
+        "align": "left",
+        "field": "kode",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "font-mono",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "contact__nama",
+        "required": true,
+        "label": "Pemasok",
+        "align": "left",
+        "field": "contact__nama",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "tanggal_formatted",
+        "required": true,
+        "label": "Tanggal",
+        "align": "left",
+        "field": "tanggal_formatted",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "tanggal",
+        "required": true,
+        "label": "Tanggal",
+        "align": "left",
+        "field": "tanggal",
+        "sortable": true,
+        "type": "date_range",
+        "options": [],
+        "show": false,
+        "option_filter": true
+    },
+    {
+        "name": "tanggal_permintaan_formatted",
+        "required": true,
+        "label": "Tanggal Permintaan",
+        "align": "left",
+        "field": "tanggal_permintaan_formatted",
+        "sortable": true,
+        "type": "date_range",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "status_label",
+        "required": true,
+        "label": "Status SO",
+        "align": "left",
+        "field": "status_label",
+        "sortable": true,
+        "type": "badge",
+        "show": true,
+        "option_filter": false
+    },
+    {
+        "name": "status_pembayaran_label",
+        "required": true,
+        "label": "Status Pembayaran",
+        "align": "left",
+        "field": "status_pembayaran_label",
+        "sortable": true,
+        "type": "badge",
+        "show": true,
+        "option_filter": false
+    },
+    {
+        "name": "so_status",
+        "required": true,
+        "label": "Status SO",
+        "align": "left",
+        "field": "so_status",
+        "sortable": true,
+        "type": "select",
+        "options": [
+            {
+                "value": "draft",
+                "label": "Draft"
+            },
+            {
+                "value": "confirmed",
+                "label": "Dikonfirmasi"
+            },
+            {
+                "value": "shipped",
+                "label": "Dikirim"
+            },
+            {
+                "value": "completed",
+                "label": "Selesai"
+            },
+            {
+                "value": "canceled",
+                "label": "Dibatalkan"
+            }
+        ],
+        "show": false,
+        "option_filter": true
+    },
+    {
+        "name": "total_formatted",
+        "required": true,
+        "label": "Total Harga",
+        "align": "right",
+        "field": "total_formatted",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "font-mono",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "total_formatted",
+        "required": true,
+        "label": "Total Harga",
+        "align": "right",
+        "field": "total_formatted",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "font-mono",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "catatan",
+        "required": true,
+        "label": "Catatan",
+        "align": "left",
+        "field": "catatan",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    }
+]
