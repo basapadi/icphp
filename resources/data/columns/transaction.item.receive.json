@@ -48,20 +48,6 @@
         "option_filter": true
     },
     {
-        "name": "total_harga_formatted",
-        "required": true,
-        "label": "Total Harga",
-        "align": "right",
-        "field": "total_harga_formatted",
-        "sortable": true,
-        "type": "text",
-        "options": [],
-        "show": true,
-        "class": "font-mono",
-        "styles": "",
-        "option_filter": false
-    },
-    {
         "name": "tanggal_terima_formatted",
         "required": true,
         "label": "Tanggal Terima",
@@ -88,6 +74,33 @@
         "class": "",
         "styles": "",
         "option_filter": true
+    },
+    {
+        "name": "total_harga_formatted",
+        "required": true,
+        "label": "Total Harga",
+        "align": "right",
+        "field": "total_harga_formatted",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "font-mono",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "potongan_harga",
+        "required": true,
+        "label": "Potongan Harga",
+        "align": "right",
+        "field": "potongan_harga",
+        "sortable": true,
+        "type": "text",
+        "show": true,
+        "class": "font-mono",
+        "styles": "",
+        "option_filter": false
     },
     {
         "name": "status_pembayaran_label",

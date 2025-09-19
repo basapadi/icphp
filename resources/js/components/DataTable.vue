@@ -78,22 +78,12 @@
                                             }/50 px-2 py-1 text-xs font-medium text-${data[`color_${column.name}`]
                                             } inset-ring inset-ring-${data[`color_${column.name}`]
                                             }/50`">
-                                            {{
-                                                $helpers.getSubObjectValue(
-                                                    data,
-                                                    column.name
-                                                )
-                                            }}
+                                            {{$helpers.getSubObjectValue(data,column.name)}}
                                         </div>
                                     </template>
                                     <template v-else>
                                         <span :class="`text-sm text-gray-600 ${column.class}`"
-                                            :style="`${column.styles}`">{{
-                                                $helpers.getSubObjectValue(
-                                                    data,
-                                                    column.name
-                                                )
-                                            }}</span>
+                                            :style="`${column.styles}`">{{$helpers.getSubObjectValue(data,column.name)}}</span>
                                     </template>
                                 </td>
                             </template>

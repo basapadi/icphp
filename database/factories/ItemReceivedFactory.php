@@ -27,7 +27,7 @@ class ItemReceivedFactory extends Factory
         $typeBayar = $this->faker->randomElement($typem);
         $statusPembayaran = $this->faker->randomElement($statpem);
         return [
-            'kode_transaksi'    => strtoupper($this->faker->unique()->bothify('TR-##########')), 
+            'kode_transaksi'    => strtoupper($this->faker->unique()->bothify('TR-##############')), 
             'contact_id'        => $this->faker->randomElement($pemasokIds), 
             'tanggal_terima'    => date('Y-m-d H:i:s'), 
             'diterima_oleh'     => 'Kasir 1',

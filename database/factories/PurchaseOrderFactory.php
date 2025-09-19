@@ -31,7 +31,7 @@ class PurchaseOrderFactory extends Factory
         }
         else $approvalStatus = $this->faker->randomElement(['pending','rejected']);
         return [
-            'kode'              => strtoupper($this->faker->unique()->bothify('PO-##########')), 
+            'kode'              => strtoupper($this->faker->unique()->bothify('PO-##############')), 
             'contact_id'        => $this->faker->randomElement($pemasokIds), 
             'tanggal'           => date('Y-m-d H:i:s'), 
             'tanggal_perkiraan_datang'  => Carbon::now()->addDays(10)->format('Y-m-d H:i:s'),

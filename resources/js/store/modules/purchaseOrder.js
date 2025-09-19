@@ -67,6 +67,23 @@ const actions = {
         } catch (err) {
             throw err
         }
+    },
+    async create({ commit, rootState }, payload) {
+        try {
+            const resp = await axios.post('/api/purchase/order', payload);
+            return resp
+        } catch (err) {
+            throw err
+        }
+    },
+    async edit({ commit, rootState }, id) {
+        try {
+            const resp = await axios.get('/api/purchase/order/edit/'+ id);
+            commit('setForm', resp.data)
+            return resp
+        } catch (err) {
+            throw err
+        }
     }
 }
 

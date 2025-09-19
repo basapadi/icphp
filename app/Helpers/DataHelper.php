@@ -42,9 +42,16 @@ if(!function_exists('calculateStockCreate')){
 }
 
 if(!function_exists('generateTransactionCode')){
-    function generateTransactionCode($postfix) {
-        $datePart = date('YmdHis'); // Format: 20250917123045
-        $randomPart = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT); // Tambahkan 4 digit acak
-        return strtoupper($postfix."-" . $datePart . $randomPart);
+    function generateTransactionCode($prefix) {
+        $datePart = sprintf(
+            "%02d%02d%02d%02d%02d",
+            date('s'),
+            date('i'),
+            date('m'),
+            date('d'),
+            date('H')
+        );
+        $randomPart = str_pad(rand(0, 9999), 2, '0', STR_PAD_LEFT); // Tambahkan 4 digit acak
+        return strtoupper($prefix."-" . $datePart . $randomPart);
     }
 }

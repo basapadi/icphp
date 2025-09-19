@@ -24,7 +24,7 @@ class SaleOrderFactory extends Factory
         foreach (config('ihandcashier.sale_order_status') as $key => $v) array_push($status, $key);
         $statusSo = $this->faker->randomElement($status);
         return [
-            'kode'              => strtoupper($this->faker->unique()->bothify('SO-##########')), 
+            'kode'              => strtoupper($this->faker->unique()->bothify('SO-##############')), 
             'contact_id'        => $this->faker->randomElement($pelangganIds), 
             'tanggal'           => date('Y-m-d H:i:s'), 
             'tanggal_permintaan'  => Carbon::now()->addDays(10)->format('Y-m-d H:i:s'),

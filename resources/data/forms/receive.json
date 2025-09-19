@@ -38,10 +38,10 @@
             },
             {
                 "name": "potongan_harga",
-                "type": "number",
-                "label": "Potongan",
+                "type": "currency",
+                "label": "Potongan Harga",
                 "required": false,
-                "hint": "Potongan Harga"
+                "hint": "Potongan Harga Total"
             },
             {
                 "name": "status_pembayaran",
@@ -114,7 +114,7 @@
             },
             {
                 "name": "harga",
-                "type": "number",
+                "type": "currency",
                 "label": "Harga",
                 "required": true,
                 "hint": "Masukkan Harga Barang"

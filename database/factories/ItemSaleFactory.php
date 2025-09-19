@@ -26,7 +26,7 @@ class ItemSaleFactory extends Factory
         $typeBayar = $this->faker->randomElement($typem);
         $statusPembayaran = $this->faker->randomElement($statpem);
         return [
-            'kode_transaksi'    => strtoupper($this->faker->unique()->bothify('TS-##########')), 
+            'kode_transaksi'    => strtoupper($this->faker->unique()->bothify('TS-##############')), 
             'contact_id'        => $this->faker->randomElement($pemasokIds), 
             'tanggal_jual'    => date('Y-m-d H:i:s'), 
             'dijual_oleh'     => 'Kasir 2',

@@ -22,7 +22,8 @@ export default {
     max: { type: [String, Number], default: undefined },
     step: { type: [String, Number], default: 1 },
     disabled: {type: Boolean, default: false},
-    readonly: {type: Boolean, default: false}
+    readonly: {type: Boolean, default: false},
+    format: {type: String, default: ''}
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {

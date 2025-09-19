@@ -47,6 +47,20 @@ if (!function_exists('roleConfigToOptions')) {
     }
 }
 
+if (!function_exists('ihandCashierConfigKeyToArray')) {
+    function ihandCashierConfigKeyToArray(string $config) {
+        $result=[];
+        $configs = config('ihandcashier.'.$config);
+        if(!isset($configs) || empty($configs)) return [];
+        
+        foreach ($configs as $key => $c) {
+            array_push($result,$key);
+        }
+
+        return $result;
+    }
+}
+
 if(!function_exists('updateEnv')){
     function updateEnv($key, $value) {
         $envPath = base_path('.env');

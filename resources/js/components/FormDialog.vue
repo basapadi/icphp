@@ -154,6 +154,20 @@
                                                 :min="field?.min"
                                                 :max="field?.max"
                                             />
+                                            <Currency v-if="field.type == 'currency'"
+                                                :key="field.name"
+                                                :label="field.label"
+                                                v-model="row[field.name]"
+                                                :name="`${field.name}[${rowIndex}]`"
+                                                :id="`${field.name}_${rowIndex}`"
+                                                :hint="field.hint"
+                                                :required="field.required"
+                                                :disabled="field.disabled"
+                                                :readonly="field.readonly"
+                                                :min="field?.min"
+                                                :max="field?.max"
+                                                type="text"
+                                            />
                                         </div>
                                         <div class="pt-5 flex gap-1">
                                             <!-- Fixed variable name from 'i' to 'sectionKey' -->
@@ -292,6 +306,20 @@
                                             :min="field?.min"
                                             :max="field?.max"
                                         />
+                                        <Currency v-if="field.type == 'currency'"
+                                            :key="field.name"
+                                            :label="field.label"
+                                            v-model="form[field.name]"
+                                            :name="field.name"
+                                            :id="field.name"
+                                            :hint="field.hint"
+                                            :required="field.required"
+                                            :disabled="field.disabled"
+                                            :readonly="field.readonly"
+                                            :min="field?.min"
+                                            :max="field?.max"
+                                            type="text"
+                                        />
                                     </template>
                                 </div>
                             </div>
@@ -308,7 +336,7 @@
     </div>
 </template>
 <script>
-import { Input,Select,Radio,FileUpload,Textarea,Number,Phone,Password,Date } from "@/components/ui/form";
+import { Input,Select,Radio,FileUpload,Textarea,Number,Phone,Password,Date,Currency } from "@/components/ui/form";
 import { Card, CardTitle, CardContent, CardHeader } from "@/components/ui/card";
 import {Info,Plus,SquareX} from "lucide-vue-next";
 import { Button } from "./ui/button";
@@ -333,6 +361,7 @@ export default {
         Phone,
         Password,
         Date,
+        Currency,
         Card,
         CardTitle,
         CardContent,
@@ -354,9 +383,15 @@ export default {
         'formData'(newVal) {
             if (newVal !== undefined) {
                 Object.assign(this.form, newVal);
-            } else {
+            }else {
                 this.form.addtable = {};
                 this.initializeAddtableSections();
+            }
+
+            if (newVal && Object.keys(newVal).length === 0) {
+                this.form = reactive({
+                    addtable: {}
+                });
             }
         },
         'sections': {
