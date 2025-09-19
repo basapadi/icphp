@@ -1,16 +1,22 @@
-pkgname=IhandCashier
-pkgver=$(grep NATIVEPHP_APP_VERSION ../../.env | cut -d '=' -f2 | tr -d '"')
+pkgname=ihandcashier
+pkgver=1.0.1
 pkgrel=1
-pkgdesc="Ihand Cashier"
+pkgdesc="Ihand Cashier (AppImage packaged for Arch)"
 arch=('x86_64')
 url="https://ihandcashier.basapadi.com"
 license=('custom')
-depends=('fuse2')
+depends=('fuse2') # AppImage butuh FUSE
 source=("IhandCashier-${pkgver}.AppImage")
 sha256sums=('SKIP')
 
 package() {
-  install -Dm755 "IhandCashier-${pkgver}.AppImage" "$pkgdir/usr/bin/${pkgname}"
+
+  install -Dm755 "IhandCashier-${pkgver}.AppImage" \
+    "$pkgdir/usr/lib/${pkgname}/${pkgname}.AppImage"
+
+  install -d "$pkgdir/usr/bin"
+  ln -s "/usr/lib/${pkgname}/${pkgname}.AppImage" \
+    "$pkgdir/usr/bin/${pkgname}"
 
   install -Dm644 /dev/stdin "$pkgdir/usr/share/applications/${pkgname}.desktop" <<EOF
 [Desktop Entry]

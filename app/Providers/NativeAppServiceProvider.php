@@ -9,6 +9,7 @@ use Native\Laravel\Facades\MenuBar;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schema;
 use Native\Laravel\Facades\Settings;
+use Native\Laravel\Facades\Native;
 
 class NativeAppServiceProvider implements ProvidesPhpIni
 {
@@ -29,6 +30,17 @@ class NativeAppServiceProvider implements ProvidesPhpIni
             ->title('Ihand Cashier')
             ->hasShadow(true)
             ->rememberState()->hideMenu();
+
+        $firstRun = Settings::get('first_run', false);
+
+        if (!$firstRun) {
+            Artisan::call('migrate', [
+                '--seed' => true,
+                '--force' => true,
+            ]);
+
+            Settings::set('first_run', true);
+        }
     }
 
     /**
