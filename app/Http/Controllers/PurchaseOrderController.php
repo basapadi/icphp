@@ -33,11 +33,11 @@ class PurchaseOrderController extends BaseController
 
         //inject data ke form
         injectData($form, [
-            'contacts'          => $this->getContactToSelect(),
+            'contacts'          => getContactToSelect(),
             'po_status'         => ihandCashierConfigToSelect('purchase_order_status'),
-            'items'             => $this->getItemToSelect(),
-            'units'             => $this->getUnitToSelect(),
-            'users'             => $this->getUserToSelect()
+            'items'             => getItemToSelect(),
+            'units'             => getUnitToSelect('UNIT'),
+            'users'             => getUserToSelect()
         ]);
 
         //set default value
@@ -76,7 +76,7 @@ class PurchaseOrderController extends BaseController
             if(!isset($data['id'])){
                 $this->allowAccessModule('transaction.order.purchase', 'create');
 
-                DB::beginTransaction();
+                begin();
                 $preInsert = [
                     'kode' => trim($data['kode']),
                     'contact_id' => trim($data['contact_id']),
@@ -101,7 +101,7 @@ class PurchaseOrderController extends BaseController
                             'purchase_order_id' => $po->id,
                             'item_id'           => (int) trim($d['item_id']),
                             'unit_id'           => (int) trim($d['unit_id']),
-                            'harga'             => (int) trim($d['harga']),
+                            'harga'             => (double) trim($d['harga']),
                             'jumlah'            => (int) trim($d['jumlah']),
                             'sub_total'         => $t
                         ]);
@@ -114,55 +114,18 @@ class PurchaseOrderController extends BaseController
                 $po->save();
                 
                 PurchaseOrderDetail::insert($perInsertDetails);
-                DB::commit();
+                commit();
                 return $this->setAlert('info','Berhasil','Pesanan pembelian '.$po->kode.' berhasil disimpan');
 
             }else {
+                $this->allowAccessModule('transaction.order.sale', 'update');
+
+                //TODO:: Update PO
 
             }
         }catch(Exception $e){
-            DB::rollBack();
+            rollBack();
             return $this->setAlert('error','Gagal',$e->getMessage());
         }
-    }
-
-    private function getContactToSelect(){
-        $data = Contact::where('status', true)->where('type','pemasok')->get();
-        $contacts = [];
-
-        foreach ($data as $key => $c) {
-            $contacts[$c->id] = $c->nama.' - '.$c->email;
-        }
-        return $contacts;
-    }
-
-    private function getUserToSelect(){
-        $data = User::where('active', true)->get();
-        $users = [];
-
-        foreach ($data as $key => $c) {
-            $users[$c->id] = $c->name.' - '.$c->email;
-        }
-        return $users;
-    }
-
-    private function getItemToSelect(){
-        $data = Item::where('status', true)->get();
-        $items = [];
-
-        foreach ($data as $key => $c) {
-            $items[$c->id] = $c->nama;
-        }
-        return $items;
-    }
-
-    private function getUnitToSelect(){
-        $data = Master::where('status', true)->where('type','UNIT')->get();
-        $items = [];
-
-        foreach ($data as $key => $c) {
-            $items[$c->id] = $c->nama;
-        }
-        return $items;
     }
 }

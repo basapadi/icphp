@@ -38,7 +38,8 @@
         },
         "files": [
             "app/Helpers/ConfigHelper.php",
-            "app/Helpers/DataHelper.php"
+            "app/Helpers/DataHelper.php",
+            "app/Helpers/DbHelper.php"
         ]
     },
     "autoload-dev": {
