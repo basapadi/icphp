@@ -1,0 +1,109 @@
+{
+    "dialog": {
+        "width": 7
+    },
+    "main": {
+        "label": "Form Penerimaan",
+        "column": 3,
+        "forms": [
+            {
+                "name": "kode",
+                "type": "text",
+                "label": "Kode SO",
+                "required": true,
+                "readonly": false,
+                "hint": "Masukkan Kode SO atau autogenerate"
+            },
+            {
+                "name": "contact_id",
+                "type": "select",
+                "label": "Pelanggan",
+                "required": false,
+                "hint": "Pilih Pelanggan barang",
+                "options": ":contacts"
+            },
+            {
+                "name": "tanggal",
+                "type": "date",
+                "label": "Tanggal SO",
+                "required": true,
+                "hint": "Masukkan Tanggal SO"
+            },
+            {
+                "name": "tanggal_permintaan",
+                "type": "date",
+                "label": "Tanggal Permintaan",
+                "required": true,
+                "hint": "Masukkan Tanggal Permintaan Barang"
+            },
+            {
+                "name": "status",
+                "type": "select",
+                "label": "Status SO",
+                "required": true,
+                "hint": "Pilih Status SO",
+                "options": ":so_status"
+            },
+            {
+                "name": "status_pembayaran",
+                "type": "select",
+                "label": "Status Pembayaran",
+                "required": false,
+                "hint": "Pilih Status Pembayaran",
+                "options": ":payment_status",
+                "readonly": true
+            },
+            {
+                "name": "catatan",
+                "type": "textarea",
+                "label": "Catatan",
+                "required": false,
+                "hint": "Pilih Catatan"
+            }
+        ]
+    },
+    "detail": {
+        "label": "Detail Pesanan Pembelian",
+        "column": 5,
+        "type": "addtable",
+        "forms": [
+            {
+                "name": "item_id",
+                "type": "select",
+                "label": "Barang",
+                "required": true,
+                "hint": "Pilih Barang",
+                "options": ":items"
+            },
+            {
+                "name": "unit_id",
+                "type": "select",
+                "label": "Satuan",
+                "required": true,
+                "hint": "Pilih Satuan Barang",
+                "options": ":units"
+            },
+            {
+                "name": "jumlah",
+                "type": "number",
+                "label": "Jumlah",
+                "required": true,
+                "hint": "Jumlah Barang"
+            },
+            {
+                "name": "harga",
+                "type": "currency",
+                "label": "Harga",
+                "required": true,
+                "hint": "Harga Barang"
+            },
+            {
+                "name": "discount",
+                "type": "currency",
+                "label": "Potongan",
+                "required": false,
+                "hint": "Potongan Harga dari Total Harga Barang"
+            }
+        ]
+    }
+}
