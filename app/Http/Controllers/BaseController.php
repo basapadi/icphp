@@ -34,6 +34,7 @@ class BaseController extends Controller
     private ?array $_createRules = [];
     private ?array $_updateRules = [];
     private ?array $_formData = [];
+    protected ?array $_contextMenus = [];
 
     public function grid(Request $request)
     {
@@ -64,6 +65,7 @@ class BaseController extends Controller
         $this->_gridProperties['advanceFilter'] = $this->_gridProperties['advanceFilter']??true;
         $this->_gridProperties['simpleFilter'] = $this->_gridProperties['simpleFilter']??true;
         $this->_gridProperties['multipleSelect'] = $this->_gridProperties['multipleSelect']??$this->_multipleSelectGrid;
+        $this->_gridProperties['contextMenu'] = $this->_contextMenus;
         // dd($rows->toArray()[0],$this->getDetailSchema());
         return Response::ok('Loaded', [
             'rows' => $rows->toArray(),
@@ -273,6 +275,19 @@ class BaseController extends Controller
     protected function setGridProperties(array $properties)
     {
         $this->_gridProperties = $properties;
+    }
+
+    /**
+     * Set additional contextmenu on grid.
+     * @param array $contextMenu ContextMenu
+     * @return void
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+     */
+    protected function setContextMenu(array $contextMenu){
+        foreach ($contextMenu as $key => $cm) {
+            $contextMenu[$key]->module = $this->_module;
+        }
+        $this->_contextMenus = $contextMenu;
     }
 
     protected function getDetailSchema(){

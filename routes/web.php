@@ -92,6 +92,7 @@ Route::prefix('api')->group(function () {
             Route::delete('/{id}', 'delete');
             Route::post('/', 'store');
             Route::get('/edit/{id}', 'edit');
+            Route::get('/send-email', 'sendEmail')->name('api.purhcase.sendEmail');
         });
     });
     Route::controller(SaleOrderController::class)->middleware('auth:sanctum')->prefix('sale')->group(function () {

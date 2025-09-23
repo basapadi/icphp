@@ -11,6 +11,7 @@ use App\Models\{
     Master,
     User
 };
+use App\Objects\ContextMenu;
 use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -47,6 +48,13 @@ class PurchaseOrderController extends BaseController
             'status' => 'draft',
             'approval_by' => auth()->user()->id
         ]);
+
+        $sendEmailContextMenu = new ContextMenu('sendpo','Kirim PO via Email');
+        $sendEmailContextMenu->conditions = ['status' => 'approved'];
+        $sendEmailContextMenu->type = 'confirm';
+        $sendEmailContextMenu->apiUrl = route('api.purhcase.sendEmail');
+        $contextMenus = [$sendEmailContextMenu];    
+        $this->setContextMenu($contextMenus);
     }
 
     public function store(Request $request)

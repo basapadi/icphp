@@ -144,6 +144,11 @@
     </div>
     <div v-if="openContextMenu" class="absolute bg-white border rounded shadow-md w-50 z-50" :style="{ top: contextMenuPosition.y + 'px', left: contextMenuPosition.x + 'px' }">
         <a @click.stop="load();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><RefreshCcw class="w-8 text-green-700 px-2" />Muat Ulang</a>
+        <div v-if="this.properties.contextMenu.length > 0">
+            <div v-for="cm in this.properties.contextMenu.filter(cm => matchContextMenuConditions(cm.conditions))" :key="cm.name">
+                <a @click.stop="additionContextMenuClicked(cm)" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><ChevronRight class="w-8 text-blue-500 px-2" />{{cm.label}}</a>
+            </div>
+        </div>
         <div v-if="allowCreate && columnOptions.includes('create')">
             <a @click.stop="tambahData();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><Plus class="w-8 text-orange-700 px-2" />Tambah</a>
         </div>
@@ -170,7 +175,7 @@
 
 <script>
 import * as operator from "./../constants/operator";
-import { Search,LoaderCircle, EllipsisVertical,Blocks,SquareChartGantt,SquarePen,SquareX,Undo2,RefreshCcw,Plus } from "lucide-vue-next"
+import { Search,LoaderCircle, EllipsisVertical,Blocks,SquareChartGantt,SquarePen,SquareX,Undo2,RefreshCcw,Plus,ChevronRight } from "lucide-vue-next"
 import { mapGetters } from "vuex";
 import { ref } from "vue"
 import { Badge } from "@/components/ui";
@@ -213,7 +218,8 @@ export default {
         SquareX,
         Undo2,
         RefreshCcw,
-        Plus
+        Plus,
+        ChevronRight
     },
     props: {
         title: {
@@ -500,6 +506,9 @@ export default {
         hapusDataMultiple(){
             alert('hapus data terpilih')
         },
+        additionContextMenuClicked(cm){
+            alert('Additional contextmenu clicked')
+        },
         toggleDropdown(column,data,e) {
             this.columnOptions = column.options
             this.openDropdown = true
@@ -536,6 +545,12 @@ export default {
                 this.selectedIndex = index
             }
             
+        },
+        matchContextMenuConditions(conditions) {
+            if (!conditions || Object.keys(conditions).length === 0) return true;
+            return Object.entries(conditions).every(([key, value]) => {
+              return this.selected[key] === value;
+            });
         }
     },
     mounted() {
