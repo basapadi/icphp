@@ -154,9 +154,9 @@
 
 <script>
 import Label from "@/components/ui/Label.vue";
-import {Info,Component as Cmp} from "lucide-vue-next";
+import {Component as Cmp} from "lucide-vue-next";
 export default {
-  components: { Label,Info,Cmp },
+  components: { Label,Cmp },
   props: {
     modelValue: { type: [String, Array, Number], default: '' },
     options: { type: Object, default: () => ({}) },

@@ -16,6 +16,7 @@ use Spatie\Fractalistic\ArraySerializer;
 use App\Http\Response;
 use App\Traits\{HasQueryBuilder,QueryHelper,DataBuilder,BaseHelper};
 use App\Models\Trash;
+use App\Objects\ContextMenu;
 
 class BaseController extends Controller
 {
@@ -61,6 +62,7 @@ class BaseController extends Controller
         $total = $total->count();
 
         if(!empty($this->_mergeData))$this->mergeData($rows);
+        $this->defaultContextMenu();
         $this->_gridProperties['filterDateRange'] = $this->_gridProperties['filterDateRange']??false;
         $this->_gridProperties['advanceFilter'] = $this->_gridProperties['advanceFilter']??true;
         $this->_gridProperties['simpleFilter'] = $this->_gridProperties['simpleFilter']??true;
@@ -353,6 +355,32 @@ class BaseController extends Controller
             'can_rollback' => $data->__can_rollback,
             'schema' => json_encode($this->getDetailSchema())
         ]);
+    }
+
+    private function defaultContextMenu(){
+        $menus = [
+            'view' => ['method' => 'viewData', 'label' => 'Detail','icon' => 'SquareChartGantt','color' => '#009688'],
+            'create' => ['method' => 'tambahData', 'label' => 'Tambah','icon' => 'Plus','color' => '#FF9800'],
+            'edit' => ['method' => 'editData', 'label' => 'Ubah', 'icon' => 'SquarePen', 'color' => '#3F51B5'],
+            'delete' => ['method' => 'hapusData', 'label' => 'Hapus', 'icon' => 'SquareX', 'color' => '#F44336']
+        ];
+        
+        $menu = new ContextMenu('reload','Muat Ulang');
+        $menu->onClick = 'load';
+        $menu->icon = 'RefreshCcw';
+        $menu->color = '#4CAF50';
+        array_push($this->_contextMenus, $menu);
+        foreach ($menus as $key => $cm) {
+            $allowAccess = $this->allowAccess($key);
+            if($allowAccess != ''){
+                $menu = new ContextMenu($key,$cm['label']);
+                $menu->onClick = $cm['method'];
+                $menu->icon = $cm['icon'];
+                $menu->color = $cm['color'];
+                array_push($this->_contextMenus, $menu);
+            }
+        }
+
     }
 
     public function store(Request $request) {

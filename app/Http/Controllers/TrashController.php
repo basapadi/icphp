@@ -14,6 +14,11 @@ class TrashController extends BaseController
         $this->setModule('trash');
     }
 
+    public function delete(Request $request, $id){
+        Trash::find($this->decodeId($id))->delete();
+        return Response::ok('Data berhasil dihapus');
+    }
+
     public function truncate(){
         $this->allowAccessModule('trash', 'delete');
         Trash::truncate();

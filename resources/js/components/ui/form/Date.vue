@@ -4,14 +4,13 @@ import type { HTMLAttributes } from "vue";
 import { useVModel } from "@vueuse/core";
 import { cn } from "@/lib/utils";
 import Label from "@/components/ui/Label.vue";
-import { Info } from "lucide-vue-next";
 
 import flatpickr from "flatpickr";
 import { Indonesian } from "flatpickr/dist/l10n/id.js";
 
 export default {
   name: "DateInput",
-  components: { Label, Info },
+  components: { Label },
   props: {
     defaultValue: { type: String, default: "" }, // format: DD-MM-YYYY
     modelValue: { type: String, default: "" },   // format: DD-MM-YYYY

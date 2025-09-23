@@ -46,14 +46,22 @@ const actions = {
         throw err
     }
   },
+  async delete({ commit, rootState }, id) {
+      try {
+          const resp = await axios.delete('/api/trash/'+id);
+          return resp
+      } catch (err) {
+          throw err
+      }
+  },
   async truncate({ commit, rootState }, id) {
-        try {
-            const resp = await axios.delete('/api/trash/truncate');
-            return resp
-        } catch (err) {
-            throw err
-        }
-    }
+      try {
+          const resp = await axios.delete('/api/trash/truncate');
+          return resp
+      } catch (err) {
+          throw err
+      }
+  }
 }
 
 export default {

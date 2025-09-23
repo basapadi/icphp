@@ -3,11 +3,10 @@ import type { HTMLAttributes } from "vue";
 import { useVModel } from "@vueuse/core";
 import { cn } from "@/lib/utils";
 import Label from "@/components/ui/Label.vue";
-import {Info} from "lucide-vue-next";
 
 export default {
   name: "Number",
-  components: { Label,Info },
+  components: { Label },
   props: {
     defaultValue: { type: [String, Number], default: "" },
     modelValue: { type: [String, Number], default: "" },

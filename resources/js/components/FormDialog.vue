@@ -338,7 +338,6 @@
 <script>
 import { Input,Select,Radio,FileUpload,Textarea,Number,Phone,Password,Date,Currency } from "@/components/ui/form";
 import { Card, CardTitle, CardContent, CardHeader } from "@/components/ui/card";
-import {Info,Plus,SquareX} from "lucide-vue-next";
 import { Button } from "./ui/button";
 import { reactive } from 'vue';
 
@@ -366,10 +365,7 @@ export default {
         CardTitle,
         CardContent,
         CardHeader,
-        Button,
-        Info,
-        Plus,
-        SquareX
+        Button
     },
     data() {
         return {

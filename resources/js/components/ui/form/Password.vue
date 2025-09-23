@@ -4,11 +4,10 @@ import { useVModel } from "@vueuse/core";
 import { cn } from "@/lib/utils";
 import Label from "@/components/ui/Label.vue";
 import { ref } from "vue";
-import { Eye, EyeOff } from "lucide-vue-next"; // pastikan sudah install lucide-vue-next
 
 export default {
   name: "Password",
-  components: { Label, Eye, EyeOff },
+  components: { Label },
   props: {
     defaultValue: { type: [String, Number], default: "" },
     modelValue: { type: [String, Number], default: "" },

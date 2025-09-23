@@ -136,46 +136,27 @@
     <FormDialog :open="showDialog" :title="title" :dialog="form.dialog" :sections="form.sections" :formData="form.data" @close="closeFormDialog()" @onSubmit="handleSubmit" />
     <DetailDialog :title="title" :open="showDetail" :data="selected" :schema="detail_schema" @close="showDetail=false"/>
     <div v-if="openDropdown" class="absolute bg-white border rounded shadow-md w-50 z-50" :style="{ top: dropDownPosition.y + 'px', left: dropDownPosition.x + 'px' }">
-        <a v-if="columnOptions.includes('detail')" href="#" @click.stop="viewData()" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><SquareChartGantt class="w-8 text-green-700 px-2" />Detail</a>
-        <a v-if="columnOptions.includes('edit')" href="#" @click.stop="editData()" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><SquarePen class="w-8 text-orange-500 px-2" />Ubah</a>
-        <a v-if="columnOptions.includes('return')" href="#" @click.stop="returData()" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><Blocks class="w-8 text-blue-500 px-2" />Retur</a>
-        <a v-if="columnOptions.includes('delete')" href="#" @click.stop="hapusData()" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><SquareX class="w-8 text-red-500 px-2" />Hapus</a>
-        <a v-if="columnOptions.includes('undo')" href="#" @click.stop="undoData()" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><Undo2 class="w-8 text-red-500 px-2" />Urungkan</a>
-    </div>
-    <div v-if="openContextMenu" class="absolute bg-white border rounded shadow-md w-50 z-50" :style="{ top: contextMenuPosition.y + 'px', left: contextMenuPosition.x + 'px' }">
-        <a @click.stop="load();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><RefreshCcw class="w-8 text-green-700 px-2" />Muat Ulang</a>
         <div v-if="this.properties.contextMenu.length > 0">
             <div v-for="cm in this.properties.contextMenu.filter(cm => matchContextMenuConditions(cm.conditions))" :key="cm.name">
-                <a @click.stop="additionContextMenuClicked(cm)" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><ChevronRight class="w-8 text-blue-500 px-2" />{{cm.label}}</a>
+                <a class="flex text-sm items-center px-2 py-1 hover:bg-gray-100" href="#" @click.stop="callByFunctionName(cm);openDropdown=false"><component :is="cm.icon" :color="cm.color" class="w-8 px-2" />{{cm.label}}</a>
             </div>
         </div>
-        <div v-if="allowCreate && columnOptions.includes('create')">
-            <a @click.stop="tambahData();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><Plus class="w-8 text-orange-700 px-2" />Tambah</a>
-        </div>
-        <div v-if="columnOptions.includes('detail')">
-            <a @click.stop="viewData();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><SquareChartGantt class="w-8 text-green-700 px-2" />Detail</a>
-        </div>
-        <div v-if="allowEdit && columnOptions.includes('edit')">
-            <a @click.stop="editData();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><SquarePen class="w-8 text-orange-700 px-2" />Ubah</a>
-        </div>
-        <div v-if="columnOptions.includes('undo')">
-            <a @click.stop="hapusData();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><Undo2 class="w-8 text-red-700 px-2" />Urungkan</a>
-        </div>
-        <div v-if="columnOptions.includes('return')">
-            <a @click.stop="returData();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><Blocks class="w-8 text-blue-700 px-2" />Retur</a>
-        </div>
-        <div v-if="allowDelete && columnOptions.includes('delete') && selectedData.length <= 0">
-            <a @click.stop="hapusData();openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><SquareX class="w-8 text-red-700 px-2" />Hapus</a>
+
+    </div>
+    <div v-if="openContextMenu" class="absolute bg-white border rounded shadow-md w-50 z-50" :style="{ top: contextMenuPosition.y + 'px', left: contextMenuPosition.x + 'px' }">
+        <div v-if="this.properties.contextMenu.length > 0">
+            <div v-for="cm in this.properties.contextMenu.filter(cm => matchContextMenuConditions(cm.conditions))" :key="cm.name">
+                <a @click.stop="callByFunctionName(cm);openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><component :is="cm.icon" :color="cm.color" class="w-8 px-2" />{{cm.label}}</a>
+            </div>
         </div>
         <div v-if="selectedData.length > 0">
-            <a @click.stop="hapusDataMultiple()" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><SquareX class="w-8 text-red-500 px-2" />Hapus Data Terpilih</a>
+            <a @click.stop="hapusDataMultiple()" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><CopyX class="w-8 text-red-500 px-2" />Hapus Data Terpilih</a>
         </div>
     </div>
 </template> 
 
 <script>
 import * as operator from "./../constants/operator";
-import { Search,LoaderCircle, EllipsisVertical,Blocks,SquareChartGantt,SquarePen,SquareX,Undo2,RefreshCcw,Plus,ChevronRight } from "lucide-vue-next"
 import { mapGetters } from "vuex";
 import { ref } from "vue"
 import { Badge } from "@/components/ui";
@@ -196,7 +177,6 @@ import {
 
 export default {
     components: {
-        Search,
         Badge,
         FormDialog,
         FilterHeader,
@@ -209,17 +189,7 @@ export default {
         PaginationItem,
         PaginationLast,
         PaginationNext,
-        PaginationPrevious,
-        LoaderCircle,
-        EllipsisVertical,
-        Blocks,
-        SquareChartGantt,
-        SquarePen,
-        SquareX,
-        Undo2,
-        RefreshCcw,
-        Plus,
-        ChevronRight
+        PaginationPrevious
     },
     props: {
         title: {
@@ -286,7 +256,7 @@ export default {
                 }
                 this.load();
             },
-            //immediate: true // langsung load pertama kali juga
+            immediate: true // langsung load pertama kali juga
         },
         currentPage() {
             this.load();
@@ -506,9 +476,6 @@ export default {
         hapusDataMultiple(){
             alert('hapus data terpilih')
         },
-        additionContextMenuClicked(cm){
-            alert('Additional contextmenu clicked')
-        },
         toggleDropdown(column,data,e) {
             this.columnOptions = column.options
             this.openDropdown = true
@@ -551,6 +518,12 @@ export default {
             return Object.entries(conditions).every(([key, value]) => {
               return this.selected[key] === value;
             });
+        },
+        callByFunctionName(cm){
+            this[cm.onClick]()
+        },
+        test(cm){
+            alert(`function testing, buat function sebenarnya di datatable component`)
         }
     },
     mounted() {

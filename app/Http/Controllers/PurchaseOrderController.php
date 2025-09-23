@@ -53,6 +53,8 @@ class PurchaseOrderController extends BaseController
         $sendEmailContextMenu->conditions = ['status' => 'approved'];
         $sendEmailContextMenu->type = 'confirm';
         $sendEmailContextMenu->apiUrl = route('api.purhcase.sendEmail');
+        $sendEmailContextMenu->icon = 'SendHorizontal';
+        $sendEmailContextMenu->color = '#2196F3';
         $contextMenus = [$sendEmailContextMenu];    
         $this->setContextMenu($contextMenus);
     }
