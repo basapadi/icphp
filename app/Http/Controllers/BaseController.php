@@ -361,7 +361,7 @@ class BaseController extends Controller
         $menus = [
             'view' => ['method' => 'viewData', 'label' => 'Detail','icon' => 'SquareChartGantt','color' => '#009688'],
             'create' => ['method' => 'tambahData', 'label' => 'Tambah','icon' => 'Plus','color' => '#FF9800'],
-            'edit' => ['method' => 'editData', 'label' => 'Ubah', 'icon' => 'SquarePen', 'color' => '#FF8F00'],
+            'edit' => ['method' => 'editData', 'label' => 'Ubah', 'icon' => 'SquarePen', 'color' => '#3F51B5'],
             'delete' => ['method' => 'hapusData', 'label' => 'Hapus', 'icon' => 'SquareX', 'color' => '#F44336']
         ];
         
