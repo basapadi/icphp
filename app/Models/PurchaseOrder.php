@@ -61,7 +61,7 @@ class PurchaseOrder extends BaseModel
 
     public function getTotalTerbilangAttribute()
     {
-        return strtoupper(SpellNumber::generate($this->total_harga));
+        return strtoupper(SpellNumber::generate($this->total));
     }
 
     public function getTanggalPerkiraanFormattedAttribute()

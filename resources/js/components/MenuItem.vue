@@ -50,7 +50,6 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import { ChevronDown, ChevronRight,EllipsisVertical,GripVertical,ChevronsDown } from "lucide-vue-next";
 
 const props = defineProps({
     item: {

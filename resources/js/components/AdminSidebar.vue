@@ -37,23 +37,6 @@
 import { ref } from 'vue'
 import { useStore, mapGetters, mapActions } from 'vuex'
 import MenuItem from './MenuItem.vue'
-import {
-  BarChart3,
-  Users,
-  ShoppingCart,
-  Package,
-  Settings,
-  FileText,
-  Home,
-  TrendingUp,
-  Calendar,
-  CreditCard,
-  DollarSign,
-  ScrollText,
-  PackageOpen,
-  Trash,
-  Search
-} from 'lucide-vue-next'
 
 </script>
 <script>
@@ -66,17 +49,6 @@ import {
     },
     data() {
       return {
-        ICONS: {
-          home: Home,
-          creditcard: CreditCard,
-          settings: Settings,
-          shoppingcart: ShoppingCart,
-          package: Package,
-          dollarsign: DollarSign,
-          scrolltext: ScrollText,
-          packageopen: PackageOpen,
-          trash: Trash
-        },
         menus: [],
         loading: true,
         error: null,
@@ -90,11 +62,8 @@ import {
       }),
       async getMenus() {
         try {
-          const resp = await this.getMenu({
-              route: this.$route.path
-              // role: this.user.role
-            });
-          this.menus = this.mapIcons(resp.data.menus);
+          const resp = await this.getMenu({ route: this.$route.path });
+          this.menus = this.mapMenus(resp.data.menus);
           this.app = resp.data.app
         } catch (err) {
           this.error = err.response?.data?.message || 'Gagal mengambil data';
@@ -102,11 +71,10 @@ import {
           this.loading = false;
         }
       },
-      mapIcons(menuList) {
+      mapMenus(menuList) {
         return menuList.map(menu => ({
           ...menu,
-          icon: this.ICONS[menu.icon?.toLowerCase()] || null,
-          childs: Array.isArray(menu.childs) ? this.mapIcons(menu.childs) : []
+          childs: Array.isArray(menu.childs) ? this.mapMenus(menu.childs) : []
         }));
       }
   },
