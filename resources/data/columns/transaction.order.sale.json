@@ -21,7 +21,7 @@
     {
         "name": "kode",
         "required": true,
-        "label": "Kode SO",
+        "label": "Kode",
         "align": "left",
         "field": "kode",
         "sortable": true,
@@ -89,7 +89,7 @@
     {
         "name": "status_label",
         "required": true,
-        "label": "Status SO",
+        "label": "Status",
         "align": "left",
         "field": "status_label",
         "sortable": true,
@@ -111,7 +111,7 @@
     {
         "name": "so_status",
         "required": true,
-        "label": "Status SO",
+        "label": "Status",
         "align": "left",
         "field": "so_status",
         "sortable": true,
@@ -140,20 +140,6 @@
         ],
         "show": false,
         "option_filter": true
-    },
-    {
-        "name": "total_formatted",
-        "required": true,
-        "label": "Total Harga",
-        "align": "right",
-        "field": "total_formatted",
-        "sortable": true,
-        "type": "text",
-        "options": [],
-        "show": true,
-        "class": "font-mono",
-        "styles": "",
-        "option_filter": false
     },
     {
         "name": "total_formatted",

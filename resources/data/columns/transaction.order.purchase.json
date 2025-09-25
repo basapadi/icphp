@@ -21,7 +21,7 @@
     {
         "name": "kode",
         "required": true,
-        "label": "Kode PO",
+        "label": "Kode",
         "align": "left",
         "field": "kode",
         "sortable": true,
@@ -89,7 +89,7 @@
     {
         "name": "status_label",
         "required": true,
-        "label": "Status PO",
+        "label": "Status",
         "align": "left",
         "field": "status_label",
         "sortable": true,
@@ -100,7 +100,7 @@
     {
         "name": "po_status",
         "required": true,
-        "label": "Status PO",
+        "label": "Status",
         "align": "left",
         "field": "po_status",
         "sortable": true,
