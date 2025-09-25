@@ -95,6 +95,9 @@ Route::prefix('api')->group(function () {
             Route::post('/', 'store');
             Route::get('/edit/{id}', 'edit');
             Route::get('/send-email', 'sendEmail')->name('api.purhcase.sendEmail');
+            Route::post('/create-received-item', 'createReceivedItem')->name('api.purhcase.createReceivedItem');
+            Route::get('/receive/form', 'receivedForm')->name('api.purhcase.receivedForm');
+
         });
     });
     Route::controller(SaleOrderController::class)->middleware('auth:sanctum')->prefix('sale')->group(function () {

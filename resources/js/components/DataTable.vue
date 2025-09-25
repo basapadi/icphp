@@ -243,7 +243,8 @@ export default {
             },
             showDetail: false,
             selected: {},
-            columnOptions:[]
+            columnOptions:[],
+            selectedContextMenu: null
         };
     },
     watch: {
@@ -450,28 +451,56 @@ export default {
         },
         async handleSubmit(form) {
             this.loading = true
-            await this.$store.dispatch(this.module+'/create',form)
-            .then(({ data }) => {
-                this.load();
-                if(data.message != undefined && data.status == true) {
-                    alert(data.message)
-                    this.showDialog = false
-                    this.form = {}
-                    this.selected = {}
-                }
 
-            }).catch((resp) => {
-                let msgError = '';
-                if(resp.response.data?.data != undefined){
-                    const errors = Object.values(resp.response.data.data);
-                    msgError = errors[0]
-                }
-                alert(resp.response.data.message+ ' '+msgError)
-            })
-            .finally((f) => {
-                this.openDropdown = null
-                this.loading = false
-            })
+            if(this.selectedContextMenu != null && this.selectedContextMenu.apiUrl != undefined){
+                const res = await axios.post(this.selectedContextMenu.apiUrl, form)
+                .then(({ data }) => {
+                    this.load();
+                    if(data.message != undefined && data.status == true) {
+                        alert(data.message)
+                        this.showDialog = false
+                        this.form = {}
+                        this.selected = {}
+                    }
+
+                })
+                .catch((resp) => {
+                    let msgError = '';
+                    if(resp.response.data?.data != undefined){
+                        const errors = Object.values(resp.response.data.data);
+                        msgError = errors[0]
+                    }
+                    alert(resp.response.data.message+ ' '+msgError)
+                })
+                .finally(() => {
+                    this.showDialog = true
+                    this.loading = false
+                    this.openDropdown = false
+                });
+            } else {
+                await this.$store.dispatch(this.module+'/create',form)
+                .then(({ data }) => {
+                    this.load();
+                    if(data.message != undefined && data.status == true) {
+                        alert(data.message)
+                        this.showDialog = false
+                        this.form = {}
+                        this.selected = {}
+                    }
+
+                }).catch((resp) => {
+                    let msgError = '';
+                    if(resp.response.data?.data != undefined){
+                        const errors = Object.values(resp.response.data.data);
+                        msgError = errors[0]
+                    }
+                    alert(resp.response.data.message+ ' '+msgError)
+                })
+                .finally((f) => {
+                    this.openDropdown = null
+                    this.loading = false
+                })
+            }
         },
         hapusDataMultiple(){
             alert('hapus data terpilih')
@@ -516,14 +545,34 @@ export default {
         matchContextMenuConditions(conditions) {
             if (!conditions || Object.keys(conditions).length === 0) return true;
             return Object.entries(conditions).every(([key, value]) => {
-              return this.selected[key] === value;
+                const selectedValue = this.selected[key];
+                if (Array.isArray(value)) {
+                    return value.includes(selectedValue);
+                }
+                return selectedValue === value;
             });
         },
         callByFunctionName(cm){
-            this[cm.onClick]()
+            this[cm.onClick](cm)
         },
         test(cm){
-            alert(`function testing, buat function sebenarnya di datatable component`)
+            alert(`Test, buat function sebenarnya di datatable component`)
+        },
+        async getFormDialog(cm){
+            if(cm.type !== "form_dialog")return
+            this.selectedContextMenu = cm
+            this.loading = true
+            const res = await axios.get(cm.formUrl, {
+                params: {id: this.selected.encode_id}
+            })
+            .catch(err => console.error(err))
+            .finally(() => {
+                this.showDialog = true
+                this.loading = false
+                this.openDropdown = false
+            });
+            this.form = res.data.data
+
         }
     },
     mounted() {

@@ -34,6 +34,20 @@
         "option_filter": true
     },
     {
+        "name": "purchase_order__kode",
+        "required": true,
+        "label": "Kode PO",
+        "align": "left",
+        "field": "purchase_order__kode",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "font-mono",
+        "styles": "",
+        "option_filter": true
+    },
+    {
         "name": "contact__nama",
         "required": true,
         "label": "Pemasok",

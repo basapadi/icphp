@@ -7,6 +7,14 @@
         "column": 3,
         "forms": [
             {
+                "name": "kode_po",
+                "type": "text",
+                "label": "Kode Pesanan Pembelian",
+                "required": false,
+                "disabled": true,
+                "hint": "Kode Pesanan Pembelian"
+            },
+            {
                 "name": "kode_transaksi",
                 "type": "text",
                 "label": "Kode Transaksi",

@@ -40,4 +40,9 @@ class ItemReceivedDetail extends BaseModel
        return $this->belongsTo(Master::class, 'unit_id', 'id');
     }
 
+    public function received()
+    {
+        return $this->belongsTo(ItemReceived::class, 'item_received_id');
+    }
+
 }

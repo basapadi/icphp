@@ -18,8 +18,9 @@ class ReceivedItemController extends BaseController
     public function __construct(){
         $this->setModel(ItemReceived::class)
             ->select('trx_received_items.*')
-            ->with(['details','details.item','details.unit','contact','payments','payments.createdBy','createdBy'])
-            ->leftJoin('contacts', 'contacts.id', '=', 'trx_received_items.contact_id')->orderBy('tanggal_terima','desc');
+            ->with(['details','details.item','details.unit','contact','payments','payments.createdBy','createdBy','purchase_order'])
+            ->leftJoin('contacts', 'contacts.id', '=', 'trx_received_items.contact_id')
+            ->orderBy('tanggal_terima','desc');
         $this->setModule('transaction.item.receive');
         $this->setGridProperties([
             'filterDateRange' => true,

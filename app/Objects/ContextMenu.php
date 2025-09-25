@@ -11,11 +11,12 @@ class ContextMenu
     public array  $conditions;
     public string $module;
     public string $name;
-    public string $type; //redirect_url,confirm,dialog
+    public string $type; //redirect_url,confirm,form_dialog
     public string $apiUrl;
     public string $icon;
-    public string $onClick = 'test';
+    public string $onClick = 'test'; //test,getFormDialog,tambahData,viewData,editData,hapusData,returData,undoData
     public string $color;
+    public string $formUrl;
 
     
     public function __construct(string $name, string $label, $type = 'confirm')

@@ -11,7 +11,7 @@
                 "type": "text",
                 "label": "Kode SO",
                 "required": true,
-                "readonly": false,
+                "disabled": ":kode_disabled",
                 "hint": "Masukkan Kode SO atau autogenerate"
             },
             {

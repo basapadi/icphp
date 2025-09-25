@@ -23,10 +23,12 @@ class ItemReceived extends BaseModel
         'tanggal_jatuh_tempo',
         'total_terbilang',
         'sisa_bayar_formatted',
-        'terbayar_formatted'
+        'terbayar_formatted',
+        'kode_po'
     ];
     protected $fillable = [
         'kode_transaksi',
+        'purchase_order_id',
         'contact_id',
         'tanggal_terima',
         'diterima_oleh',
@@ -111,6 +113,11 @@ class ItemReceived extends BaseModel
         else return null;
     }
 
+    public function getKodePoAttribute()
+    {
+        return $this->purchase_order()->first()?->kode;
+    }
+
     public function contact(){
        return $this->belongsTo(Contact::class, 'contact_id', 'id');
     }
@@ -131,7 +138,7 @@ class ItemReceived extends BaseModel
        return $this->belongsTo(User::class, 'updated_by', 'id');
     }
 
-    public function purchaseOrder(){
+    public function purchase_order(){
        return $this->belongsTo(PurchaseOrder::class, 'purchase_order_id', 'id');
     }
 

@@ -70,7 +70,7 @@ trait BaseHelper
             'file.max'             => ':attribute maksimal berukuran :max KB.',
         ]);
         if ($validator->fails()) {
-            return Response::badRequest('validasi Gagal','',$validator->errors());
+            return Response::badRequest('Validasi gagal :','',$validator->errors());
         }
         return $validator->validated();
        
