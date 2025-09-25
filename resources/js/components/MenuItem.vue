@@ -78,7 +78,7 @@ const linkClasses = computed(
     () =>
         `flex items-left justify-between mx-2 py-2 text-sm transition delay-50 duration-100 ease-in-out hover:translate-x-1 hover:scale-105 rounded-sm ${
             props.item.active
-                ? "text-gray-700 border-1 bg-gray-100 border-gray-100 shadow-sm my-2"
+                ? "text-gray-700 border-1 bg-gray-100 border-gray-100 shadow-sm border-gray-300 border-dashed my-2"
                 : "text-gray-700 hover:bg-gray-100 hover:shadow-sm hover:rounded-sm"
         }`
 );

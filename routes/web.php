@@ -84,6 +84,8 @@ Route::prefix('api')->group(function () {
         Route::get('grid', 'grid');
         Route::get('form', 'form');
         Route::delete('/{id}', 'delete');
+        Route::get('/edit/{id}', 'edit');
+        Route::post('/', 'store');
     });
     Route::controller(PurchaseOrderController::class)->middleware('auth:sanctum')->prefix('purchase')->group(function () {
         Route::prefix('order')->group(function(){
@@ -93,7 +95,6 @@ Route::prefix('api')->group(function () {
             Route::post('/', 'store');
             Route::get('/edit/{id}', 'edit');
             Route::get('/send-email', 'sendEmail')->name('api.purhcase.sendEmail');
-            Route::get('/edit/{id}', 'edit');
         });
     });
     Route::controller(SaleOrderController::class)->middleware('auth:sanctum')->prefix('sale')->group(function () {

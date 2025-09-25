@@ -11,7 +11,7 @@
                 "type": "text",
                 "label": "Kode PO",
                 "required": true,
-                "readonly": ":kode_readonly",
+                "disabled": ":kode_disabled",
                 "hint": "Masukkan Kode PO atau autogenerate"
             },
             {

@@ -19,17 +19,17 @@
                 <form @submit="submit" enctype="multipart/form-data">
                     <div class="h-150 overflow-y-auto" v-if="sections && Object.keys(sections).length">
                         <template v-for="(section, sectionKey) in sections" :key="sectionKey">
-                            <span class="text-gray-400 font-bold text-shadow-2xs">{{section?.label}}</span>
-                            <div class="space-y-2 gap-2 border-2 rounded-sm mb-4">
+                            <span class="text-gray-600 font-bold"><SquareChevronRight class="h-5 w-5 mr-2 mb-1 text-orange-300 inline-block align-middle" />{{section?.label}}</span>
+                            <div class="space-y-2 gap-2 border-1 border-dashed rounded-sm mb-4">
                                 <div class="space-y-2 p-4" v-if="section['type'] == 'addtable'">
-                                    <div v-for="(row, rowIndex) in form.addtable[sectionKey]" :key="rowIndex" class="flex gap-1">
-                                        <span class="pl-2 pr-4 pt-7 font-bold text-gray-400">{{rowIndex+1}}</span>
+                                    <div v-for="(row, rowIndex) in form.addtable[sectionKey]" :key="rowIndex" class="flex border-1 shadow-sm rounded-sm border-gray-300 border-dashed py-4 px-2 gap-1 odd:bg-gray-50 even:bg-white">
+                                        <span class="pl-2 pr-4 font-bold text-orange-400">{{rowIndex+1}}</span>
                                         <div class="flex flex-1 w-full" v-for="(field,x) in section['forms']" :key="x">
                                             <Input v-if="['text', 'email'].includes(field.type)"
                                                 :key="field.name"
                                                 :label="field.label"
                                                 :type="field.type"
-                                                v-model="form[sectionKey][rowIndex][field.name]"
+                                                v-model="row[field.name]"
                                                 :name="`${field.name}[${rowIndex}]`"
                                                 :id="`${field.name}_${rowIndex}`"
                                                 :hint="field.hint"

@@ -1,6 +1,6 @@
 {
     "dialog": {
-        "width": 8
+        "width": 7
     },
     "main": {
         "label": "Form Penerimaan",
@@ -11,7 +11,7 @@
                 "type": "text",
                 "label": "Kode Transaksi",
                 "required": true,
-                "readonly": true,
+                "disabled": ":kode_disabled",
                 "hint": "Masukkan Kode Barang atau autogenerate"
             },
             {
@@ -84,7 +84,7 @@
             
         ]
     },
-    "detail": {
+    "details": {
         "label": "Detail Penerimaan",
         "column": 7,
         "type": "addtable",
@@ -122,9 +122,9 @@
             {
                 "name": "kedaluarsa",
                 "type": "date",
-                "label": "Tanggal Expired",
+                "label": "Tanggal Kedaluarsa",
                 "required": false,
-                "hint": "Masukkan Tanggal Expired"
+                "hint": "Masukkan Tanggal Kedaluarsa"
             },
             {
                 "name": "batch",

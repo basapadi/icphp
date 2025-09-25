@@ -5,7 +5,7 @@
             <CardContent class="max-h-[80vh] overflow-y-auto">
                 <div v-for="(sub, i) in schema" :key="i">
                     <template v-if="i == 'main' && sub.type == 'object'">
-                        <div class="bg-white shadow-sm rounded-md py-2 px-2 mb-2">
+                        <div class="bg-white shadow-sm rounded-md py-2 px-2 mb-2 border-1 shadow-sm rounded-sm border-gray-300 border-dashed">
                             <div class="py-2 px-5"><span class="text-gray-500 uppercase tracking-wider">{{ sub.title }}</span></div>
                             <div class="overflow-x-auto">
                                 <table class="w-full border border-gray-200 rounded-lg overflow-hidden">
@@ -20,7 +20,7 @@
                         </div>
                     </template>
                     <template v-else-if="sub.type == 'array'">
-                        <div class="bg-white shadow-sm rounded-md py-2 px-2 mb-2">
+                        <div class="bg-white shadow-sm rounded-md py-2 px-2 mb-2 border-1 shadow-sm rounded-sm border-gray-300 border-dashed">
                             <div class="py-2 px-5"><span class="text-gray-500 uppercase tracking-wider">{{ sub.title }}</span></div>
                             <div class="overflow-x-auto">
                                 <table class="w-full border border-gray-200 rounded-md overflow-hidden">
@@ -45,7 +45,7 @@
                         </div>
                     </template>
                     <template v-else>
-                        <div class="bg-white shadow-sm rounded-md py-2 px-2 mb-2">
+                        <div class="bg-white shadow-sm rounded-md py-2 px-2 mb-2 border-1 shadow-sm rounded-sm border-gray-300 border-dashed">
                             <div class="py-2 px-5"><span class="text-gray-500 uppercase tracking-wider">{{ sub.title }}</span></div>
                             <div class="overflow-x-auto">
                                 <table class="w-full border border-gray-200 rounded-lg overflow-hidden">

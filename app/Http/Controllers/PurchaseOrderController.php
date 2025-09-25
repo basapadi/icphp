@@ -36,7 +36,7 @@ class PurchaseOrderController extends BaseController
         //inject data ke form
         $form = $this->_form;
         injectData($form, [
-            'kode_readonly'     => false,
+            'kode_disabled'     => false,
             'contacts'          => getContactToSelect('pemasok'),
             'po_status'         => ihandCashierConfigToSelect('purchase_order_status'),
             'items'             => getItemToSelect(),
@@ -66,19 +66,19 @@ class PurchaseOrderController extends BaseController
     public function store(Request $request)
     {
         $rules = [
-            'addtable.details' => 'required|array|min:1',
-            'contact_id' => 'required|numeric',
-            'tanggal' => 'required|string',
-            'approval_by' => 'required|numeric',
-            'tanggal_perkiraan_datang' => 'required|string',
-            'status' => 'required|string|in:'.implode(',',ihandCashierConfigKeyToArray('purchase_order_status')),
-            'catatan' => 'nullable|string',
-            'id' => 'nullable|numeric',
+            'addtable.details'          => 'required|array|min:1',
+            'contact_id'                => 'required|numeric',
+            'tanggal'                   => 'required|string',
+            'approval_by'               => 'required|numeric',
+            'tanggal_perkiraan_datang'  => 'required|string',
+            'status'                    => 'required|string|in:'.implode(',',ihandCashierConfigKeyToArray('purchase_order_status')),
+            'catatan'                   => 'nullable|string',
+            'id'                        => 'nullable|numeric',
 
-            'addtable.details.*.item_id' => 'required|integer|exists:items,id',
-            'addtable.details.*.unit_id' => 'required|integer|exists:masters,id',
-            'addtable.details.*.jumlah' => 'required|numeric|min:1',
-            'addtable.details.*.harga' => 'required|numeric|min:0'
+            'addtable.details.*.item_id'    => 'required|integer|exists:items,id',
+            'addtable.details.*.unit_id'    => 'required|integer|exists:masters,id',
+            'addtable.details.*.jumlah'     => 'required|numeric|min:1',
+            'addtable.details.*.harga'      => 'required|numeric|min:0'
         ];
 
         try {
@@ -91,16 +91,16 @@ class PurchaseOrderController extends BaseController
 
                 begin();
                 $preInsert = [
-                    'kode' => trim($data['kode']),
-                    'contact_id' => trim($data['contact_id']),
-                    'tanggal' => trim($data['tanggal']),
-                    'tanggal_perkiraan_datang' => trim($data['tanggal_perkiraan_datang']),
-                    'status' => trim($data['status']),
-                    'catatan' => @trim($data['catatan'])??null,
-                    'approval_by' => trim($data['approval_by']),
-                    'approval_status' => 'pending',
-                    'created_by' => auth()->user()->id,
-                    'created_at' => now()
+                    'kode'                      => trim($data['kode']),
+                    'contact_id'                => trim($data['contact_id']),
+                    'tanggal'                   => trim($data['tanggal']),
+                    'tanggal_perkiraan_datang'  => trim($data['tanggal_perkiraan_datang']),
+                    'status'                    => trim($data['status']),
+                    'catatan'                   => @trim($data['catatan'])??null,
+                    'approval_by'               => trim($data['approval_by']),
+                    'approval_status'           => 'pending',
+                    'created_by'                => auth()->user()->id,
+                    'created_at'                => now()
                 ];
 
                 $po = PurchaseOrder::create($preInsert);
@@ -132,11 +132,6 @@ class PurchaseOrderController extends BaseController
 
             }else {
                 $this->allowAccessModule('transaction.order.sale', 'update');
-                $rules['kode'] = [
-                    'required',
-                    'string',
-                    Rule::unique('trx_purchase_orders', 'kode')->ignore($request->id)
-                ];
                 $data = $this->validate($rules);
                 if ($data instanceof \Illuminate\Http\JsonResponse) return $data;
 
@@ -192,7 +187,7 @@ class PurchaseOrderController extends BaseController
         if(empty($data)) return $this->setAlert('error','Galat!','Data yang tidak ditemukan!.');
 
         injectData($this->_form, [
-            'kode_readonly'     => true,
+            'kode_disabled'     => true,
             'contacts'          => getContactToSelect('pemasok'),
             'po_status'         => ihandCashierConfigToSelect('purchase_order_status'),
             'items'             => getItemToSelect(),
