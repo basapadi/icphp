@@ -62,7 +62,7 @@
             }
         ]
     },
-    "detail": {
+    "details": {
         "label": "Detail Pesanan Pembelian",
         "column": 5,
         "type": "addtable",

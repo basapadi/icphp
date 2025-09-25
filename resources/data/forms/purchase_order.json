@@ -11,7 +11,7 @@
                 "type": "text",
                 "label": "Kode PO",
                 "required": true,
-                "readonly": false,
+                "readonly": ":kode_readonly",
                 "hint": "Masukkan Kode PO atau autogenerate"
             },
             {
@@ -61,7 +61,7 @@
             }
         ]
     },
-    "detail": {
+    "details": {
         "label": "Detail Pesanan Pembelian",
         "column": 5,
         "type": "addtable",

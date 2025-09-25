@@ -29,7 +29,7 @@
                                                 :key="field.name"
                                                 :label="field.label"
                                                 :type="field.type"
-                                                v-model="row[field.name]"
+                                                v-model="form[sectionKey][rowIndex][field.name]"
                                                 :name="`${field.name}[${rowIndex}]`"
                                                 :id="`${field.name}_${rowIndex}`"
                                                 :hint="field.hint"
@@ -414,6 +414,11 @@ export default {
             
             Object.entries(this.sections).forEach(([key, section]) => {
                 if (section.type === 'addtable') {
+
+                    if(this.formData[key] != undefined){
+                        this.form.addtable[key] = this.formData[key]
+                    }
+
                     if (!this.form.addtable[key] || this.form.addtable[key].length === 0) {
                         const newRow = {};
                         section.forms.forEach(f => newRow[f.name] = '');

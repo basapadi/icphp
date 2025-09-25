@@ -8,6 +8,9 @@ use App\Models\{
     User
 };
 
+use App\Transformers\FormTransformer;
+use Spatie\Fractalistic\ArraySerializer;
+
 if(!function_exists('injectData')){
     function injectData(&$data, array $replacements)
     {
@@ -50,7 +53,7 @@ if(!function_exists('generateTransactionCode')){
         $datePart = sprintf(
             "%02d%02d%02d%02d%02d",
             date('s'),
-            date('i'),
+            date('i'),  
             date('m'),
             date('d'),
             date('H')
@@ -105,5 +108,29 @@ if(!function_exists('getUserToSelect')){
             $users[$c->id] = $c->name.' - '.$c->email;
         }
         return $users;
+    }
+}
+
+if(!function_exists('serializeform')){
+    function serializeform($form){
+        $forms = [];
+        $dialog = [
+            'width' => 2
+        ];
+
+        foreach ($form as $key => $f) {
+            if($key == 'dialog'){
+                $dialog = $f;
+                continue;
+            }
+            $nf = $f;
+            $nf['forms'] = fractal($f['forms'], new FormTransformer(), ArraySerializer::class);
+            $forms[$key] = $nf;
+        }
+
+        return [
+            'dialog' => $dialog,
+            'sections' => $forms
+        ];
     }
 }

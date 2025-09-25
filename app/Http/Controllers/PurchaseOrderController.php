@@ -14,10 +14,11 @@ use App\Models\{
 use App\Objects\ContextMenu;
 use Illuminate\Http\Request;
 use Exception;
-use Illuminate\Support\Facades\DB;
+use App\Http\Response;
 
 class PurchaseOrderController extends BaseController
 {
+    private $_form = null;
     public function __construct(){
         $this->setModel(PurchaseOrder::class)
             ->select(['trx_purchase_orders.*', 'trx_purchase_orders.status as po_status'])
@@ -30,16 +31,18 @@ class PurchaseOrderController extends BaseController
         ]);
         $this->setFilterColumnsLike(['contacts.nama','kode'],request('q')??'');
 
-        $form = $this->getResourceForm('purchase_order');
-
+        $this->_form = $this->getResourceForm('purchase_order');
         //inject data ke form
+        $form = $this->_form;
         injectData($form, [
-            'contacts'          => getContactToSelect(),
+            'kode_readonly'     => false,
+            'contacts'          => getContactToSelect('pemasok'),
             'po_status'         => ihandCashierConfigToSelect('purchase_order_status'),
             'items'             => getItemToSelect(),
             'units'             => getUnitToSelect('UNIT'),
             'users'             => getUserToSelect()
         ]);
+
 
         //set default value
         $this->setForm($form,[
@@ -137,5 +140,29 @@ class PurchaseOrderController extends BaseController
             rollBack();
             return $this->setAlert('error','Gagal',$e->getMessage());
         }
+    }
+
+    public function edit(Request $request,$id){
+        $this->allowAccessModule('transaction.order.purchase', 'edit');
+        $id = $this->decodeId($id);
+        $data = PurchaseOrder::with(['contact','details'])->where('id',$id)->first();
+        if(empty($data)) return $this->setAlert('error','Galat!','Data yang tidak ditemukan!.');
+
+        injectData($this->_form, [
+            'kode_readonly'     => true,
+            'contacts'          => getContactToSelect('pemasok'),
+            'po_status'         => ihandCashierConfigToSelect('purchase_order_status'),
+            'items'             => getItemToSelect(),
+            'units'             => getUnitToSelect('UNIT'),
+            'users'             => getUserToSelect()
+        ]);
+        
+        $form = serializeform($this->_form);
+        return Response::ok('loaded',[
+            'data' => $data,
+            'dialog' => $form['dialog'],
+            'sections' => $form['sections']
+        ]); 
+
     }
 }
