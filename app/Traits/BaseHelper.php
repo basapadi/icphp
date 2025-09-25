@@ -23,7 +23,7 @@ trait BaseHelper
                    return Response::ok($message);
                     break;
                 case 'error':
-                   return Response::badRequest($title.':'.$message);
+                   return Response::badRequest($title.', '.$message);
                     break;  
                 default:
                     return Response::ok($message);

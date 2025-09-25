@@ -466,7 +466,7 @@ export default {
                     const errors = Object.values(resp.response.data.data);
                     msgError = errors[0]
                 }
-                alert(resp.response.data.message+ ' : '+msgError)
+                alert(resp.response.data.message+ ' '+msgError)
             })
             .finally((f) => {
                 this.openDropdown = null

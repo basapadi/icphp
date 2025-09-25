@@ -79,6 +79,11 @@ return [
             'class' => 'green-700',
             'color' => 'green-700'
         ],
+        'rejected'              => [
+            'label' => 'Ditolak',
+            'class' => 'red-700',
+            'color' => 'red-700'
+        ],
         'received'          => [
             'label'  => 'Diterima',
             'class'  => 'black-400',

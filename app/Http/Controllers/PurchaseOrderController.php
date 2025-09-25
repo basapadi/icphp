@@ -15,6 +15,7 @@ use App\Objects\ContextMenu;
 use Illuminate\Http\Request;
 use Exception;
 use App\Http\Response;
+use Illuminate\Validation\Rule;
 
 class PurchaseOrderController extends BaseController
 {
@@ -65,29 +66,28 @@ class PurchaseOrderController extends BaseController
     public function store(Request $request)
     {
         $rules = [
-            'addtable.detail' => 'required|array|min:1',
-            'kode' => 'required|string|unique:trx_purchase_orders,kode',
+            'addtable.details' => 'required|array|min:1',
             'contact_id' => 'required|numeric',
-            'tanggal' => 'required|date_format:d-m-Y',
+            'tanggal' => 'required|string',
             'approval_by' => 'required|numeric',
             'tanggal_perkiraan_datang' => 'required|string',
             'status' => 'required|string|in:'.implode(',',ihandCashierConfigKeyToArray('purchase_order_status')),
             'catatan' => 'nullable|string',
             'id' => 'nullable|numeric',
 
-            'addtable.detail.*.item_id' => 'required|integer|exists:items,id',
-            'addtable.detail.*.unit_id' => 'required|integer|exists:masters,id',
-            'addtable.detail.*.jumlah' => 'required|numeric|min:1',
-            'addtable.detail.*.harga' => 'required|numeric|min:0'
+            'addtable.details.*.item_id' => 'required|integer|exists:items,id',
+            'addtable.details.*.unit_id' => 'required|integer|exists:masters,id',
+            'addtable.details.*.jumlah' => 'required|numeric|min:1',
+            'addtable.details.*.harga' => 'required|numeric|min:0'
         ];
 
-        $data = $this->validate($rules);
-        
-        if ($data instanceof \Illuminate\Http\JsonResponse) return $data;
-
         try {
-            if(!isset($data['id'])){
+            if(!isset($request->id)){
                 $this->allowAccessModule('transaction.order.purchase', 'create');
+
+                $rules['kode'] = 'required|string|unique:trx_purchase_orders,kode';
+                $data = $this->validate($rules);
+                if ($data instanceof \Illuminate\Http\JsonResponse) return $data;
 
                 begin();
                 $preInsert = [
@@ -107,8 +107,8 @@ class PurchaseOrderController extends BaseController
 
                 $perInsertDetails = [];
                 $total = 0;
-                if(count($data['addtable']['detail']) > 0){
-                    foreach ($data['addtable']['detail'] as $key => $d) {
+                if(count($data['addtable']['details']) > 0){
+                    foreach ($data['addtable']['details'] as $key => $d) {
                         $t = (double) (trim($d['harga']) * trim($d['jumlah']));
                         array_push($perInsertDetails,[
                             'purchase_order_id' => $po->id,
@@ -132,9 +132,52 @@ class PurchaseOrderController extends BaseController
 
             }else {
                 $this->allowAccessModule('transaction.order.sale', 'update');
+                $rules['kode'] = [
+                    'required',
+                    'string',
+                    Rule::unique('trx_purchase_orders', 'kode')->ignore($request->id)
+                ];
+                $data = $this->validate($rules);
+                if ($data instanceof \Illuminate\Http\JsonResponse) return $data;
 
-                //TODO:: Update PO
+                $exist = PurchaseOrder::with(['details'])->where('id',$data['id'])->first();
+                if(empty($exist)) return $this->setAlert('error','Galat!','Data tidak ditemukan');
+                
+                if(!in_array($exist->status,['draft','rejected','canceled'])) return $this->setAlert('error','Galat!','Data sudah tidak dapat diubah karena status sudah '. config('ihandcashier.purchase_order_status')[$exist->status]['label']);
 
+                begin();
+                $exist->contact_id = trim($data['contact_id']);
+                $exist->tanggal = trim($data['tanggal']);
+                $exist->tanggal_perkiraan_datang = trim($data['tanggal_perkiraan_datang']);
+                $exist->status = trim($data['status']);
+                $exist->catatan = trim($data['catatan']);
+                $exist->updated_by = auth()->user()->id;
+                $exist->updated_at = now();
+
+                $perInsertDetails = [];
+                $total = 0;
+                if(count($data['addtable']['details']) > 0){
+                    foreach ($data['addtable']['details'] as $key => $d) {
+                        $t = (double) (trim($d['harga']) * trim($d['jumlah']));
+                        array_push($perInsertDetails,[
+                            'purchase_order_id' => $exist->id,
+                            'item_id'           => (int) trim($d['item_id']),
+                            'unit_id'           => (int) trim($d['unit_id']),
+                            'harga'             => (double) trim($d['harga']),
+                            'jumlah'            => (int) trim($d['jumlah']),
+                            'sub_total'         => $t
+                        ]);
+
+                        $total += $t;
+                    }
+                }
+
+                $exist->total = $total;
+                $exist->details()->delete();
+                $exist->save();
+                PurchaseOrderDetail::insert($perInsertDetails);
+                commit();
+                return $this->setAlert('info','Berhasil','Pesanan pembelian '.$exist->kode.' berhasil diubah');
             }
         }catch(Exception $e){
             rollBack();
