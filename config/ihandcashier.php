@@ -43,11 +43,11 @@ return [
             'class' => 'gray-800'
         ],
         'partially_paid'    => [
-            'label' => 'Terbayar Sebagian',
+            'label' => 'Dibayar Sebagian',
             'class' => 'orange-500'
         ],
         'paid'              => [
-            'label' => 'Lunas',
+            'label' => 'Dibayar',
             'class' => 'green-700'
         ],
         'overdue'           => [
