@@ -4,7 +4,7 @@
     },
     "main": {
         "label": "Form Penerimaan",
-        "column": 3,
+        "column": 2,
         "forms": [
             {
                 "name": "kode",
@@ -33,16 +33,8 @@
                 "name": "tanggal_perkiraan_datang",
                 "type": "date",
                 "label": "Tanggal Perkiraan Datang",
-                "required": true,
+                "required": false,
                 "hint": "Masukkan Tanggal Perkiraan Barang Datang"
-            },
-            {
-                "name": "status",
-                "type": "select",
-                "label": "Status PO",
-                "required": true,
-                "hint": "Pilih Status PO",
-                "options": ":po_status"
             },
             {
                 "name": "approval_by",

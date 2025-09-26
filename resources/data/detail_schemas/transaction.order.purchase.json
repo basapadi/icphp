@@ -115,6 +115,9 @@
             "approval_status_label": {
                 "label": "Status Persetujuan"
             },
+            "approval_note": {
+                "label": "Komentar"
+            },
             "approved_at_formatted": {
                 "label": "Tanggal"
             }

@@ -462,7 +462,7 @@ export default {
                             this.loading = true
 
                             if(this.selectedContextMenu != null && this.selectedContextMenu.apiUrl != undefined){
-                                const res = await axios.post(this.selectedContextMenu.apiUrl, form)
+                                await axios.post(this.selectedContextMenu.apiUrl, form)
                                 .then(({ data }) => {
                                     this.load();
                                     if(data.message != undefined && data.status == true) {
@@ -586,7 +586,37 @@ export default {
             });
             this.form = res.data.data
 
-        }
+        },
+        confirmPopup(cm){
+            if(cm.type !== "confirm")return
+            this.$confirm(
+                {
+                    message: cm.message,
+                    button: {
+                        no: 'Tidak',
+                        yes: 'Ya'
+                    },
+                    callback: async confirm => {
+                        if (confirm) {
+                            this.selectedContextMenu = cm
+                            this.loading = true
+                            await axios.post(cm.apiUrl, {id: this.selected.encode_id})
+                            .then(({data}) => {
+                                if(data.message != undefined && data.status == true) {
+                                    alert(data.message)
+                                }
+                            })
+                            .catch(err => console.error(err))
+                            .finally(() => {
+                                this.loading = false
+                                this.openDropdown = false
+                                this.load()
+                            });
+                        }
+                    }
+                }
+            )
+        },
     },
     mounted() {
         document.addEventListener("click", this.handleClickOutside)

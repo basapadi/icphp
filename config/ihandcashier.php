@@ -70,9 +70,14 @@ return [
             'color' => 'gray-400'
         ],
         'sended'    => [
-            'label' => 'Dikirim',
+            'label' => 'PO Dikirim',
             'class' => 'orange-500',
             'color' => 'orange-500'
+        ],
+        'need_approval' => [
+            'label' => 'Approval Diproses',
+            'class' => 'green-700',
+            'color' => 'green-700'
         ],
         'approved'              => [
             'label' => 'Disetujui',

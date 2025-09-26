@@ -23,6 +23,7 @@ class PurchaseOrder extends BaseModel
         'approval_by',
         'approval_status',
         'approved_at',
+        'approval_note',
         'created_by',
         'updated_by',
         'deleted_by',

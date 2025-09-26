@@ -62,20 +62,33 @@ class PurchaseOrderController extends BaseController
         $sendEmailContextMenu = new ContextMenu('sendpo','Kirim PO via Email');
         $sendEmailContextMenu->conditions = ['status' => 'approved'];
         $sendEmailContextMenu->type = 'confirm';
-        $sendEmailContextMenu->apiUrl = route('api.purhcase.sendEmail');
+        $sendEmailContextMenu->apiUrl = route('api.purchase.order.sendEmail');
         $sendEmailContextMenu->icon = 'SendHorizontal';
         $sendEmailContextMenu->color = '#2196F3';
 
+        //buat penerimaan baru
         $createReceivedItem = new ContextMenu('createreceived','Buat Penerimaan');
         $createReceivedItem->conditions = ['status' => ['sended','partial_received']];
         $createReceivedItem->type = 'form_dialog';
-        $createReceivedItem->apiUrl = route('api.purhcase.createReceivedItem');
+        $createReceivedItem->apiUrl = route('api.purchase.order.createReceivedItem');
         $createReceivedItem->icon = 'HandHelping';
         $createReceivedItem->color = '#6D94C5';
         $createReceivedItem->onClick = 'getFormDialog';
-        $createReceivedItem->formUrl = route('api.purhcase.receivedForm');
+        $createReceivedItem->formUrl = route('api.purchase.order.receivedForm');
 
-        $contextMenus = [$sendEmailContextMenu,$createReceivedItem];
+
+        //butuh persetujuan
+        $needApproval = new ContextMenu('needapproval','Minta Persetujuan');
+        $needApproval->conditions = ['status' => ['draft','rejected']];
+        $needApproval->type = 'confirm';
+        $needApproval->apiUrl = route('api.purchase.order.needApproval');
+        $needApproval->icon = 'BadgeCheck';
+        $needApproval->color = '#6D94C5';
+        $needApproval->onClick = 'confirmPopup';
+        $needApproval->title = 'Meminta Persetujuan';
+        $needApproval->message = 'Apakah anda yakin meminta persetujuan untuk pemesanan ini?.';
+
+        $contextMenus = [$sendEmailContextMenu,$createReceivedItem,$needApproval];
         $this->setContextMenu($contextMenus);
     }
 
@@ -87,8 +100,7 @@ class PurchaseOrderController extends BaseController
             'contact_id'                => 'required|numeric',
             'tanggal'                   => 'required|string',
             'approval_by'               => 'required|numeric',
-            'tanggal_perkiraan_datang'  => 'required|string',
-            'status'                    => 'required|string|in:'.implode(',',ihandCashierConfigKeyToArray('purchase_order_status')),
+            'tanggal_perkiraan_datang'  => 'nullable|string',
             'catatan'                   => 'nullable|string',
             'id'                        => 'nullable|numeric',
 
@@ -111,8 +123,8 @@ class PurchaseOrderController extends BaseController
                     'kode'                      => trim($data['kode']),
                     'contact_id'                => trim($data['contact_id']),
                     'tanggal'                   => trim($data['tanggal']),
-                    'tanggal_perkiraan_datang'  => trim($data['tanggal_perkiraan_datang']),
-                    'status'                    => trim($data['status']),
+                    'tanggal_perkiraan_datang'  => trim(@$data['tanggal_perkiraan_datang']??null),
+                    'status'                    => 'draft',
                     'catatan'                   => @trim($data['catatan'])??null,
                     'approval_by'               => trim($data['approval_by']),
                     'approval_status'           => 'pending',
@@ -161,7 +173,6 @@ class PurchaseOrderController extends BaseController
                 $exist->contact_id = trim($data['contact_id']);
                 $exist->tanggal = trim($data['tanggal']);
                 $exist->tanggal_perkiraan_datang = trim($data['tanggal_perkiraan_datang']);
-                $exist->status = trim($data['status']);
                 $exist->catatan = trim($data['catatan']);
                 $exist->updated_by = auth()->user()->id;
                 $exist->updated_at = now();
@@ -391,6 +402,23 @@ class PurchaseOrderController extends BaseController
             return $this->setAlert('info','Berhasil','Penerimaan '.$received->kode.' berhasil disimpan');
         }catch(Exception $e){
             rollBack();
+            return $this->setAlert('error','Gagal',$e->getMessage());
+        }
+    }
+
+    public function needApproval(Request $request){
+
+        try {
+            $id = $this->decodeId($request->id);
+            $po = PurchaseOrder::where('id',$id)->first();
+            if(empty($po)) return $this->setAlert('error','Gagal','Data tidak ditemukan');
+
+            if(!in_array($po->status,['draft','rejected'])) return $this->setAlert('error','Gagal','Meminta persetujuan hanya bisa dilakukan apabila statusnya adalah Draft');
+
+            $po->status = 'need_approval';
+            $po->save();
+            return $this->setAlert('info','Berhasil','Permintaan terkirim, persetujuan pemesanan sedang diproses.');
+        }catch(Exception $e){
             return $this->setAlert('error','Gagal',$e->getMessage());
         }
     }

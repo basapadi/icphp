@@ -94,9 +94,10 @@ Route::prefix('api')->group(function () {
             Route::delete('/{id}', 'delete');
             Route::post('/', 'store');
             Route::get('/edit/{id}', 'edit');
-            Route::get('/send-email', 'sendEmail')->name('api.purhcase.sendEmail');
-            Route::post('/create-received-item', 'createReceivedItem')->name('api.purhcase.createReceivedItem');
-            Route::get('/receive/form', 'receivedForm')->name('api.purhcase.receivedForm');
+            Route::get('/send-email', 'sendEmail')->name('api.purchase.order.sendEmail');
+            Route::post('/create-received-item', 'createReceivedItem')->name('api.purchase.order.createReceivedItem');
+            Route::get('/receive/form', 'receivedForm')->name('api.purchase.order.receivedForm');
+            Route::post('/need-approval', 'needApproval')->name('api.purchase.order.needApproval');
 
         });
     });

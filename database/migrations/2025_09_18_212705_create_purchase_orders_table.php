@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('approval_by')->nullable();   
             $table->string('approval_status',15)->default('pending');   
             $table->dateTime('approved_at')->nullable();   
+            $table->text('approval_note')->nullable();   
             $table->text('catatan')->nullable();
             $table->integer('created_by');
             $table->integer('updated_by')->nullable();
