@@ -27,6 +27,16 @@ class Item extends BaseModel
         return $this->hasMany(ItemSaleDetail::class,'item_id');
     }
 
+    public function purchaseOrderDetails()
+    {
+        return $this->hasMany(PurchaseOrderDetail::class,'item_id');
+    }
+
+    public function saleOrderDetails()
+    {
+        return $this->hasMany(SaleOrderDetail::class,'item_id');
+    }
+
     public function prices()
     {
         return $this->hasMany(ItemPrice::class,'item_id');
@@ -51,6 +61,14 @@ class Item extends BaseModel
 
             if ($data->itemSaleDetails()->exists()) {
                 throw new Exception('Tidak dapat menghapus barang ini karena sudah digunakan di data penjualan barang');
+            }
+
+            if ($data->purchaseOrderDetails()->exists()) {
+                throw new Exception('Tidak dapat menghapus barang ini karena sudah digunakan di data pesanan pembelian barang');
+            }
+
+            if ($data->saleOrderDetails()->exists()) {
+                throw new Exception('Tidak dapat menghapus barang ini karena sudah digunakan di data pesanan penjualan barang');
             }
 
             $data->prices()->delete();

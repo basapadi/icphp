@@ -24,7 +24,7 @@ class PurchaseOrderController extends BaseController
     public function __construct(){
         $this->setModel(PurchaseOrder::class)
             ->select(['trx_purchase_orders.*', 'trx_purchase_orders.status as po_status'])
-            ->with(['details','details.item','details.unit','contact','createdBy','approvalBy'])
+            ->with(['details','details.item','details.unit','contact','createdBy','approvalBy','receiveds'])
             ->leftJoin('contacts', 'contacts.id', '=', 'trx_purchase_orders.contact_id')->orderBy('tanggal','desc');
         $this->setModule('transaction.order.purchase');
         $this->setGridProperties([
@@ -36,15 +36,20 @@ class PurchaseOrderController extends BaseController
         $this->_form = $this->getResourceForm('purchase_order');
         //inject data ke form
         $form = $this->_form;
+        $purchaseStatus = ihandCashierConfigToSelect('purchase_order_status');
         injectData($form, [
             'kode_disabled'     => false,
             'contacts'          => getContactToSelect('pemasok'),
-            'po_status'         => ihandCashierConfigToSelect('purchase_order_status'),
+            'po_status'         =>$purchaseStatus,
             'items'             => getItemToSelect(),
             'units'             => getUnitToSelect('UNIT'),
-            'users'             => getUserToSelect()
+            'users'             => getUserToSelect(),
         ]);
 
+        $this->setInjectDataColumn([
+            'status' => $purchaseStatus,
+            'approval_status' => ihandCashierConfigToSelect('purchase_approval_status')
+        ]);
 
         //set default value
         $this->setForm($form,[
@@ -77,6 +82,7 @@ class PurchaseOrderController extends BaseController
     public function store(Request $request)
     {
         $rules = [
+            'addtable'                  => 'required|array',
             'addtable.details'          => 'required|array|min:1',
             'contact_id'                => 'required|numeric',
             'tanggal'                   => 'required|string',
@@ -86,7 +92,7 @@ class PurchaseOrderController extends BaseController
             'catatan'                   => 'nullable|string',
             'id'                        => 'nullable|numeric',
 
-            'addtable.details.*.item_id'    => 'required|integer|exists:items,id',
+            'addtable.details.*.item_id'    => 'required|integer|exists:items,id|distinct',
             'addtable.details.*.unit_id'    => 'required|integer|exists:masters,id',
             'addtable.details.*.jumlah'     => 'required|numeric|min:1',
             'addtable.details.*.harga'      => 'required|numeric|min:0'
@@ -269,6 +275,7 @@ class PurchaseOrderController extends BaseController
         $this->allowAccessModule('transaction.item.receive', 'create');
 
         $rules = [
+            'addtable'          => 'required|array',
             'addtable.details'  => 'required|array|min:1',
             'kode_transaksi'    => 'required|string',
             'contact_id'        => 'required|numeric',
@@ -282,7 +289,7 @@ class PurchaseOrderController extends BaseController
             'catatan'           => 'nullable|string',
             'po_id'             => 'required|numeric',
 
-            'addtable.details.*.item_id'    => 'required|integer|exists:items,id',
+            'addtable.details.*.item_id'    => 'required|integer|exists:items,id|distinct',
             'addtable.details.*.unit_id'    => 'required|integer|exists:masters,id',
             'addtable.details.*.jumlah'     => 'required|numeric|min:1',
             'addtable.details.*.harga'      => 'required|numeric|min:0',

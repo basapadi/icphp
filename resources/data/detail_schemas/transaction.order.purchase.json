@@ -77,6 +77,34 @@
             }
         }
     },
+    "receiveds": {
+        "type": "array",
+        "title": "Detail Penerimaan Barang",
+        "fields": {
+            "no": {
+                "label": "No",
+                "style": "width: 20px"
+            },
+            "kode_transaksi": {
+                "label": "Kode Penerimaan"
+            },
+            "tanggal_terima_formatted": {
+                "label": "Tanggal Terima"
+            },
+            "status_pembayaran_label": {
+                "label": "Status Pembayaran"
+            },
+            "total_harga_formatted": {
+                "label": "Total Harga"
+            },
+            "diterima_oleh": {
+                "label": "Syarat Pembayaran"
+            },
+            "created_at_formatted": {
+                "label": "Dibuat Tanggal"
+            }
+        }
+    },
     "approval": {
         "type": "object",
         "title": "Detail Persetujuan",

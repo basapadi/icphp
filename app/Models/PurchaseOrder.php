@@ -99,12 +99,20 @@ class PurchaseOrder extends BaseModel
        return $this->belongsTo(User::class, 'updated_by', 'id');
     }
 
+    public function receiveds(){
+        return $this->hasMany(ItemReceived::class,'purchase_order_id','id');
+    }
+
     protected static function booted()
     {
         static::deleting(function ($data) {
             $statuses = config('ihandcashier.purchase_order_status');
             if (in_array($data->status,['approved','sended','received','partial_received'])) {
                 throw new Exception('Pesanan ini tidak dapat dihapus karena sudah '.$statuses[$data->status]['label']);
+            }
+
+            if ($data->receiveds()->exists()) {
+                throw new Exception('Tidak dapat menghapus barang ini karena sudah penerimaan barang');
             }
 
             $data->details()->delete();

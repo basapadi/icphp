@@ -64,6 +64,10 @@ class SaleOrder extends BaseModel
         return $this->hasMany(SaleOrderDetail::class,'sale_order_id','id');
     }
 
+    public function sales(){
+        return $this->hasMany(ItemSale::class,'sale_order_id','id');
+    }
+
     public function createdBy(){
        return $this->belongsTo(User::class, 'created_by', 'id');
     }
@@ -93,6 +97,10 @@ class SaleOrder extends BaseModel
             $statuses = config('ihandcashier.sale_order_status');
             if (in_array($data->status,['confirmed','shipped','partial_shipped','completed'])) {
                 throw new Exception('Pesanan ini tidak dapat dihapus karena sudah '.$statuses[$data->status]['label']);
+            }
+
+            if ($data->sales()->exists()) {
+                throw new Exception('Tidak dapat menghapus barang ini karena sudah dilakukan penjualan barang');
             }
 
             $data->details()->delete();

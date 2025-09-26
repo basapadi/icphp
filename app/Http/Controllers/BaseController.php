@@ -36,6 +36,7 @@ class BaseController extends Controller
     private ?array $_updateRules = [];
     private ?array $_formData = [];
     protected ?array $_contextMenus = [];
+    private ?array $_injectDataColumns = [];
 
     public function grid(Request $request)
     {
@@ -310,9 +311,14 @@ class BaseController extends Controller
         return json_decode($data, true);
     }
 
+    protected function setInjectDataColumn(array $data){
+        $this->_injectDataColumns = $data;
+    }
+
     protected function getColumns(){
         $path = base_path('resources/data/columns/'.$this->_module.'.json');
         $schema = json_decode(file_get_contents($path),true);
+        injectDataColumn($schema,$this->_injectDataColumns);
         $schema = collect($schema)->map(function($col){
             if($col['name'] == 'actions'){
                 $options = [];

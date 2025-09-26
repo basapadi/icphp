@@ -68,6 +68,10 @@ trait BaseHelper
             'file.file'            => ':attribute harus berupa file yang valid.',
             'file.mimes'           => ':attribute hanya boleh berupa file tipe: :values',
             'file.max'             => ':attribute maksimal berukuran :max KB.',
+            'distinct'             => 'Inputan :attribute tidak boleh duplikat.',
+
+            //custom
+            'addtable.details.*.item_id.distinct' => 'Item tidak boleh duplikat.',
         ]);
         if ($validator->fails()) {
             return Response::badRequest('Validasi gagal :','',$validator->errors());

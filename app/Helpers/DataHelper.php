@@ -30,6 +30,44 @@ if(!function_exists('injectData')){
     }
 }
 
+if (!function_exists('injectDataColumn')) {
+    function injectDataColumn(&$data, array $replacements)
+    {
+        $convertToList = function (array $assoc) {
+            $isAssoc = array_keys($assoc) !== range(0, count($assoc) - 1);
+            if ($isAssoc) {
+                return array_map(
+                    function ($k, $v) {
+                        if (!is_array($v)) {
+                            $v = ['label' => $v]; // kalau string, bungkus jadi label
+                        }
+                        return array_merge(['value' => $k], $v);
+                    },
+                    array_keys($assoc),
+                    $assoc
+                );
+            }
+            return $assoc;
+        };
+
+        if (is_array($data)) {
+            foreach ($data as $key => &$value) {
+                if (is_array($value)) {
+                    injectDataColumn($value, $replacements);
+                } elseif (is_string($value) && str_starts_with($value, ':')) {
+                    $placeholder = substr($value, 1);
+                    if (array_key_exists($placeholder, $replacements)) {
+                        $rep   = $replacements[$placeholder];
+                        $value = is_array($rep) ? $convertToList($rep) : $rep;
+                    }
+                }
+            }
+            unset($value);
+        }
+    }
+}
+
+
 if(!function_exists('calculateStockCreate')){
     function calculateStockCreate(ItemStock $stock,$type,$qty){
         $type = config("ihandcashier.adjustment_types.{$type}");
