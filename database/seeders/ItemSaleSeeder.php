@@ -27,7 +27,7 @@ class ItemSaleSeeder extends Seeder
         ItemSale::truncate();
         ItemSaleDetail::truncate();
         ItemSalePayment::truncate();
-        ItemSale::factory()->count(150)->create();
+        ItemSale::factory()->count(50)->create();
         $json = File::get(resource_path('dummies/items.json'));
         $items = collect(json_decode($json, true));
 
