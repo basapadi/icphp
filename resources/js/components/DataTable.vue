@@ -7,7 +7,7 @@
                     <FilterHeader :columns="columns" @load="load" :pagination="pagination" :operators="operators" :filter="filter" :properties="properties"/>
                 </div>
                 <div class="">
-                    <div class="flex flex-col md:flex-row md:items-center gap-3">
+                    <div class="flex flex-col md:flex-row md:items-center gap-2">
                         <div class="relative delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103" v-if="properties.simpleFilter">
                             <input v-model="searchQuery" type="text" :placeholder="`Cari ${title}`"
                                 class="pl-8 pr-3 py-1.5 text-sm border-1 border-gray-300 rounded-md focus:border-transparent" />
@@ -32,12 +32,12 @@
         <div class="h-screen relative z-1">
             <!-- Table -->
             <div class="overflow-x-auto max-h-7/10 z-1" ref="tableContainer">
-                <table class="min-w-full border-collapse border border-orange-100 z-1">
+                <table class="min-w-full border-collapse border border-dashed border-orange-100 z-1">
                     <thead class="bg-orange-50 sticky top-0" style="z-index:11">
                         <tr>
                             <template v-if="properties.multipleSelect">
                                 <th 
-                                    class="px-4 py-1 text-left text-xs text-shadow-2xs text-gray-500 uppercase tracking-wider border-2 border-gray-100">
+                                    class="px-4 py-1 text-left text-xs text-shadow-2xs text-gray-500 uppercase tracking-wider border-1 border-dashed border-gray-00">
                                     <input v-model="selectAll" @change="toggleSelectAll" type="checkbox"
                                         class="rounded border-gray-300 text-orange-600 focus:ring-orange-500" />
                                 </th>
@@ -45,13 +45,13 @@
                             <template v-for="column in columns" :key="column.value">
                                 <template v-if="column.show">
                                     <template v-if="column.name == 'actions'">
-                                        <th class="px-4 py-2 text-left font-bold text-xs text-gray-500 text-shadow-2xs uppercase tracking-wider border-2 border-gray-100"
+                                        <th class="px-4 py-2 text-left font-bold text-xs text-gray-500 text-shadow-2xs uppercase tracking-wider border border-1 border-dashed border-gray-300"
                                             style="width: 50px !important">
                                             {{ column.label }}
                                         </th>
                                     </template>
                                     <template v-else>
-                                        <th :class="`px-4 py-2 text-left font-bold text-xs text-gray-500 text-shadow-2xs uppercase tracking-wider border-2 border-gray-100 text-${column.align}`"
+                                        <th :class="`px-4 py-2 text-left font-bold text-xs text-gray-500 text-shadow-2xs uppercase tracking-wider border border-1 border-dashed border-gray-300 text-${column.align}`"
                                             :style="`${column.styles}`">
                                             {{ column.label }}
                                         </th>
@@ -61,15 +61,15 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <tr v-for="(data,index) in filterData" :key="data.id" :class="['transition-colors duration-100',selectedIndex === index ? 'bg-orange-200' : 'hover:bg-orange-100']" @dblclick="viewData(data)" @click="handleClickRow(data,index,$event)" @contextmenu.prevent="handleRightClick(data,index,$event)">
+                        <tr v-for="(data,index) in filterData" :key="data.id" :class="['transition-colors duration-100 border border-1 border-dashed text-sm border-gray-300',selectedIndex === index ? 'bg-orange-200' : 'hover:bg-orange-100']" @dblclick="viewData(data)" @click="handleClickRow(data,index,$event)" @contextmenu.prevent="handleRightClick(data,index,$event)">
                             <template v-if="properties.multipleSelect">
-                                <td class="px-4 whitespace-nowrap border-2 border-gray-200" style="width: 10px">
+                                <td class="px-4 whitespace-nowrap border border-dashed border-1 border-gray-300" style="width: 10px">
                                     <input v-model="selectedData" :value="data.encode_id" type="checkbox"
                                         class="rounded border-gray-100 text-orange-600 focus:ring-orange-500" />
                                 </td>
                             </template>
                             <template v-for="column in columns" :key="column.value">
-                                <td v-if="column.show" :class="`relative px-4 py-1 whitespace-nowrap border-2 border-gray-100 text-${column.align}`">
+                                <td v-if="column.show" :class="`relative px-4 py-1 whitespace-nowrap border border-1 border-dashed border-gray-300 text-${column.align}`">
                                     <template v-if="column.name == 'actions'">
                                         <button @click.stop="toggleDropdown(column,data,$event)" class="px-2 py-1 rounded hover:bg-gray-300" style="text-align:center;"><EllipsisVertical class="h-4 w-4"/></button>
                                     </template>
