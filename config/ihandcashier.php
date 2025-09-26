@@ -270,7 +270,7 @@ return [
         [
             'id'    => 32,
             'icon'  => '',
-            'label' => 'Pesanan',
+            'label' => 'Pembelian',
             'route' => '#',
             'order' => 0,
             'parent'=> 10,
@@ -286,22 +286,67 @@ return [
             'module'=>'transaction.order.purchase'
         ],
         [
+            'id'    => 12,
+            'icon'  => '',
+            'label' => 'Penerimaan',
+            'route' => '/transaction/receive',
+            'order' => 1,
+            'parent'=> 32,
+            'module'=>'transaction.item.receive'
+        ],
+        [
+            'id'    => 37,
+            'icon'  => '',
+            'label' => 'Faktur Pembelian',
+            'route' => '/transaction/invoice/purchase',
+            'order' => 2,
+            'parent'=> 32,
+            'module'=>'transaction.invoice.purchase'
+        ],
+        [
+            'id'    => 35,
+            'icon'  => '',
+            'label' => 'Penjualan',
+            'route' => '#',
+            'order' => 2,
+            'parent'=> 10,
+            'module'=>'transaction.item'
+        ],
+        [
             'id'    => 34,
             'icon'  => '',
             'label' => 'Penjualan (SO)',
             'route' => '/transaction/order/sale',
-            'order' => 1,
-            'parent'=> 32,
+            'order' => 0,
+            'parent'=> 35,
             'module'=>'transaction.order.sale'
+        ],
+        [
+            'id'    => 13,
+            'icon'  => '',
+            'label' => 'Penjualan',
+            'route' => '/transaction/sale',
+            'order' => 1,
+            'parent'=> 35,
+            'module'=>'transaction.item.sale'
         ],
         [
             'id'    => 39,
             'icon'  => '',
-            'label' => 'Pengiriman Penjualan',
+            'label' => 'Pengiriman (DO)',
             'route' => '/transaction/order/shipment',
             'order' => 2,
-            'parent'=> 32,
+            'parent'=> 35,
             'module'=>'transaction.order.shipment'
+        ],
+        [
+            'id'    => 38,
+            'icon'  => '',
+            'label' => 'Faktur Penjualan',
+            'route' => '/transaction/invoice/sale',
+            'order' => 3,
+            'parent'=> 35,
+            'module'=>'transaction.invoice.sale'
         ],
         [
             'id'    => 11,
@@ -329,60 +374,6 @@ return [
             'order' => 1,
             'parent'=> 11,
             'module'=>'transaction.warehouse.adjustment'
-        ],
-        [
-            'id'    => 35,
-            'icon'  => '',
-            'label' => 'Barang',
-            'route' => '#',
-            'order' => 2,
-            'parent'=> 10,
-            'module'=>'transaction.item'
-        ],
-        [
-            'id'    => 12,
-            'icon'  => '',
-            'label' => 'Penerimaan',
-            'route' => '/transaction/receive',
-            'order' => 0,
-            'parent'=> 35,
-            'module'=>'transaction.item.receive'
-        ],
-        [
-            'id'    => 13,
-            'icon'  => '',
-            'label' => 'Penjualan',
-            'route' => '/transaction/sale',
-            'order' => 1,
-            'parent'=> 35,
-            'module'=>'transaction.item.sale'
-        ],
-        [
-            'id'    => 36,
-            'icon'  => '',
-            'label' => 'Faktur',
-            'route' => '#',
-            'order' => 3,
-            'parent'=> 10,
-            'module'=>'transaction.invoice'
-        ],
-        [
-            'id'    => 37,
-            'icon'  => '',
-            'label' => 'Pembelian',
-            'route' => '/transaction/invoice/purchase',
-            'order' => 0,
-            'parent'=> 36,
-            'module'=>'transaction.invoice.purchase'
-        ],
-        [
-            'id'    => 38,
-            'icon'  => '',
-            'label' => 'Penjualan',
-            'route' => '/transaction/invoice/sale',
-            'order' => 1,
-            'parent'=> 36,
-            'module'=>'transaction.invoice.sale'
         ],
         [
             'id'    => 17,
