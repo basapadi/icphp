@@ -2,7 +2,7 @@
     "$schema": "https://getcomposer.org/schema.json",
     "name": "btx/ihandcashier",
     "type": "project",
-    "description": "Ihand Cashier Mobile and Desktop using NativePHP Laravel",
+    "description": "Simple POS Multiplatform App. Tersedia versi build Windows, MacOS dan Linux",
     "keywords": [
         "laravel",
         "framework",

@@ -9,6 +9,9 @@
             "kode_transaksi": {
                 "label": "Kode Transaksi"
             },
+            "kode_po": {
+                "label": "Kode Pesanan Pembelian"
+            },
             "status_pembayaran_label": {
                 "label": "Status Pembayaran"
             },

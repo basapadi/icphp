@@ -450,57 +450,70 @@ export default {
             )
         },
         async handleSubmit(form) {
-            this.loading = true
+            this.$confirm(
+                {
+                    message: `Apakah anda yakin menyimpan data ini?`,
+                    button: {
+                        no: 'Tidak',
+                        yes: 'Ya'
+                    },
+                    callback: async confirm => {
+                        if (confirm) {
+                            this.loading = true
 
-            if(this.selectedContextMenu != null && this.selectedContextMenu.apiUrl != undefined){
-                const res = await axios.post(this.selectedContextMenu.apiUrl, form)
-                .then(({ data }) => {
-                    this.load();
-                    if(data.message != undefined && data.status == true) {
-                        alert(data.message)
-                        this.showDialog = false
-                        this.form = {}
-                        this.selected = {}
-                    }
+                            if(this.selectedContextMenu != null && this.selectedContextMenu.apiUrl != undefined){
+                                const res = await axios.post(this.selectedContextMenu.apiUrl, form)
+                                .then(({ data }) => {
+                                    this.load();
+                                    if(data.message != undefined && data.status == true) {
+                                        alert(data.message)
+                                        this.showDialog = false
+                                        this.form = {}
+                                        this.selected = {}
+                                        this.selectedContextMenu = null
+                                    }
 
-                })
-                .catch((resp) => {
-                    let msgError = '';
-                    if(resp.response.data?.data != undefined){
-                        const errors = Object.values(resp.response.data.data);
-                        msgError = errors[0]
-                    }
-                    alert(resp.response.data.message+ ' '+msgError)
-                })
-                .finally(() => {
-                    this.showDialog = true
-                    this.loading = false
-                    this.openDropdown = false
-                });
-            } else {
-                await this.$store.dispatch(this.module+'/create',form)
-                .then(({ data }) => {
-                    this.load();
-                    if(data.message != undefined && data.status == true) {
-                        alert(data.message)
-                        this.showDialog = false
-                        this.form = {}
-                        this.selected = {}
-                    }
+                                })
+                                .catch((resp) => {
+                                    let msgError = '';
+                                    if(resp.response.data?.data != undefined){
+                                        const errors = Object.values(resp.response.data.data);
+                                        msgError = errors[0]
+                                    }
+                                    alert(resp.response.data.message+ ' '+msgError)
+                                })
+                                .finally(() => {
+                                    this.loading = false
+                                    this.openDropdown = false
+                                });
+                            } else {
+                                await this.$store.dispatch(this.module+'/create',form)
+                                .then(({ data }) => {
+                                    this.load();
+                                    if(data.message != undefined && data.status == true) {
+                                        alert(data.message)
+                                        this.showDialog = false
+                                        this.form = {}
+                                        this.selected = {}
+                                    }
 
-                }).catch((resp) => {
-                    let msgError = '';
-                    if(resp.response.data?.data != undefined){
-                        const errors = Object.values(resp.response.data.data);
-                        msgError = errors[0]
+                                }).catch((resp) => {
+                                    let msgError = '';
+                                    if(resp.response.data?.data != undefined){
+                                        const errors = Object.values(resp.response.data.data);
+                                        msgError = errors[0]
+                                    }
+                                    alert(resp.response.data.message+ ' '+msgError)
+                                })
+                                .finally((f) => {
+                                    this.openDropdown = null
+                                    this.loading = false
+                                })
+                            }
+                        }
                     }
-                    alert(resp.response.data.message+ ' '+msgError)
-                })
-                .finally((f) => {
-                    this.openDropdown = null
-                    this.loading = false
-                })
-            }
+                }
+            )
         },
         hapusDataMultiple(){
             alert('hapus data terpilih')

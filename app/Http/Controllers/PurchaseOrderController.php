@@ -302,7 +302,7 @@ class PurchaseOrderController extends BaseController
                 'contact_id'                => trim($data['contact_id']),
                 'tanggal_terima'            => trim($data['tanggal_terima']),
                 'diterima_oleh'             => trim($data['diterima_oleh']),
-                'potongan_harga'            => trim(@$data['potongan_harga']??null),
+                'potongan_harga'            => trim(@$data['potongan_harga']??0),
                 'status_pembayaran'         => trim($data['status_pembayaran']),
                 'tipe_pembayaran'           => trim($data['tipe_pembayaran']),
                 'metode_pembayaran'         => trim($data['metode_pembayaran']),
@@ -312,7 +312,7 @@ class PurchaseOrderController extends BaseController
                 'created_at'                => now()
             ];
 
-            $po = PurchaseOrder::with(['details'])->where('id', $data['po_id'])->first();
+            $po = PurchaseOrder::with(['details','details.item'])->where('id', $data['po_id'])->first();
             if(empty($po))return $this->setAlert('error','Gagal', 'PO dengan id '.$data['po_id'].' tidak ditemukan');
 
             $received = ItemReceived::create($preInsert);
@@ -340,13 +340,34 @@ class PurchaseOrderController extends BaseController
             //compare detail PO dengan detail penerimaan
             $allFull = true;
             $poDetails = $po->details;
+            foreach ($perInsertDetails as $key => $ird) {
+                $receivedQty = ItemReceivedDetail::whereHas('received', function ($q) use ($po) {
+                    $q->where('purchase_order_id', $po->id);
+                })
+                ->where('item_id', $ird['item_id'])
+                ->sum('jumlah');
 
+                $poItem = $poDetails->where('item_id',$ird['item_id'])->first();
+                if(empty($poItem)){
+                    rollBack();
+                    return $this->setAlert('error','Gagal', 'Barang yang anda masukkan tidak ada di pemesanan');
+                }
+                if ($receivedQty < $poItem->jumlah) {
+                    $allFull = false;
+                } else if( $receivedQty > $poItem->jumlah){
+                    rollBack();
+                    return $this->setAlert('error','Gagal', 'Total jumlah diterima pada barang '.$poItem->item->nama.' lebih besar sebanyak '.($receivedQty - $poItem->jumlah).' dari jumlah pemesanan, silahkan masukkan jumlah yang sesuai dengan jumlah pesanan.');
+                }
+
+            }
+
+            //cek apakah ada barang yang belum diterima?
             foreach ($poDetails as $d) {
-                // total yang sudah diterima (termasuk penerimaan kali ini)
-                $receivedQty = ItemReceivedDetail::join('trx_received_items as ir', 'ir.id', '=', 'trx_received_item_details.item_received_id')
-                    ->where('ir.purchase_order_id', $po->id)
-                    ->where('trx_received_item_details.item_id', $d->item_id)
-                    ->sum('trx_received_item_details.jumlah');
+                $receivedQty = ItemReceivedDetail::whereHas('received', function ($q) use ($po) {
+                        $q->where('purchase_order_id', $po->id);
+                    })
+                    ->where('item_id', $d->item_id)
+                    ->sum('jumlah');
 
                 if ($receivedQty < $d->jumlah) {
                     $allFull = false;
