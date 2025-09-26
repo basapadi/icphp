@@ -19,7 +19,7 @@ class ApprovalPurchaseOrderController extends BaseController
             ->select(['trx_purchase_orders.*', 'trx_purchase_orders.status as po_status'])
             ->with(['details','details.item','details.unit','contact','createdBy','approvalBy','receiveds'])
             ->leftJoin('contacts', 'contacts.id', '=', 'trx_purchase_orders.contact_id')->orderBy('tanggal','desc');
-        $this->setModule('transaction.order.purchase');
+        $this->setModule('task.purchase.order');
         $this->setGridProperties([
             'filterDateRange' => true,
             'filterDateName' => 'tanggal',
