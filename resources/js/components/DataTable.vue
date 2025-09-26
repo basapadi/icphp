@@ -133,7 +133,8 @@
             </div>
         </div>
     </div>
-    <FormDialog :open="showDialog" :title="title" :dialog="form.dialog" :sections="form.sections" :formData="form.data" @close="closeFormDialog()" @onSubmit="handleSubmit" />
+    <FormDialog :open="showDialog" :title="title" :dialog="form.dialog" :sections="form.sections" :formData="form.data" @close="this.showDialog = false" @onSubmit="handleSubmit" />
+    <ConfirmDialog :open="showConfirmDialog" :contextMenu="selectedContextMenu" @onSubmit="handleSubmitConfirmDialog" @close="this.showConfirmDialog = false"/>
     <DetailDialog :title="title" :open="showDetail" :data="selected" :schema="detail_schema" @close="showDetail=false"/>
     <div v-if="openDropdown" class="absolute bg-white border rounded shadow-md w-50 z-50" :style="{ top: dropDownPosition.y + 'px', left: dropDownPosition.x + 'px' }">
         <div v-if="this.properties.contextMenu.length > 0">
@@ -164,6 +165,7 @@ import FormDialog from "@/components/FormDialog.vue";
 import FilterHeader from "@/components/FilterHeader.vue";
 import Button from "@/components/ui/button/Button.vue";
 import DetailDialog from "@/components/DetailDialog.vue";
+import ConfirmDialog from "@/components/ConfirmDialog.vue";
 import {
     Pagination,
     PaginationContent,
@@ -179,6 +181,7 @@ export default {
     components: {
         Badge,
         FormDialog,
+        ConfirmDialog,
         FilterHeader,
         Button,
         DetailDialog,
@@ -218,6 +221,7 @@ export default {
             allowEdit: false,
             allowDelete: false,
             showDialog: false,
+            showConfirmDialog: false,
             pagination: {
                 _limit: 25,
                 _page: 1,
@@ -526,9 +530,6 @@ export default {
             this.dropDownPosition.x = e.clientX
             this.dropDownPosition.y = e.clientY
         },
-        closeFormDialog() {
-            this.showDialog = false;
-        },
         closeContextMenu(){
             this.openContextMenu = false
         },
@@ -587,36 +588,28 @@ export default {
             this.form = res.data.data
 
         },
-        confirmPopup(cm){
+        async confirmPopup(cm){
             if(cm.type !== "confirm")return
-            this.$confirm(
-                {
-                    message: cm.message,
-                    button: {
-                        no: 'Tidak',
-                        yes: 'Ya'
-                    },
-                    callback: async confirm => {
-                        if (confirm) {
-                            this.selectedContextMenu = cm
-                            this.loading = true
-                            await axios.post(cm.apiUrl, {id: this.selected.encode_id})
-                            .then(({data}) => {
-                                if(data.message != undefined && data.status == true) {
-                                    alert(data.message)
-                                }
-                            })
-                            .catch(err => console.error(err))
-                            .finally(() => {
-                                this.loading = false
-                                this.openDropdown = false
-                                this.load()
-                            });
-                        }
-                    }
-                }
-            )
+            this.selectedContextMenu = cm
+            this.showConfirmDialog = true
         },
+        async handleSubmitConfirmDialog(form){
+            this.loading = true
+            form.id = this.selected.encode_id
+            await axios.post(this.selectedContextMenu.apiUrl, form)
+            .then(({data}) => {
+                if(data.message != undefined && data.status == true) {
+                    alert(data.message)
+                }
+            })
+            .catch(err => console.error(err))
+            .finally(() => {
+                this.loading = false
+                this.openDropdown = false
+                this.showConfirmDialog = false
+                this.load()
+            });
+        }
     },
     mounted() {
         document.addEventListener("click", this.handleClickOutside)

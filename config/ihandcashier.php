@@ -176,7 +176,7 @@ return [
             'icon'  => 'Settings',
             'label' => 'Pengaturan',
             'route' => '#',
-            'order' => 6,
+            'order' => 7,
             'module'=>'setting'
         ],
         [
@@ -211,7 +211,7 @@ return [
             'icon'  => 'Package',
             'label' => 'Master Data',
             'route' => '#',
-            'order' => 3,
+            'order' => 4,
             'module'=>'master'
         ],
         [
@@ -264,7 +264,7 @@ return [
             'icon'  => 'ShoppingCart',
             'label' => 'Transaksi',
             'route' => '#',
-            'order' => 3,
+            'order' => 5,
             'module'=>'transaction'
         ],
         [
@@ -380,7 +380,7 @@ return [
             'icon'  => 'DollarSign',
             'label' => 'Keuangan',
             'route' => '#',
-            'order' => 4,
+            'order' => 5,
             'module'=>'finance'
         ],
         [
@@ -406,7 +406,7 @@ return [
             'icon'  => 'ScrollText',
             'label' => 'Laporan',
             'route' => '#',
-            'order' => 5,
+            'order' => 6,
             'module'=>'report'
         ],
         [
@@ -486,10 +486,27 @@ return [
             'icon'  => 'Trash',
             'label' => 'Keranjang Sampah',
             'route' => '/trash',
-            'order' => 7,
+            'order' => 8,
             'module'=>'trash'
         ],
-        //last_id:39
+        [
+            'id'    => 40,
+            'icon'  => 'ListTodo',
+            'label' => 'Tugas Saya',
+            'route' => '#',
+            'order' => 3,
+            'module'=>'task'
+        ],
+        [
+            'id'    => 41,
+            'icon'  => '',
+            'label' => 'Approval PO',
+            'route' => '/task/purchase/order',
+            'order' => 0,
+            'parent'=> 40,
+            'module'=>'task.purchase.order'
+        ],
+        //last_id:41
     ],
     'units' => [
         'pcs'      => [1, 'Piece', 1, 'pcs'],

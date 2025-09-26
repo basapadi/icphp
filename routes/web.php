@@ -22,6 +22,7 @@ use App\Http\Controllers\{
     StockAdjustmentController,
     TrashController
 };
+use App\Http\Controllers\Tasks\ApprovalPurchaseOrderController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/{any}', function () {
@@ -150,5 +151,12 @@ Route::prefix('api')->group(function () {
         Route::post('test', 'test');
         Route::post('save-local-config', 'saveLocalConfig');
         Route::post('run-command', 'runCommand');
+    });
+
+    Route::middleware('auth:sanctum')->prefix('task')->group(function () {
+        Route::controller(ApprovalPurchaseOrderController::class)->prefix('approval-purchase-order')->group(function () {
+            Route::get('grid', 'grid');
+            Route::post('/approval', 'approval')->name('api.task.approval-purchase-order.approval');
+        });
     });
 });

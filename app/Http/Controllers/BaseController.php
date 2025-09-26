@@ -37,6 +37,7 @@ class BaseController extends Controller
     private ?array $_formData = [];
     protected ?array $_contextMenus = [];
     private ?array $_injectDataColumns = [];
+    private ?array $_exceptContextMenu = [];
 
     public function grid(Request $request)
     {
@@ -315,6 +316,16 @@ class BaseController extends Controller
         $this->_injectDataColumns = $data;
     }
 
+    /**
+     * set exception contextmenu on grid
+     * @param array $contextmenukey array of default contextmenu ['view','create','edit','delete']
+     * @return void
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+     * */
+    protected function setExceptContextMenu(array $contextmenukey){
+        $this->_exceptContextMenu = $contextmenukey;
+    }
+
     protected function getColumns(){
         $path = base_path('resources/data/columns/'.$this->_module.'.json');
         $schema = json_decode(file_get_contents($path),true);
@@ -370,6 +381,8 @@ class BaseController extends Controller
             'edit' => ['method' => 'editData', 'label' => 'Ubah', 'icon' => 'SquarePen', 'color' => '#3F51B5'],
             'delete' => ['method' => 'hapusData', 'label' => 'Hapus', 'icon' => 'SquareX', 'color' => '#F44336']
         ];
+
+        $menus = array_diff_key($menus, array_flip($this->_exceptContextMenu));
         
         $menu = new ContextMenu('reload','Muat Ulang');
         $menu->onClick = 'load';

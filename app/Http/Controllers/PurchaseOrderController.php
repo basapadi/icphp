@@ -86,7 +86,7 @@ class PurchaseOrderController extends BaseController
         $needApproval->color = '#6D94C5';
         $needApproval->onClick = 'confirmPopup';
         $needApproval->title = 'Meminta Persetujuan';
-        $needApproval->message = 'Apakah anda yakin meminta persetujuan untuk pemesanan ini?.';
+        $needApproval->message = 'Apakah anda yakin meminta persetujuan untuk pesanan ini?.';
 
         $contextMenus = [$sendEmailContextMenu,$createReceivedItem,$needApproval];
         $this->setContextMenu($contextMenus);
@@ -413,7 +413,7 @@ class PurchaseOrderController extends BaseController
             $po = PurchaseOrder::where('id',$id)->first();
             if(empty($po)) return $this->setAlert('error','Gagal','Data tidak ditemukan');
 
-            if(!in_array($po->status,['draft','rejected'])) return $this->setAlert('error','Gagal','Meminta persetujuan hanya bisa dilakukan apabila statusnya adalah Draft');
+            if(!in_array($po->status,['draft','rejected'])) return $this->setAlert('error','Gagal','Meminta persetujuan hanya bisa dilakukan apabila statusnya adalah Draft atau Ditolak');
 
             $po->status = 'need_approval';
             $po->save();

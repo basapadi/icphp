@@ -20,6 +20,7 @@ class ContextMenu
     public string $data;
     public string $title;
     public string $message;
+    public ?array $forms;
 
     
     public function __construct(string $name, string $label, $type = 'confirm')
