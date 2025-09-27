@@ -263,7 +263,7 @@ export default {
                     column: '',
                     value: '',
                 }
-                if(this.searchQuery == '') this.filter = this.defaultFilter
+                if(this.searchQuery == '' && this.defaultFilter.column != undefined) this.filter = this.defaultFilter
                 this.load();
             },
             immediate: true // langsung load pertama kali juga
