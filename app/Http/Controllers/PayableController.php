@@ -35,7 +35,9 @@ class PayableController extends BaseController
             ->havingRaw('SUM(trx_received_items.total_harga) - COALESCE(SUM(trx_received_payment_items.jumlah),0) > 0');
         $this->setQuery($query)->with(['contact'])->groupBy('contact_id');
         $this->setGridProperties([
-            'simpleFilter' => false
+            'simpleFilter' => false,
+            'multipleSelect' => false
         ]);
+        $this->setExceptContextMenu(['create','edit','delete']);
     }
 }

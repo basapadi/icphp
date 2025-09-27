@@ -37,7 +37,9 @@ class ReceivableController extends BaseController
             ->with(['contact'])
             ->groupBy('contact_id');
         $this->setGridProperties([
-            'simpleFilter' => false
+            'simpleFilter' => false,
+            'multipleSelect' => false
         ]);
+        $this->setExceptContextMenu(['create','edit','delete']);
     }
 }
