@@ -15,7 +15,7 @@ class ApprovalPurchaseOrderController extends BaseController
     public function __construct(){
         $this->setModel(PurchaseOrder::class)
             ->where('approval_by', auth()->user()->id)
-            ->where('trx_purchase_orders.status','need_approval')
+            ->whereIn('trx_purchase_orders.status',['need_approval','approved','rejected'])
             ->select(['trx_purchase_orders.*', 'trx_purchase_orders.status as po_status'])
             ->with(['details','details.item','details.unit','contact','createdBy','approvalBy','receiveds'])
             ->leftJoin('contacts', 'contacts.id', '=', 'trx_purchase_orders.contact_id')->orderBy('tanggal','desc');
@@ -28,9 +28,13 @@ class ApprovalPurchaseOrderController extends BaseController
         $this->setExceptContextMenu(['create','edit','delete']);
         $this->setFilterColumnsLike(['contacts.nama','kode'],request('q')??'');
 
+        $this->setInjectDataColumn([
+            'approval_status' => ihandCashierConfigToSelect('purchase_approval_status')
+        ]);
+
         //approved
         $approved = new ContextMenu('approved','Setujui');
-        $approved->conditions = ['status' => ['need_approval']];
+        $approved->conditions = ['approval_status' => ['pending','rejected']];
         $approved->type = 'confirm';
         $approved->apiUrl = route('api.task.approval-purchase-order.approval').'?status=approved';
         $approved->icon = 'BadgeCheck';
@@ -50,7 +54,7 @@ class ApprovalPurchaseOrderController extends BaseController
 
         //rejected
         $rejected = new ContextMenu('rejected','Tolak');
-        $rejected->conditions = ['status' => ['need_approval']];
+        $rejected->conditions = ['approval_status' => ['pending','approved']];
         $rejected->type = 'confirm';
         $rejected->apiUrl = route('api.task.approval-purchase-order.approval').'?status=rejected';
         $rejected->icon = 'BadgeX';
@@ -77,7 +81,7 @@ class ApprovalPurchaseOrderController extends BaseController
             $id = $this->decodeId($request->id);
             $po = PurchaseOrder::where('id',$id)->first();
             if(empty($po)) return $this->setAlert('error','Gagal','Data tidak ditemukan');
-            if(!in_array($po->status,['need_approval'])) return $this->setAlert('error','Gagal','Aksi ini hanya bisa dilakukan apabila statusnya adalah Approval Diproses');
+            if(!in_array($po->status,['need_approval','rejected','approved'])) return $this->setAlert('error','Gagal','Aksi ini hanya bisa dilakukan apabila statusnya adalah Approval Diproses,Ditolak atau Disetujui');
 
             if(!isset($request->status)) return $this->setAlert('error','Gagal','Tidak dapat melakukan approval untuk saat ini karena status tidak didefenisikan');
             if(!in_array($request->status,['approved','rejected'])) return $this->setAlert('error','Gagal','Status yang dikirim tidak dapat diproses');

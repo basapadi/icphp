@@ -202,6 +202,10 @@ export default {
         module: {
             type: String,
             default: ""
+        },
+        defaultFilter: {
+            type: Object,
+            default: {}
         }
     },
     data() {
@@ -634,6 +638,7 @@ export default {
         document.addEventListener("click", this.closeContextMenu)
     },
     beforeMount(){
+        this.filter = this.defaultFilter
         this.load();
     },
     beforeUnmount() {

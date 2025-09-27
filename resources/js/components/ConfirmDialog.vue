@@ -201,6 +201,7 @@
             submit(e) {
                 e.preventDefault();
                 this.$emit("onSubmit", this.form);
+                this.form = {}
             },
         }
     };
