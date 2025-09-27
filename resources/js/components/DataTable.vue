@@ -263,6 +263,7 @@ export default {
                     column: '',
                     value: '',
                 }
+                this.filter = this.defaultFilter
                 this.load();
             },
             immediate: true // langsung load pertama kali juga
@@ -636,10 +637,6 @@ export default {
         document.addEventListener("click", this.handleClickOutside)
         this.$refs.tableContainer.addEventListener("scroll", this.handleScroll)
         document.addEventListener("click", this.closeContextMenu)
-    },
-    beforeMount(){
-        this.filter = this.defaultFilter
-        this.load();
     },
     beforeUnmount() {
         document.removeEventListener("click", this.handleClickOutside)
