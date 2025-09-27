@@ -30,7 +30,7 @@ class RoleController extends BaseController
                 // ['value' => 'id', 'label'=> 'Id', 'align' => 'left'],
                 ['value' => 'role', 'label'=> 'Hak Akses', 'align' => 'left'],
                 ['value' => 'menu__module', 'label'=> 'Module', 'align' => 'left'],
-                ['value' => 'menu__route', 'label'=> 'Route', 'align' => 'left', 'type' => 'text'],
+                ['value' => 'menu__route', 'label'=> 'Route', 'align' => 'left', 'type' => 'text','class' => 'italic'],
                 ['value' => 'menu__parent__label', 'label'=> 'Parent Menu', 'align' => 'left'],
                 ['value' => 'menu__label', 'label'=> 'Menu', 'align' => 'left'],
                 ['value' => 'view', 'label'=> 'View', 'align' => 'left'],
