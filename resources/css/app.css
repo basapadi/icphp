@@ -632,3 +632,9 @@ html {
     @apply bg-background text-foreground;
   }
 }
+
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}

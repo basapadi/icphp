@@ -38,7 +38,7 @@
                             <template v-if="properties.multipleSelect">
                                 <th 
                                     class="px-4 py-1 text-left text-xs text-shadow-2xs text-gray-500 uppercase tracking-wider border-1 border-dashed border-gray-00">
-                                    <input v-model="selectAll" @change="toggleSelectAll" type="checkbox"
+                                    <input v-model="selectAll" style="transform: scale(1.3);cursor: pointer;" @change="toggleSelectAll" type="checkbox"
                                         class="rounded border-gray-300 text-orange-600 focus:ring-orange-500" />
                                 </th>
                             </template>
@@ -61,11 +61,11 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <tr v-for="(data,index) in filterData" :key="data.id" :class="['transition-colors duration-100 border border-1 border-dashed text-sm border-gray-300',selectedIndex === index ? 'bg-orange-200' : 'hover:bg-orange-100']" @dblclick="viewData(data)" @click="handleClickRow(data,index,$event)" @contextmenu.prevent="handleRightClick(data,index,$event)">
+                        <tr v-for="(data,index) in filterData" :key="data.id" :class="['transition-colors duration-50 border border-1 border-dashed text-sm border-gray-300',selectedIndex.includes(index) ? 'bg-orange-200' : 'hover:bg-orange-100 odd:bg-gray-100 even:bg-white']" @dblclick="viewData(data)" @click="handleClickRow(data,index,$event)" @contextmenu.prevent="handleRightClick(data,index,$event)">
                             <template v-if="properties.multipleSelect">
                                 <td class="px-4 whitespace-nowrap border border-dashed border-1 border-gray-300" style="width: 10px">
-                                    <input v-model="selectedData" :value="data.encode_id" type="checkbox"
-                                        class="rounded border-gray-100 text-orange-600 focus:ring-orange-500" />
+                                    <input @change.stop="handleCheckboxChange(index, $event)" v-model="selectedData" :value="data.id" type="checkbox"
+                                        class="rounded border-gray-100 text-orange-600 focus:ring-orange-500" style="transform: scale(1.3);cursor: pointer;" />
                                 </td>
                             </template>
                             <template v-for="column in columns" :key="column.value">
@@ -74,8 +74,8 @@
                                         <button @click.stop="toggleDropdown(column,data,$event)" class="px-2 py-1 rounded hover:bg-gray-300" style="text-align:center;"><EllipsisVertical class="h-4 w-4"/></button>
                                     </template>
                                     <template v-else-if="column.type === 'badge'">
-                                        <div :class="`inline-flex items-center rounded-md bg-${data[`color_${column.name}`]
-                                            }/50 px-2 py-1 text-xs font-medium text-${data[`color_${column.name}`]
+                                        <div :class="`no-select inline-flex items-center rounded-md bg-${data[`color_${column.name}`]
+                                            }/50 px-2 text-xs font-sm text-${data[`color_${column.name}`]
                                             } inset-ring inset-ring-${data[`color_${column.name}`]
                                             }/50`">
                                             {{$helpers.getSubObjectValue(data,column.name)}}
@@ -209,7 +209,7 @@ export default {
             searchQuery: '',
             selectAll: false,
             selectedData: [],
-            selectedIndex: null,
+            selectedIndex: [],
             total: 0,
             rows: [],
             form: [],
@@ -350,6 +350,8 @@ export default {
                 })
             
             const action = this.columns.find(x => x.name == 'actions');
+            this.selectedData = []
+            this.selectedIndex = []
             this.columnOptions = action.options
         },
         formatDate(dateString) {
@@ -357,7 +359,7 @@ export default {
         },
         toggleSelectAll() {
             if (this.selectAll) {
-                this.selectedData = this.filterData.map((dt) => dt.encode_id);
+                this.selectedData = this.filterData.map((dt) => dt.id);
             } else {
                 this.selectedData = [];
             }
@@ -543,18 +545,33 @@ export default {
         },
         handleRightClick(data,index, e) {
             this.selected = data
-            this.selectedIndex = index
             this.contextMenuPosition.x = e.clientX
             this.contextMenuPosition.y = e.clientY
             this.openContextMenu = true
             this.openDropdown = false
+            if(this.properties.multipleSelect){
+                this.selectedData = [data.id]
+                this.selectAll = false
+            }
+            this.selectedIndex = [index]
         },
         handleClickRow(data, index,e) {
             if (e.target.type !== 'checkbox') {
                 this.selected = data
-                this.selectedIndex = index
+                this.selectedIndex = [index]
+                if(this.properties.multipleSelect){
+                    this.selectedData = [data.id]
+                    this.selectAll = false
+                }
             }
-            
+        },
+        handleCheckboxChange(index, e) {
+            if (e.target.checked) {
+                this.selectedIndex.push(index)
+                this.selected = null
+            } else {
+                this.selectedIndex = this.selectedIndex.filter(i => i !== index)
+            }
         },
         matchContextMenuConditions(conditions) {
             if (!conditions || Object.keys(conditions).length === 0) return true;

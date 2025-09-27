@@ -22,29 +22,27 @@
     <div>
     <div class="h-screen">
         <div class="overflow-x-auto max-h-7/10">
-            <table class="min-w-full border-collapse border border-gray-200">
+            <table class="min-w-full border border-1 border-dashed border-gray-300">
                 <thead class="bg-orange-50 sticky top-0">
                 <tr>
-                    <th  class="px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider border-2 border-gray-200" style="width:50px">No</th>
                     <template v-for="column in columns" :key="column.value">
                         <template v-if="column.name == 'actions'">
-                            <th  class="px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider border-2 border-gray-200" style="width: 50px;" >{{ column.label }}</th>
+                            <th  class="px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider border border-1 border-dashed border-gray-300" style="width: 50px;" >{{ column.label }}</th>
                         </template>
                         <template v-if="['view','create','edit','delete','download'].includes(column.name)">
-                            <th  class="px-4 py-2 text-center font-bold text-xs text-gray-500 uppercase tracking-wider border-2 border-gray-200" style="width: 100px;" >{{ column.label }}</th>
+                            <th  class="px-4 py-2 text-center font-bold text-xs text-gray-500 uppercase tracking-wider border border-1 border-dashed border-gray-300" style="width: 100px;" >{{ column.label }}</th>
                         </template>
                         <template v-else>
-                            <th  class="px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider border-2 border-gray-200" >{{ column.label }}</th>
+                            <th  class="px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider border border-1 border-dashed border-gray-300" >{{ column.label }}</th>
                         </template>
                     </template>
                     
                 </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                <tr v-for="(data,i) in filterData" :key="data.id"  class="hover:bg-gray-50 transition-colors" >
-                    <td class="px-4 whitespace-nowrap border-2 border-gray-200"><span class="text-sm text-gray-600">{{ i+1 }}</span></td>
+                <tbody class="bg-white">
+                <tr v-for="(data,i) in filterData" :key="data.id"  class="hover:bg-gray-100 transition-colors" >
                     <template v-for="column in columns" :key="column.value">
-                        <td class="px-4 whitespace-nowrap border-2 border-gray-200 text-center" v-if="['view','create','edit','update','delete','download'].includes(column.name)">
+                        <td class="px-4 whitespace-nowrap border border-1 border-dashed border-gray-300 text-center" v-if="['view','create','edit','update','delete','download'].includes(column.name)">
                             <template v-if="['create','edit','update'].includes(column.name) && data.menu.module =='trash'">
                                 <input :checked="data[column.name]" disabled type="checkbox" class="role-cb h-4 w-4 text-orange-600" style="align-items: center;"/>
                             </template>
@@ -59,7 +57,7 @@
                             </template>
                             <template v-else><input :checked="data[column.name]" @click="onCheck($event,data,column.name)" type="checkbox" class="role-cb h-4 w-4 text-orange-600" style="align-items: center;"/></template>
                         </td>
-                        <td class="px-4 whitespace-nowrap border-2 border-gray-200" v-else>
+                        <td class="px-4 whitespace-nowrap border border-1 border-dashed border-gray-300" v-else>
                             <span :class="`text-sm items-center text-gray-600 ${column.class}`">{{ $helpers.getSubObjectValue(data, column.name) }}</span>
                         </td>
                     </template>

@@ -42,7 +42,7 @@
         "type": "text",
         "options": [],
         "show": true,
-        "class": "",
+        "class": "no-select",
         "styles": "",
         "option_filter": true
     },
@@ -56,7 +56,7 @@
         "type": "text",
         "options": [],
         "show": true,
-        "class": "",
+        "class": "no-select",
         "styles": "",
         "option_filter": false
     },
@@ -70,7 +70,8 @@
         "type": "date_range",
         "options": [],
         "show": false,
-        "option_filter": true
+        "option_filter": true,
+        "class": "no-select"
     },
     {
         "name": "tanggal_perkiraan_formatted",
@@ -82,7 +83,7 @@
         "type": "date_range",
         "options": [],
         "show": true,
-        "class": "",
+        "class": "no-select",
         "styles": "",
         "option_filter": true
     },
@@ -119,7 +120,7 @@
         "type": "select",
         "options": ":approval_status",
         "show": false,
-        "class": "",
+        "class": "no-select",
         "styles": "",
         "option_filter": true
     },
@@ -133,7 +134,7 @@
         "type": "text",
         "options": [],
         "show": true,
-        "class": "font-mono",
+        "class": "font-mono no-select",
         "styles": "",
         "option_filter": false
     },
@@ -146,6 +147,7 @@
         "sortable": true,
         "type": "badge",
         "show": true,
+        "class": "no-select",
         "option_filter": false
     },
     {
@@ -157,6 +159,7 @@
         "sortable": true,
         "type": "text",
         "show": true,
+        "class": "no-select",
         "option_filter": false
     },
     {
@@ -169,7 +172,7 @@
         "type": "text",
         "options": [],
         "show": true,
-        "class": "",
+        "class": "no-select",
         "styles": "",
         "option_filter": false
     }
