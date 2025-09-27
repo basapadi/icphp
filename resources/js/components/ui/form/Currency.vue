@@ -87,7 +87,7 @@ export default {
         :min="min ?? null"
         :max="max ?? null"
         :step="step ?? 1"
-        :pattern="props.format || undefined"
+        :pattern="props.format || null"
         :disabled="disabled"
         :readonly="readonly"
         :class="
