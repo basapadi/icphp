@@ -145,12 +145,12 @@
 
     </div>
     <div v-if="openContextMenu" class="absolute bg-white border rounded shadow-md w-50 z-50" :style="{ top: contextMenuPosition.y + 'px', left: contextMenuPosition.x + 'px' }">
-        <div v-if="this.properties.contextMenu.length > 0">
+        <div v-if="this.properties.contextMenu.length > 0 && selectedData.length <= 1">
             <div v-for="cm in this.properties.contextMenu.filter(cm => matchContextMenuConditions(cm.conditions))" :key="cm.name">
                 <a @click.stop="callByFunctionName(cm);openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><component :is="cm.icon" :color="cm.color" class="w-8 px-2" />{{cm.label}}</a>
             </div>
         </div>
-        <div v-if="selectedData.length > 0">
+        <div v-if="selectedData.length > 1">
             <a @click.stop="hapusDataMultiple()" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><CopyX class="w-8 text-red-500 px-2" />Hapus Data Terpilih</a>
         </div>
     </div>
@@ -310,6 +310,8 @@ export default {
     methods: {
         async load(reset) {
             this.loading = true
+            this.selectAll = false;
+            this.selectedData = [];
             let params = { ...this.pagination };
             if (reset != undefined && reset == true) {
                 this.filter = {
@@ -365,8 +367,10 @@ export default {
         toggleSelectAll() {
             if (this.selectAll) {
                 this.selectedData = this.filterData.map((dt) => dt.id);
+                this.selectedIndex = this.filterData.map((dt,index) => index);
             } else {
                 this.selectedData = [];
+                this.selectedIndex = [];
             }
         },
         async tambahData() {
@@ -554,11 +558,11 @@ export default {
             this.contextMenuPosition.y = e.clientY
             this.openContextMenu = true
             this.openDropdown = false
-            if(this.properties.multipleSelect){
-                this.selectedData = [data.id]
-                this.selectAll = false
-            }
-            this.selectedIndex = [index]
+            // if(this.properties.multipleSelect){
+            //     this.selectedData = [data.id]
+            //     this.selectAll = false
+            // }
+            // this.selectedIndex = [index]
         },
         handleClickRow(data, index,e) {
             if (e.target.type !== 'checkbox') {
