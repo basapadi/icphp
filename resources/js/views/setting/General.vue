@@ -45,9 +45,9 @@
           <!-- Tab Content -->
           <div class="px-4 h-screen">
             <div v-if="activeTab === 'toko'">
-              <form @submit.prevent="handleSubmitToko" class="overflow-x-auto max-h-7/10" >
+              <form @submit.prevent="handleSubmitToko" class="overflow-x-auto" >
                 <div class="grid grid-cols-3 md:grid-cols-3">
-                  <div class="space-y-2 px-2 overflow-y-auto grid grid-cols-1 md:grid-cols-1 gap-4">
+                  <div class="space-y-4 px-2 gap-4">
                     <Input
                       v-model="form_toko.nama_toko"
                       label="Nama Toko"
@@ -84,6 +84,14 @@
                         hint="Masukkan alamat toko anda"
                         required
                     />
+                    <Input
+                      v-model="form_toko.pemilik"
+                      label="Nama Pemilik"
+                      hint="Masukkan nama pemilik toko"
+                      name="pemilik"
+                      id="pemilik"
+                      type="pemilik"
+                    />
                     <FileUpload
                         key="logo"
                         label="Logo"
@@ -94,14 +102,7 @@
                         extension=".png"
                         :maxsize="3"
                         :maxfile="1"
-                    />
-                    <Input
-                      v-model="form_toko.pemilik"
-                      label="Nama Pemilik"
-                      hint="Masukkan nama pemilik toko"
-                      name="pemilik"
-                      id="pemilik"
-                      type="pemilik"
+                        required
                     />
                   </div>
                 </div>
@@ -110,8 +111,8 @@
                     type="submit"
                     class="px-2 py-1 bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 text-sm"
                   >
-                    Simpan Pengaturan Toko
-                  </button> 
+                    Simpan Pengaturan Aplikasi
+                  </button>
                 </div>
               </form>
             </div>
@@ -236,7 +237,7 @@ export default {
     Card
   },
   setup(){
-    const activeTab = ref('mail')
+    const activeTab = ref('toko')
 
     return {activeTab}
   },

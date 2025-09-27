@@ -57,16 +57,31 @@ export default {
 
 <template>
   <div class="flex flex-col gap-1.5 w-full">
-    <Label :for="id">
+    <Label
+      :for="id"
+      class="flex items-center gap-1 text-sm font-medium leading-none"
+    >
       <span class="text-gray-500 text-shadow-2xs">{{ label }}</span>
-      <span v-if="required" class="text-red-800"> *</span>
+      <span v-if="required" class="text-red-700">*</span>
+
+      <!-- wrapper untuk icon + tooltip -->
+      <div class="relative group">
+        <Info class="h-4 w-4 text-orange-300 cursor-pointer" />
+
+        <!-- Tooltip -->
+        <div style="z-index:9999" class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-48 p-2 text-xs 
+                bg-orange-500 text-white rounded shadow-lg opacity-0 
+                group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
+        >
+          {{hint}}
+        </div>
+      </div>
     </Label>
     <input
       :id="id"
       v-model="modelValue"
       :type="type"
       :name="name"
-      :placeholder="hint"
       :required="required"
       :disabled="disabled"
       :readonly="readonly"
