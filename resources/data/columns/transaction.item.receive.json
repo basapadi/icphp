@@ -22,7 +22,7 @@
     {
         "name": "kode_transaksi",
         "required": true,
-        "label": "Kode Trx",
+        "label": "Kode",
         "align": "left",
         "field": "kode_transaksi",
         "sortable": true,

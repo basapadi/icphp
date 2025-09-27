@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 z-1">
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 z-1">
         <!-- Table Header -->
         <div class="px-1 py-1 border-b border-gray-300">
             <div class="flex justify-between">
@@ -37,7 +37,7 @@
                         <tr>
                             <template v-if="properties.multipleSelect">
                                 <th 
-                                    class="px-4 py-1 text-left text-xs text-shadow-2xs text-gray-500 uppercase tracking-wider border-1 border-dashed border-gray-00">
+                                    class="px-4 py-1 text-left text-xs text-gray-500 uppercase tracking-wider border-1 border-dashed border-gray-00">
                                     <input v-model="selectAll" style="transform: scale(1.3);cursor: pointer;" @change="toggleSelectAll" type="checkbox"
                                         class="rounded border-gray-300 text-orange-600 focus:ring-orange-500" />
                                 </th>
@@ -45,13 +45,13 @@
                             <template v-for="column in columns" :key="column.value">
                                 <template v-if="column.show">
                                     <template v-if="column.name == 'actions'">
-                                        <th class="px-4 py-2 text-left font-bold text-xs text-gray-500 text-shadow-2xs uppercase tracking-wider border border-1 border-dashed border-gray-300"
-                                            style="width: 50px !important">
+                                        <th class="px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider border border-1 border-dashed border-gray-300"
+                                            style="width: 30px !important">
                                             {{ column.label }}
                                         </th>
                                     </template>
                                     <template v-else>
-                                        <th :class="`px-4 py-2 text-left font-bold text-xs text-gray-500 text-shadow-2xs uppercase tracking-wider border border-1 border-dashed border-gray-300 text-${column.align}`"
+                                        <th :class="`px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider border border-1 border-dashed border-gray-300 text-${column.align}`"
                                             :style="`${column.styles}`">
                                             {{ column.label }}
                                         </th>
@@ -139,7 +139,7 @@
     <div v-if="openDropdown" class="absolute bg-white border rounded shadow-md w-50 z-50" :style="{ top: dropDownPosition.y + 'px', left: dropDownPosition.x + 'px' }">
         <div v-if="this.properties.contextMenu.length > 0">
             <div v-for="cm in this.properties.contextMenu.filter(cm => matchContextMenuConditions(cm.conditions))" :key="cm.name">
-                <a class="flex text-sm items-center px-2 py-1 hover:bg-gray-100" href="#" @click.stop="callByFunctionName(cm);openDropdown=false"><component :is="cm.icon" :color="cm.color" class="w-8 px-2" />{{cm.label}}</a>
+                <a class="flex text-sm items-center px-2 py-1 bordered border-t border-dashed hover:bg-gray-100" href="#" @click.stop="callByFunctionName(cm);openDropdown=false"><component :is="cm.icon" :color="cm.color" class="w-8 px-2" />{{cm.label}}</a>
             </div>
         </div>
 
@@ -147,7 +147,7 @@
     <div v-if="openContextMenu" class="absolute bg-white border rounded shadow-md w-50 z-50" :style="{ top: contextMenuPosition.y + 'px', left: contextMenuPosition.x + 'px' }">
         <div v-if="this.properties.contextMenu.length > 0 && selectedData.length <= 1">
             <div v-for="cm in this.properties.contextMenu.filter(cm => matchContextMenuConditions(cm.conditions))" :key="cm.name">
-                <a @click.stop="callByFunctionName(cm);openContextMenu=false" href="#" class="flex text-sm items-center px-2 py-1 hover:bg-gray-100"><component :is="cm.icon" :color="cm.color" class="w-8 px-2" />{{cm.label}}</a>
+                <a @click.stop="callByFunctionName(cm);openContextMenu=false" href="#" class="flex text-sm items-center px-2 bordered border-t border-dashed r py-1 hover:bg-gray-100"><component :is="cm.icon" :color="cm.color" class="w-8 px-2" />{{cm.label}}</a>
             </div>
         </div>
         <div v-if="selectedData.length > 1">

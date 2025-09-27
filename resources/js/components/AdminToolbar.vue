@@ -5,6 +5,7 @@
       <div class="flex items-center">
         <button class="text-xs text-gray-500 hover:bg-gray-200 px-3 py-1">Alat</button>
         <button class="text-xs text-gray-500 hover:bg-gray-200 px-3 py-1">Bantuan</button>
+        <button class="text-xs text-gray-500 hover:bg-gray-200 px-3 py-1">Panduan</button>
       </div>
 
       <!-- Toolbar Actions -->
