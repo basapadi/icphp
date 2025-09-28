@@ -21,12 +21,23 @@ const mutations = {
   },
   setApp(state, app) {
     state.app = app
+  },
+  setToggleMenu(state, id) {
+    const toggle = (items) => items.map(item => ({
+      ...item,
+      open: item.id === id ? !item.open : item.open,
+      sub_items: toggle(item.sub_items || [])
+    }))
+    state.menus = toggle(state.menus)
   }
 }
 
 const actions = {
-  async getMenu({ commit, rootState }, payload) {
+    async getMenu({ commit, rootState }, payload) {
         try {
+            if (state.menus && state.menus.length > 0) {
+              return { data: { menus: state.menus, menu_roles: state.menuRoles, app: state.app } }
+            }
             const resp = await axios.get('/api/auth/menus', {
                 params: payload,
                 paramsSerializer: params => {
@@ -50,7 +61,33 @@ const actions = {
           }
           throw err
         }
-    }
+    },
+    setActiveMenu({ commit, state }, currentRoute) {
+      function traverse(items) {
+        return items.map(item => {
+          // traverse children dulu
+          const children = traverse(item.sub_items || [])
+
+          // cek apakah current item aktif
+          const isActive = item.route && item.route !== '#' && currentRoute.startsWith(item.route)
+
+          // parent open kalau ada child aktif
+          const hasActiveChild = children.some(c => c.active || c.open)
+
+          return {
+            ...item,
+            active: isActive,
+            open: (item.open ?? false) || isActive || hasActiveChild,
+            sub_items: children
+          }
+        })
+      }
+
+      const updated = traverse(state.menus || [])
+      commit('setMenus', updated)
+  }
+
+
 }
 
 export default {

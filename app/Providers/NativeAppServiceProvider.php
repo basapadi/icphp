@@ -42,10 +42,10 @@ class NativeAppServiceProvider implements ProvidesPhpIni
             Artisan::call('route:cache');
         }
 
-        Native::ready(function () {
-            // Jalankan worker saat app dibuka
-            Artisan::call('queue:work --once');
-        });
+        // Native::ready(function () {
+        //     // Jalankan worker saat app dibuka
+        //     Artisan::call('queue:work --once');
+        // });
     }
 
     /**

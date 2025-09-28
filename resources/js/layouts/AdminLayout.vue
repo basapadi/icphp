@@ -4,7 +4,9 @@
 
     <div class="flex">
       <!-- Sidebar -->
-      <AdminSidebar/>
+      <keep-alive>
+        <AdminSidebar />
+      </keep-alive>
 
       <!-- Main Content -->
       <!-- Dynamic margin based on sidebar collapsed state -->

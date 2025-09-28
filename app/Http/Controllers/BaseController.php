@@ -382,6 +382,12 @@ class BaseController extends Controller
             'delete' => ['method' => 'hapusData', 'label' => 'Hapus', 'icon' => 'SquareX', 'color' => '#F44336']
         ];
 
+        foreach (array_keys($menus) as $key) {
+            if (!$this->allowAccessModule($this->_module, $key,true)) {
+                unset($menus[$key]);
+            }
+        }
+
         $menus = array_diff_key($menus, array_flip($this->_exceptContextMenu));
         
         $menu = new ContextMenu('reload','Muat Ulang');

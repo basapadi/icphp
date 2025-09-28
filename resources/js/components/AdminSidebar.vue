@@ -21,7 +21,7 @@
       </ul>
     </nav>
     <div class="sticky bottom-0 border-t bg-white border-gray-200 p-2 text-center">
-      <label class="text-xs italic antialiased text-gray-500  px-3 py-1">{{app.copyright}} {{app.version}}</label>
+      <!-- <label class="text-xs italic antialiased text-gray-500  px-3 py-1">{{app.copyright}} {{app.version}}</label> -->
     </div>
     <!-- Modern status indicator at bottom -->
     <!-- <div class="absolute bottom-0 left-0 right-0 bg-gray-50 border-t border-gray-200 p-4">
@@ -44,42 +44,41 @@ import MenuItem from './MenuItem.vue'
     name: 'AdminSidebar',
     computed: {
       ...mapGetters({
-        user: 'auth/getUser'
+        user: 'auth/getUser',
+        menus: 'menu/getMenus',
+        app: 'menu/getApp'
       })
+    },
+    watch: {
+      $route(to) {
+        this.setActiveMenu(to.path)
+      }
     },
     data() {
       return {
-        menus: [],
         loading: true,
         error: null,
-        app: {},
         searchQuery: ''
       };
     },
   methods: {
-      ...mapActions({
-        getMenu : 'menu/getMenu'
-      }),
-      async getMenus() {
-        try {
-          const resp = await this.getMenu({ route: this.$route.path });
-          this.menus = this.mapMenus(resp.data.menus);
-          this.app = resp.data.app
-        } catch (err) {
-          this.error = err.response?.data?.message || 'Gagal mengambil data';
-        } finally {
-          this.loading = false;
-        }
-      },
-      mapMenus(menuList) {
-        return menuList.map(menu => ({
-          ...menu,
-          childs: Array.isArray(menu.childs) ? this.mapMenus(menu.childs) : []
-        }));
+    ...mapActions({
+      getMenu: 'menu/getMenu',
+      setActiveMenu: 'menu/setActiveMenu'
+    }),
+    async fetchMenus() {
+      try {
+        await this.getMenu({ route: this.$route.path })
+        this.setActiveMenu(this.$route.path)
+      } catch (err) {
+        this.error = err.response?.data?.message || 'Gagal mengambil data'
+      } finally {
+        this.loading = false
       }
+    }
   },
-  beforeMount() {
-    this.getMenus();
-  },
+  async created() {
+    await this.fetchMenus()
   }
+}
 </script>

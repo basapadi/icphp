@@ -273,21 +273,9 @@ export default {
         },
         "pagination._page"() {
             this.load();
-        },
-        "rows"(){
-            const rm = this.menuRoles.find(
-                (role) => role.route === this.$route.path
-            )
-            this.allowCreate = rm?.create
-            this.allowDelete = rm?.delete
-            this.allowEdit = rm?.edit
-            this.allowDelete = rm?.delete
         }
     },
     computed: {
-        ...mapGetters({
-            menuRoles: "menu/getMenuRoles"
-        }),
         filterData() {
             if (this.searchQuery) {
                 this.pagination._page = 1;
@@ -352,7 +340,15 @@ export default {
                     this.total = data.total;
                     this.properties = data.properties;
                     this.detail_schema = data.detail_schemes;
-                }).finally((f) => {
+                })
+                .catch((err) => {
+                    if (err.response) {
+                        if(err.response.status != 200){
+                            alert(err.response.data?.message)
+                        }
+                    }
+                })
+                .finally((f) => {
                     this.loading = false
                 })
             
@@ -360,6 +356,7 @@ export default {
             this.selectedData = []
             this.selectedIndex = []
             this.columnOptions = action.options
+            this.allowCreate = this.properties.contextMenu.some(item => item.name === 'create')
         },
         formatDate(dateString) {
             return new Date(dateString).toLocaleDateString();

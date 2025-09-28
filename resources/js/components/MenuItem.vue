@@ -3,7 +3,7 @@
         <router-link
             v-if="item.route && item.parent_id == null"
             :to="item.route"
-            @click="handleClick"
+            @click="handleClick(item)"
             :class="linkClasses"
             :style="{ paddingLeft }"
         >
@@ -19,7 +19,7 @@
         <router-link
             v-else
             :to="item.route"
-            @click="handleClick"
+            @click="handleClick(item)"
             :class="linkClasses"
             :style="{ paddingLeft }"
         >
@@ -49,8 +49,9 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-
+import { ref, computed,watch } from "vue";
+import { useStore } from 'vuex'
+const store = useStore()
 const props = defineProps({
     item: {
         type: Object,
@@ -66,7 +67,9 @@ const props = defineProps({
     },
 });
 let isOpen = ref(false);
-isOpen.value = props.open;
+watch(() => props.item.open, (val) => {
+  isOpen.value = val;
+});
 if (props.item.open) isOpen.value = props.item.open;
 const hasSubItems = computed(() => {
     return props.item.sub_items && props.item.sub_items.length > 0;
@@ -83,9 +86,10 @@ const linkClasses = computed(
         }`
 );
 
-const handleClick = () => {
+const handleClick = (item) => {
     if (hasSubItems.value) {
         isOpen.value = !isOpen.value;
+        store.commit('menu/setToggleMenu', item.id)
     }
 };
 </script>
