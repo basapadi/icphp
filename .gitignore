@@ -24,6 +24,7 @@ Homestead.yaml
 Thumbs.db
 dist/*
 /public/uploads/*
+stats.html
 
 packaging/arch/*
 !packaging/arch/PKGBUILD
