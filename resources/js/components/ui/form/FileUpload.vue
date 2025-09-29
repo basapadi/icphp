@@ -84,7 +84,7 @@ export default {
     maxsize: { type: Number, default: 0 },
     maxfile: { type: Number, default: 0 },
     disabled: {type: Boolean, default: false},
-    readonly: {type: Boolean, default: false}
+    readonly: {type: Boolean, default: false},
   },
   data() {
     return {
@@ -124,6 +124,11 @@ export default {
       if (this.modelValue && typeof this.modelValue === "string") {
         this.preview = this.modelValue
       }
+    }
+  },
+  watch: {
+    modelValue(val) {
+      this.load();
     }
   },
   mounted(){

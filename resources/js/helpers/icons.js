@@ -29,6 +29,9 @@ export {
 	BadgeCheck,
 	BadgeX,
 	LoaderCircle,
-	LoaderPinwheel
+	LoaderPinwheel,
+	Info,
+	Eye,
+	EyeOff
 
 } from "lucide-vue-next";

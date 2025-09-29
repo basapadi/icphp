@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ItemAdjustmentSeeder::class); //seeder penyesuaian jumlah barang
         $this->call(PurchaseOrderSeeder::class); //seeder PO
         $this->call(SaleOrderSeeder::class); //seeder SO
+        $this->call(SettingSeeder::class);
         Trash::truncate();
     }
 }

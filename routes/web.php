@@ -21,7 +21,8 @@ use App\Http\Controllers\{
     SaleOrderController,
     StockAdjustmentController,
     TrashController,
-    CommonController
+    CommonController,
+    SettingController
 };
 use App\Http\Controllers\Tasks\ApprovalPurchaseOrderController;
 use Illuminate\Support\Facades\Route;
@@ -149,6 +150,11 @@ Route::prefix('api')->group(function () {
         Route::get('grid', 'grid');
         Route::delete('truncate', 'truncate');
         Route::delete('/{id}', 'delete');   
+    });
+
+    Route::controller(SettingController::class)->middleware('auth:sanctum')->prefix('setting')->group(function () {
+        Route::get('all', 'all');
+        Route::post('save', 'save');
     });
 
     Route::controller(DatabaseController::class)->middleware('auth:sanctum')->prefix('database')->group(function () {

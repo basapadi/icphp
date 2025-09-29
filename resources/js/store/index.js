@@ -23,6 +23,7 @@ import shipment from './modules/shipment'
 import invoicePurchase from './modules/invoicePurchase'
 import invoiceSale from './modules/invoiceSale'
 import approvalPurchaseOrder from './modules/approvalPurchaseOrder'
+import setting from './modules/setting'
 
 export default createStore({
   modules: {
@@ -49,6 +50,7 @@ export default createStore({
     shipment,
     invoicePurchase,
     invoiceSale,
-    approvalPurchaseOrder
+    approvalPurchaseOrder,
+    setting
   }
 })

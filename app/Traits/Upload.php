@@ -28,7 +28,7 @@ trait Upload {
             $_imageValidationRules = isset($options['rules'])? $options['rules']:'image|mimes:jpg,png,jpeg,svg|max:1024';
             $_avatarSize = isset($options['size'])? $options['size']:[300,300];
             $path = $options['path'];
-            $permission = isset($options['permission'])? $options['permission']: '777';
+            $permission = isset($options['permission'])? $options['permission']: '0777';
             $imageAttr = isset($options['file'])?$options['file']: 'image';
             $_avatarPath = public_path($path);
         

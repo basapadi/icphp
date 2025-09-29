@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-2xl mx-2 p-2">
-    <h2 class="text-xl mb-4 text-gray-600">Histori perubahan aplikasi terakhir</h2>
+    <h2 class="text-xl mb-4 text-gray-600">Histori Perubahan Aplikasi</h2>
 
     <!-- Loading State -->
     <div v-if="loading" class="text-gray-500 text-center">Memuat commits...</div>

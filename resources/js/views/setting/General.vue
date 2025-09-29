@@ -1,6 +1,6 @@
 <template>
   <AdminLayout>
-    <div class="w-full">
+    <div class="w-full h-screen">
       <PageHeader title="Pengaturan Umum" description="Pengaturan Umum Aplikasi"/>
       <div class="flex gap-1 p-2">
         <Card class="flex-1 pt-1">
@@ -43,31 +43,31 @@
             </nav>
           </div>
           <!-- Tab Content -->
-          <div class="px-4 h-screen">
+          <div class="px-4">
             <div v-if="activeTab === 'toko'">
-              <form @submit.prevent="handleSubmitToko" class="overflow-x-auto" >
-                <div class="grid grid-cols-3 md:grid-cols-3">
+              <form @submit.prevent="handleSubmit('toko')" enctype="multipart/form-data">
+                <div class="grid grid-cols-3 md:grid-cols-3 max-h-120">
                   <div class="space-y-4 px-2 gap-4">
                     <Input
-                      v-model="form_toko.nama_toko"
+                      v-model="settings.toko.data.namaToko"
                       label="Nama Toko"
                       hint="Masukkan nama toko anda"
                       required
-                      name="nama_toko"
-                      id="nama_toko"
+                      name="namaToko"
+                      id="namaToko"
                       min="5"
                     />
                     <Phone
-                      v-model="form_toko.telepon"
-                      label="Telepon Toko"
-                      hint="Masukkan telepon toko anda"
+                      v-model="settings.toko.data.telepon"
+                      label="Telepon Toko/WA"
+                      hint="Masukkan telepon toko anda atau nomor whatsapp bisnis anda"
                       required
                       name="telepon"
                       id="telepon"
                       min="11"
                     />
                     <Input
-                      v-model="form_toko.email"
+                      v-model="settings.toko.data.email"
                       label="Email Toko"
                       hint="Masukkan email toko anda"
                       required
@@ -78,14 +78,16 @@
                     <Textarea
                         key="alamat"
                         label="Alamat"
-                        v-model="form_toko.alamat"
+                        v-model="settings.toko.data.alamat"
                         name="alamat"
                         id="alamat"
                         hint="Masukkan alamat toko anda"
                         required
                     />
+                  </div>
+                  <div class="space-y-4 px-2 gap-4">
                     <Input
-                      v-model="form_toko.pemilik"
+                      v-model="settings.toko.data.pemilik"
                       label="Nama Pemilik"
                       hint="Masukkan nama pemilik toko"
                       name="pemilik"
@@ -93,16 +95,18 @@
                       type="pemilik"
                     />
                     <FileUpload
-                        key="logo"
                         label="Logo"
-                        v-model="form_toko.logo"
+                        type="file"
+                        v-model="settings.toko.data.logo"
                         name="logo"
                         id="logo"
                         hint="Logo toko anda"
                         extension=".png"
                         :maxsize="3"
                         :maxfile="1"
-                        required
+                        :required="settings.toko.data.logo == ''?true:false"
+                        :multiple="false"
+                        :preview="settings.toko.data.logo"
                     />
                   </div>
                 </div>
@@ -111,19 +115,19 @@
                     type="submit"
                     class="px-2 py-1 bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 text-sm"
                   >
-                    Simpan Pengaturan Aplikasi
+                    Simpan Pengaturan
                   </button>
                 </div>
               </form>
             </div>
-            <div v-if="activeTab === 'mail'" class="h-screen h-full">
-              <form @submit.prevent="handleSubmitMail" >
-                <div class="grid grid-cols-3 md:grid-cols-3">
+            <div v-if="activeTab === 'mail'">
+              <form @submit.prevent="handleSubmit('mailing')" >
+                <div class="grid grid-cols-3 md:grid-cols-3 max-h-120">
                   <div class="space-y-4 px-2 gap-4">
                     <Select
                         key="driver"
                         label="Driver"
-                        v-model="form_mailing.driver"
+                        v-model="settings.mailing.data.driver"
                         name="driver"
                         id="driver"
                         required=true
@@ -133,7 +137,7 @@
                     <Input
                         key="host"
                         label="Host"
-                        v-model="form_mailing.host"
+                        v-model="settings.mailing.data.host"
                         name="host"
                         id="host"
                         required=true
@@ -142,7 +146,7 @@
                     <Input
                         key="port"
                         label="Port"
-                        v-model="form_mailing.port"
+                        v-model="settings.mailing.data.port"
                         name="port"
                         id="port"
                         required=true
@@ -151,17 +155,19 @@
                     <Select
                         key="encryption"
                         label="Encryption"
-                        v-model="form_mailing.encryption"
+                        v-model="settings.mailing.data.encryption"
                         name="encryption"
                         id="encryption"
                         required=true
                         :options="{'tls':'TLS','ssl':'SSL'}"
                         hint="Enkripsi yang digunakan"
                     />
+                  </div>
+                  <div class="space-y-4 px-2 gap-4">
                     <Input
                         key="username"
                         label="Username"
-                        v-model="form_mailing.username"
+                        v-model="settings.mailing.data.username"
                         name="username"
                         id="username"
                         required=true
@@ -170,16 +176,15 @@
                     <Password
                         key="password"
                         label="Password"
-                        v-model="form_mailing.password"
+                        v-model="settings.mailing.data.password"
                         name="password"
                         id="password"
-                        required=true
                         hint="Password login SMTP"
                     />
                     <Input
                         key="fromAddress"
                         label="Alamat Email Pengirim"
-                        v-model="form_mailing.fromAddress"
+                        v-model="settings.mailing.data.fromAddress"
                         name="fromAddress"
                         id="fromAddress"
                         required=true
@@ -188,7 +193,7 @@
                     <Input
                         key="fromName"
                         label="Nama Pengirim"
-                        v-model="form_mailing.fromName"
+                        v-model="settings.mailing.data.fromName"
                         name="fromName"
                         id="fromName"
                         required=true
@@ -201,7 +206,7 @@
                     type="submit"
                     class="px-2 py-1 bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 text-sm"
                   >
-                    Simpan Pengaturan Aplikasi
+                    Simpan Pengaturan
                   </button>
                 </div>
               </form>
@@ -243,18 +248,44 @@ export default {
   },
   data(){
     return {
-      form_toko: {},
-      form_mailing: {},
-      mailDrivers: {'smtp':'SMTP','sendmail':'Sendmail','mailgun': 'Mailgun','ses': 'SES'}
+      mailDrivers: {'smtp':'SMTP','sendmail':'Sendmail','mailgun': 'Mailgun','ses': 'SES'},
+      settings: {
+        'toko': {
+          'data': {}
+        },
+        'mailing': {
+          'data': {}
+        }
+      },
     }
   },
   methods: {
-    handleSubmitToko(){
-
+    async load(){
+      try {
+       const {data} = await this.$store.dispatch('setting/all')
+        this.settings= data.data
+      } catch (resp) {
+        // console.log('LOAD :',resp?.response)
+      }
     },
-    handleSubmitMail(){
+    async handleSubmit(tab){
+      let payload = this.settings[tab]['data']
+      payload.key = tab
+      await this.$store.dispatch('setting/save', payload)
+        .then(({ data }) => {
+            this.load();
+            alert(data.message)
+        })
+        .catch((resp) => {
+            alert(resp.response.data.message)
+        })
+        .finally((f) => {
 
+        })
     }
+  },
+  created(){
+    this.load()
   }
 }
 </script>
