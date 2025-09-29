@@ -69,7 +69,11 @@ const actions = {
           const children = traverse(item.sub_items || [])
 
           // cek apakah current item aktif
-          const isActive = item.route && item.route !== '#' && currentRoute.startsWith(item.route)
+          const isActive = item.route && item.route !== '#' && (
+            item.route === '/'
+              ? currentRoute === '/'
+              : currentRoute.startsWith(item.route)
+          )
 
           // parent open kalau ada child aktif
           const hasActiveChild = children.some(c => c.active || c.open)

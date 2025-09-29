@@ -9,8 +9,8 @@ class CommonController extends Controller
     public function ChangeLog(Request $request){
         $owner = 'basapadi';
         $repo = 'icphp';
-        $token = env('GITHUB_TOKEN');
-        $branch = env('GITHUB_BRANCH');
+        $token = config('ihandcashier.github_token');
+        $branch = config('ihandcashier.github_branch');
 
         $uri = "https://api.github.com/repos/{$owner}/{$repo}/commits?sha={$branch}&per_page=10";
 

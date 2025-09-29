@@ -1,5 +1,7 @@
 <?php
 return [
+    'github_token' => env('GITHUB_TOKEN',''),
+    'github_branch' => env('GITHUB_BRANCH','master'),
     'roles' => ['admin','kasir','keuangan'], //available role,
     'payment_types' => [
         'cash'          => [

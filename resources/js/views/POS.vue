@@ -11,7 +11,7 @@
       <!-- Changed mt-20 to mt-12 to account for only toolbar height -->
        <main :class="`flex-1 bg-white ${!isFullscreen ? 'ml-side mt-10' : 'ml-0 mt-0'}`">
         <div class="max-w-full">
-          <div class="mb-2 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
+          <div class="mb-2 mr-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
             <PageHeader title="POS" description="Proses transaksi pelanggan"/>
             <button
               @click="toggleFullscreen"

@@ -11,7 +11,7 @@
           class="pl-7 h-7 text-xs bg-white border border-gray-300 rounded w-58 px-2"
         />
       </div>
-      <ul class="space-y-1">
+      <ul class="space-y-1 mt-4">
         <MenuItem 
           v-for="(item, index) in menus" 
           :key="index" 
