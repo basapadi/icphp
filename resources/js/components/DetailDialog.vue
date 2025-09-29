@@ -1,7 +1,7 @@
 <template>
     <!-- Overlay -->
-    <div v-if="open" class="h-screen fixed inset-0 flex items-center justify-center bg-black/50 z-50" >
-        <Card class="w-full max-w-7xl">
+    <div v-if="open" class="h-screen fixed inset-0 flex items-center justify-center bg-black/50 z-50" @click="close()">
+        <Card class="w-full max-w-7xl" @click.stop>
             <CardContent class="max-h-[80vh] overflow-y-auto">
                 <div v-for="(sub, i) in schema" :key="i">
                     <template v-if="i == 'main' && sub.type == 'object'">

@@ -20,7 +20,8 @@ use App\Http\Controllers\{
     PurchaseOrderController,
     SaleOrderController,
     StockAdjustmentController,
-    TrashController
+    TrashController,
+    CommonController
 };
 use App\Http\Controllers\Tasks\ApprovalPurchaseOrderController;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,10 @@ Route::prefix('api')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::middleware('auth:sanctum')->controller(MenuController::class)->group(function () {
             Route::get('menus', 'getMenu');
+        });
+
+        Route::middleware('auth:sanctum')->controller(CommonController::class)->group(function () {
+            Route::get('change-log', 'ChangeLog');
         });
         Route::controller(AuthController::class)->group(function () {
             Route::post('login', 'login');

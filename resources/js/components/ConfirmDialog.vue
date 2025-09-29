@@ -1,9 +1,7 @@
 <template>
   <!-- Overlay -->
-  <div v-if="open" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-    <Card
-      class="w-full max-w-2xl bg-white shadow-lg rounded-lg overflow-hidden"
-    >
+  <div v-if="open" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" @click="close()">
+    <Card class="w-full max-w-2xl bg-white shadow-lg rounded-lg overflow-hidden" @click.stop>
       <CardContent class="p-6">
         <form @submit="submit" class="flex flex-col" enctype="multipart/form-data">
           <h2 v-if="contextMenu.title" class="text-xl font-bold mb-2">{{ contextMenu.title }}</h2>

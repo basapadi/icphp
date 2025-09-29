@@ -3,9 +3,8 @@
     <div class="flex items-center justify-between px-2 h-full">
       <!-- Menu Bar -->
       <div class="flex items-center">
-        <button class="text-xs text-gray-500 hover:bg-gray-200 px-3 py-1">Alat</button>
-        <button class="text-xs text-gray-500 hover:bg-gray-200 px-3 py-1">Bantuan</button>
         <button class="text-xs text-gray-500 hover:bg-gray-200 px-3 py-1">Panduan</button>
+        <button class="text-xs text-gray-500 hover:bg-gray-200 px-3 py-1" @click="showChangeLog = true">Change Log</button>
       </div>
 
       <!-- Toolbar Actions -->
@@ -15,18 +14,17 @@
           <Bell class="w-3 h-3" />
           <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
         </button>
-        
-        <!--  Added profile dropdown with logout button -->
+
+        <!-- Profile dropdown -->
         <div class="relative">
-          <button 
+          <button
             @click="showProfileDropdown = !showProfileDropdown"
             class="h-7 w-7 p-0 hover:bg-gray-200 flex items-center justify-center rounded"
           >
             <User class="w-3 h-3" />
           </button>
-          
-          <!-- Profile Dropdown -->
-          <div 
+
+          <div
             v-if="showProfileDropdown"
             class="absolute right-0 mt-1 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50"
           >
@@ -41,24 +39,17 @@
                 </div>
               </div>
             </div>
-            
+
             <div class="py-1">
-              <button 
+              <button
                 @click="handleProfileClick"
                 class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >
                 <User class="w-4 h-4 mr-3" />
                 Profil
               </button>
-              <!-- <button 
-                @click="handleSettingsClick"
-                class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
-                <Settings class="w-4 h-4 mr-3" />
-                Settings
-              </button> -->
               <div class="border-t border-gray-100 my-1"></div>
-              <button 
+              <button
                 @click="handleLogout"
                 class="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50"
               >
@@ -68,11 +59,19 @@
             </div>
           </div>
         </div>
+
+        <!-- ChangeLog Dialog -->
+        <div v-if="showChangeLog"  class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" @click="showChangeLog=false" >
+          <Card class="w-full max-w-2xl bg-white shadow-lg rounded-lg overflow-hidden" @click.stop>
+            <CardContent class="p-6" >
+              <ChangeLog/>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
-    
-    <!--  Added overlay to close dropdown when clicking outside -->
-    <div 
+
+    <div
       v-if="showProfileDropdown"
       @click="showProfileDropdown = false"
       class="fixed inset-0 z-40"
@@ -80,53 +79,59 @@
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted, onUnmounted,computed } from 'vue'
-import { Bell, Search, Settings, User, LogOut } from 'lucide-vue-next'
-import { useStore, mapGetters, mapActions } from 'vuex'
-import { useRouter } from 'vue-router'
-const router = useRouter()
-const store = useStore()
+<script>
+import { Bell, User, LogOut } from 'lucide-vue-next'
+import { mapGetters, mapActions } from 'vuex'
+import ChangeLog from '@/components/ChangeLog.vue'
 
-const { getUser } = mapGetters('auth', ['getUser'])
-const actions = mapActions('auth', ['logout'])
-const logout = (credentials) => actions.logout.call({ $store: store })
-const user = computed(() => getUser.call({ $store: store }))
-const searchQuery = ref('')
-const showProfileDropdown = ref(false)
+export default {
+  name: 'TopBar',
+  components: { Bell, User, LogOut,ChangeLog },
 
-//  Added profile dropdown functions
-const handleProfileClick = () => {
-  console.log('[v0] Profile clicked')
-  showProfileDropdown.value = false
-  // Add profile navigation logic here
-}
+  data() {
+    return {
+      showProfileDropdown: false,
+      searchQuery: '',
+      showChangeLog: false
+    }
+  },
 
-const handleSettingsClick = () => {
-  showProfileDropdown.value = false
-  // Add settings navigation logic here
-}
+  computed: {
+    ...mapGetters('auth', ['getUser']),
+    user() {
+      return this.getUser
+    }
+  },
 
-const handleLogout = () => {
-  if (confirm('Apakah Anda yakin ingin logout?')) {
-    showProfileDropdown.value = false
-    logout()
-    router.push('/login');
+  methods: {
+    ...mapActions('auth', ['logout']),
+
+    handleProfileClick() {
+      console.log('[v0] Profile clicked')
+      this.showProfileDropdown = false
+      // Tambahkan navigasi profil jika diperlukan
+    },
+
+    handleLogout() {
+      if (confirm('Apakah Anda yakin ingin logout?')) {
+        this.showProfileDropdown = false
+        this.logout().then(() => this.$router.push('/login'))
+      }
+    },
+
+    handleClickOutside(event) {
+      if (!event.target.closest('.relative')) {
+        this.showProfileDropdown = false
+      }
+    }
+  },
+
+  mounted() {
+    document.addEventListener('click', this.handleClickOutside)
+  },
+
+  beforeUnmount() {
+    document.removeEventListener('click', this.handleClickOutside)
   }
 }
-
-//  Added click outside handler
-const handleClickOutside = (event) => {
-  if (!event.target.closest('.relative')) {
-    showProfileDropdown.value = false
-  }
-}
-
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
-})
-
-onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
-})
 </script>
