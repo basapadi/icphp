@@ -25,6 +25,7 @@ Thumbs.db
 dist/*
 /public/uploads/*
 stats.html
+package-lock.json
 
 packaging/arch/*
 !packaging/arch/PKGBUILD
