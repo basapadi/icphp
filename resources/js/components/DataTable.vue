@@ -128,8 +128,11 @@
                     </div>
                 </div>
             </div>
-            <div v-if="loading" class="absolute inset-0 flex pt-80 justify-center bg-white/70 z-10" >
-                <LoaderCircle class="w-14 h-14 animate-spin text-orange-500" />
+            <div v-if="loading" class="absolute inset-0 flex pt-80 justify-center bg-white/40 z-10" >
+                <div>
+                    <div class="loader"></div>
+                </div>
+                <span class="justify-center text-orange-500 ml-2">Sedang memuat ...</span>
             </div>
         </div>
     </div>

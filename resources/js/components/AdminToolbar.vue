@@ -5,6 +5,9 @@
       <div class="flex items-center">
         <button class="text-xs text-gray-500 hover:bg-gray-200 px-3 py-1">Panduan</button>
         <button class="text-xs text-gray-500 hover:bg-gray-200 px-3 py-1" @click="showChangeLog = true">Change Log</button>
+        <div class="watermark z-5 font-extrabold">
+          <span class="demo-2"></span>
+        </div>
       </div>
 
       <!-- Toolbar Actions -->

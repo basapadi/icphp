@@ -28,7 +28,10 @@
             </div>
             <div class="flex items-center" v-else>
                 <component v-if="item.icon" :is="item.icon" class="w-4 h-4 mr-2" />
-                <EllipsisVertical class="w-3 h-3 text-orange-400"/><span class=" text-gray-600">{{ item.label }}</span>
+                <EllipsisVertical class="w-3 h-3 text-orange-400"/><span class=" text-gray-600">{{ item.label }} </span>
+                <div v-if="item.active">
+                    <div class="menu-loader ml-2"></div>
+                </div>
             </div>
             <div class="flex items-center">
                 <ChevronDown v-if="hasSubItems && isOpen" class="w-4 h-4" />

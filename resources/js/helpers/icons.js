@@ -27,6 +27,8 @@ export {
 	SendHorizontal,
 	HandHelping,
 	BadgeCheck,
-	BadgeX
+	BadgeX,
+	LoaderCircle,
+	LoaderPinwheel
 
 } from "lucide-vue-next";
