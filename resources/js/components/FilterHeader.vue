@@ -135,7 +135,7 @@ import {
   Funnel,
   Calendar,
 } from "lucide-vue-next";
-import _ from "lodash";
+import filter from "lodash/filter";
 
 // flatpickr
 import flatpickr from "flatpickr";
@@ -174,7 +174,7 @@ export default {
   },
   watch: {
     columns(n) {
-      this.filterColumns = _.filter(n, (x) => x.option_filter == true);
+      this.filterColumns = filter(n, (x) => x.option_filter == true);
     },
     type(newType) {
       if (newType === "date_range") {

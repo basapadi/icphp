@@ -9,7 +9,7 @@ import '../css/app.css';
 import * as helpers from "./helpers/datautils";
 import 'vue3-confirm-dialog/style';
 import "flatpickr/dist/flatpickr.css";
-import * as icons from "lucide-vue-next";
+import * as icons from "./helpers/icons";
 
 const app = createApp(App)
 app.config.globalProperties.$helpers = helpers;

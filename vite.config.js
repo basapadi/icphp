@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import laravel from 'laravel-vite-plugin'
 import path from 'path'
 import tailwindcss from '@tailwindcss/vite'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
@@ -28,5 +29,17 @@ export default defineConfig(({ mode }) => {
       // forward variable APP_VERSION jadi global constant
       __APP_VERSION__: JSON.stringify(env.NATIVEPHP_APP_VERSION),
     },
+    build: {
+      rollupOptions: {
+        plugins: [
+          visualizer({
+            filename: 'stats.html',
+            open: false,             
+            gzipSize: true,         
+            brotliSize: true        
+          })
+        ]
+      }
+    }
   }
 })
