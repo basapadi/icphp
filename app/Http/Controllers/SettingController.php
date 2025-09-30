@@ -64,14 +64,16 @@ class SettingController extends BaseController
 
             if($data['key'] == 'mailing'){
                 $mailingData = (object) $setting->data;
+                $pwd = decrypt(trim($mailingData->password));
                 applyMailConfig($mailingData->driver);
                 updateEnv('MAIL_MAILER', trim($mailingData->driver));
                 updateEnv('MAIL_HOST', trim($mailingData->host));
                 updateEnv('MAIL_PORT', trim($mailingData->port));
                 updateEnv('MAIL_USERNAME', trim($mailingData->username));
-                updateEnv('MAIL_PASSWORD', decrypt(trim($mailingData->password)));
+                updateEnv('MAIL_PASSWORD', "'{$pwd}'");
                 updateEnv('MAIL_FROM_ADDRESS', trim($mailingData->fromAddress));
                 updateEnv('MAIL_FROM_NAME', trim("'{$mailingData->fromName}'"));
+                updateEnv('MAIL_ENCRYPTION', trim("'{$mailingData->encryption}'"));
                 Artisan::call('config:clear');
                 Artisan::call('view:clear');
             }

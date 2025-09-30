@@ -435,6 +435,8 @@ class PurchaseOrderController extends BaseController
                 return $this->setAlert('error','Gagal','Email pemasok tidak ditemukan.');
             }
             Mail::to($po->contact->email)->send(new PurchaseOrderMailToSupplier($po));
+            $po->status = 'sended';
+            $po->save();
             return $this->setAlert('info','Berhasil','Email akan segera dikirim.');
         } catch (Exception $e){
             return $this->setAlert('error','Gagal',$e->getMessage());

@@ -628,7 +628,9 @@ export default {
                     alert(data.message)
                 }
             })
-            .catch(err => console.error(err))
+            .catch((resp) => {
+                alert(resp.response.data.message)
+            })
             .finally(() => {
                 this.loading = false
                 this.openDropdown = false
