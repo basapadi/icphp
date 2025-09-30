@@ -57,7 +57,7 @@ class SettingController extends BaseController
 
             if($data['key'] == 'mailing' && isset($data['password'])){
                 $data['password'] = encrypt(trim($data['password']));
-            } else $data['password'] = $setting->data->password;
+            }
 
             $setting->data = $data;
             $setting->save();
