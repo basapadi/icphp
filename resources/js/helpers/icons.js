@@ -32,6 +32,7 @@ export {
 	LoaderPinwheel,
 	Info,
 	Eye,
-	EyeOff
+	EyeOff,
+	Download
 
 } from "lucide-vue-next";

@@ -92,6 +92,17 @@ class PurchaseOrderController extends BaseController
         $needApproval->title = 'Meminta Persetujuan';
         $needApproval->message = 'Apakah anda yakin meminta persetujuan untuk pesanan ini?.';
 
+        //Download PO
+        $needApproval = new ContextMenu('downloadpo','Download PO');
+        $needApproval->conditions = ['status' => ['sended','partial_received','received']];
+        $needApproval->type = 'confirm';
+        $needApproval->apiUrl = route('api.purchase.order.downloadPo');
+        $needApproval->icon = 'Download';
+        $needApproval->color = '#6D94C5';
+        $needApproval->onClick = 'confirmPopup';
+        $needApproval->title = 'Unduh Pesanan Pembelian';
+        $needApproval->message = 'Anda akan mengunduh pesanan pembelian untuk data ini, klik YA untuk mengunduh?.';
+
         $contextMenus = [$sendEmailContextMenu,$createReceivedItem,$needApproval];
         $this->setContextMenu($contextMenus);
     }
@@ -441,5 +452,9 @@ class PurchaseOrderController extends BaseController
         } catch (Exception $e){
             return $this->setAlert('error','Gagal',$e->getMessage());
         }
+    }
+
+    public function downloadPo(Request $request){
+
     }
 }

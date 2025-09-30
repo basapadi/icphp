@@ -105,6 +105,7 @@ Route::prefix('api')->group(function () {
             Route::post('/create-received-item', 'createReceivedItem')->name('api.purchase.order.createReceivedItem');
             Route::get('/receive/form', 'receivedForm')->name('api.purchase.order.receivedForm');
             Route::post('/need-approval', 'needApproval')->name('api.purchase.order.needApproval');
+            Route::post('/download-po', 'downloadPo')->name('api.purchase.order.downloadPo');
 
         });
     });
