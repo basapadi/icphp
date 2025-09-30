@@ -2,12 +2,14 @@
 
 namespace App\Mail;
 
+use App\Models\Setting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use stdClass;
 
 class PurchaseOrderMailToSupplier extends Mailable
 {
@@ -37,12 +39,15 @@ class PurchaseOrderMailToSupplier extends Mailable
      */
     public function content(): Content
     {
-        return new Content(
+        $company = Setting::where('name', 'toko')->where('status', true)->first()->data ?? (object) [];
+        $content =  new Content(
             view: 'emails.po',
             with: [
                 'po' => $this->po,
+                'company' => $company
             ]
         );
+        return $content;
     }
 
     /**

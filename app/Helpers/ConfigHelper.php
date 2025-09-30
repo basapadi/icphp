@@ -1,4 +1,7 @@
 <?php
+use Illuminate\Support\Facades\Config;
+use App\Models\Setting;
+
 if (!function_exists('ihandCashierConfigToOptions')) {
     function ihandCashierConfigToOptions(string $config) {
         $result=[];
@@ -74,5 +77,45 @@ if(!function_exists('updateEnv')){
         }
 
         file_put_contents($envPath, $envContent);
+    }
+}
+
+if(!function_exists('applyMailConfig')){
+    function applyMailConfig($driver='smtp')
+    {
+        $setting = Setting::where('name','mailing')->where('status',true)->first();
+        if(empty($setting)) return false;
+        $data = $setting->data;
+        switch ($driver) {
+            case 'smtp':
+                Config::set('mail.mailers.smtp', [
+                    'transport'  => @$data->driver,
+                    'host'       => @$data->host,
+                    'port'       => @$data->port,
+                    'encryption' => @$data->encryption,
+                    'username'   => @$data->username,
+                    'password'   => decrypt(@$data->password),
+                ]);
+                // updateEnv('MAIL_MAILER', @$data->driver);
+                // updateEnv('MAIL_HOST', @$data->host);
+                // updateEnv('MAIL_PORT', @$data->port);
+                // updateEnv('MAIL_USERNAME', @$data->username);
+                // updateEnv('MAIL_PASSWORD', decrypt(@$data->password));
+
+                break;
+            case 'sendmail':
+                Config::set('mail.mailers.sendmail', [
+                    'transport' => 'sendmail',
+                    'path'      => @$data->sendmail_path ?? '/usr/sbin/sendmail -bs',
+                ]);
+                break;
+        }
+
+        Config::set('mail.from.address', @$data->fromAddress);
+        Config::set('mail.from.name', @$data->fromName);
+        // updateEnv('MAIL_FROM_ADDRESS', @$data->fromAddress);
+
+        return true;
+        
     }
 }

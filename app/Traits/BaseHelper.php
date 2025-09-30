@@ -9,18 +9,19 @@ use Illuminate\Validation\ValidationException;
 
 trait BaseHelper
 {
-    public function setAlert($type = 'info',$title = '', $message = ''){
+    public function setAlert($type = 'info',$title = '', $message = '', $data = null){
         if(config('nativephp.nativephp_running')){
             Notification::title(strtoupper($type).' : '.$title)->message($message)->show($message);
             return response()->json([
                 'status' => $type == 'info'?true: false,
                 'isnativephp'  => config('nativephp.nativephp_running'),
-                'message' => $message
+                'message' => $message,
+                'data' => $data
             ],$type == 'info'?200:400);
         } else {
             switch ($type) {
                 case 'info':
-                   return Response::ok($message);
+                   return Response::ok($message, $data);
                     break;
                 case 'error':
                    return Response::badRequest($title.', '.$message);

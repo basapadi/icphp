@@ -159,7 +159,10 @@
             <!-- Actions -->
             <div class="mt-6 flex justify-end gap-2">
                 <Button type="button" class="border-orange-200" variant="secondary" @click="close">Tidak</Button>
-                <Button class="border-orange-200" variant="secondary" type="submit">Ya</Button>
+                <Button class="border-orange-200" variant="secondary" type="submit">
+                    <LoaderCircle v-if="loader" class="animate-spin"/>
+                    <span v-else>Ya</span>
+                </Button>
             </div>
         </form>
       </CardContent>
@@ -188,19 +191,25 @@
         },
         data() {
             return {
-              form: { }
+              form: { },
+              loader: false
             };
         },
         methods: {
             close() {
                 this.$emit("close");
                 this.form = {}
+                this.loader = false
             },
             submit(e) {
                 e.preventDefault();
+                this.loader = true
                 this.$emit("onSubmit", this.form);
                 this.form = {}
             },
+        },
+        mounted(){
+            this.loader = false
         }
     };
 </script>

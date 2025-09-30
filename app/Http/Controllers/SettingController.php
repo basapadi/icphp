@@ -8,6 +8,7 @@ use App\Http\Response;
 use App\Models\Setting;
 use App\Http\Upload;
 use Exception;
+use Illuminate\Support\Facades\Artisan;
 
 class SettingController extends BaseController
 {
@@ -54,12 +55,27 @@ class SettingController extends BaseController
             if(empty($setting)) return Response::badRequest("Data pengaturan dengan nama {$request->key} tidak ada");
 
 
-            if($data['key'] == 'mailing' && $data['password'] != ''){
+            if($data['key'] == 'mailing' && isset($data['password'])){
                 $data['password'] = encrypt(trim($data['password']));
-            }
+            } else $data['password'] = $setting->data->password;
+
             $setting->data = $data;
             $setting->save();
 
+            if($data['key'] == 'mailing'){
+                $mailingData = (object) $setting->data;
+                applyMailConfig($mailingData->driver);
+                updateEnv('MAIL_MAILER', trim($mailingData->driver));
+                updateEnv('MAIL_HOST', trim($mailingData->host));
+                updateEnv('MAIL_PORT', trim($mailingData->port));
+                updateEnv('MAIL_USERNAME', trim($mailingData->username));
+                updateEnv('MAIL_PASSWORD', decrypt(trim($mailingData->password)));
+                updateEnv('MAIL_FROM_ADDRESS', trim($mailingData->fromAddress));
+                updateEnv('MAIL_FROM_NAME', trim("'{$mailingData->fromName}'"));
+                Artisan::call('config:clear');
+                Artisan::call('view:clear');
+            }
+            
             return Response::ok('Pengaturan berhasil disimpan');
         }catch(Exception $e){
             return Response::internalServerError($e->getMessage());

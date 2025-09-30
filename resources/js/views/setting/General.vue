@@ -248,7 +248,7 @@ export default {
   },
   data(){
     return {
-      mailDrivers: {'smtp':'SMTP','sendmail':'Sendmail','mailgun': 'Mailgun','ses': 'SES'},
+      mailDrivers: {'smtp':'SMTP','sendmail':'Sendmail'},
       settings: {
         'toko': {
           'data': {}

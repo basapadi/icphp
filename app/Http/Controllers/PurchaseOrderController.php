@@ -16,7 +16,8 @@ use App\Objects\ContextMenu;
 use Illuminate\Http\Request;
 use Exception;
 use App\Http\Response;
-use Illuminate\Support\Facades\DB;
+use App\Mail\PurchaseOrderMailToSupplier;
+use Illuminate\Support\Facades\{DB,Mail,Log};
 
 class PurchaseOrderController extends BaseController
 {
@@ -62,9 +63,12 @@ class PurchaseOrderController extends BaseController
         $sendEmailContextMenu = new ContextMenu('sendpo','Kirim PO via Email');
         $sendEmailContextMenu->conditions = ['status' => 'approved'];
         $sendEmailContextMenu->type = 'confirm';
-        $sendEmailContextMenu->apiUrl = route('api.purchase.order.sendEmail');
+        $sendEmailContextMenu->apiUrl = route('api.purchase.order.sendPo');
         $sendEmailContextMenu->icon = 'SendHorizontal';
         $sendEmailContextMenu->color = '#2196F3';
+        $sendEmailContextMenu->onClick = 'confirmPopup';
+        $sendEmailContextMenu->title = 'Kirim PO via email';
+        $sendEmailContextMenu->message = 'Apakah anda yakin mengirim pesanan pembelian ini melalui email?.';
 
         //buat penerimaan baru
         $createReceivedItem = new ContextMenu('createreceived','Buat Penerimaan');
@@ -419,6 +423,20 @@ class PurchaseOrderController extends BaseController
             $po->save();
             return $this->setAlert('info','Berhasil','Permintaan terkirim, persetujuan pemesanan sedang diproses.');
         }catch(Exception $e){
+            return $this->setAlert('error','Gagal',$e->getMessage());
+        }
+    }
+
+    public function sendPo(Request $request){
+       
+        try {
+            $po = PurchaseOrder::with(['contact'])->where('id', $this->decodeId($request->id))->first();
+            if (! $po || ! $po->contact?->email) {
+                return $this->setAlert('error','Gagal','Email pemasok tidak ditemukan.');
+            }
+            Mail::to($po->contact->email)->send(new PurchaseOrderMailToSupplier($po));
+            return $this->setAlert('info','Berhasil','Email akan segera dikirim.');
+        } catch (Exception $e){
             return $this->setAlert('error','Gagal',$e->getMessage());
         }
     }
