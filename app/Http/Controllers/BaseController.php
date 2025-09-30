@@ -28,7 +28,7 @@ class BaseController extends Controller
     private string $_filterParamLike = '';
     protected $_queryBuilder;
     private bool $_multipleSelectGrid = true;
-    private string $_module = '';
+    protected string $_module = '';
     private ?array $_form = [];
     private ?array $_gridProperties = [];
     private ?array $_detailSchema = [];

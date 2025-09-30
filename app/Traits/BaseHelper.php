@@ -1,11 +1,11 @@
 <?php
-
 namespace App\Traits;
 use Native\Laravel\Facades\{Alert,Notification};
 use App\Http\Response;
 use App\Objects\Notification as ObjectsNotification;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use App\Objects\IcPdf;
 
 trait BaseHelper
 {
@@ -79,5 +79,23 @@ trait BaseHelper
         }
         return $validator->validated();
        
+    }
+
+    /**
+     * 
+     * @param object $company - company object
+     * @param \Illuminate\Contracts\View\View $template - view template
+     * @param string $filename - nama ouput file
+     * @param string $output - tipe outpu I:inline browser embedded, D: direct download, F: file simpan di server, S: pdf sebagai string 
+     * */
+
+    public function generatePdf(object $company,\Illuminate\Contracts\View\View $template,string $filename, string $output = 'D'){
+        $pdf = new IcPdf('P', 'mm', 'A4', true, 'UTF-8', false);
+        $pdf->setCompany($company);
+        $pdf->build();
+        $pdf->writeHTML($template, false, false, true, false, '');
+        $result = $pdf->Output("{$filename}.pdf", $output);
+
+        return $result;
     }
 }

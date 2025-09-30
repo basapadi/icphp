@@ -615,9 +615,52 @@ export default {
 
         },
         async confirmPopup(cm){
-            if(cm.type !== "confirm")return
-            this.selectedContextMenu = cm
-            this.showConfirmDialog = true
+            if(cm.type == "confirm"){
+                this.selectedContextMenu = cm
+                this.showConfirmDialog = true
+            } else if(cm.type == 'download_pdf'){
+                this.selectedContextMenu = cm
+                await axios.post(cm.apiUrl, {
+                    id: this.selected.encode_id
+                }, {
+                    responseType: 'blob'
+                })
+                .then((response) => {
+                    const disposition = response.headers['content-disposition'];
+                    let filename = "download.pdf";
+
+                    if (disposition) {
+                        // Prioritaskan filename* (UTF-8)
+                        const utf8FilenameRegex = /filename\*\=UTF-8''([^;]+)/i;
+                        const asciiFilenameRegex = /filename\=\"([^"]+)\"/i;
+
+                        if (utf8FilenameRegex.test(disposition)) {
+                            filename = decodeURIComponent(utf8FilenameRegex.exec(disposition)[1]);
+                        } else if (asciiFilenameRegex.test(disposition)) {
+                            filename = asciiFilenameRegex.exec(disposition)[1];
+                        }
+                    }
+
+                    // Buat blob dan URL untuk download
+                    const blob = new Blob([response.data], { type: 'application/pdf' });
+                    const url = window.URL.createObjectURL(blob);
+
+                    // Trigger download
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', filename);
+                    document.body.appendChild(link);
+                    link.click();
+
+                    // Bersihkan
+                    link.remove();
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch((resp) => {
+                    alert(resp.response?.data?.message)
+                })
+            }
+            
         },
         async handleSubmitConfirmDialog(form){
             this.loading = true

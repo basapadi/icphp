@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Purchase Order {{ $po->kode }}</title>
+    <style>
+        body {
+            font-family: helvetica, arial, sans-serif;
+            font-size: 11pt;
+            color: #000000;
+            margin: 0;
+        }
+        
+        .company-info {
+            text-align: center;
+            padding-left: 20px;
+        }
+        .company-info h2 {
+            margin: 0px;
+            font-size: 16pt;
+            font-weight: bold;
+        }
+        .company-info p {
+            margin: 0px;
+            font-size: 9pt;
+            line-height: 0.8;
+        }
+        .po-info {
+            margin: 0;
+            font-size: 10pt;
+        }
+        h3 {
+            margin: 15px 0 8px 0;
+            font-size: 12pt;
+        }
+        p {
+            font-size: 10pt;
+        }
+        .items {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .items th {
+            border: 1px solid #000000;
+            padding: 8px 5px;
+            background-color: #DDDDDD;
+            text-align: center;
+            font-weight: bold;
+            font-size: 10pt;
+            vertical-align: middle;
+        }
+        .items td {
+            border: 1px solid #000000;
+            font-size: 10pt;
+            vertical-align: middle;
+            padding: 8px 12px;
+        }
+        .total {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .total th {
+            padding: 8px 5px;
+            background-color: #DDDDDD;
+            text-align: center;
+            font-weight: bold;
+            font-size: 10pt;
+            vertical-align: middle;
+        }
+        .total td {
+            font-size: 10pt;
+            vertical-align: middle;
+            padding: 8px 12px;
+        }
+        .text-right { 
+            text-align: right; 
+        }
+        .text-center { 
+            text-align: center; 
+        }
+        .text-left { 
+            text-align: left; 
+        }
+        .catatan-section {
+            margin-top: 5px;
+            font-size: 10pt;
+            border: 1px solid #CCCCCC;
+            background-color: #F9F9F9;
+        }
+        .ttd-table {
+            width: 100%;
+            margin-top: 10px;
+            border-collapse: collapse;
+        }
+        .ttd-table td {
+            text-align: center;
+            vertical-align: top;
+            font-size: 10pt;
+        }
+        .ttd-space {
+            height: 60px;
+        }
+        .footer-section {
+            margin-top: 20px;
+            font-size: 9pt;
+            text-align: left;
+            color: #333333;
+        }
+    </style>
+</head>
+<body>
+    <table cellpadding="0" cellspacing="0">
+        <tr>
+            <td style="width:50px;">No.PO</td>
+            <td style="width:5px;">:</td>
+            <td style="width:550px;"> {{ $po->kode }}</td>
+        </tr>
+        <tr>
+            <td>Tanggal</td>
+            <td>:</td>
+            <td> {{ $po->tanggal_formatted }}</td>
+        </tr>
+    </table>
+    <!-- DETAIL PESANAN -->
+    <h3>Detail Pesanan</h3>
+    <table class="items" cellpadding="5" cellspacing="0">
+        <thead>
+            <tr>
+                <th style="width: 8%;">No</th>
+                <th style="width: 38%;">Nama Barang</th>
+                <th style="width: 12%;">Jumlah</th>
+                <th style="width: 22%;">Harga Satuan</th>
+                <th style="width: 22%;">Total Harga</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($po->details as $i => $detail)
+                <tr>
+                    <td style="width: 8%;" class="text-center">{{ $i+1 }}</td>
+                    <td style="width: 38%;" class="text-left">{{ $detail->item->nama }}</td>
+                    <td style="width: 12%;" class="text-center">{{ $detail->jumlah }}</td>
+                    <td style="width: 22%;" class="text-right">{{ $detail->harga_formatted }}</td>
+                    <td style="width: 22%;" class="text-right">{{ $detail->total_harga_formatted }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+    <!-- TOTAL -->
+    <table class="total" cellpadding="5" cellspacing="0">
+        <tr>
+            <td style="width: 15%;">Total</td>
+            <td style="width: 3%;">:</td>
+            <td style="width: 80%;">{{ $po->total_formatted }}</td>
+        </tr>
+        <tr>
+            <td style="width: 15%;">Terbilang</td>
+            <td style="width: 3%;">:</td>
+            <td style="width: 80%;">{{ $po->total_terbilang }}</td>
+        </tr>
+       
+    </table>
+
+    <!-- CATATAN -->
+    @if(!empty($po->catatan))
+        <div class="catatan-section">
+            <span><strong>Catatan:</strong></span>
+            <span>{{ $po->catatan }}</span>
+        </div>
+    @endif
+
+    <!-- TANDA TANGAN -->
+    <table class="ttd-table" cellpadding="5" cellspacing="0">
+        <tr>
+            <td style="width: 50%;"><strong>Supplier</strong></td>
+            <td style="width: 50%;"><strong>{{ $company->namaToko }}</strong></td>
+        </tr>
+        <tr>
+            <td class="ttd-space">&nbsp;</td>
+            <td class="ttd-space">&nbsp;</td>
+        </tr>
+        <tr>
+            <td>( {{$po->contact->nama}} )</td>
+            <td>( {{$company->pemilik}} )</td>
+        </tr>
+    </table>
+
+    <!-- FOOTER -->
+    <div class="footer-section">
+        <p>Terima kasih atas kerjasamanya.</p>
+    </div>
+</body>
+</html>

@@ -10,7 +10,8 @@ use App\Models\{
     Item,
     ItemReceivedDetail,
     Master,
-    User
+    User,
+    Setting
 };
 use App\Objects\ContextMenu;
 use Illuminate\Http\Request;
@@ -93,17 +94,17 @@ class PurchaseOrderController extends BaseController
         $needApproval->message = 'Apakah anda yakin meminta persetujuan untuk pesanan ini?.';
 
         //Download PO
-        $needApproval = new ContextMenu('downloadpo','Download PO');
-        $needApproval->conditions = ['status' => ['sended','partial_received','received']];
-        $needApproval->type = 'confirm';
-        $needApproval->apiUrl = route('api.purchase.order.downloadPo');
-        $needApproval->icon = 'Download';
-        $needApproval->color = '#6D94C5';
-        $needApproval->onClick = 'confirmPopup';
-        $needApproval->title = 'Unduh Pesanan Pembelian';
-        $needApproval->message = 'Anda akan mengunduh pesanan pembelian untuk data ini, klik YA untuk mengunduh?.';
+        $downloadPo = new ContextMenu('downloadpo','Download PO');
+        $downloadPo->conditions = ['status' => ['sended','partial_received','received']];
+        $downloadPo->type = 'download_pdf';
+        $downloadPo->apiUrl = route('api.purchase.order.downloadPo');
+        $downloadPo->icon = 'Download';
+        $downloadPo->color = '#6D94C5';
+        $downloadPo->onClick = 'confirmPopup';
+        $downloadPo->title = 'Unduh Pesanan Pembelian';
+        $downloadPo->message = 'Anda akan mengunduh pesanan pembelian untuk data ini, klik YA untuk mengunduh?.';
 
-        $contextMenus = [$sendEmailContextMenu,$createReceivedItem,$needApproval];
+        $contextMenus = [$sendEmailContextMenu,$createReceivedItem,$needApproval, $downloadPo];
         $this->setContextMenu($contextMenus);
     }
 
@@ -127,7 +128,7 @@ class PurchaseOrderController extends BaseController
 
         try {
             if(!isset($request->id)){
-                $this->allowAccessModule('transaction.order.purchase', 'create');
+                $this->allowAccessModule($this->_module, 'create');
 
                 $rules['kode'] = 'required|string|unique:trx_purchase_orders,kode';
                 $data = $this->validate($rules);
@@ -175,7 +176,7 @@ class PurchaseOrderController extends BaseController
                 return $this->setAlert('info','Berhasil','Pesanan pembelian '.$po->kode.' berhasil disimpan');
 
             }else {
-                $this->allowAccessModule('transaction.order.sale', 'update');
+                $this->allowAccessModule($this->_module, 'update');
                 $data = $this->validate($rules);
                 if ($data instanceof \Illuminate\Http\JsonResponse) return $data;
 
@@ -224,7 +225,7 @@ class PurchaseOrderController extends BaseController
     }
 
     public function edit(Request $request,$id){
-        $this->allowAccessModule('transaction.order.purchase', 'edit');
+        $this->allowAccessModule($this->_module, 'edit');
         $id = $this->decodeId($id);
         $data = PurchaseOrder::with(['contact','details'])->where('id',$id)->first();
         if(empty($data)) return $this->setAlert('error','Galat!','Data yang tidak ditemukan!.');
@@ -248,7 +249,7 @@ class PurchaseOrderController extends BaseController
     }
 
     public function receivedForm(Request $request){
-        $this->allowAccessModule('transaction.item.receive', 'create');
+        $this->allowAccessModule($this->_module, 'create');
         $id = $this->decodeId($request->id);
 
         $data = PurchaseOrder::with(['details'])->where('id',$id)->first();
@@ -298,7 +299,7 @@ class PurchaseOrderController extends BaseController
     }
 
     public function createReceivedItem(Request $request){
-        $this->allowAccessModule('transaction.item.receive', 'create');
+        $this->allowAccessModule($this->_module, 'create');
 
         $rules = [
             'addtable'          => 'required|array',
@@ -455,6 +456,20 @@ class PurchaseOrderController extends BaseController
     }
 
     public function downloadPo(Request $request){
+        $this->allowAccessModule($this->_module, 'download');
+        $id = $this->decodeId(trim($request->id));
 
+        $po = PurchaseOrder::with(['contact'])->where('id', $id)->first();
+        $company = Setting::where('name', 'toko')->where('status', true)->first()->data ?? (object) [];
+        if (!$po) return $this->setAlert('error','Gagal','Pesanan tidak ditemukan.');
+        $html = view('pdf.po',compact('po','company'));
+        $output = $this->generatePdf($company,$html, $po->kode);
+
+        header('Content-Type: application/pdf');
+        header("Content-Disposition: attachment;");
+        header('Content-Length: ' . strlen($output));
+
+        echo $output;
+        exit;
     }
 }

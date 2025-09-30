@@ -54,29 +54,34 @@ class SettingController extends BaseController
             $setting = Setting::where('name',trim($request->key))->first();
             if(empty($setting)) return Response::badRequest("Data pengaturan dengan nama {$request->key} tidak ada");
 
-
-            if($data['key'] == 'mailing' && isset($data['password'])){
-                $data['password'] = encrypt(trim($data['password']));
-            }
-
-            $setting->data = $data;
-            $setting->save();
-
             if($data['key'] == 'mailing'){
                 $mailingData = (object) $setting->data;
-                $pwd = decrypt(trim($mailingData->password));
-                applyMailConfig($mailingData->driver);
+                $pwd = null;
+                if(isset($data['password']))$pwd = trim($data['password']);
+                else if(!isset($data['password']) && isset($mailingData->password)) $pwd = decrypt(trim(@$mailingData->password));
+                else $data['password'] = '';
+                updateEnv('MAIL_PASSWORD', "'{$pwd}'");    
                 updateEnv('MAIL_MAILER', trim($mailingData->driver));
                 updateEnv('MAIL_HOST', trim($mailingData->host));
                 updateEnv('MAIL_PORT', trim($mailingData->port));
                 updateEnv('MAIL_USERNAME', trim($mailingData->username));
-                updateEnv('MAIL_PASSWORD', "'{$pwd}'");
                 updateEnv('MAIL_FROM_ADDRESS', trim($mailingData->fromAddress));
                 updateEnv('MAIL_FROM_NAME', trim("'{$mailingData->fromName}'"));
                 updateEnv('MAIL_ENCRYPTION', trim("'{$mailingData->encryption}'"));
-                Artisan::call('config:clear');
-                Artisan::call('view:clear');
+                $data['password'] = encrypt($pwd);
+
+                $setting->data = $data;
+                $setting->save();
+                applyMailConfig($mailingData->driver);
+            } else if($data['key'] == 'toko'){
+                //TODO:: apabila ada menyimpan data toko optional tambah disini
+
+                $setting->data = $data;
+                $setting->save();
             }
+
+            Artisan::call('config:clear');
+            Artisan::call('view:clear');
             
             return Response::ok('Pengaturan berhasil disimpan');
         }catch(Exception $e){

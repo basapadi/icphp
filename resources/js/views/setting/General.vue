@@ -179,7 +179,7 @@
                         v-model="settings.mailing.data.password"
                         name="password"
                         id="password"
-                        hint="Password login SMTP"
+                        hint="Password login SMTP, kosongkan apabila tidak ada perubahan password"
                     />
                     <Input
                         key="fromAddress"

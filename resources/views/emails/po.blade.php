@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Purchase Order {{ $po->kode }}</title>
-    <style>
+     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
             font-size: 14px;
@@ -11,12 +11,17 @@
         }
         .header {
             display: flex;
-            align-items: center;
+            align-items: center;           /* Vertikal center */
+            justify-content: flex-start;   /* Tetap kiri */
             margin-bottom: 20px;
+            gap: 15px;                     /* jarak antara logo dan teks */
         }
         .header img {
             max-height: 60px;
             margin-right: 15px;
+        }
+        .header .company-info {
+            text-align: center;
         }
         .header .company-info h2 {
             margin: 0;
@@ -60,10 +65,31 @@
             font-size: 13px;
             color: #666;
         }
+        .header-grid {
+            margin: 0;
+            display: grid;
+            grid-template-columns: 100px 1fr; /* 100px untuk logo, sisanya untuk teks */
+            align-items: center;               /* Vertikal center */
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .header-grid img {
+            max-height: 60px;
+        }
+
+        .header-grid .company-info {
+            text-align: center;                /* Tengah teks horizontal */
+            position: absolute;                /* Lepas dari grid agar bisa benar-benar center */
+            left: 50%;
+            transform: translateX(-50%);
+            width: auto;
+            margin: 2px 0;
+        }
     </style>
 </head>
 <body>
-    <div class="header">
+    <div class="header-grid">
         @if(!empty($company->logo))
             <img src="{{ $company->logo }}" alt="Logo {{ $company->namaToko }}">
         @endif
