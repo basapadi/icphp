@@ -70,10 +70,12 @@ class ReportController extends BaseController
 
     public function getSchemas(Request $request){
         $result = [];
-        $tables = ['items',
+        $tables = [
+            'items',
+            'item_stocks',
             'item_prices',
-            'masters',
             'item_stock_adjustments',
+            'masters',
             'trx_purchase_orders',
             'trx_purchase_order_details',
             'trx_received_items',

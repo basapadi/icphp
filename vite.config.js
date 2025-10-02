@@ -28,21 +28,21 @@ export default defineConfig(({ mode }) => {
     define: {
       // forward variable APP_VERSION jadi global constant
       __APP_VERSION__: JSON.stringify(env.NATIVEPHP_APP_VERSION),
-    },
-    build: {
-      outDir: 'public/build',
-      manifest: true,
-      emptyOutDir: true,
-      rollupOptions: {
-        plugins: [
-          visualizer({
-            filename: 'stats.html',
-            open: false,             
-            gzipSize: true,         
-            brotliSize: true        
-          })
-        ]
-      }
     }
+    // build: {
+    //   outDir: 'public/build',
+    //   manifest: true,
+    //   emptyOutDir: true,
+    //   rollupOptions: {
+    //   plugins: [
+    //       visualizer({
+    //           filename: 'stats.html',
+    //           open: false,
+    //           gzipSize: true,
+    //           brotliSize: true
+    //       })
+    //     ]
+    //   }
+    // }
   }
 })

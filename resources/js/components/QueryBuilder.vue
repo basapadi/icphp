@@ -8,11 +8,11 @@
    							<div class="flex flex-col md:flex-row md:items-center gap-2">
 	   							<Input
 	                                key="name"
-	                                label="Nama query"
+	                                label="Nama Laporan"
 	                                v-model="form.name"
 	                                name="name"
 	                                id="name"
-	                                hint="Masukkan nama query"
+	                                hint="Masukkan nama laporan"
 	                                :required="true"
 	                            />
 	                        </div>
@@ -26,7 +26,7 @@
 						            <MonacoEditor
 								      v-model:value="form.query"
 								      language="sql"
-								      theme="light"
+								      theme="vs-dark"
 								      :options="editorOptions"
 								    />
 					         	</div>
@@ -134,7 +134,12 @@ export default {
         	},
         	form: {
         		name: '',
-        		query: 'select *,unit.nama as unit_name, items.nama as item_name from item_stocks left join masters as unit on unit.id = item_stocks.unit_id left join items on items.id = item_stocks.item_id'
+        		query: `select *,
+unit.nama as unit_name, 
+items.nama as item_name 
+from item_stocks 
+left join masters as unit on unit.id = item_stocks.unit_id 
+left join items on items.id = item_stocks.item_id`
         	}
         }
     },
