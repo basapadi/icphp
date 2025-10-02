@@ -3,22 +3,18 @@
     <div class="w-full max-h-1">
       <PageHeader title="Laporan" description="Laporan"/>
       <div class="p-2">
-        <div class="flex h-screen">
-          <!-- Sidebar (20%) -->
-          <aside class="w-1/8 border rounded p-2">
-            <ul class="space-y-2">
-              <li v-for="q in queries">
-                <a href="#" @click="selectQuery(q)" class="block px-2 py-1 border border-dashed rounded hover:bg-gray-300 text-sm text-gray-500">
-                  {{q.label}}
-                </a>
-              </li>
-            </ul>
-          </aside>
-
-          <!-- Konten utama (80%) -->
-          <div class="w-7/8 px-1">
-            <ReportDataTable title="Report" :query="selectedQuery"/>
+        <div class="px-1">
+          <div class="flex flex-wrap gap-2 mb-1">
+            <span
+              v-for="q in queries"
+              :key="q.label"
+              @click="selectQuery(q)"
+              class="inline-block cursor-pointer bg-orange-100 px-2 py-1 text-xs rounded-full border text-gray-600 hover:bg-orange-300"
+            >
+              {{ q.label }}
+            </span>
           </div>
+          <ReportDataTable title="Report" :query="selectedQuery"/>
         </div>
       </div>
     </div>

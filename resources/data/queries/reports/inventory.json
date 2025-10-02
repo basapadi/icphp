@@ -49,7 +49,7 @@
 	        "align": "left",
 	        "field": "tanggal_pembaruan",
 	        "sortable": true,
-	        "type": "text",
+	        "type": "date_range",
 	        "options": [],
 	        "show": true,
 	        "class": "font-mono",

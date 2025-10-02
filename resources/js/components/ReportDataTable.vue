@@ -1,16 +1,15 @@
 <template>
-    <div class="bg-white rounded-lg shadow-sm border border-gray-200 z-1">
-        <!-- Table Header -->
-        <div class="px-1 py-1 border-b border-gray-300">
-            <div class="flex justify-between">
-                <div>
-                    <FilterHeader :columns="columns" @load="load" :pagination="pagination" :operators="operators" :filter="filter" :properties="properties"/>
+    <div class="bg-white rounded-lg shadow-xs border border-gray-200 z-1">
+        <div class="h-screen">
+            <div class="px-1 py-1 h-auto border-b border-gray-300">
+                <div class="flex justify-between">
+                    <div>
+                        <FilterHeader :columns="columns" @load="load" :pagination="pagination" :operators="operators" :filter="filter" :properties="properties"/>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="h-screen relative z-1">
             <!-- Table -->
-            <div class="overflow-x-auto max-h-7/10 z-1" ref="tableContainer">
+            <div class="overflow-x-auto h-7/10 z-1" ref="tableContainer">
                 <table class="min-w-full border-collapse border border-dashed border-orange-100 z-1">
                     <thead class="bg-orange-50 sticky top-0" style="z-index:11">
                         <tr>
@@ -70,9 +69,8 @@
                     </tbody>
                 </table>
             </div>
-
-            <!-- Table Footer -->
-            <div class="px-4 py-3 border-t border-gray-200 bg-white z-1">
+                <!-- Table Footer -->
+            <div class="px-4 py-3 h-auto border-t border-gray-200 bg-white z-1">
                 <div class="flex items-center justify-between">
                     <div class="text-sm text-gray-700">
                         Data

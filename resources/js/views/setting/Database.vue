@@ -1,142 +1,172 @@
 <template>
   <AdminLayout>
-    <div class="w-full">
+    <div class="">
       <PageHeader title="Basis Data" description="Pengaturan Basis Data"/>
       <div class="flex gap-1 p-2">
-        <Card class="flex-1 max-w-2xl">
-          <CardHeader>
-            <CardTitle>Konfigurasi Basis Data</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form @submit.prevent="saveLocalConfig" >
-              <div class="space-y-4 grid grid-cols-1 md:grid-cols-1 gap-2">
-                <Select
-                  v-model="form.driver"
-                  :options="drivers"
-                  label="Tipe Database"
-                  hint="Pilih tipe database yang akan digunakan"
-                  required
-                  name="type"
-                  id="type"
-                />
-                <Input
-                  v-if="form.driver == 'sqlite'"
-                  v-model="form.database"
-                  label="SQlite Path"
-                  hint="Masukkan Path database SQlite"
-                  :required="form.driver == 'sqlite'?true:false"
-                  name="database"
-                  id="database"
-                />
-                <template v-else-if="['mysql','pgsql','mariadb'].includes(form.driver)">
-                  <Input
-                    v-model="form.host"
-                    label="Host"
-                    hint="Masukkan alamat host database"
+        <Card class="flex-1 py-1 pb-4 px-2">
+          <div class="mx-4">
+            <nav class="flex space-x-4" aria-label="Tabs">
+              <button
+                @click="activeTab = 'db'"
+                :class="[
+                  activeTab === 'db'
+                    ? 'border-orange-500 text-orange-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+                  'whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm'
+                ]"
+              >
+                Basis Data
+              </button>
+              <button
+                @click="activeTab = 'command'"
+                :class="[
+                  activeTab === 'command'
+                    ? 'border-orange-500 text-orange-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+                  'whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm'
+                ]"
+              >
+                Command
+              </button>
+              <button
+                @click="activeTab = 'backup_db'"
+                :class="[
+                  activeTab === 'backup_db'
+                    ? 'border-orange-500 text-orange-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+                  'whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm'
+                ]"
+              >
+                Backup Basis Data
+              </button>
+            </nav>
+          </div>
+          <div class="px-4">
+            <div v-if="activeTab === 'db'">
+              <form @submit.prevent="saveLocalConfig" >
+                <div class="space-y-4 grid grid-cols-1 md:grid-cols-1 gap-2">
+                  <Select
+                    v-model="form.driver"
+                    :options="drivers"
+                    label="Tipe Database"
+                    hint="Pilih tipe database yang akan digunakan"
                     required
-                    name="host"
-                    id="host"
+                    name="type"
+                    id="type"
                   />
                   <Input
-                    v-model="form.port"
-                    label="Port"
-                    hint="Masukkan nomor port database"
-                    required
-                    name="port"
-                    id="port"
-                    type="number"
-                  />
-                  <Input
+                    v-if="form.driver == 'sqlite'"
                     v-model="form.database"
-                    label="Database"
-                    hint="Masukkan nama database"
-                    required
+                    label="SQlite Path"
+                    hint="Masukkan Path database SQlite"
+                    :required="form.driver == 'sqlite'?true:false"
                     name="database"
                     id="database"
                   />
-                  <Input
-                    v-model="form.username"
-                    label="Username"
-                    hint="Masukkan username database"
-                    required
-                    name="username"
-                    id="username"
-                  />
-                  <Input
-                    v-model="form.password"
-                    label="Password"
-                    hint="Masukkan password database"
-                    name="password"
-                    id="password"
-                    type="password"
-                  />
-                  <Input
-                    v-model="form.charset"
-                    label="Charset"
-                    hint="Charset database"
-                    name="charset"
-                    id="charset"
-                    type="charset"
-                  />
-                  <Input
-                    v-model="form.collation"
-                    label="Collation"
-                    hint="Collation database"
-                    name="collation"
-                    id="collation"
-                    type="collation"
-                    v-if="['mysql','mariadb'].includes(form.driver)"
-                  />
-                </template>
-              </div>
-              <div v-if="form.driver != ''" class="space-y-2 grid grid-cols-1 md:grid-cols-1 mt-4 gap-1">
-                <button
-                  type="button"
-                  @click="testDb"
-                  class="w-full py-1 bg-green-50 border-1 border-green-200 rounded-md hover:bg-green-200 text-green-700 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103"
-                >
-                  Uji Coba Koneksi
-                </button>
-                <button
-                  type="submit"
-                  class="w-full py-1 bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103"
-                >
-                  Simpan
-                </button>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
-        <Card class="flex-1 max-w-lg">
-          <CardHeader>
-            <CardTitle>Command Konfigurasi Data</CardTitle>
-            <ul class="list-disc text-red-600 pl-4 text-xs">
+                  <template v-else-if="['mysql','pgsql','mariadb'].includes(form.driver)">
+                    <Input
+                      v-model="form.host"
+                      label="Host"
+                      hint="Masukkan alamat host database"
+                      required
+                      name="host"
+                      id="host"
+                    />
+                    <Input
+                      v-model="form.port"
+                      label="Port"
+                      hint="Masukkan nomor port database"
+                      required
+                      name="port"
+                      id="port"
+                      type="number"
+                    />
+                    <Input
+                      v-model="form.database"
+                      label="Database"
+                      hint="Masukkan nama database"
+                      required
+                      name="database"
+                      id="database"
+                    />
+                    <Input
+                      v-model="form.username"
+                      label="Username"
+                      hint="Masukkan username database"
+                      required
+                      name="username"
+                      id="username"
+                    />
+                    <Input
+                      v-model="form.password"
+                      label="Password"
+                      hint="Masukkan password database"
+                      name="password"
+                      id="password"
+                      type="password"
+                    />
+                    <Input
+                      v-model="form.charset"
+                      label="Charset"
+                      hint="Charset database"
+                      name="charset"
+                      id="charset"
+                      type="charset"
+                    />
+                    <Input
+                      v-model="form.collation"
+                      label="Collation"
+                      hint="Collation database"
+                      name="collation"
+                      id="collation"
+                      type="collation"
+                      v-if="['mysql','mariadb'].includes(form.driver)"
+                    />
+                  </template>
+                </div>
+                <div v-if="form.driver != ''" class="space-y-2 grid grid-cols-1 md:grid-cols-1 mt-4 gap-1">
+                  <button
+                    type="button"
+                    @click="testDb"
+                    class="w-full py-1 bg-green-50 border-1 border-green-200 rounded-md hover:bg-green-200 text-green-700 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103"
+                  >
+                    Uji Coba Koneksi
+                  </button>
+                  <button
+                    type="submit"
+                    class="w-full py-1 bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103"
+                  >
+                    Simpan
+                  </button>
+                </div>
+              </form>
+            </div>
+            <div v-if="activeTab === 'command'">
+              <ul class="list-disc text-red-600 pl-4 text-xs">
                 <li class="mb-2 rounded text-xs italic"><b>[Peringatan]</b> Migrasi basis data : akan mempengaruhi struktur basis data anda ke versi terbaru, silakan backup data terlebih dahulu.</li>
                 <li class="mb-2 rounded text-xs italic"><b>[Peringatan]</b> Seed Data : akan menghapus data yang sudah ada dan memuat data contoh ke basis data anda, silakan backup data terlebih dahulu.</li>
                 <li class="mb-2 rounded text-xs italic">Config cache : akan memuat ulang configurasi terbaru</li>
                 <li class="mb-2 rounded text-xs italic">Route cache : akan memuat ulang routing halaman terbaru</li>
-            </ul>
-          </CardHeader>
-          <CardContent>
-            <div class="space-y-4 grid grid-cols-1 md:grid-cols-3 pb-4   gap-2">
-              <Radio
-                  label="Migrasi Basis Data"
-                  v-model="command.migrate_db"
-                  name="migrate_db"
-                  id="migrate_db"
-                  hint="Migrasi Basis Data"
-                  :options="data_options_migrate"
-                  direction="col"
-              />
-              <Radio
-                  label="Seed Data"
-                  v-model="command.seed_db"
-                  name="seed_db"
-                  id="seed_db"
-                  hint="Seed Basis Data"
-                  :options="data_options"
-                  direction="col"
-              />
+              </ul>
+              <div class="space-y-4 grid grid-cols-1 md:grid-cols-2 pb-4  gap-2">
+                <Radio
+                    label="Migrasi Basis Data"
+                    v-model="command.migrate_db"
+                    name="migrate_db"
+                    id="migrate_db"
+                    hint="Migrasi Basis Data"
+                    :options="data_options_migrate"
+                    direction="row"
+                />
+                <!-- <Radio
+                    label="Seed Data"
+                    v-model="command.seed_db"
+                    name="seed_db"
+                    id="seed_db"
+                    hint="Seed Basis Data"
+                    :options="data_options"
+                    direction="row"
+                /> -->
               <Radio
                   label="Config Cache"
                   v-model="command.config_cache"
@@ -144,7 +174,7 @@
                   id="config_cache"
                   hint="Config Cache"
                   :options="data_options"
-                  direction="col"
+                  direction="row"
               />
               <Radio
                   label="Config Clear"
@@ -153,7 +183,7 @@
                   id="config_clear"
                   hint="Config Clear"
                   :options="data_options"
-                  direction="col"
+                  direction="row"
               />
               <Radio
                   label="Cache Clear"
@@ -162,7 +192,7 @@
                   id="cache_clear"
                   hint="Cache clear"
                   :options="data_options"
-                  direction="col"
+                  direction="row"
               />
               <Radio
                   label="Route Cache"
@@ -171,128 +201,123 @@
                   id="route_cache"
                   hint="Route Cache"
                   :options="data_options"
-                  direction="col"
+                  direction="row"
               />
-              
-            </div>
-            <button @click="runCommand" type="submit" class="w-full py-1 bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103"
+              <button @click="runCommand" type="submit" class="w-full py-1 bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103"
               >
-              Jalankan Command
-            </button>
-          </CardContent>
-        </Card>
-        <Card class="flex-1 max-w-2xl">
-          <CardHeader>
-            <CardTitle>Konfigurasi Pencadangan Basis Data</CardTitle>
-          </CardHeader>
-          <CardContent> 
-            <form @submit.prevent="handleSubmit" >
-              <div class="space-y-2 grid grid-cols-1 md:grid-cols-1 gap-1">
-                <Select
-                  v-model="backup.driver"
-                  :options="backupDatabaseTypes"
-                  label="Tipe Database"
-                  hint="Pilih tipe database yang akan digunakan"
-                  required
-                  name="type"
-                  id="type"
-                />
-                <Input
-                  v-if="backup.driver == 'sqlite'"
-                  v-model="backup.database"
-                  label="SQlite Path"
-                  hint="Path database SQlite"
-                  :required="backup.driver == 'sqlite'?true:false"
-                  name="database"
-                  id="database"
-                />
-                <template v-else>
-                  <Input
-                    v-model="backup.host"
-                    label="Host"
-                    hint="alamat host database"
+                Jalankan Command
+              </button>
+            </div>
+            </div>
+            <div v-if="activeTab === 'backup_db'">
+              <form @submit.prevent="handleSubmit" >
+                <div class="space-y-2 grid grid-cols-1 md:grid-cols-1 gap-1">
+                  <Select
+                    v-model="backup.driver"
+                    :options="backupDatabaseTypes"
+                    label="Tipe Database"
+                    hint="Pilih tipe database yang akan digunakan"
                     required
-                    name="host"
-                    id="host"
+                    name="type"
+                    id="type"
                   />
                   <Input
-                    v-model="backup.port"
-                    label="Port"
-                    hint="nomor port database"
-                    required
-                    name="port"
-                    id="port"
-                    type="number"
-                  />
-                  <Input
+                    v-if="backup.driver == 'sqlite'"
                     v-model="backup.database"
-                    label="Database"
-                    hint="nama database"
-                    required
+                    label="SQlite Path"
+                    hint="Path database SQlite"
+                    :required="backup.driver == 'sqlite'?true:false"
                     name="database"
                     id="database"
                   />
-                  <Input
-                    v-model="backup.username"
-                    label="Username"
-                    hint="username database"
-                    required
-                    name="username"
-                    id="username"
-                  />
-                  <Input
-                    v-model="backup.password"
-                    label="Password"
-                    hint="password database"
-                    name="password"
-                    id="password"
-                    type="password"
-                  />
-                  <Input
-                    v-model="backup.charset"
-                    label="Charset"
-                    hint="Charset database"
-                    name="charset"
-                    id="charset"
-                    type="charset"
-                  />
-                  <Input
-                    v-model="backup.collation"
-                    label="Collation"
-                    hint="Collation database"
-                    name="collation"
-                    id="collation"
-                    type="collation"
-                    v-if="['mysql','mariadb'].includes(backup.driver)"
-                  />
-                </template>
-              </div>
-              <div v-if="backup.driver != ''" class="space-y-4 grid grid-cols-1 md:grid-cols-1 mt-4 gap-1">
-                <button
-                  type="button"
-                  class="w-full py-1 bg-green-50 border-1 border-green-200 rounded-md hover:bg-green-200 text-green-700 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103"
-                >
-                  Uji Coba Koneksi
-                </button>
-                <button
-                  type="submit"
-                  class="w-full py-1 bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103"
-                >
-                  Simpan
-                </button>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
-      </div>
-      <div v-if="loading" class="absolute inset-0 flex pt-80 justify-center bg-white/70 z-10" >
-          <LoaderCircle class="w-14 h-14 animate-spin text-orange-500" />
+                  <template v-else>
+                    <Input
+                      v-model="backup.host"
+                      label="Host"
+                      hint="alamat host database"
+                      required
+                      name="host"
+                      id="host"
+                    />
+                    <Input
+                      v-model="backup.port"
+                      label="Port"
+                      hint="nomor port database"
+                      required
+                      name="port"
+                      id="port"
+                      type="number"
+                    />
+                    <Input
+                      v-model="backup.database"
+                      label="Database"
+                      hint="nama database"
+                      required
+                      name="database"
+                      id="database"
+                    />
+                    <Input
+                      v-model="backup.username"
+                      label="Username"
+                      hint="username database"
+                      required
+                      name="username"
+                      id="username"
+                    />
+                    <Input
+                      v-model="backup.password"
+                      label="Password"
+                      hint="password database"
+                      name="password"
+                      id="password"
+                      type="password"
+                    />
+                    <Input
+                      v-model="backup.charset"
+                      label="Charset"
+                      hint="Charset database"
+                      name="charset"
+                      id="charset"
+                      type="charset"
+                    />
+                    <Input
+                      v-model="backup.collation"
+                      label="Collation"
+                      hint="Collation database"
+                      name="collation"
+                      id="collation"
+                      type="collation"
+                      v-if="['mysql','mariadb'].includes(backup.driver)"
+                    />
+                  </template>
+                </div>
+                <div v-if="backup.driver != ''" class="space-y-4 grid grid-cols-1 md:grid-cols-1 mt-4 gap-1">
+                  <button
+                    type="button"
+                    class="w-full py-1 bg-green-50 border-1 border-green-200 rounded-md hover:bg-green-200 text-green-700 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103"
+                  >
+                    Uji Coba Koneksi
+                  </button>
+                  <button
+                    type="submit"
+                    class="w-full py-1 bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103"
+                  >
+                    Simpan
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </Card>        
+        <div v-if="loading" class="absolute inset-0 flex pt-80 justify-center bg-white/70 z-10" >
+            <LoaderCircle class="w-14 h-14 animate-spin text-orange-500" />
+        </div>
       </div>
     </div>
   </AdminLayout>
 </template>
 <script>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import AdminLayout from '@/layouts/AdminLayout.vue'
 import PageHeader from '@/components/PageHeader.vue'
 import {Input,Select,Radio} from '@/components/ui/form'
@@ -319,6 +344,8 @@ export default {
       sqlite: 'SQLite'
     }
 
+    const activeTab = ref('db')
+
     const backupDatabaseTypes = {
       mysql: 'MySQL',
       mariadb: 'MariaDB',
@@ -327,7 +354,8 @@ export default {
 
     return {
       drivers,
-      backupDatabaseTypes
+      backupDatabaseTypes,
+      activeTab
     }
   },
   computed: {

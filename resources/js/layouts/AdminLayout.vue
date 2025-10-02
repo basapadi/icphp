@@ -1,8 +1,8 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="h-screen bg-gray-50">
     <AdminToolbar />
 
-    <div class="flex">
+    <div class="flex h-screen">
       <!-- Sidebar -->
       <keep-alive>
         <AdminSidebar />

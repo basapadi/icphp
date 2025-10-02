@@ -1,37 +1,37 @@
 <template>
     <div class="bg-white rounded-lg shadow-sm border border-gray-200 z-1">
-        <!-- Table Header -->
-        <div class="px-1 py-1 border-b border-gray-300">
-            <div class="flex justify-between">
-                <div>
-                    <FilterHeader :columns="columns" @load="load" :pagination="pagination" :operators="operators" :filter="filter" :properties="properties"/>
-                </div>
-                <div class="">
-                    <div class="flex flex-col md:flex-row md:items-center gap-2">
-                        <div class="relative delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103" v-if="properties.simpleFilter">
-                            <input v-model="searchQuery" type="text" :placeholder="`Cari ${title}`"
-                                class="pl-8 pr-3 py-1.5 text-sm border-1 border-gray-300 rounded-md focus:border-transparent" />
-                            <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-                                <Search class="h-4 w-4 text-gray-400" />
+        <div class="h-screen">
+            <!-- Table Header -->
+            <div class="px-1 py-1 h-auto border-b border-gray-300">
+                <div class="flex justify-between">
+                    <div>
+                        <FilterHeader :columns="columns" @load="load" :pagination="pagination" :operators="operators" :filter="filter" :properties="properties"/>
+                    </div>
+                    <div class="">
+                        <div class="flex flex-col md:flex-row md:items-center gap-2">
+                            <div class="relative delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103" v-if="properties.simpleFilter">
+                                <input v-model="searchQuery" type="text" :placeholder="`Cari ${title}`"
+                                    class="pl-8 pr-3 py-1.5 text-sm border-1 border-gray-300 rounded-md focus:border-transparent" />
+                                <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+                                    <Search class="h-4 w-4 text-gray-400" />
+                                </div>
                             </div>
-                        </div>
-                        <div class="relative mr-2" v-if="this.module == 'trash'">
-                            <Button class="bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103" @click="truncateData" v-if="allowDelete" size="sm">
-                                Hapus Semua
-                            </Button>
-                        </div>
-                        <div class="relative mr-2" v-if="allowCreate && columnOptions.length > 0 ">
-                            <Button v-if="columnOptions.includes('create')" class="bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103" @click="tambahData" size="sm">
-                                Tambah
-                            </Button>
+                            <div class="relative mr-2" v-if="this.module == 'trash'">
+                                <Button class="bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103" @click="truncateData" v-if="allowDelete" size="sm">
+                                    Hapus Semua
+                                </Button>
+                            </div>
+                            <div class="relative mr-2" v-if="allowCreate && columnOptions.length > 0 ">
+                                <Button v-if="columnOptions.includes('create')" class="bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103" @click="tambahData" size="sm">
+                                    Tambah
+                                </Button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="h-screen relative z-1">
             <!-- Table -->
-            <div class="overflow-x-auto max-h-7/10 z-1" ref="tableContainer">
+            <div class="overflow-x-auto h-15/20 z-1" ref="tableContainer">
                 <table class="min-w-full border-collapse border border-dashed border-orange-100 z-1">
                     <thead class="bg-orange-50 sticky top-0" style="z-index:11">
                         <tr>
@@ -93,7 +93,7 @@
             </div>
 
             <!-- Table Footer -->
-            <div class="px-4 py-3 border-t border-gray-200 bg-white z-1">
+            <div class="px-4 py-3 h-auto border-t border-gray-200 bg-white z-1">
                 <div class="flex items-center justify-between">
                     <div class="text-sm text-gray-700">
                         Data
