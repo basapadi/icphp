@@ -86,10 +86,11 @@
 import { Bell, User, LogOut } from 'lucide-vue-next'
 import { mapGetters, mapActions } from 'vuex'
 import ChangeLog from '@/components/ChangeLog.vue'
+import { Card, CardContent } from "@/components/ui/card";
 
 export default {
   name: 'TopBar',
-  components: { Bell, User, LogOut,ChangeLog },
+  components: { Bell, User, LogOut,ChangeLog,Card,CardContent },
 
   data() {
     return {

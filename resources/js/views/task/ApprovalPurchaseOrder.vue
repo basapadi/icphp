@@ -1,9 +1,9 @@
 <template>
   <AdminLayout>
     <div class="w-full max-h-1">
-      <PageHeader title="Approval Pesanan Pembelian" description="Daftar Approval Pesanan Pembelian"/>
+      <PageHeader title="Approval PO" description="Daftar Approval Pesanan Pembelian"/>
       <div class="p-2">
-         <DataTable title="Approval Pesanan Pembelian" module="approvalPurchaseOrder" :defaultFilter="{
+         <DataTable title="Approval PO" module="approvalPurchaseOrder" :defaultFilter="{
                 operator: '_is',
                 column: 'approval_status',
                 value: 'pending'

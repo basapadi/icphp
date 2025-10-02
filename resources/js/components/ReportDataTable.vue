@@ -113,9 +113,6 @@
             </div>
         </div>
     </div>
-    <FormDialog :open="showDialog" :title="title" :dialog="form.dialog" :sections="form.sections" :formData="form.data" @close="this.showDialog = false" @onSubmit="handleSubmit" />
-    <ConfirmDialog :open="showConfirmDialog" :contextMenu="selectedContextMenu" @onSubmit="handleSubmitConfirmDialog" @close="this.showConfirmDialog = false"/>
-    <DetailDialog :title="title" :open="showDetail" :data="selected" :schema="detail_schema" @close="showDetail=false"/>
     <div v-if="openDropdown" class="absolute bg-white border rounded shadow-md w-50 z-50" :style="{ top: dropDownPosition.y + 'px', left: dropDownPosition.x + 'px' }">
         <div v-if="this.properties.contextMenu.length > 0">
             <div v-for="cm in this.properties.contextMenu.filter(cm => matchContextMenuConditions(cm.conditions))" :key="cm.name">
@@ -138,11 +135,8 @@ import * as operator from "./../constants/operator";
 import { mapGetters } from "vuex";
 import { ref } from "vue"
 import { Badge } from "@/components/ui";
-import FormDialog from "@/components/FormDialog.vue";
 import FilterHeader from "@/components/FilterHeader.vue";
 import Button from "@/components/ui/button/Button.vue";
-import DetailDialog from "@/components/DetailDialog.vue";
-import ConfirmDialog from "@/components/ConfirmDialog.vue";
 import {
     Pagination,
     PaginationContent,
@@ -157,11 +151,8 @@ import {
 export default {
     components: {
         Badge,
-        FormDialog,
-        ConfirmDialog,
         FilterHeader,
         Button,
-        DetailDialog,
         Pagination,
         PaginationContent,
         PaginationEllipsis,
@@ -368,130 +359,6 @@ export default {
             let position = e.target.scrollTop
             if(position != this.scrollPosition)this.openDropdown = null
             this.scrollPosition = position
-        },
-        handleRightClick(data,index, e) {
-            this.selected = data
-            this.contextMenuPosition.x = e.clientX
-            this.contextMenuPosition.y = e.clientY
-            this.openContextMenu = true
-            this.openDropdown = false
-        },
-        handleClickRow(data, index,e) {
-            if (e.target.type !== 'checkbox') {
-                this.selected = data
-                this.selectedIndex = [index]
-                if(this.properties.multipleSelect){
-                    this.selectedData = [data.id]
-                    this.selectAll = false
-                }
-            }
-        },
-        handleCheckboxChange(index, e) {
-            if (e.target.checked) {
-                this.selectedIndex.push(index)
-                this.selected = null
-            } else {
-                this.selectedIndex = this.selectedIndex.filter(i => i !== index)
-            }
-        },
-        matchContextMenuConditions(conditions) {
-            if (!conditions || Object.keys(conditions).length === 0) return true;
-            return Object.entries(conditions).every(([key, value]) => {
-                const selectedValue = this.selected[key];
-                if (Array.isArray(value)) {
-                    return value.includes(selectedValue);
-                }
-                return selectedValue === value;
-            });
-        },
-        callByFunctionName(cm){
-            this[cm.onClick](cm)
-        },
-        test(cm){
-            alert(`Test, buat function sebenarnya di datatable component`)
-        },
-        async getFormDialog(cm){
-            if(cm.type !== "form_dialog")return
-            this.selectedContextMenu = cm
-            this.loading = true
-            const res = await axios.get(cm.formUrl, {
-                params: {id: this.selected.encode_id}
-            })
-            .catch(err => console.error(err))
-            .finally(() => {
-                this.showDialog = true
-                this.loading = false
-                this.openDropdown = false
-            });
-            this.form = res.data.data
-
-        },
-        async confirmPopup(cm){
-            if(cm.type == "confirm"){
-                this.selectedContextMenu = cm
-                this.showConfirmDialog = true
-            } else if(cm.type == 'download_pdf'){
-                this.selectedContextMenu = cm
-                await axios.post(cm.apiUrl, {
-                    id: this.selected.encode_id
-                }, {
-                    responseType: 'blob'
-                })
-                .then((response) => {
-                    const disposition = response.headers['content-disposition'];
-                    let filename = "download.pdf";
-
-                    if (disposition) {
-                        // Prioritaskan filename* (UTF-8)
-                        const utf8FilenameRegex = /filename\*\=UTF-8''([^;]+)/i;
-                        const asciiFilenameRegex = /filename\=\"([^"]+)\"/i;
-
-                        if (utf8FilenameRegex.test(disposition)) {
-                            filename = decodeURIComponent(utf8FilenameRegex.exec(disposition)[1]);
-                        } else if (asciiFilenameRegex.test(disposition)) {
-                            filename = asciiFilenameRegex.exec(disposition)[1];
-                        }
-                    }
-
-                    // Buat blob dan URL untuk download
-                    const blob = new Blob([response.data], { type: 'application/pdf' });
-                    const url = window.URL.createObjectURL(blob);
-
-                    // Trigger download
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.setAttribute('download', filename);
-                    document.body.appendChild(link);
-                    link.click();
-
-                    // Bersihkan
-                    link.remove();
-                    window.URL.revokeObjectURL(url);
-                })
-                .catch((resp) => {
-                    alert(resp.response?.data?.message)
-                })
-            }
-            
-        },
-        async handleSubmitConfirmDialog(form){
-            this.loading = true
-            form.id = this.selected.encode_id
-            await axios.post(this.selectedContextMenu.apiUrl, form)
-            .then(({data}) => {
-                if(data.message != undefined && data.status == true) {
-                    alert(data.message)
-                }
-            })
-            .catch((resp) => {
-                alert(resp.response.data.message)
-            })
-            .finally(() => {
-                this.loading = false
-                this.openDropdown = false
-                this.showConfirmDialog = false
-                this.load()
-            });
         }
     },
     mounted() {

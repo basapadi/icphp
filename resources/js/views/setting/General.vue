@@ -1,12 +1,12 @@
 <template>
   <AdminLayout>
-    <div class="w-full h-screen">
+    <div class="h-screen">
       <PageHeader title="Pengaturan Umum" description="Pengaturan Umum Aplikasi"/>
       <div class="flex gap-1 p-2">
         <Card class="flex-1 pt-1">
           <!-- Tabs -->
           <div class="mx-4">
-            <nav class=" flex space-x-4" aria-label="Tabs">
+            <nav class=" flex space-x-2" aria-label="Tabs">
               <button
                 @click="activeTab = 'toko'"
                 :class="[

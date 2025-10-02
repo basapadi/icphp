@@ -9,7 +9,7 @@
               v-for="q in queries"
               :key="q.label"
               @click="selectQuery(q)"
-              class="inline-block cursor-pointer bg-orange-100 px-2 py-1 text-xs rounded-full border text-gray-600 hover:bg-orange-300"
+              class="inline-block cursor-pointer bg-gray-100 px-2 py-1 text-xs rounded-sm border border-dashed border-gray-400 text-gray-500 hover:bg-gray-300"
             >
               {{ q.label }}
             </span>
