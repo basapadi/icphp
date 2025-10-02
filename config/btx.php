@@ -6,6 +6,6 @@ return [
          'id',
          'en'
     ],
-    'base_file_path' => 'public',
+    'base_file_path' => 'resources',
     'max_query_limit' => 1000
 ];

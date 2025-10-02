@@ -22,7 +22,8 @@ use App\Http\Controllers\{
     StockAdjustmentController,
     TrashController,
     CommonController,
-    SettingController
+    SettingController,
+    ReportController
 };
 use App\Http\Controllers\Tasks\ApprovalPurchaseOrderController;
 use Illuminate\Support\Facades\Route;
@@ -170,5 +171,11 @@ Route::prefix('api')->group(function () {
             Route::get('grid', 'grid');
             Route::post('/approval', 'approval')->name('api.task.approval-purchase-order.approval');
         });
+    });
+
+    Route::controller(ReportController::class)->middleware('auth:sanctum')->prefix('report')->group(function () {
+        Route::get('grid', 'grid');
+        Route::get('queries', 'queries');
+        Route::delete('/{id}', 'delete');   
     });
 });

@@ -29,9 +29,9 @@
             <div class="flex items-center" v-else>
                 <component v-if="item.icon" :is="item.icon" class="w-4 h-4 mr-2" />
                 <EllipsisVertical class="w-3 h-3 text-orange-400"/><span class=" text-gray-600">{{ item.label }} </span>
-                <div v-if="item.active">
+                <!-- <div v-if="item.active">
                     <div class="menu-arrow ml-2"></div>
-                </div>
+                </div> -->
             </div>
             <div class="flex items-center">
                 <ChevronDown v-if="hasSubItems && isOpen" class="w-4 h-4" />
@@ -82,10 +82,10 @@ const paddingLeft = computed(() => `${0.75}rem`);
 
 const linkClasses = computed(
     () =>
-        `flex items-left justify-between mx-2 py-2 text-sm transition delay-50 duration-100 ease-in-out hover:translate-x-1 hover:scale-105 rounded-sm ${
+        `flex items-left justify-between mx-2 py-2 text-sm rounded-sm ${
             props.item.active
                 ? "text-gray-700 border-1 bg-gray-100 border-gray-100 shadow-sm border-gray-300 border-dashed my-2"
-                : "text-gray-700 hover:bg-gray-100 hover:shadow-sm hover:rounded-sm"
+                : "text-gray-700 hover:bg-gray-100 hover:rounded-sm"
         }`
 );
 

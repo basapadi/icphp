@@ -30,7 +30,7 @@ class BaseController extends Controller
     private bool $_multipleSelectGrid = true;
     protected string $_module = '';
     private ?array $_form = [];
-    private ?array $_gridProperties = [];
+    protected ?array $_gridProperties = [];
     private ?array $_detailSchema = [];
     private ?array $_createRules = [];
     private ?array $_updateRules = [];
@@ -304,6 +304,12 @@ class BaseController extends Controller
         $path = base_path('resources/data/forms/'.$name.'.json');
         $form = file_get_contents($path);
         return json_decode($form, true);
+    }
+
+    protected function getResourceQuery($path){
+        $basepath = base_path('resources/'.$path);
+        $query = file_get_contents($basepath);
+        return json_decode($query, true);
     }
 
     protected function getResourceStatic($name){

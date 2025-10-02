@@ -414,65 +414,20 @@ return [
         [
             'id'    => 23,
             'icon'  => '',
-            'label' => 'Kas',
-            'route' => '/report/cash',
+            'label' => 'Laporan',
+            'route' => '/report/report',
             'order' => 0,
             'parent'=> 22,
-            'module'=>'report.cash'
+            'module'=>'report.report'
         ],
         [
             'id'    => 24,
             'icon'  => '',
-            'label' => 'Pendapatan',
-            'route' => '/report/income',
+            'label' => 'Builder',
+            'route' => '/report/builder',
             'order' => 1,
             'parent'=> 22,
-            'module'=>'report.income'
-        ],
-        [
-            'id'    => 25,
-            'icon'  => '',
-            'label' => 'Pengeluaran',
-            'route' => '/report/expense',
-            'order' => 2,
-            'parent'=> 22,
-            'module'=>'report.expense'
-        ],
-        [
-            'id'    => 26,
-            'icon'  => '',
-            'label' => 'Laba Rugi',
-            'route' => '/report/profitloss',
-            'order' => 3,
-            'parent'=> 22,
-            'module'=>'report.profitloss'
-        ],
-        [
-            'id'    => 27,
-            'icon'  => '',
-            'label' => 'Piutang',
-            'route' => '/report/receivable',
-            'order' => 4,
-            'parent'=> 22,
-            'module'=>'report.receivable'
-        ],
-        [
-            'id'    => 28,
-            'icon'  => '',
-            'label' => 'Hutang',
-            'route' => '/report/payable',
-            'order' => 5,
-            'parent'=> 22,
-            'module'=>'report.payable'
-        ],
-        [
-            'id'    => 29,
-            'icon'  => '',
-            'label' => 'Persediaan',
-            'route' => '/report/inventory',
-            'order' => 6,
-            'parent'=> 22,
-            'module'=>'report.inventory'
+            'module'=>'report.builder'
         ],
         [
             'id'    => 30,
