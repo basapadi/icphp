@@ -1,0 +1,19 @@
+{
+	"columns": [
+		{
+	        "name": "kode_transaksi",
+	        "required": true,
+	        "label": "Kode",
+	        "align": "left",
+	        "field": "kode_transaksi",
+	        "sortable": true,
+	        "type": "text",
+	        "options": [],
+	        "show": true,
+	        "class": "font-mono",
+	        "styles": "",
+	        "option_filter": true
+	    }
+	],
+	"query": "select * from trx_received_items"
+}
