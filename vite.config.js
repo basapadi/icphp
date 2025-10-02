@@ -30,6 +30,9 @@ export default defineConfig(({ mode }) => {
       __APP_VERSION__: JSON.stringify(env.NATIVEPHP_APP_VERSION),
     },
     build: {
+      outDir: 'public/build',
+      manifest: true,
+      emptyOutDir: true,
       rollupOptions: {
         plugins: [
           visualizer({
