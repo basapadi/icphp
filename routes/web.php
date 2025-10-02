@@ -176,6 +176,7 @@ Route::prefix('api')->group(function () {
     Route::controller(ReportController::class)->middleware('auth:sanctum')->prefix('report')->group(function () {
         Route::get('grid', 'grid');
         Route::get('queries', 'queries');
-        Route::delete('/{id}', 'delete');   
+        Route::delete('/{id}', 'delete');
+        Route::get('get-schemas', 'getSchemas'); 
     });
 });

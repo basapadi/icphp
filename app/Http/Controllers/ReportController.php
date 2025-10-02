@@ -6,6 +6,7 @@ use App\Http\Response;
 use Btx\File\Directory;
 use Illuminate\Support\Facades\DB;
 use App\Models\DynamicModel;
+use Illuminate\Support\Facades\Schema;
 
 class ReportController extends BaseController
 {
@@ -65,6 +66,49 @@ class ReportController extends BaseController
             'columns' => $this->_columns,
             'properties' => $this->_gridProperties
         ]);
+    }
+
+    public function getSchemas(Request $request){
+        $result = [];
+        $tables = ['items',
+            'item_prices',
+            'masters',
+            'item_stock_adjustments',
+            'trx_purchase_orders',
+            'trx_purchase_order_details',
+            'trx_received_items',
+            'trx_received_item_details',
+            'trx_received_payment_items',
+            'trx_sale_items',
+            'trx_sale_item_details',
+            'trx_sale_orders',
+            'trx_sale_order_details',
+            'trx_sale_order_payment_items',
+            'trx_sale_order_shipments'
+        ];
+
+        foreach ($tables as $table) {
+            $columns = Schema::getColumnListing($table);
+
+            foreach ($columns as $column) {
+                // tipe kolom dari Laravel schema builder
+                $type = DB::getSchemaBuilder()->getColumnType($table, $column);
+
+                // ambil info detail default/nullability langsung dari PRAGMA SQLite
+                $info = DB::select("PRAGMA table_info($table)");
+                $colInfo = collect($info)->firstWhere('name', $column);
+
+                $result[$table][] = [
+                    'name'     => $column,
+                    'type'     => $type,
+                    'length'   => null, // SQLite nggak expose length
+                    'nullable' => $colInfo->notnull == 0,
+                    'default'  => $colInfo->dflt_value,
+                ];
+            }
+        }
+
+        return Response::ok('Loaded', $result);
     }
 
     private function getQueryFiles($showNav = false){

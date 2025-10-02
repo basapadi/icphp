@@ -72,6 +72,20 @@ const actions = {
         } catch (err) {
             throw err
         }
+    },
+    async getSchema({commit, rootState}, payload){
+        try {
+            const resp = await axios.get('/api/report/get-schemas', {
+                params: payload,
+                paramsSerializer: params => {
+                    return qs.stringify(params, { arrayFormat: 'repeat' })
+                }
+            });
+            commit('setQueries', resp.data.data)
+            return resp
+        } catch (err) {
+            throw err
+        }
     }
 }
 
