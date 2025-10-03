@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
       laravel({
         input: ['resources/css/app.css', 'resources/js/app.js'],
         refresh: true,
-      }),
+      })
     ],
     server: {
       historyApiFallback: true,

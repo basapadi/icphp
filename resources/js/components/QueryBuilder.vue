@@ -23,43 +23,38 @@
 								    <label
 								      class="flex items-center gap-1 text-sm font-medium leading-none"
 								    ><span class="text-gray-500 text-shadow-2xs">Query</span> </label>
-			   						<div class="flex overflow-x-auto flex-wrap gap-2 mb-1 border border-dashed p-1 my-2" style="height: 300px; border: 1px solid #ddd;">
-							            <MonacoEditor
-									      v-model:value="form.query"
-									      language="sql"
-									      theme="vs-dark"
-									      :options="editorOptions"
-									    />
+			   						<div class="flex overflow-x-auto rounded-md flex-wrap gap-2 mb-1 border border-dashed p-1 my-2" style="height: 345px; border: 1px solid #ddd; background-color: #282C34;">
+							            <SqlEditor
+									 		v-model="form.query"
+									 		:schemas="schemas"
+										/>
 						         	</div>
 						    	</div>
 						    	<div class=" pt-4">
-						    		<label
-								      class="flex items-center gap-1 text-sm font-medium leading-none"
-								    ><span class="text-gray-500 text-shadow-2xs">Schema</span> <span class="text-xs italic text-gray-400">Gunakan schema tabel dibawah ini</span> </label>
+								    <Input
+		                                key="search"
+		                                label="Skema Tabel"
+		                                v-model="search"
+		                                name="search"
+		                                id="search"
+		                                hint="Cari dan gunakan skema tabel dibawah ini untuk membangun query"
+		                            />
 								    <div class="flex overflow-x-auto h-76 flex-wrap gap-2 mb-1 border border-dashed p-1 my-1">
 									    <div class="p-4">
 										    <ul class="list-disc pl-2 space-y-2 divide-y divide-gray-200">
-										      <li v-for="(columns, tableName) in schemas" :key="tableName">
-										        <div class="font-bold text-gray-800 text-sm">{{ tableName }}</div>
-										        <ul class="list-disc pl-2 mt-1 space-y-1 text-xs text-gray-700 divide-y divide-gray-100 ml-4 border-gray-200">
-										          <li v-for="col in columns" :key="col.name">
-										            <span class="font-medium pr-2">{{ col.name }}</span>
-										            <span class="text-gray-500">({{ col.type }})</span>
-
-										            <span v-if="col.nullable" class="ml-1 text-green-600 font-semibold">
-										              null
-										            </span>
-										            <span v-else class="ml-1 text-red-600 font-semibold" >
-										              not null
-										            </span>
-
-										            <span v-if="col.default" class="ml-2 text-blue-600" >
-										              default: {{ col.default }}
-										            </span>
-										          </li>
-										        </ul>
-										      </li>
-									    	</ul>
+											  <li v-for="(columns, tableName) in filteredSchemas" :key="tableName">
+											    <div class="font-bold text-gray-800 text-sm">{{ tableName }}</div>
+											    <ul class="list-disc pl-2 mt-1 space-y-1 text-xs text-gray-700 divide-y divide-gray-100 ml-4 border-gray-200">
+											      <li v-for="col in columns" :key="col.name">
+											        <span class="font-medium pr-2">{{ col.name }}</span>
+											        <span class="text-gray-500">({{ col.type }})</span>
+											        <span v-if="col.nullable" class="ml-1 text-green-600 font-semibold">null</span>
+											        <span v-else class="ml-1 text-red-600 font-semibold">not null</span>
+											        <span v-if="col.default" class="ml-2 text-blue-600">default: {{ col.default }}</span>
+											      </li>
+											    </ul>
+											  </li>
+											</ul>
 									    </div>
 								  	</div>
 						    	</div>
@@ -67,27 +62,27 @@
 					    	<div class="space-y-2 grid grid-cols-1 gap-2">
 					    		<div class="flex justify-start gap-2">
 			                        <div class="flex gap-2">
-										  <button 
+									  	<button 
 										    type="button"
 										    @click="tryQuery()"
-										    class="px-2 py-1 text-sm border border-gray-300-200 rounded bg-green-700 hover:bg-green-800">
+										    class="px-2 py-1 text-sm rounded bg-green-700 hover:bg-green-800 shadow-xs">
 										    <LoaderCircle v-if="exeloading" class="animate-spin"/>
                     						<span v-else><Play class="w-4 h-4 text-white"/></span>
 										    
-										  </button>
+									  	</button>
 
-										  <button 
+									  	<button 
 										    type="submit" 
-										    class="px-2 py-1 text-sm border border-gray-300-200 rounded bg-orange-400 text-white hover:text-gray-500 hover:bg-orange-200">
-										    <Save class="w-4 h-4 text-white"/>
-										  </button>
+										    class="px-4 py-1 text-sm rounded shadow-xs bg-orange-400 text-white hover:text-gray-500 hover:bg-orange-500">
+										    <Save class="w-4 h-4 text-white"/> 
+									  	</button>
 									</div>
 			                    </div>
 					    	</div>
 					    </form>
 				    	<div class="space-y-4 grid grid-cols-1 gap-2">
 				    		<div class="pt-2">
-		   						<div class="flex overflow-x-auto flex-wrap gap-2 mb-1 border border-dashed p-1" style="height: 350px; border: 1px solid #ddd;">
+		   						<div class="flex overflow-x-auto flex-wrap gap-2 mb-1 border rounded-md border-dashed p-1" style="height: 330px; border: 1px solid #ddd;">
 					         		<PreviewDataTable title="Preview" :query="query" @loading="setloading"/>
 					         	</div>
 					    	</div>
@@ -115,7 +110,8 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination";
-import MonacoEditor from "monaco-editor-vue3";
+import SqlEditor from "@/components/SqlEditor.vue";
+// import MonacoEditor from "monaco-editor-vue3";
 import PreviewDataTable from '@/components/PreviewDataTable.vue'
 
 export default {
@@ -132,44 +128,45 @@ export default {
         Phone,
         Password,
         Date,
-        MonacoEditor,
+        SqlEditor,
         PreviewDataTable
     },
+    computed: {
+	  filteredSchemas() {
+	    if (!this.search) return this.schemas;
+
+	    return Object.fromEntries(
+	      Object.entries(this.schemas).filter(([tableName]) =>
+	        tableName.toLowerCase().includes(this.search.toLowerCase())
+	      )
+	    );
+	  }
+	},
     data() {
         return {
+        	search: "",
         	loading: false,
         	exeloading: false,
         	schemas: [],
-        	editorOptions: { 
-        		fontSize: 14, 
-        		minimap: { 
-        			enabled: true 
-        		},
-        		fontSize: 12,
-			  	wordWrap: "on",
-			  	automaticLayout: true
-        	},
         	form: {
         		name: '',
         		query: `select 
-    items.nama,
-    items.kode_barang as SKU,
-    items.barcode,
-    items.status,
-    items.kategori,
-    unit.nama,
-    jumlah,
-    minimum_stock,
-    tanggal_pembaruan
-from item_stocks 
-left join masters as unit on unit.id = item_stocks.unit_id 
-left join items on items.id = item_stocks.item_id`
+  items.nama,
+  items.kode_barang as SKU,
+  items.barcode,
+  items.status,
+  items.kategori,
+  unit.nama,
+  jumlah,
+  minimum_stock,
+  tanggal_pembaruan
+  
+  from item_stocks
+  left join masters as unit on unit.id = item_stocks.unit_id 
+  left join items on items.id = item_stocks.item_id`
         	},
         	query: []
         }
-    },
-    computed: {
-
     },
     methods: {
     	async load(){
