@@ -33,6 +33,8 @@ export {
 	Info,
 	Eye,
 	EyeOff,
-	Download
+	Download,
+	Play,
+	Save
 
 } from "lucide-vue-next";

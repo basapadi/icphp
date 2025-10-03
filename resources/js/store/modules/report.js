@@ -86,6 +86,14 @@ const actions = {
         } catch (err) {
             throw err
         }
+    },
+    async preview({commit, rootState}, payload){
+        try {
+            const resp = await axios.post('/api/report/preview', payload);
+            return resp
+        } catch (err) {
+            throw err
+        }
     }
 }
 

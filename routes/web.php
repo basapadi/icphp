@@ -178,5 +178,6 @@ Route::prefix('api')->group(function () {
         Route::get('queries', 'queries');
         Route::delete('/{id}', 'delete');
         Route::get('get-schemas', 'getSchemas'); 
+        Route::post('preview', 'preview'); 
     });
 });

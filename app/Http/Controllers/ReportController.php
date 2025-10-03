@@ -113,6 +113,39 @@ class ReportController extends BaseController
         return Response::ok('Loaded', $result);
     }
 
+    public function preview(Request $request){
+
+        $model = (new DynamicModel())->setTable(DB::raw("({$request->rawQuery}) as t"));
+        $qtotal = clone $model->newQuery()->filter(false);
+        $qrows = $model->newQuery()->filter();
+
+        $rows = $qrows->get();
+        $total = $qtotal->count();
+        $rawcolumns = array_keys($rows->first()->getAttributes());
+        $columns = [];
+
+        foreach($rawcolumns as $c){
+            array_push($columns, [
+                "name"          => $c,
+                "required"      => true,
+                "label"         => strtoupper($c),
+                "align"         => "left",
+                "field"         => $c,
+                "sortable"      => true,
+                "type"          => "text",
+                "show"          => true,
+                "styles"        => "",
+            ]);
+        }
+
+        return Response::ok('Loaded', [
+            'rows' => $rows->toArray(),
+            'total' => $total,
+            'columns' => $columns,
+            'properties' => $this->_gridProperties
+        ]);
+    }
+
     private function getQueryFiles($showNav = false){
         $dir = new Directory();
         $dir->withNavigation = $showNav; //if you want to show navigation folder
