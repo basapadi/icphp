@@ -23,7 +23,7 @@
 								    <label
 								      class="flex items-center gap-1 text-sm font-medium leading-none"
 								    ><span class="text-gray-500 text-shadow-2xs">Query</span> </label>
-			   						<div class="flex overflow-x-auto rounded-md flex-wrap gap-2 mb-1 border border-dashed p-1 my-2" style="height: 345px; border: 1px solid #ddd; background-color: #282C34;">
+			   						<div class="flex overflow-x-auto shadow-md rounded-md flex-wrap gap-2 mb-1 border border-dashed p-1 my-2" style="height: 345px; border: 1px solid #ddd; background-color: #282C34;">
 							            <SqlEditor
 									 		v-model="form.query"
 									 		:schemas="schemas"
@@ -65,7 +65,7 @@
 									  	<button 
 										    type="button"
 										    @click="tryQuery()"
-										    class="px-2 py-1 text-sm rounded bg-green-700 hover:bg-green-800 shadow-xs">
+										    class="px-4 py-1 text-sm rounded bg-green-700 hover:bg-green-800 shadow-xs">
 										    <LoaderCircle v-if="exeloading" class="animate-spin"/>
                     						<span v-else><Play class="w-4 h-4 text-white"/></span>
 										    
@@ -76,6 +76,7 @@
 										    class="px-4 py-1 text-sm rounded shadow-xs bg-orange-400 text-white hover:text-gray-500 hover:bg-orange-500">
 										    <Save class="w-4 h-4 text-white"/> 
 									  	</button>
+									  	 <span class="text-gray-400 italic text-xs mt-2 pl-2">NOTE: Query hanya mengambil data sampel maksimal 20 data</span>
 									</div>
 			                    </div>
 					    	</div>

@@ -114,14 +114,15 @@ class ReportController extends BaseController
     }
 
     public function preview(Request $request){
-
-        $model = (new DynamicModel())->setTable(DB::raw("({$request->rawQuery}) as t"));
-        $qtotal = clone $model->newQuery()->filter(false);
-        $qrows = $model->newQuery()->filter();
-
-        $rows = $qrows->get();
-        $total = $qtotal->count();
-        $rawcolumns = array_keys($rows->first()->getAttributes());
+        $q = trim($request->rawQuery);
+        $query = $q. " LIMIT {$request->_limit} OFFSET {$request->_page}";
+        $rows = DB::select($query);
+        $total = DB::select("SELECT COUNT(*) as count FROM ({$q}) as sub")[0]->count;
+        if($total > 0){
+            $rawcolumns = array_keys((array)$rows[0]);
+        } else {
+            $rawcolumns = [];
+        }
         $columns = [];
 
         foreach($rawcolumns as $c){
@@ -139,7 +140,7 @@ class ReportController extends BaseController
         }
 
         return Response::ok('Loaded', [
-            'rows' => $rows->toArray(),
+            'rows' => $rows,
             'total' => $total,
             'columns' => $columns,
             'properties' => $this->_gridProperties

@@ -78,7 +78,7 @@ export default {
             properties: {},
             pagination: {
                 _limit: 20,
-                _page: 1,
+                _page: 0,
             },
             filter: {
                 operator: '',
