@@ -119,6 +119,7 @@ class ReportController extends BaseController
     public function preview(Request $request){
         $this->allowAccessModule('report.builder', 'view');
         $q = trim($request->rawQuery);
+        if(!$this->protectQuery($q)) return Response::badRequest('Query ini tidak dapat diproses');
         $query = $q. " LIMIT {$request->_limit} OFFSET {$request->_page}";
         $rows = DB::select($query);
         $total = DB::select("SELECT COUNT(*) as count FROM ({$q}) as sub")[0]->count;
@@ -160,6 +161,8 @@ class ReportController extends BaseController
         ];
         $data = $this->validate($rules);
         if ($data instanceof \Illuminate\Http\JsonResponse) return $data;
+
+        if(!$this->protectQuery($data['query'])) return Response::badRequest('Query ini tidak dapat diproses');
         try {
             $columns = [];
             $types = [];
@@ -185,7 +188,7 @@ class ReportController extends BaseController
                     "option_filter" => true
                 ]);
             }
-
+            
             $jsonFile = [];
             $jsonFile['query'] = $data['query'];
             $jsonFile['columns'] = $columns;
@@ -230,4 +233,31 @@ class ReportController extends BaseController
 
         return $files;
     }
+
+    private function protectQuery($query)
+    {
+        // Trim spasi dan newline
+        $query = trim($query);
+
+        // Hapus komentar SQL tipe "-- ..." atau "/* ... */"
+        $query = preg_replace('/--.*(\n|$)/', '', $query);       // komentar baris tunggal
+        $query = preg_replace('/\/\*.*?\*\//s', '', $query);     // komentar blok
+
+        $query = trim($query);
+
+        $upper = strtoupper($query);
+        if (!preg_match('/^SELECT\s+/i', $query)) {
+            return false;
+        }
+
+        $forbidden = ['UPDATE', 'DELETE', 'INSERT', 'DROP', 'ALTER', 'CREATE', 'TRUNCATE', 'REPLACE'];
+        foreach ($forbidden as $word) {
+            if (str_contains($upper, $word)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 }
