@@ -7,6 +7,8 @@ use Btx\File\Directory;
 use Illuminate\Support\Facades\DB;
 use App\Models\DynamicModel;
 use Illuminate\Support\Facades\Schema;
+use Exception;
+use Illuminate\Support\Facades\File;
 
 class ReportController extends BaseController
 {
@@ -64,7 +66,8 @@ class ReportController extends BaseController
             'rows' => $rows->toArray(),
             'total' => $total,
             'columns' => $this->_columns,
-            'properties' => $this->_gridProperties
+            'properties' => $this->_gridProperties,
+            'query' => $file
         ]);
     }
 
@@ -114,6 +117,7 @@ class ReportController extends BaseController
     }
 
     public function preview(Request $request){
+        $this->allowAccessModule('report.builder', 'view');
         $q = trim($request->rawQuery);
         $query = $q. " LIMIT {$request->_limit} OFFSET {$request->_page}";
         $rows = DB::select($query);
@@ -145,6 +149,65 @@ class ReportController extends BaseController
             'columns' => $columns,
             'properties' => $this->_gridProperties
         ]);
+    }
+
+    public function saveQuery(Request $request){
+        $this->allowAccessModule('report.builder', 'create');
+
+        $rules = [
+            'name'                   => 'required|string',
+            'query'                   => 'required|string'
+        ];
+        $data = $this->validate($rules);
+        if ($data instanceof \Illuminate\Http\JsonResponse) return $data;
+        try {
+            $columns = [];
+            $types = [];
+            $rows = DB::select($data['query']." limit 1");
+            if(count($rows) > 0){
+                $rawcolumns = array_keys((array)$rows[0]);
+                foreach ($rows[0] as $key => $value) {
+                    $types[$key] = gettype($value);
+                }
+            } else {
+                $rawcolumns = [];
+            }
+            foreach($rawcolumns as $c){
+                array_push($columns, [
+                    "name"          => $c,
+                    "required"      => true,
+                    "label"         => $c,
+                    "align"         => $types[$c] === 'integer'?'right': 'left',
+                    "field"         => $c,
+                    "type"          => "text",
+                    "show"          => true,
+                    "styles"        => "",
+                    "option_filter" => true
+                ]);
+            }
+
+            $jsonFile = [];
+            $jsonFile['query'] = $data['query'];
+            $jsonFile['columns'] = $columns;
+            $trimmedName = trim($data['name']).'.json';
+            $filePath = resource_path("data/queries/reports/{$trimmedName}");
+            file_put_contents($filePath, json_encode($jsonFile, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+            return Response::ok('Query berhasil disimpan');
+        }catch(Exception $e){
+            rollBack();
+            return $this->setAlert('error','Gagal',$e->getMessage());
+        }
+    }
+
+    public function deleteQuery(Request $request, $name){
+        $this->allowAccessModule('report.report', 'delete');
+        if(empty($name)) return Response::badRequest('Nama file tidak ditemukan');
+        $filePath = resource_path('data/queries/reports/'.$name);
+        if (File::exists($filePath)) {
+            File::delete($filePath);
+            return Response::ok('Laporan berhasil dihapus');
+        }
+        return Response::badRequest('Laporan gagal dihapus, coba lagi.');
     }
 
     private function getQueryFiles($showNav = false){

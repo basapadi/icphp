@@ -1,10 +1,10 @@
 <template>
 	<div class="bg-white rounded-lg shadow-xs border border-gray-200 z-1">
-        <div class="h-screen">
+        <div :class="!popup?'h-screen': 'h-110'">
         	<div class="p-2">
         		<div class="px-1">
         			<div class="flex-1 w-full">
-        				<form @submit="save" enctype="multipart/form-data">
+        				<form @submit.prevent="save" enctype="multipart/form-data">
 	        				<div class="space-y-4 grid grid-cols-3 gap-2">
 	   							<div class="flex flex-col md:flex-row md:items-center gap-2">
 		   							<Input
@@ -15,6 +15,8 @@
 											id="name"
 											hint="Masukkan nama laporan"
 											:required="true"
+											@input="sanitizeInput"
+											:readonly="popup"
 											/>
 										</div>
 	   						</div>
@@ -62,7 +64,7 @@
 					    	<div class="space-y-2 grid grid-cols-1 gap-2">
 					    		<div class="flex justify-start gap-2">
 										<div class="flex gap-2">
-									  	<button 
+									  	<button v-if="!popup"
 										    type="button"
 										    @click="tryQuery()"
 										    class="px-4 py-1 text-sm rounded bg-green-700 hover:bg-green-800 shadow-xs">
@@ -73,15 +75,16 @@
 									  	<button 
 										    type="submit" 
 										    class="px-4 py-1 text-sm rounded shadow-xs bg-orange-400 text-white hover:text-gray-500 hover:bg-orange-500">
-										    <Save class="w-4 h-4 text-white"/> 
+										    <LoaderCircle v-if="saveloading" class="animate-spin"/>
+												<span v-else><Save class="w-4 h-4 text-white"/> </span>
 									  	</button>
 									</div>
 									</div>
 					    	</div>
 					    </form>
-				    	<div class="space-y-4 grid grid-cols-1 gap-2">
+				    	<div class="space-y-4 grid grid-cols-1 gap-2" v-if="popup == false">
 				    		<div class="pt-2">
-		   						<div class="flex bg-gray-50 overflow-x-auto gap-2 mb-1 border rounded-md border-dashed p-1" style="height: 360px; border: 1px solid #ddd;">
+		   						<div class="flex bg-gray-50 overflow-x-auto gap-2 mb-1 border rounded-md border-dashed p-1 h-90" style="border: 1px solid #ddd;">
 					         		<PreviewDataTable title="Preview" :query="query" @loading="setloading"/>
 					         	</div>
 					    	</div>
@@ -103,6 +106,10 @@ import SqlEditor from "@/components/SqlEditor.vue";
 import PreviewDataTable from '@/components/PreviewDataTable.vue'
 
 export default {
+	props: {
+		popup: {type: Boolean, default: false},
+		existQuery: {type: Object, default: {}}
+	},
 	components: {
         Badge,
         FilterHeader,
@@ -135,6 +142,7 @@ export default {
         	search: "",
         	loading: false,
         	exeloading: false,
+					saveloading: false,
         	schemas: [],
         	form: {
         		name: '',
@@ -187,10 +195,40 @@ export default {
     		}
     	},
     	save(){
-
-    	}
+				this.$confirm(
+					{
+							message: `Apakah anda yakin menyimpan query laporan ini?`,
+							button: {
+									no: 'Tidak',
+									yes: 'Ya'
+							},
+							callback: async confirm => {
+									if (confirm) {
+											this.saveloading = true
+											await this.$store.dispatch('report/saveQuery', this.form)
+											.then(({ data }) => {
+												this.form = {}
+												this.$emit("open", false);
+												alert('Query laporan berhasil disimpan')
+											})
+											.catch((resp) => {
+													alert(resp.response?.data?.message)
+											})
+											.finally((f) => {
+													this.saveloading = false
+											})
+									}
+							}
+					}
+				)
+    	},
+			sanitizeInput(event) {
+				event.target.value = event.target.value.replace(/[^a-zA-Z0-9_-]/g, '')
+				this.form.name = event.target.value
+			}
     },
     mounted() {
+			if(this.existQuery?.query != "") this.form = this.existQuery
     	this.load()
     }
 }

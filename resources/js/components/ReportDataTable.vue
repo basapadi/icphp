@@ -6,6 +6,25 @@
                     <div>
                         <FilterHeader :columns="columns" @load="load" :pagination="pagination" :operators="operators" :filter="filter" :properties="properties"/>
                     </div>
+                    <div v-if="query != null">
+                        <div class="flex flex-col md:flex-row md:items-center gap-1">
+                            <div class="relative mr-1">
+                                <Button class="bg-blue-50 border-1 border-blue-600 rounded-md hover:bg-blue-200 text-blue-600 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103" @click="downloadReport" size="sm">
+                                    <Download class="w-3 h-3"/>
+                                </Button>
+                            </div>
+                            <div class="relative mr-1">
+                                <Button class="bg-green-50 border-1 border-green-600 rounded-md hover:bg-green-200 text-green-600 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103" @click="editReport" size="sm">
+                                    <SquarePen class="w-3 h-3"/>
+                                </Button>
+                            </div>
+                            <div class="relative mr-1">
+                                <Button class="bg-red-50 border-1 border-red-200 rounded-md hover:bg-red-200 text-red-500 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103" @click="deleteReport" size="sm">
+                                    <Trash class="w-3 h-3"/>
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- Table -->
@@ -13,13 +32,6 @@
                 <table class="min-w-full border-collapse border border-dashed border-orange-100 z-1">
                     <thead class="bg-orange-50 sticky top-0" style="z-index:11">
                         <tr>
-                            <template v-if="properties.multipleSelect">
-                                <th 
-                                    class="px-4 py-1 text-left text-xs text-gray-500 uppercase tracking-wider border-1 border-dashed border-gray-00">
-                                    <input v-model="selectAll" style="transform: scale(1.3);cursor: pointer;" @change="toggleSelectAll" type="checkbox"
-                                        class="rounded border-gray-300 text-orange-600 focus:ring-orange-500" />
-                                </th>
-                            </template>
                             <template v-for="column in columns" :key="column.value">
                                 <template v-if="column.show">
                                     <template v-if="column.name == 'actions'">
@@ -113,20 +125,10 @@
             </div>
         </div>
     </div>
-    <div v-if="openDropdown" class="absolute bg-white border rounded shadow-md w-50 z-50" :style="{ top: dropDownPosition.y + 'px', left: dropDownPosition.x + 'px' }">
-        <div v-if="this.properties.contextMenu.length > 0">
-            <div v-for="cm in this.properties.contextMenu.filter(cm => matchContextMenuConditions(cm.conditions))" :key="cm.name">
-                <a class="flex text-sm items-center px-2 py-1 bordered border-t border-dashed hover:bg-gray-100" href="#" @click.stop="callByFunctionName(cm);openDropdown=false"><component :is="cm.icon" :color="cm.color" class="w-8 px-2" />{{cm.label}}</a>
-            </div>
-        </div>
-
-    </div>
-    <div v-if="openContextMenu" class="absolute bg-white border rounded shadow-md w-50 z-50" :style="{ top: contextMenuPosition.y + 'px', left: contextMenuPosition.x + 'px' }">
-        <div v-if="this.properties.contextMenu.length > 0 && selectedData.length <= 1">
-            <div v-for="cm in this.properties.contextMenu.filter(cm => matchContextMenuConditions(cm.conditions))" :key="cm.name">
-                <a @click.stop="callByFunctionName(cm);openContextMenu=false" href="#" class="flex text-sm items-center px-2 bordered border-t border-dashed r py-1 hover:bg-gray-100"><component :is="cm.icon" :color="cm.color" class="w-8 px-2" />{{cm.label}}</a>
-            </div>
-        </div>
+    <div v-if="openBuilder" class="fixed inset-0 flex items-center justify-center bg-black/50 z-50" @click="openBuilder=false">
+        <Card :class="`w-full max-w-7xl py-0`"  @click.stop>
+            <QueryBuilder :existQuery="existQuery" :popup="true" @open="closeQueryBuilder"/>
+        </Card>
     </div>
 </template> 
 
@@ -136,7 +138,9 @@ import { mapGetters } from "vuex";
 import { ref } from "vue"
 import { Badge } from "@/components/ui";
 import FilterHeader from "@/components/FilterHeader.vue";
+import QueryBuilder from "@/components/QueryBuilder.vue";
 import Button from "@/components/ui/button/Button.vue";
+import { Card } from "@/components/ui/card";
 import {
     Pagination,
     PaginationContent,
@@ -145,8 +149,9 @@ import {
     PaginationItem,
     PaginationLast,
     PaginationNext,
-    PaginationPrevious,
+    PaginationPrevious
 } from "@/components/ui/pagination";
+import Trash from "@/views/Trash.vue";
 
 export default {
     components: {
@@ -160,7 +165,9 @@ export default {
         PaginationItem,
         PaginationLast,
         PaginationNext,
-        PaginationPrevious
+        PaginationPrevious,
+        QueryBuilder,
+        Card
     },
     props: {
         title: {
@@ -202,18 +209,11 @@ export default {
             openContextMenu: false,
             tableContainer: ref(null),
             scrollPosition: 0,
-            contextMenuPosition: {
-                x:0,
-                y:0
-            },
-            dropDownPosition: {
-                x:0,
-                y:0
-            },
             showDetail: false,
             selected: {},
             columnOptions:[],
-            selectedContextMenu: null
+            openBuilder: false,
+            existQuery: {}
         };
     },
     watch: {
@@ -227,7 +227,7 @@ export default {
                 if(this.searchQuery == '' && this.defaultFilter.column != undefined) this.filter = this.defaultFilter
                 this.load();
             },
-            immediate: false // langsung load pertama kali juga
+            immediate: true // langsung load pertama kali juga
         },
         currentPage() {
             this.load();
@@ -301,6 +301,8 @@ export default {
                     this.columns = data.columns;
                     this.total = data.total;
                     this.properties = data.properties;
+                    this.existQuery = data.query
+                    this.existQuery.name = this.query.label
                 })
                 .catch((err) => {
                     if (err.response) {
@@ -321,26 +323,6 @@ export default {
         formatDate(dateString) {
             return new Date(dateString).toLocaleDateString();
         },
-        toggleSelectAll() {
-            if (this.selectAll) {
-                this.selectedData = this.filterData.map((dt) => dt.id);
-                this.selectedIndex = this.filterData.map((dt,index) => index);
-            } else {
-                this.selectedData = [];
-                this.selectedIndex = [];
-            }
-        },
-        async tambahData() {
-            this.loading = true
-            await this.$store.dispatch('report/form').then(({ data }) => {
-                this.form = data.data;
-                this.selected = {}  
-            }).finally(() => {
-                this.showDialog = true
-                this.loading = false
-                this.openDropdown = false
-            });
-        },
         toggleDropdown(column,data,e) {
             this.columnOptions = column.options
             this.openDropdown = true
@@ -349,9 +331,6 @@ export default {
             this.dropDownPosition.x = e.clientX
             this.dropDownPosition.y = e.clientY
         },
-        closeContextMenu(){
-            this.openContextMenu = false
-        },
         handleClickOutside(e) {
             if (!this.$el.contains(e.target)) this.openDropdown = null
         },
@@ -359,6 +338,41 @@ export default {
             let position = e.target.scrollTop
             if(position != this.scrollPosition)this.openDropdown = null
             this.scrollPosition = position
+        },
+        downloadReport(){
+            alert('Download: '+ this.query.name)
+        },
+        editReport(){
+            this.openBuilder = true
+        },
+        deleteReport(){
+            this.$confirm(
+            {
+                message: `Apakah anda yakin menghapus query laporan ini?`,
+                button: {
+                    no: 'Tidak',
+                    yes: 'Ya'
+                },
+                callback: async confirm => {
+                    if (confirm) {
+                        await this.$store.dispatch('report/deleteQuery', this.query.name)
+                        .then(({ data }) => {
+                            this.$emit("reloadList", true);
+                            alert('Query laporan berhasil dihapus')
+                        })
+                        .catch((resp) => {
+                            alert(resp.response?.data?.message)
+                        })
+                        .finally((f) => {
+                                
+                        })
+                    }
+                }
+            }
+        )
+        },
+        closeQueryBuilder(state){
+            this.openBuilder = state
         }
     },
     mounted() {

@@ -178,6 +178,8 @@ Route::prefix('api')->group(function () {
         Route::get('queries', 'queries');
         Route::delete('/{id}', 'delete');
         Route::get('get-schemas', 'getSchemas'); 
-        Route::post('preview', 'preview'); 
+        Route::post('preview', 'preview');
+        Route::post('save-query', 'saveQuery');
+        Route::delete('delete-query/{name}', 'deleteQuery');
     });
 });

@@ -5,16 +5,20 @@
       <div class="p-2">
         <div class="px-1">
           <div class="flex flex-wrap gap-2 mb-1">
-            <span
-              v-for="q in queries"
-              :key="q.label"
-              @click="selectQuery(q)"
-              class="inline-block cursor-pointer bg-gray-100 px-2 py-1 text-xs rounded-sm border border-dashed border-gray-400 text-gray-500 hover:bg-gray-300"
-            >
-              {{ q.label }}
+          <template v-for="q in queries" :key="q.label">
+            <span @click.prevent="selectQuery(q)" class="inline-flex items-center gap-1 cursor-pointer bg-gray-100 px-2 py-1 text-xs rounded-sm border border-gray-300 text-gray-500 hover:bg-gray-300">
+              <span>{{ q.label }}</span>
             </span>
-          </div>
-          <ReportDataTable title="Report" :query="selectedQuery"/>
+          </template>
+        </div>
+        <template v-if="selectedQuery != null">
+          <ReportDataTable title="Report" :query="selectedQuery" @reloadList="reload"/>
+        </template>
+        <template>
+          <Card>
+
+          </Card>
+        </template>
         </div>
       </div>
     </div>
@@ -24,11 +28,13 @@
   import AdminLayout from '@/layouts/AdminLayout.vue'
   import ReportDataTable from '@/components/ReportDataTable.vue'
   import PageHeader from '@/components/PageHeader.vue';
+  import { Card } from "@/components/ui/card";
   export default {
     components: {
       AdminLayout,
       ReportDataTable,
-      PageHeader
+      PageHeader,
+      Card
     },
     data() {
         return {
@@ -59,6 +65,11 @@
       },
       selectQuery(query){
         this.selectedQuery = query
+      },
+      reload(v){
+        this.selectedQuery = this.queries[0]
+        if(v) this.load();
+       
       }
     },
     mounted(){

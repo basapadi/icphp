@@ -94,7 +94,23 @@ const actions = {
         } catch (err) {
             throw err
         }
-    }
+    },
+    async saveQuery({ commit, rootState }, payload) {
+        try {
+            const resp = await axios.post('/api/report/save-query', payload);
+            return resp
+        } catch (err) {
+            throw err
+        }
+    },
+    async deleteQuery({ commit, rootState }, name) {
+        try {
+            const resp = await axios.delete('/api/report/delete-query/'+name);
+            return resp
+        } catch (err) {
+            throw err
+        }
+    },
 }
 
 export default {
