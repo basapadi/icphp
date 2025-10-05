@@ -32,7 +32,7 @@
         <select
           id="operator"
           v-model="filter.operator"
-          class="pl-8 pr-3 py-1.5 text-sm border-1 text-gray-600 transition-colors rounded-md focus:border-transparent"
+          class="pl-8 w-40 pr-3 py-1.5 text-sm border-1 text-gray-600 transition-colors rounded-md focus:border-transparent"
         >
           <option value="" disabled selected>-- Pilih Operator --</option>
           <option v-for="o in operators" :value="o.value" :key="o.value">{{ o.label }}</option>
@@ -69,7 +69,7 @@
               type="text"
               name="from_date"
               placeholder="Dari Tanggal"
-              class="pl-8 pr-3 py-1.5 text-sm border rounded-sm focus:border-transparent"
+              class="pl-8 pr-3 py-1.5 text-sm border rounded-sm focus:border-transparent w-40"
               readonly
             />
           </div>
@@ -83,7 +83,7 @@
               type="text"
               name="to_date"
               placeholder="Hingga Tanggal"
-              class="pl-8 pr-3 py-1.5 text-sm border rounded-sm focus:border-transparent"
+              class="pl-8 pr-3 py-1.5 text-sm border rounded-sm focus:border-transparent w-40"
               readonly
             />
           </div>

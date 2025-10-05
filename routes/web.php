@@ -182,4 +182,8 @@ Route::prefix('api')->group(function () {
         Route::post('save-query', 'saveQuery');
         Route::delete('delete-query/{name}', 'deleteQuery');
     });
+
+    Route::controller(CommonController::class)->middleware('auth:sanctum')->prefix('common')->group(function () {
+        Route::post('save-columns', 'saveColumns');
+    });
 });

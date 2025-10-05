@@ -35,6 +35,7 @@ export {
 	EyeOff,
 	Download,
 	Play,
-	Save
+	Save,
+	Columns3
 
 } from "lucide-vue-next";

@@ -76,7 +76,8 @@ class BaseController extends Controller
             'total' => $total,
             'columns' => $this->getColumns(),
             'properties' => $this->_gridProperties,
-            'detail_schemes' => $this->getDetailSchema()
+            'detail_schemes' => $this->getDetailSchema(),
+            'module' => $this->_module
         ]);
     }
 
@@ -383,6 +384,7 @@ class BaseController extends Controller
     private function defaultContextMenu(){
         $menus = [
             'view' => ['method' => 'viewData', 'label' => 'Detail','icon' => 'SquareChartGantt','color' => '#009688'],
+            'view' => ['method' => 'openColumnEditor', 'label' => 'Kolom Editor', 'icon' => 'Columns3', 'color' => '#009ac0ff'],
             'create' => ['method' => 'tambahData', 'label' => 'Tambah','icon' => 'Plus','color' => '#FF9800'],
             'edit' => ['method' => 'editData', 'label' => 'Ubah', 'icon' => 'SquarePen', 'color' => '#3F51B5'],
             'delete' => ['method' => 'hapusData', 'label' => 'Hapus', 'icon' => 'SquareX', 'color' => '#F44336']

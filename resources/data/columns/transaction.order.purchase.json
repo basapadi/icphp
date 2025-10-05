@@ -14,8 +14,8 @@
             "delete"
         ],
         "show": true,
-        "class": "",
-        "styles": "",
+        "class": null,
+        "styles": null,
         "option_filter": false
     },
     {
@@ -24,12 +24,12 @@
         "label": "Kode",
         "align": "left",
         "field": "kode",
-        "sortable": true,
+        "sortable": false,
         "type": "text",
         "options": [],
         "show": true,
         "class": "font-mono",
-        "styles": "",
+        "styles": null,
         "option_filter": true
     },
     {
@@ -43,7 +43,7 @@
         "options": [],
         "show": true,
         "class": "no-select",
-        "styles": "",
+        "styles": null,
         "option_filter": true
     },
     {
@@ -57,7 +57,7 @@
         "options": [],
         "show": true,
         "class": "no-select",
-        "styles": "",
+        "styles": null,
         "option_filter": false
     },
     {
@@ -71,7 +71,8 @@
         "options": [],
         "show": false,
         "option_filter": true,
-        "class": "no-select"
+        "class": "no-select",
+        "styles": null
     },
     {
         "name": "tanggal_perkiraan_formatted",
@@ -84,44 +85,7 @@
         "options": [],
         "show": true,
         "class": "no-select",
-        "styles": "",
-        "option_filter": true
-    },
-    {
-        "name": "status_label",
-        "required": true,
-        "label": "Status",
-        "align": "left",
-        "field": "status_label",
-        "sortable": true,
-        "type": "badge",
-        "show": true,
-        "option_filter": false
-    },
-    {
-        "name": "po_status",
-        "required": true,
-        "label": "Status",
-        "align": "left",
-        "field": "po_status",
-        "sortable": true,
-        "type": "select",
-        "options": ":status",
-        "show": false,
-        "option_filter": true
-    },
-     {
-        "name": "approval_status",
-        "required": true,
-        "label": "Status Persetujuan",
-        "align": "left",
-        "field": "approval_status",
-        "sortable": true,
-        "type": "select",
-        "options": ":approval_status",
-        "show": false,
-        "class": "no-select",
-        "styles": "",
+        "styles": null,
         "option_filter": true
     },
     {
@@ -135,8 +99,50 @@
         "options": [],
         "show": true,
         "class": "font-mono no-select",
-        "styles": "",
+        "styles": null,
         "option_filter": false
+    },
+    {
+        "name": "po_status",
+        "required": true,
+        "label": "Status",
+        "align": "left",
+        "field": "po_status",
+        "sortable": true,
+        "type": "select",
+        "options": ":status",
+        "show": false,
+        "option_filter": true,
+        "class": null,
+        "styles": null
+    },
+    {
+        "name": "status_label",
+        "required": true,
+        "label": "Status",
+        "align": "right",
+        "field": "status_label",
+        "sortable": true,
+        "type": "badge",
+        "show": true,
+        "option_filter": false,
+        "class": null,
+        "styles": null,
+        "options": []
+    },
+    {
+        "name": "approval_status",
+        "required": true,
+        "label": "Status Persetujuan",
+        "align": "left",
+        "field": "approval_status",
+        "sortable": true,
+        "type": "select",
+        "options": ":approval_status",
+        "show": false,
+        "class": "no-select",
+        "styles": null,
+        "option_filter": true
     },
     {
         "name": "approval_status_label",
@@ -148,7 +154,9 @@
         "type": "badge",
         "show": true,
         "class": "no-select",
-        "option_filter": false
+        "option_filter": false,
+        "styles": null,
+        "options": []
     },
     {
         "name": "approval_by__name",
@@ -160,7 +168,9 @@
         "type": "text",
         "show": true,
         "class": "no-select",
-        "option_filter": false
+        "option_filter": false,
+        "styles": null,
+        "options": []
     },
     {
         "name": "catatan",
@@ -173,7 +183,7 @@
         "options": [],
         "show": true,
         "class": "no-select",
-        "styles": "",
+        "styles": null,
         "option_filter": false
     }
 ]

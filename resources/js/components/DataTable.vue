@@ -139,6 +139,7 @@
     <FormDialog :open="showDialog" :title="title" :dialog="form.dialog" :sections="form.sections" :formData="form.data" @close="this.showDialog = false" @onSubmit="handleSubmit" />
     <ConfirmDialog :open="showConfirmDialog" :contextMenu="selectedContextMenu" @onSubmit="handleSubmitConfirmDialog" @close="this.showConfirmDialog = false"/>
     <DetailDialog :title="title" :open="showDetail" :data="selected" :schema="detail_schema" @close="showDetail=false"/>
+    <ColumnEditor :open="showColumnEditor" :columns="columns" @close="showColumnEditor=false" @reload="reload" :module="apiModule"/>
     <div v-if="openDropdown" class="absolute bg-white border rounded shadow-md w-50 z-50" :style="{ top: dropDownPosition.y + 'px', left: dropDownPosition.x + 'px' }">
         <div v-if="this.properties.contextMenu.length > 0">
             <div v-for="cm in this.properties.contextMenu.filter(cm => matchContextMenuConditions(cm.conditions))" :key="cm.name">
@@ -169,6 +170,7 @@ import FilterHeader from "@/components/FilterHeader.vue";
 import Button from "@/components/ui/button/Button.vue";
 import DetailDialog from "@/components/DetailDialog.vue";
 import ConfirmDialog from "@/components/ConfirmDialog.vue";
+import ColumnEditor from "@/components/ColumnEditor.vue";
 import {
     Pagination,
     PaginationContent,
@@ -195,7 +197,8 @@ export default {
         PaginationItem,
         PaginationLast,
         PaginationNext,
-        PaginationPrevious
+        PaginationPrevious,
+        ColumnEditor
     },
     props: {
         title: {
@@ -222,6 +225,7 @@ export default {
             form: [],
             columns: [],
             properties: {},
+            apiModule: '',
             detail_schema: [],
             allowCreate: false,
             allowDelete: false,
@@ -229,6 +233,7 @@ export default {
             allowDelete: false,
             showDialog: false,
             showConfirmDialog: false,
+            showColumnEditor: false,
             pagination: {
                 _limit: 25,
                 _page: 1,
@@ -343,6 +348,7 @@ export default {
                     this.total = data.total;
                     this.properties = data.properties;
                     this.detail_schema = data.detail_schemes;
+                    this.apiModule = data.module
                 })
                 .catch((err) => {
                     if (err.response) {
@@ -558,11 +564,6 @@ export default {
             this.contextMenuPosition.y = e.clientY
             this.openContextMenu = true
             this.openDropdown = false
-            // if(this.properties.multipleSelect){
-            //     this.selectedData = [data.id]
-            //     this.selectAll = false
-            // }
-            // this.selectedIndex = [index]
         },
         handleClickRow(data, index,e) {
             if (e.target.type !== 'checkbox') {
@@ -680,6 +681,15 @@ export default {
                 this.showConfirmDialog = false
                 this.load()
             });
+        },
+        openColumnEditor(cm){
+            this.showColumnEditor = true
+        },
+        reload(state){
+            if(state){
+                this.showColumnEditor = false
+                this.load()
+            }
         }
     },
     mounted() {
