@@ -14,13 +14,13 @@ use App\Models\Menu;
 use App\Transformers\FormTransformer;
 use Spatie\Fractalistic\ArraySerializer;
 use App\Http\Response;
-use App\Traits\{HasQueryBuilder,QueryHelper,DataBuilder,BaseHelper};
+use App\Traits\{HasQueryBuilder,QueryHelper,DataBuilder,BaseHelper, Services};
 use App\Models\Trash;
 use App\Objects\ContextMenu;
 
 class BaseController extends Controller
 {
-    use HasQueryBuilder,QueryHelper,DataBuilder,BaseHelper;
+    use HasQueryBuilder,QueryHelper,DataBuilder,BaseHelper, Services;
 
     private Model $_model;
     private ?Fractal $_columns;

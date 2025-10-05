@@ -32,7 +32,6 @@ class ReportController extends BaseController
 
     public function grid(Request $request){
         $this->allowAccessModule($this->_module, 'view');
-
         $this->_gridProperties['filterDateRange'] = $this->_gridProperties['filterDateRange']??false;
         $this->_gridProperties['advanceFilter'] = $this->_gridProperties['advanceFilter']??true;
         $this->_gridProperties['simpleFilter'] = $this->_gridProperties['simpleFilter']??true;
