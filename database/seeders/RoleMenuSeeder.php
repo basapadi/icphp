@@ -33,13 +33,6 @@ class RoleMenuSeeder extends Seeder
                     $download = 0;
                 }
 
-                if(in_array($menu->id,[22,23,24,25,26,27,28,29])){ //report
-                    $create = 0;
-                    $edit = 0;
-                    $update = 0;
-                    $delete = 0;
-                }
-
                 if($menu->id == 20){ //trash
                     $create = 0;
                     $edit = 0;

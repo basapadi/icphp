@@ -348,7 +348,7 @@ export default {
         deleteReport(){
             this.$confirm(
             {
-                message: `Apakah anda yakin menghapus query laporan ini?`,
+                message: `Apakah anda yakin menghapus laporan ini?`,
                 button: {
                     no: 'Tidak',
                     yes: 'Ya'

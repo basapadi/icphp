@@ -134,7 +134,7 @@ class ReportController extends BaseController
             array_push($columns, [
                 "name"          => $c,
                 "required"      => true,
-                "label"         => strtoupper($c),
+                "label"         => str_replace('_',' ',strtoupper($c)),
                 "align"         => "left",
                 "field"         => $c,
                 "sortable"      => true,
@@ -179,7 +179,7 @@ class ReportController extends BaseController
                 array_push($columns, [
                     "name"          => $c,
                     "required"      => true,
-                    "label"         => $c,
+                    "label"         => str_replace('_',' ',strtoupper($c)),
                     "align"         => $types[$c] === 'integer'?'right': 'left',
                     "field"         => $c,
                     "type"          => "text",
