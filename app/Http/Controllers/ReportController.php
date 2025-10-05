@@ -192,7 +192,7 @@ class ReportController extends BaseController
             $jsonFile = [];
             $jsonFile['query'] = $data['query'];
             $jsonFile['columns'] = $columns;
-            $trimmedName = trim($data['name']).'.json';
+            $trimmedName = strtolower(trim($data['name'])).'.json';
             $filePath = resource_path("data/queries/reports/{$trimmedName}");
             $dir = resource_path("data/queries/reports");
             if (!File::isDirectory($dir)) {
