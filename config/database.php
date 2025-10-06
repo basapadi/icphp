@@ -30,7 +30,11 @@ return [
     */
 
     'connections' => [
-
+        'nativephp' => [
+            'driver' => 'sqlite',
+            'database' => env('DB_DATABASE', database_path('nativephp.sqlite')),
+            'prefix' => '',
+        ],
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DB_URL'),

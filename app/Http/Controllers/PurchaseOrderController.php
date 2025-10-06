@@ -6,11 +6,7 @@ use App\Models\{
     ItemReceived,
     PurchaseOrder,
     PurchaseOrderDetail,
-    Contact,
-    Item,
     ItemReceivedDetail,
-    Master,
-    User,
     Setting
 };
 use App\Objects\ContextMenu;
@@ -19,6 +15,7 @@ use Exception;
 use App\Http\Response;
 use App\Mail\PurchaseOrderMailToSupplier;
 use Illuminate\Support\Facades\{DB,Mail,Log};
+use App\Jobs\SendPoEmail;
 
 class PurchaseOrderController extends BaseController
 {
@@ -446,9 +443,7 @@ class PurchaseOrderController extends BaseController
             if (! $po || ! $po->contact?->email) {
                 return $this->setAlert('error','Gagal','Email pemasok tidak ditemukan.');
             }
-            Mail::to($po->contact->email)->send(new PurchaseOrderMailToSupplier($po));
-            $po->status = 'sended';
-            $po->save();
+            SendPoEmail::dispatch($po);
             return $this->setAlert('info','Berhasil','Email akan segera dikirim.');
         } catch (Exception $e){
             return $this->setAlert('error','Gagal',$e->getMessage());

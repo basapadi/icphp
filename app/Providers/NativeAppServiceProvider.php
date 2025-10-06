@@ -4,12 +4,10 @@ namespace App\Providers;
 
 use Native\Laravel\Facades\Window;
 use Native\Laravel\Contracts\ProvidesPhpIni;
-use Native\Laravel\Facades\Menu;
-use Native\Laravel\Facades\MenuBar;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Schema;
 use Native\Laravel\Facades\Settings;
 use Native\Laravel\Facades\Native;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\ServiceProvider;
 
 class NativeAppServiceProvider implements ProvidesPhpIni
 {
