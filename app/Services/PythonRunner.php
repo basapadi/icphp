@@ -10,9 +10,9 @@ class PythonRunner
     {
         $os = PHP_OS_FAMILY;
         $this->pythonPath = match ($os) {
-            'Windows' => base_path('resources/python/win/python.exe'),
-            'Darwin'  => base_path('resources/python/mac/bin/python3'),
-            'Linux'   => base_path('resources/python/linux/bin/python3'),
+            'Windows' => base_path('resources/python/windows/python.exe'),
+            'Darwin'  => base_path('resources/python/mac/bin/python3.11'),
+            'Linux'   => base_path('resources/python/linux/bin/python3.13'),
             default   => 'python3',
         };
     }

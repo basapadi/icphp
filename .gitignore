@@ -29,3 +29,5 @@ package-lock.json
 
 packaging/arch/*
 !packaging/arch/PKGBUILD
+composer.lock
+package-lock.json
