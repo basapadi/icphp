@@ -17,11 +17,11 @@ return new class extends Migration
             $table->integer('item_id');
             $table->integer('unit_id');
             $table->integer('jumlah');
-            $table->decimal('harga');
-            $table->decimal('discount')->nullable()->default(0);
+            $table->unsignedBigInteger('harga');
+            $table->unsignedBigInteger('discount')->nullable()->default(0);
             $table->date('kedaluarsa')->nullable();
             $table->string('batch',30)->nullable();
-            $table->decimal('sub_total');
+            $table->unsignedBigInteger('sub_total');
         });
     }
 

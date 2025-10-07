@@ -10,6 +10,7 @@ use App\Models\{
 
 use App\Transformers\FormTransformer;
 use Spatie\Fractalistic\ArraySerializer;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 if(!function_exists('injectData')){
     function injectData(&$data, array $replacements)
@@ -170,5 +171,30 @@ if(!function_exists('serializeform')){
             'dialog' => $dialog,
             'sections' => $forms
         ];
+    }
+}
+
+if (! function_exists('smart_dispatch')) {
+    /***
+    *  auto detect dispatch tergantung type appnya
+    *  apabila type web maka Job bisa dijalankan kalo tidak jangan pake job (sync)
+    ***/
+    function smart_dispatch($job)
+    {
+        if (config('ihandcashier.app_type') === 'desktop') {
+            // Kalau job implements ShouldQueue, kita bypass queue
+            if ($job instanceof ShouldQueue) {
+                // Jalankan langsung tanpa antrian
+                $job->handle();
+            } else {
+                // Kalau bukan job queue, langsung eksekusi
+                if (method_exists($job, 'handle')) {
+                    $job->handle();
+                }
+            }
+        } else {
+            // Mode web: gunakan queue normal
+            dispatch($job);
+        }
     }
 }
