@@ -16,9 +16,9 @@ return new class extends Migration
             $table->bigInteger('item_received_id')->index();
             $table->integer('item_id');
             $table->decimal('jumlah')->default(0);
-            $table->double('harga')->default(0);
+            $table->unsignedBigInteger('harga')->default(0);
             $table->integer('unit_id');
-            $table->integer('sub_total')->default(0);
+            $table->unsignedBigInteger('sub_total')->default(0);
         });
     }
 

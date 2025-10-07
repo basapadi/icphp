@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('tanggal');
             $table->date('tanggal_permintaan')->nullable();
             $table->string('status',20)->default('draft');
-            $table->decimal('total')->default(0);
+            $table->unsignedBigInteger('total')->default(0);
             $table->string('status_pembayaran')->nullable();
             $table->text('catatan')->nullable();
             $table->integer('created_by');

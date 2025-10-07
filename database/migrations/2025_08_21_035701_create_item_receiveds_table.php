@@ -19,7 +19,7 @@ return new class extends Migration
             $table->dateTime('tanggal_terima');
             $table->string('diterima_oleh')->nullable();
             $table->text('catatan')->nullable();
-            $table->double('total_harga')->default(0);
+            $table->unsignedBigInteger('total_harga')->default(0);
             $table->double('potongan_harga')->default(0);
             $table->string('status_pembayaran',20);
             $table->string('tipe_pembayaran',20);
