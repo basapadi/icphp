@@ -1,61 +1,93 @@
 {
 	"columns": [
-		{
-	        "name": "item_name",
-	        "required": true,
-	        "label": "Nama Barang",
-	        "align": "left",
-	        "field": "item_name",
-	        "sortable": true,
-	        "type": "text",
-	        "options": [],
-	        "show": true,
-	        "class": "font-mono",
-	        "styles": "",
-	        "option_filter": true
-	    },
-	    {
-	        "name": "unit_name",
-	        "required": true,
-	        "label": "Unit",
-	        "align": "left",
-	        "field": "unit_name",
-	        "sortable": true,
-	        "type": "text",
-	        "options": [],
-	        "show": true,
-	        "class": "font-mono",
-	        "styles": "",
-	        "option_filter": true
-	    },
-	    {
-	        "name": "jumlah",
-	        "required": true,
-	        "label": "Jumlah",
-	        "align": "right",
-	        "field": "jumlah",
-	        "sortable": true,
-	        "type": "text",
-	        "options": [],
-	        "show": true,
-	        "class": "font-mono",
-	        "styles": "",
-	        "option_filter": true
-	    },
-	    {
-	        "name": "tanggal_pembaruan",
-	        "required": true,
-	        "label": "Tanggal Pembaruan",
-	        "align": "left",
-	        "field": "tanggal_pembaruan",
-	        "sortable": true,
-	        "type": "date_range",
-	        "options": [],
-	        "show": true,
-	        "class": "font-mono",
-	        "styles": "",
-	        "option_filter": true
-	    }
-	],
-	"query": "select *,unit.nama as unit_name, items.nama as item_name from item_stocks left join masters as unit on unit.id = item_stocks.unit_id left join items on items.id = item_stocks.item_id"
+        {
+            "name": "nama",
+            "required": true,
+            "label": "NAMA",
+            "align": "left",
+            "field": "nama",
+            "type": "text",
+            "show": true,
+            "styles": "",
+            "option_filter": true
+        },
+        {
+            "name": "SKU",
+            "required": true,
+            "label": "SKU",
+            "align": "left",
+            "field": "SKU",
+            "type": "text",
+            "show": true,
+            "styles": "",
+            "option_filter": true
+        },
+        {
+            "name": "barcode",
+            "required": true,
+            "label": "BARCODE",
+            "align": "left",
+            "field": "barcode",
+            "type": "text",
+            "show": true,
+            "styles": "",
+            "option_filter": true
+        },
+        {
+            "name": "status",
+            "required": true,
+            "label": "STATUS",
+            "align": "right",
+            "field": "status",
+            "type": "text",
+            "show": true,
+            "styles": "",
+            "option_filter": true
+        },
+        {
+            "name": "kategori",
+            "required": true,
+            "label": "KATEGORI",
+            "align": "left",
+            "field": "kategori",
+            "type": "text",
+            "show": true,
+            "styles": "",
+            "option_filter": true
+        },
+        {
+            "name": "jumlah",
+            "required": true,
+            "label": "JUMLAH",
+            "align": "right",
+            "field": "jumlah",
+            "type": "text",
+            "show": true,
+            "styles": "",
+            "option_filter": true
+        },
+        {
+            "name": "minimum_stock",
+            "required": true,
+            "label": "MINIMUM STOCK",
+            "align": "right",
+            "field": "minimum_stock",
+            "type": "text",
+            "show": true,
+            "styles": "",
+            "option_filter": true
+        },
+        {
+            "name": "tanggal_pembaruan",
+            "required": true,
+            "label": "TANGGAL PEMBARUAN",
+            "align": "left",
+            "field": "tanggal_pembaruan",
+            "type": "text",
+            "show": true,
+            "styles": "",
+            "option_filter": true
+        }
+    ],
+	"query": "-- contoh query, lihat skema disamping untuk mendapat referensi kolom\n  select \n  items.nama,\n  items.kode_barang as SKU,\n  items.barcode,\n  items.status,\n  items.kategori,\n  unit.nama,\n  jumlah,\n  minimum_stock,\n  tanggal_pembaruan\n  \n  from item_stocks\n  left join masters as unit on unit.id = item_stocks.unit_id \n  left join items on items.id = item_stocks.item_id"
 }

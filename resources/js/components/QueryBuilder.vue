@@ -153,7 +153,7 @@ export default {
   items.barcode,
   items.status,
   items.kategori,
-  unit.nama,
+  unit.nama as nama_satuan,
   jumlah,
   minimum_stock,
   tanggal_pembaruan
