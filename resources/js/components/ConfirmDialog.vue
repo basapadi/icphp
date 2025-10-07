@@ -183,11 +183,19 @@
         props: {
             open: { type: Boolean, default: false},
             contextMenu: {type: Object, default: {}},
-            data: { type: Object, default: {}}
+            data: { type: Object, default: {}},
+            isLoading: {type: Boolean, default: false}
         },
         components: {
             Input, Select, Radio, FileUpload, Textarea, Number,
             Phone, Password, Date, Currency, Card, CardContent, Button
+        },
+        watch: {
+            isLoading: {
+                handler(newVal) {
+                   this.loader = newVal
+                }
+            }
         },
         data() {
             return {

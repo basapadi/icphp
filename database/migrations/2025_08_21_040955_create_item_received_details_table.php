@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal('jumlah')->default(0);
             $table->double('harga')->default(0);
             $table->integer('unit_id');
+            $table->integer('sub_total')->default(0);
         });
     }
 

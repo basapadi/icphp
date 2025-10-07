@@ -18,6 +18,9 @@ return new class extends Migration
             $table->decimal('jumlah')->default(0);
             $table->double('harga')->default(0);
             $table->integer('unit_id');
+            $table->date('kedaluarsa')->nullable();
+            $table->string('batch',50)->nullable();
+            $table->integer('sub_total')->default(0);
         });
     }
 

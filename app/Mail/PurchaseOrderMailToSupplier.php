@@ -2,16 +2,13 @@
 
 namespace App\Mail;
 
-use App\Models\Setting;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use stdClass;
+use Illuminate\Mail\Mailables\Attachment;
 
-class PurchaseOrderMailToSupplier extends Mailable
+class PurchaseOrderMailToSupplier extends BaseMail
 {
     use Queueable, SerializesModels;
 
@@ -39,12 +36,11 @@ class PurchaseOrderMailToSupplier extends Mailable
      */
     public function content(): Content
     {
-        $company = Setting::where('name', 'toko')->where('status', true)->first()->data ?? (object) [];
         $content =  new Content(
             view: 'emails.po',
             with: [
                 'po' => $this->po,
-                'company' => $company
+                'company' => company()
             ]
         );
         return $content;
@@ -57,6 +53,12 @@ class PurchaseOrderMailToSupplier extends Mailable
      */
     public function attachments(): array
     {
-        return [];
+        $po = $this->po;
+        $company = company();
+        $html = view('pdf.po',compact('po','company'));
+        $pdf = $this->generatePdf($company,$html, $po->kode,'S');
+        return [
+            Attachment::fromData(fn () => $pdf, $po->kode . '.pdf')->withMime('application/pdf')
+        ];
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <div class="bg-white rounded-lg shadow-sm border border-gray-200 z-1">
-        <div class="h-screen">
+        <div class="h-screen relative">
             <!-- Table Header -->
             <div class="px-1 py-1 h-auto border-b border-gray-300">
                 <div class="flex justify-between">
@@ -128,16 +128,15 @@
                     </div>
                 </div>
             </div>
-            <div v-if="loading" class="absolute inset-0 flex pt-80 justify-center bg-white/40 z-10" >
-                <div>
-                    <div class="loader"></div>
-                </div>
-                <span class="justify-center text-orange-500 ml-2">Sedang memuat ...</span>
+            <div v-if="loading" class="absolute inset-0 flex items-center justify-center bg-white/40 z-10">
+              <div class="flex items-center space-x-2">
+                <div class="loader"></div>
+              </div>
             </div>
         </div>
     </div>
     <FormDialog :open="showDialog" :title="title" :dialog="form.dialog" :sections="form.sections" :formData="form.data" @close="this.showDialog = false" @onSubmit="handleSubmit" />
-    <ConfirmDialog :open="showConfirmDialog" :contextMenu="selectedContextMenu" @onSubmit="handleSubmitConfirmDialog" @close="this.showConfirmDialog = false"/>
+    <ConfirmDialog :open="showConfirmDialog" :contextMenu="selectedContextMenu" @onSubmit="handleSubmitConfirmDialog" @close="this.showConfirmDialog = false" :isLoading="confirmDialogLoading"/>
     <DetailDialog :title="title" :open="showDetail" :data="selected" :schema="detail_schema" @close="showDetail=false"/>
     <ColumnEditor :open="showColumnEditor" :columns="columns" @close="showColumnEditor=false" @reload="reload" :module="apiModule"/>
     <div v-if="openDropdown" class="absolute bg-white border rounded shadow-md w-50 z-50" :style="{ top: dropDownPosition.y + 'px', left: dropDownPosition.x + 'px' }">
@@ -260,7 +259,8 @@ export default {
             showDetail: false,
             selected: {},
             columnOptions:[],
-            selectedContextMenu: null
+            selectedContextMenu: null,
+            confirmDialogLoading: false
         };
     },
     watch: {
@@ -559,7 +559,13 @@ export default {
             this.scrollPosition = position
         },
         handleRightClick(data,index, e) {
-            this.selected = data
+            if(this.selectAll == false){
+                this.selected = data
+                this.selectedIndex = [index]
+                if(this.properties.multipleSelect){
+                    this.selectedData = [data.id]
+                }
+            }
             this.contextMenuPosition.x = e.clientX
             this.contextMenuPosition.y = e.clientY
             this.openContextMenu = true
@@ -679,6 +685,7 @@ export default {
                 this.loading = false
                 this.openDropdown = false
                 this.showConfirmDialog = false
+                this.confirmDialogLoading = false
                 this.load()
             });
         },

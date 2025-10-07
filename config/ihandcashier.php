@@ -1,5 +1,6 @@
 <?php
 return [
+    'app_type' => env('APP_TYPE', 'Web'), //Web,Windows,Darwin,Linux
     'github_token' => env('GITHUB_TOKEN',''),
     'github_branch' => env('GITHUB_BRANCH','master'),
     'roles' => ['admin','kasir','keuangan'], //available role,

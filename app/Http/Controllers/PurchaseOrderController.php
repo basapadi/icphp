@@ -151,7 +151,7 @@ class PurchaseOrderController extends BaseController
                 $total = 0;
                 if(count($data['addtable']['details']) > 0){
                     foreach ($data['addtable']['details'] as $key => $d) {
-                        $t = (double) (trim($d['harga']) * trim($d['jumlah']));
+                        $t = (double) (trim($d['harga']) * (int)trim($d['jumlah']));
                         array_push($perInsertDetails,[
                             'purchase_order_id' => $po->id,
                             'item_id'           => (int) trim($d['item_id']),
@@ -194,7 +194,7 @@ class PurchaseOrderController extends BaseController
                 $total = 0;
                 if(count($data['addtable']['details']) > 0){
                     foreach ($data['addtable']['details'] as $key => $d) {
-                        $t = (double) (trim($d['harga']) * trim($d['jumlah']));
+                        $t = (double) (trim($d['harga']) * (int) trim($d['jumlah']));
                         array_push($perInsertDetails,[
                             'purchase_order_id' => $exist->id,
                             'item_id'           => (int) trim($d['item_id']),

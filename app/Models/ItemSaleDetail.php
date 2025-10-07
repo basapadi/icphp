@@ -16,7 +16,10 @@ class ItemSaleDetail extends BaseModel
         'item_id',
         'jumlah',
         'harga',
-        'unit_id'
+        'unit_id',
+        'kedaluarsa',
+        'batch',
+        'sub_total'
     ];
 
     public function getTotalHargaFormattedAttribute()

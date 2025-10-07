@@ -384,7 +384,6 @@ class BaseController extends Controller
     private function defaultContextMenu(){
         $menus = [
             'view' => ['method' => 'viewData', 'label' => 'Detail','icon' => 'SquareChartGantt','color' => '#009688'],
-            'view' => ['method' => 'openColumnEditor', 'label' => 'Kolom Editor', 'icon' => 'Columns3', 'color' => '#009ac0ff'],
             'create' => ['method' => 'tambahData', 'label' => 'Tambah','icon' => 'Plus','color' => '#FF9800'],
             'edit' => ['method' => 'editData', 'label' => 'Ubah', 'icon' => 'SquarePen', 'color' => '#3F51B5'],
             'delete' => ['method' => 'hapusData', 'label' => 'Hapus', 'icon' => 'SquareX', 'color' => '#F44336']
@@ -403,6 +402,13 @@ class BaseController extends Controller
         $menu->icon = 'RefreshCcw';
         $menu->color = '#4CAF50';
         array_push($this->_contextMenus, $menu);
+
+        $columnEditor = new ContextMenu('editor','Kolom Editor');
+        $columnEditor->onClick = 'openColumnEditor';
+        $columnEditor->icon = 'Columns3';
+        $columnEditor->color = '#009ac0ff';
+        array_push($this->_contextMenus, $columnEditor);
+
         foreach ($menus as $key => $cm) {
             $allowAccess = $this->allowAccess($key);
             if($allowAccess != ''){

@@ -91,10 +91,10 @@
         <thead>
             <tr>
                 <th style="width: 8%;">No</th>
-                <th style="width: 38%;">Nama Barang</th>
+                <th style="width: 38%;">Nama</th>
                 <th style="width: 12%;">Jumlah</th>
                 <th style="width: 22%;">Harga Satuan</th>
-                <th style="width: 22%;">Total Harga</th>
+                <th style="width: 22%;">Total</th>
             </tr>
         </thead>
         <tbody>

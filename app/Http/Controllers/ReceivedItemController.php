@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\{
     ItemReceived,
+    ItemReceivedDetail,
     Contact,
     Item,
     Master
@@ -79,12 +80,54 @@ class ReceivedItemController extends BaseController
             if(!isset($request->id)){
                 $this->allowAccessModule('transaction.item.receive', 'create');
 
-                $rules['kode'] = 'required|string|unique:trx_received_items,kode_transaksi';
+                $rules['kode_transaksi'] = 'required|string|unique:trx_received_items,kode_transaksi';
                 $data = $this->validate($rules);
                 if ($data instanceof \Illuminate\Http\JsonResponse) return $data;
 
-                dd($data);
                 begin();
+                $preInsert = [
+                    'kode_transaksi'            => trim($data['kode_transaksi']),
+                    'contact_id'                => trim($data['contact_id']),
+                    'tanggal_terima'            => trim($data['tanggal_terima']),
+                    'diterima_oleh'             => trim(@$data['diterima_oleh']??null),
+                    'potongan_harga'            => (double) trim(@$data['potongan_harga']??0),
+                    'catatan'                   => @trim($data['catatan'])??null,
+                    'status_pembayaran'         => trim($data['status_pembayaran']),
+                    'tipe_pembayaran'         => trim($data['tipe_pembayaran']),
+                    'metode_pembayaran'         => trim($data['metode_pembayaran']),
+                    'syarat_pembayaran'         => @trim($data['syarat_pembayaran'])??null,
+                    'created_by'                => auth()->user()->id,
+                    'created_at'                => now()
+                ];
+
+                $trx = ItemReceived::create($preInsert);
+
+                $perInsertDetails = [];
+                $total = 0;
+                if(count($data['addtable']['details']) > 0){
+                    foreach ($data['addtable']['details'] as $key => $d) {
+                        $t = (double) (trim($d['harga']) * (int)trim($d['jumlah']));
+                        array_push($perInsertDetails,[
+                            'item_received_id' => $trx->id,
+                            'item_id'           => (int) trim($d['item_id']),
+                            'unit_id'           => (int) trim($d['unit_id']),
+                            'harga'             => (double) trim($d['harga']),
+                            'jumlah'            => (int) trim($d['jumlah']),
+                            'kedaluarsa'        => @trim($d['kedaluarsa'])??null,
+                            'batch'             => trim($d['batch'])??null,
+                            'sub_total'         => $t
+                        ]);
+
+                        $total += $t;
+                    }
+                }
+
+                $trx->total_harga = $total;
+                $trx->save();
+                
+                ItemReceivedDetail::insert($perInsertDetails);
+                commit();
+                return $this->setAlert('info','Berhasil','Penerimaan '.$trx->kode_transaksi.' berhasil disimpan');
 
             } else {
                 $this->allowAccessModule('transaction.item.receive', 'update');
@@ -92,8 +135,50 @@ class ReceivedItemController extends BaseController
                 $data = $this->validate($rules);
                 if ($data instanceof \Illuminate\Http\JsonResponse) return $data;
 
-                dd($data);
+                $exist = ItemReceived::with(['details'])->where('id',$data['id'])->first();
+                if(empty($exist)) return $this->setAlert('error','Galat!','Data tidak ditemukan');
                 begin();
+
+                $exist->contact_id = trim($data['contact_id']);
+                $exist->tanggal_terima = trim($data['tanggal_terima']);
+                $exist->diterima_oleh = trim($data['diterima_oleh']);
+                $exist->potongan_harga = @trim($data['potongan_harga'])??0;
+                $exist->status_pembayaran = trim($data['status_pembayaran']);
+                $exist->tipe_pembayaran = trim($data['tipe_pembayaran']);
+                $exist->metode_pembayaran = trim($data['metode_pembayaran']);
+                $exist->syarat_pembayaran = @trim($data['syarat_pembayaran'])??null;
+                $exist->catatan = @trim($data['catatan'])??null;
+                $exist->updated_by = auth()->user()->id;
+                $exist->updated_at = now();
+
+                $perInsertDetails = [];
+                $total = 0;
+                if(count($data['addtable']['details']) > 0){
+                    foreach ($data['addtable']['details'] as $key => $d) {
+                        $t = (double) (trim($d['harga']) * (int) trim($d['jumlah']));
+                        array_push($perInsertDetails,[
+                            'item_received_id' => $exist->id,
+                            'item_id'           => (int) trim($d['item_id']),
+                            'unit_id'           => (int) trim($d['unit_id']),
+                            'harga'             => (double) trim($d['harga']),
+                            'jumlah'            => (int) trim($d['jumlah']),
+                            'kedaluarsa'        => @trim($d['kedaluarsa'])??null,
+                            'batch'             => trim($d['batch'])??null,
+                            'sub_total'         => $t
+                        ]);
+
+                        $total += $t;
+                    }
+                }
+
+                $exist->total_harga = $total;
+                $exist->details()->delete();
+                $exist->save();
+
+                ItemReceivedDetail::insert($perInsertDetails);
+                commit();
+                return $this->setAlert('info','Berhasil','Penerimaan '.$exist->kode_transaksi.' berhasil diubah');
+
             }
         }catch(Exception $e){
             rollBack();
