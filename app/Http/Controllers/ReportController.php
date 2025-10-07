@@ -192,8 +192,8 @@ class ReportController extends BaseController
             $jsonFile['query'] = $data['query'];
             $jsonFile['columns'] = $columns;
             $trimmedName = strtolower(trim($data['name'])).'.json';
-            $filePath = resource_path("data/queries/reports/{$trimmedName}");
-            $dir = resource_path("data/queries/reports");
+            $filePath = resource_path("data/queries/reports/user/{$trimmedName}");
+            $dir = resource_path("data/queries/reports/user");
             if (!File::isDirectory($dir)) {
                 File::makeDirectory($dir, 0775, true, true);
             }else {
@@ -220,12 +220,26 @@ class ReportController extends BaseController
         return Response::badRequest('Laporan gagal dihapus, coba lagi.');
     }
 
-    private function getQueryFiles($showNav = false){
-        $dir = new Directory();
-        $dir->withNavigation = $showNav; //if you want to show navigation folder
-        $files = $dir->scan('data/queries/reports')->get();
+    private function getQueryFiles($folder = 'reports',$showNav = false){
+        $files = [];
+        $dirDefault = new Directory();
+        $dirDefault->withNavigation = $showNav;
+        $default = $dirDefault->scan('data/queries/'.$folder.'/default')->get();
 
-        $files = $files->map(function($item){
+        $dirUser = new Directory();
+        $dirUser->withNavigation = $showNav;
+        $user = $dirUser->scan('data/queries/'.$folder.'/user')->get();
+        foreach ($default as $k => $d) {
+            $exist = $user->where('name',$d['name'])->first();
+            if($exist) array_push($files,$exist);
+            else array_push($files,$d);
+        }
+        foreach ($user as $k => $u) {
+            $exist = $default->where('name',$u['name'])->first();
+            if(empty($exist)) array_push($files,$u);
+        }
+
+        $files = collect($files)->map(function($item){
             $item['label'] = strtoupper(str_replace('_',' ',explode('.',$item['name'])[0]));
             return $item;
         });

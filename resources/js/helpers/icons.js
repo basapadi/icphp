@@ -36,6 +36,8 @@ export {
 	Download,
 	Play,
 	Save,
-	Columns3
+	Columns3,
+	MonitorCog,
+	UserCog
 
 } from "lucide-vue-next";

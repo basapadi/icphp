@@ -7,6 +7,7 @@
           <div class="flex flex-wrap gap-2 mb-1">
           <template v-for="q in queries" :key="q.label">
             <span @click.prevent="selectQuery(q)" class="inline-flex items-center gap-1 cursor-pointer bg-gray-100 px-2 py-1 text-xs rounded-sm border border-gray-300 text-gray-500 hover:bg-gray-300">
+              <component :is="q.icon" class="w-4 h-4 mr-1 text-orange-500" />
               <span>{{ q.label }}</span>
             </span>
           </template>
@@ -50,7 +51,12 @@
           .dispatch('report/getQueryList', params)
           .then(({ data }) => {
               data = data.data;
-              this.queries = data;
+              this.queries = data.map((item) => {
+                item.icon = 'UserCog'
+                if(item.path == '/data/queries/reports/default') item.icon = 'MonitorCog'
+
+                return item
+              });
           })
           .catch((err) => {
               if (err.response) {
