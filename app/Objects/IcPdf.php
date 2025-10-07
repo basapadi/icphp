@@ -32,7 +32,7 @@ class IcPdf extends \TCPDF {
 		$this->Ln(4);
 		$this->SetFont('helvetica', '', 8);
 		$this->Cell(0, 10, '                         '."telp. {$this->_company->telepon} | email: {$this->_company->email}", 0, false, 'L', 0, '', 0, false, 'M', 'M');
-		$this->SetAuthor(auth()->user()->username);
+		//$this->SetAuthor(auth()->user()->username);
 		// set default monospaced font
 		$this->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
