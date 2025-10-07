@@ -21,7 +21,7 @@ class ContactFactory extends Factory
             'nama' => fake()->firstNameMale().' '.fake()->lastName(),
             'alamat' => fake()->address(),
             'telepon' => fake()->e164PhoneNumber(),
-            'email' => fake()->randomElement(['bachtiarpanjaitan0@gmail.com','dimasspanjaitan@gmail.com']),
+            'email' => fake()->randomElement(['bachtiarpanjaitan0@gmail.com']),
             'status' => 1
         ];
     }

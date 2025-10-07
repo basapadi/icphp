@@ -93,9 +93,7 @@ trait BaseHelper
         $pdf = new IcPdf('P', 'mm', 'A4', true, 'UTF-8', false);
         $pdf->setCompany($company);
         $pdf->build();
-        $pdf->writeHTML($template, false, false, true, false, '');
-        $result = $pdf->Output("{$filename}.pdf", $output);
-
-        return $result;
+        $pdf->writeHTML($template, true, true, false, false, '');
+        return $pdf->Output("{$filename}.pdf", $output);
     }
 }

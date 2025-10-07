@@ -1,9 +1,9 @@
 <?php
 namespace App\Objects;
+require_once base_path('libs/tcpdf/tcpdf.php');
 class IcPdf extends \TCPDF {
 
 	private object $_company;
-	private object $_data;
 	public function setCompany(object $company)
 	{
 		$this->_company = $company;
@@ -21,18 +21,22 @@ class IcPdf extends \TCPDF {
 
 	public function Header() {
 		// Logo
-		$this->Image($this->_company->logo, 15, 10, 15, '', 'PNG', '', 'T', true, 300, '', false, false, 0, false, false, false);
+		$this->Image($this->_company->logo, 15, 3, 15, '', 'PNG', '', 'T', true, 300, '', false, false, 0, false, false, false);
 		// Set font
-		$this->SetFont('helvetica', 'B', 20);
-		$this->Cell(0, 15, trim(@$this->_company->namaToko), 0, false, 'C', 0, '', 0, false, 'M', 'M');
-		$this->Ln(8);
+		$this->Ln(5);
+		$this->SetFont('helvetica', 'B', 18);
+		$this->Cell(0, 15, '           '.trim(@$this->_company->namaToko), 0, false, 'L', 0, '', 0, false, 'M', 'M');
+		$this->Ln(5);
 		$this->SetFont('helvetica', '', 10);
-		$this->Cell(0, 10, @$this->_company->alamat, 0, false, 'C', 0, '', 0, false, 'M', 'M');
+		$this->Cell(0, 10, '                    '.@$this->_company->alamat, 0, false, 'L', 0, '', 0, false, 'M', 'M');
 		$this->Ln(4);
 		$this->SetFont('helvetica', '', 8);
-		$this->Cell(0, 10, "telp. {$this->_company->telepon} | email: {$this->_company->email}", 0, false, 'C', 0, '', 0, false, 'M', 'M');
+		$this->Cell(0, 10, '                         '."telp. {$this->_company->telepon} | email: {$this->_company->email}", 0, false, 'L', 0, '', 0, false, 'M', 'M');
+		$this->SetAuthor(auth()->user()->username);
+		// set default monospaced font
+		$this->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
-		$this->Ln(5);
+		$this->Ln(3);
 		$this->SetLineWidth(0.5); // ketebalan garis
         $this->Line(15, $this->GetY(), 200, $this->GetY());
 	}

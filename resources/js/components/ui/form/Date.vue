@@ -97,7 +97,7 @@ export default {
       :disabled="disabled"
       :readonly="readonly"
       autocomplete="false"
-      placeholder="DD-MM-YYYY"
+      placeholder="dd-mm-yyyy"
     />
   </div>
 </template>

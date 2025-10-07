@@ -1,29 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Purchase Order {{ $po->kode }}</title>
     <style>
         body {
             font-family: helvetica, arial, sans-serif;
-            font-size: 11pt;
+            font-size: 10pt;
             color: #000000;
             margin: 0;
-        }
-        
-        .company-info {
-            text-align: center;
-            padding-left: 20px;
-        }
-        .company-info h2 {
-            margin: 0px;
-            font-size: 16pt;
-            font-weight: bold;
-        }
-        .company-info p {
-            margin: 0px;
-            font-size: 9pt;
-            line-height: 0.8;
         }
         .po-info {
             margin: 0;
@@ -56,24 +39,6 @@
             vertical-align: middle;
             padding: 8px 12px;
         }
-        .total {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        .total th {
-            padding: 8px 5px;
-            background-color: #DDDDDD;
-            text-align: center;
-            font-weight: bold;
-            font-size: 10pt;
-            vertical-align: middle;
-        }
-        .total td {
-            font-size: 10pt;
-            vertical-align: middle;
-            padding: 8px 12px;
-        }
         .text-right { 
             text-align: right; 
         }
@@ -86,8 +51,6 @@
         .catatan-section {
             margin-top: 5px;
             font-size: 10pt;
-            border: 1px solid #CCCCCC;
-            background-color: #F9F9F9;
         }
         .ttd-table {
             width: 100%;
@@ -123,8 +86,7 @@
             <td> {{ $po->tanggal_formatted }}</td>
         </tr>
     </table>
-    <!-- DETAIL PESANAN -->
-    <h3>Detail Pesanan</h3>
+    <p/>
     <table class="items" cellpadding="5" cellspacing="0">
         <thead>
             <tr>
@@ -147,29 +109,26 @@
             @endforeach
         </tbody>
     </table>
-
+    <p/>
     <!-- TOTAL -->
-    <table class="total" cellpadding="5" cellspacing="0">
+    <table class="total" cellpadding="0" cellspacing="0">
         <tr>
             <td style="width: 15%;">Total</td>
             <td style="width: 3%;">:</td>
-            <td style="width: 80%;">{{ $po->total_formatted }}</td>
+            <td style="width: 80%;font-size: 10pt;">{{ $po->total_formatted }}</td>
         </tr>
         <tr>
             <td style="width: 15%;">Terbilang</td>
             <td style="width: 3%;">:</td>
-            <td style="width: 80%;">{{ $po->total_terbilang }}</td>
+            <td style="width: 80%;font-size: 10pt;">{{ $po->total_terbilang }}</td>
+        </tr>
+        <tr>
+            <td style="width: 15%;">Catatan</td>
+            <td style="width: 3%;">:</td>
+            <td style="width: 80%;font-size: 10pt;">{{ $po->catatan }}</td>
         </tr>
        
     </table>
-
-    <!-- CATATAN -->
-    @if(!empty($po->catatan))
-        <div class="catatan-section">
-            <span><strong>Catatan:</strong></span>
-            <span>{{ $po->catatan }}</span>
-        </div>
-    @endif
 
     <!-- TANDA TANGAN -->
     <table class="ttd-table" cellpadding="5" cellspacing="0">
@@ -186,10 +145,5 @@
             <td>( {{$company->pemilik}} )</td>
         </tr>
     </table>
-
-    <!-- FOOTER -->
-    <div class="footer-section">
-        <p>Terima kasih atas kerjasamanya.</p>
-    </div>
 </body>
 </html>

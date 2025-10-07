@@ -119,3 +119,10 @@ if(!function_exists('applyMailConfig')){
         
     }
 }
+
+if(!function_exists('company')){
+    function company()
+    {
+       return Setting::where('name', 'toko')->where('status', true)->first()->data ?? (object) [];
+    }
+}
