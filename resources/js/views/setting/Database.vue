@@ -3,7 +3,7 @@
     <div class="">
       <PageHeader title="Basis Data" description="Pengaturan Basis Data"/>
       <div class="flex gap-1 p-2">
-        <Card class="flex-1 py-1 pb-4 px-2">
+        <Card class="h-full flex-1 py-1 pb-4 px-2">
           <div class="mx-4">
             <nav class="flex space-x-2" aria-label="Tabs">
               <button
@@ -43,9 +43,9 @@
           </div>
           <div class="px-4">
             <div v-if="activeTab === 'db'">
-              <div class="grid grid-cols-3 md:grid-cols-3 max-h-120">
+              <div class="grid grid-cols-2 md:grid-cols-2 max-h-120">
                 <form @submit.prevent="saveLocalConfig" >
-                  <div class="space-y-4 grid grid-cols-1 md:grid-cols-1 gap-2">
+                  <div class="space-y-4 grid grid-cols-2 md:grid-cols-2 gap-2">
                     <Select
                       v-model="form.driver"
                       :options="drivers"
