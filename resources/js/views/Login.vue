@@ -3,14 +3,14 @@
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
       <div class="flex justify-center">
         <div class="flex items-center justify-center">
-          <img src="./../../assets/ihand-512.png" alt="Logo" class="w-40 object-contain" />
+          <img src="./../../assets/splash.png" alt="Logo" class="w-40 object-contain" />
         </div>
       </div>
       <div class="mt-2 text-center text-gray-500 text-shadow-sm">
         <span class="text-3xl font-bold pr-2">Ihand Cashier</span> v{{ appVersion }}
       </div>
       <div class="text-center text-gray-500 text-shadow-sm">
-        <span class="text-md font-bold pr-2">POS Single Entry Multiplatform App</span>
+        <span class="text-md font-bold pr-2">POS Multiplatform App</span>
       </div>
       <div class="text-center text-gray-500 text-shadow-sm">
         <span class="text-sm pr-2">Tersedia versi Windows, MacOS dan Linux</span>
