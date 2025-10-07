@@ -72,6 +72,7 @@ class ReportController extends BaseController
 
     public function getSchemas(Request $request){
         $result = [];
+        $connection = config('database.default');
         $tables = [
             'items',
             'item_stocks',
@@ -98,16 +99,37 @@ class ReportController extends BaseController
                 // tipe kolom dari Laravel schema builder
                 $type = DB::getSchemaBuilder()->getColumnType($table, $column);
 
-                // ambil info detail default/nullability langsung dari PRAGMA SQLite
-                $info = DB::select("PRAGMA table_info($table)");
-                $colInfo = collect($info)->firstWhere('name', $column);
+                if ($connection === 'sqlite') {
+                    // SQLite: gunakan PRAGMA
+                    $info = DB::select("PRAGMA table_info($table)");
+                    $colInfo = collect($info)->firstWhere('name', $column);
+
+                    $nullable = $colInfo->notnull == 0;
+                    $default  = $colInfo->dflt_value;
+                    $length   = null; // SQLite gak punya panjang kolom eksplisit
+                } elseif ($connection === 'mysql') {
+                    // MySQL: gunakan INFORMATION_SCHEMA
+                    $info = DB::select("
+                        SELECT COLUMN_NAME, COLUMN_DEFAULT, IS_NULLABLE, CHARACTER_MAXIMUM_LENGTH 
+                        FROM INFORMATION_SCHEMA.COLUMNS 
+                        WHERE TABLE_NAME = ? AND TABLE_SCHEMA = DATABASE()
+                    ", [$table]);
+
+                    $colInfo = collect($info)->firstWhere('COLUMN_NAME', $column);
+
+                    $nullable = $colInfo->IS_NULLABLE === 'YES';
+                    $default  = $colInfo->COLUMN_DEFAULT;
+                    $length   = $colInfo->CHARACTER_MAXIMUM_LENGTH;
+                } else {
+                    throw new \Exception("Driver basis data tidak didukung: $connection");
+                }
 
                 $result[$table][] = [
                     'name'     => $column,
                     'type'     => $type,
-                    'length'   => null, // SQLite nggak expose length
-                    'nullable' => $colInfo->notnull == 0,
-                    'default'  => $colInfo->dflt_value,
+                    'length'   => $length,
+                    'nullable' => $nullable,
+                    'default'  => $default,
                 ];
             }
         }
