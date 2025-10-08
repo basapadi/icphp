@@ -280,9 +280,8 @@ class PurchaseOrderController extends BaseController
         injectData($form, [
             'kode_disabled'     => false,
             'contacts'          => getContactToSelect('pemasok'),
-            'payment_status'    => ihandCashierConfigToSelect('payment_status'),
-            'payment_type'      => ihandCashierConfigToSelect('payment_types'),
-            'payment_method'    => ihandCashierConfigToSelect('payment_methods.receive'),
+            'status'            => ihandCashierConfigToSelect('receive_item_status'),
+            'status_readonly'   => true,
             'items'             => getItemToSelect(),
             'units'             => getUnitToSelect()
         ]);
@@ -305,11 +304,7 @@ class PurchaseOrderController extends BaseController
             'contact_id'        => 'required|numeric',
             'tanggal_terima'    => 'required|string',
             'diterima_oleh'     => 'nullable|string',
-            'potongan_harga'    => 'nullable|numeric:min:0',
-            'status_pembayaran' => 'required|string|in:'.implode(',',ihandCashierConfigKeyToArray('payment_status')),
-            'tipe_pembayaran'   => 'required|string|in:'.implode(',',ihandCashierConfigKeyToArray('payment_types')),
-            'metode_pembayaran' => 'required|string|in:'.implode(',',ihandCashierConfigKeyToArray('payment_methods.receive')),
-            'syarat_pembayaran' => 'nullable|string',
+            'status'            => 'required|string|in:'.implode(',',ihandCashierConfigKeyToArray('receive_item_status')),
             'catatan'           => 'nullable|string',
             'po_id'             => 'required|numeric',
 
@@ -333,11 +328,7 @@ class PurchaseOrderController extends BaseController
                 'contact_id'                => trim($data['contact_id']),
                 'tanggal_terima'            => trim($data['tanggal_terima']),
                 'diterima_oleh'             => trim($data['diterima_oleh']),
-                'potongan_harga'            => trim(@$data['potongan_harga']??0),
-                'status_pembayaran'         => trim($data['status_pembayaran']),
-                'tipe_pembayaran'           => trim($data['tipe_pembayaran']),
-                'metode_pembayaran'         => trim($data['metode_pembayaran']),
-                'syarat_pembayaran'         => trim(@$data['syarat_pembayaran']??null),
+                'status'                    => 'received',
                 'catatan'                   => trim(@$data['catatan'])??null,
                 'created_by'                => auth()->user()->id,
                 'created_at'                => now()

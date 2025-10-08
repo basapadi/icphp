@@ -12,18 +12,10 @@ class ItemReceived extends BaseModel
     use SoftDeletes, HasFactory;
     public $table = 'trx_received_items';
     protected $appends = [
-        'status_pembayaran_label',
-        'tipe_pembayaran_label',
-        'metode_pembayaran_label',
+        'status_label',
         'tanggal_terima_formatted',
         'total_harga_formatted',
-        'color_status_pembayaran_label',
-        'color_tipe_pembayaran_label',
-        'color_metode_pembayaran_label',
-        'tanggal_jatuh_tempo',
         'total_terbilang',
-        'sisa_bayar_formatted',
-        'terbayar_formatted',
         'kode_po'
     ];
     protected $fillable = [
@@ -34,42 +26,20 @@ class ItemReceived extends BaseModel
         'diterima_oleh',
         'catatan',
         'total_harga',
-        'potongan_harga',
-        'status_pembayaran',
-        'tipe_pembayaran',
-        'metode_pembayaran',
-        'syarat_pembayaran',
+        'status',
         'created_by',
         'updated_by',
         'deleted_by',
         'deleted_at',
     ];
 
-    public function getStatusPembayaranLabelAttribute(){
-        return isset($this->status_pembayaran) ? config('ihandcashier.payment_status')[$this->status_pembayaran]['label'] : null;
-    }
-
-    public function getTipePembayaranLabelAttribute(){
-        return isset($this->tipe_pembayaran) ? config('ihandcashier.payment_types')[$this->tipe_pembayaran]['label'] : null;
-    }
-
-    public function getMetodePembayaranLabelAttribute(){
-        return isset($this->metode_pembayaran) ? config('ihandcashier.payment_methods.receive')[$this->metode_pembayaran] ['label']: null;
+    public function getStatusLabelAttribute(){
+        return isset($this->status) ? config('ihandcashier.receive_item_status')[$this->status]['label'] : null;
     }
 
     public function getTanggalTerimaFormattedAttribute()
     {
         return $this->tanggal_terima ? Carbon::parse($this->tanggal_terima)->locale('id')->translatedFormat('l, d M Y H:i') : null;
-    }
-    public function getTanggalJatuhTempoAttribute(){
-        $tgl = '';
-        if($this->tipe_pembayaran == 'tempo'){
-            $syarats = explode(' ',$this->syarat_pembayaran);
-            $jlhHari = filter_var(@$syarats[1], FILTER_SANITIZE_NUMBER_INT);
-            $tgl = Carbon::parse($this->tanggal_terima)->addDays((int)$jlhHari)->locale('id')->translatedFormat('d M Y');
-        }
-
-        return $tgl;
     }
 
     public function getTotalHargaFormattedAttribute()
@@ -77,39 +47,15 @@ class ItemReceived extends BaseModel
         return 'IDR '.number_format($this->total_harga, 0, ',', '.');
     }
 
-    public function getSisaBayarFormattedAttribute()
-    {
-        return 'IDR '.number_format($this->sisa_bayar, 0, ',', '.');
-    }
-
-    public function getTerbayarFormattedAttribute()
-    {
-        return 'IDR '.number_format($this->terbayar, 0, ',', '.');
-    }
-
     public function getTotalTerbilangAttribute()
     {
         return strtoupper(SpellNumber::generate($this->total_harga));
     }
 
-    public function getColorStatusPembayaranLabelAttribute()
+    public function getColorStatusLabelAttribute()
     {
-        $paymentStatus = config('ihandcashier.payment_status');
-        if(isset($this->status_pembayaran)) return $paymentStatus[$this->status_pembayaran]['class'];
-        else return null;
-    }
-
-    public function getColorTipePembayaranLabelAttribute()
-    {
-        $paymentType = config('ihandcashier.payment_types');
-        if(isset($this->tipe_pembayaran)) return $paymentType[$this->tipe_pembayaran]['class'];
-        else return null;
-    }
-
-    public function getColorMetodePembayaranLabelAttribute()
-    {
-        $paymentMethod = config('ihandcashier.payment_methods')['receive'];
-        if(isset($this->metode_pembayaran)) return $paymentMethod[$this->metode_pembayaran]['class'];
+        $status = config('ihandcashier.receive_item_status');
+        if(isset($this->status)) return $status[$this->status]['class'];
         else return null;
     }
 
@@ -124,10 +70,6 @@ class ItemReceived extends BaseModel
 
     public function details(){
         return $this->hasMany(ItemReceivedDetail::class,'item_received_id','id');
-    }
-
-    public function payments(){
-        return $this->hasMany(ItemReceivedPayment::class,'trx_received_item_id','id');
     }
 
     public function createdBy(){
@@ -145,22 +87,21 @@ class ItemReceived extends BaseModel
     protected static function booted()
     {
         static::deleting(function ($data) {
-            if ($data->payments()->exists()) {
-                throw new Exception('Transaksi ini tidak dapat dihapus karena sudah melakukan pembayaran');
+            if (!in_array($data->status,['draft','canceled'])) {
+                throw new Exception('Transaksi ini tidak dapat dihapus karena sudah melakukan penerimaan.');
             }
 
             //memperbarui stok:: stok dikurangi
-            $details = $data->details()->get();
-            foreach ($details as $key => $d) {
-               $stock = ItemStock::where('item_id',$d->item_id)->first();
-               if(empty($stock)) continue;
+            // $details = $data->details()->get();
+            // foreach ($details as $key => $d) {
+            //    $stock = ItemStock::where('item_id',$d->item_id)->first();
+            //    if(empty($stock)) continue;
 
-               $stock->jumlah -= (double) $d->jumlah;
-               $stock->save();
-            }
+            //    $stock->jumlah -= (double) $d->jumlah;
+            //    $stock->save();
+            // }
 
             $data->details()->delete();
-            $data->payments()->delete();
         });
     }
 }

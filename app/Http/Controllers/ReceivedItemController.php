@@ -19,7 +19,7 @@ class ReceivedItemController extends BaseController
     public function __construct(){
         $this->setModel(ItemReceived::class)
             ->select('trx_received_items.*')
-            ->with(['details','details.item','details.unit','contact','payments','payments.createdBy','createdBy','purchase_order'])
+            ->with(['details','details.item','details.unit','contact','createdBy','purchase_order'])
             ->leftJoin('contacts', 'contacts.id', '=', 'trx_received_items.contact_id')
             ->orderBy('tanggal_terima','desc');
         $this->setModule('transaction.item.receive');
@@ -37,11 +37,10 @@ class ReceivedItemController extends BaseController
         injectData($form, [
             'kode_disabled'     => false,
             'contacts'          => getContactToSelect('pemasok'),
-            'payment_status'    => ihandCashierConfigToSelect('payment_status'),
-            'payment_type'      => ihandCashierConfigToSelect('payment_types'),
-            'payment_method'    => ihandCashierConfigToSelect('payment_methods.receive'),
+            'status'            => ihandCashierConfigToSelect('receive_item_status'),
             'items'             => getItemToSelect(),
-            'units'             => getUnitToSelect()
+            'units'             => getUnitToSelect(),
+            'status_readonly'   => false
         ]);
 
         //set default value
@@ -49,7 +48,7 @@ class ReceivedItemController extends BaseController
             'kode_transaksi' => generateTransactionCode('TR'),
             'tanggal_terima' => now(),
             'diterima_oleh' => auth()->user()->name,
-            'status_pembayaran' => 'unpaid'
+            'status' => 'draft'
         ]);
     }
 
@@ -60,11 +59,7 @@ class ReceivedItemController extends BaseController
             'contact_id'        => 'required|numeric',
             'tanggal_terima'    => 'required|string',
             'diterima_oleh'     => 'nullable|string',
-            'potongan_harga'    => 'nullable|numeric:min:0',
-            'status_pembayaran' => 'required|string|in:'.implode(',',ihandCashierConfigKeyToArray('payment_status')),
-            'tipe_pembayaran'   => 'required|string|in:'.implode(',',ihandCashierConfigKeyToArray('payment_types')),
-            'metode_pembayaran' => 'required|string|in:'.implode(',',ihandCashierConfigKeyToArray('payment_methods.receive')),
-            'syarat_pembayaran' => 'nullable|string',
+            'status'            => 'required|string|in:'.implode(',',ihandCashierConfigKeyToArray('receive_item_status')),
             'catatan'           => 'nullable|string',
             'id'                => 'nullable|numeric',
 
@@ -90,12 +85,8 @@ class ReceivedItemController extends BaseController
                     'contact_id'                => trim($data['contact_id']),
                     'tanggal_terima'            => trim($data['tanggal_terima']),
                     'diterima_oleh'             => trim(@$data['diterima_oleh']??null),
-                    'potongan_harga'            => (double) trim(@$data['potongan_harga']??0),
                     'catatan'                   => @trim($data['catatan'])??null,
-                    'status_pembayaran'         => trim($data['status_pembayaran']),
-                    'tipe_pembayaran'         => trim($data['tipe_pembayaran']),
-                    'metode_pembayaran'         => trim($data['metode_pembayaran']),
-                    'syarat_pembayaran'         => @trim($data['syarat_pembayaran'])??null,
+                    'status'                    => trim($data['status']),
                     'created_by'                => auth()->user()->id,
                     'created_at'                => now()
                 ];
@@ -142,11 +133,7 @@ class ReceivedItemController extends BaseController
                 $exist->contact_id = trim($data['contact_id']);
                 $exist->tanggal_terima = trim($data['tanggal_terima']);
                 $exist->diterima_oleh = trim($data['diterima_oleh']);
-                $exist->potongan_harga = @trim($data['potongan_harga'])??0;
-                $exist->status_pembayaran = trim($data['status_pembayaran']);
-                $exist->tipe_pembayaran = trim($data['tipe_pembayaran']);
-                $exist->metode_pembayaran = trim($data['metode_pembayaran']);
-                $exist->syarat_pembayaran = @trim($data['syarat_pembayaran'])??null;
+                $exist->status = trim($data['status']);
                 $exist->catatan = @trim($data['catatan'])??null;
                 $exist->updated_by = auth()->user()->id;
                 $exist->updated_at = now();
@@ -195,9 +182,8 @@ class ReceivedItemController extends BaseController
         injectData($this->_form, [
             'kode_disabled'     => true,
             'contacts'          => getContactToSelect('pemasok'),
-            'payment_status'    => ihandCashierConfigToSelect('payment_status'),
-            'payment_type'      => ihandCashierConfigToSelect('payment_types'),
-            'payment_method'    => ihandCashierConfigToSelect('payment_methods.receive'),
+            'status'            => ihandCashierConfigToSelect('receive_item_status'),
+            'status_readonly'   => false,
             'items'             => getItemToSelect(),
             'units'             => getUnitToSelect()
         ]);

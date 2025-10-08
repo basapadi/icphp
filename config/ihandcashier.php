@@ -66,6 +66,33 @@ return [
             'class'  => 'blue-600'
         ]
     ],
+    'receive_item_status' => [
+        'draft'     => [
+            'label' => 'Draft',
+            'class' => 'gray-400',
+            'color' => 'gray-400'
+        ],
+        'partial_received'   => [
+            'label'  => 'Diterima Sebagian',
+            'class'  => 'blue-600',
+            'color'  => 'blue-600'
+        ],
+        'received'          => [
+            'label'  => 'Diterima Semua',
+            'class'  => 'black-400',
+            'color'  => 'black-400'
+        ],
+        'invoiced'          => [
+            'label'  => 'Faktur Diterbitkan',
+            'class'  => 'green-700',
+            'color'  => 'green-700'
+        ],
+        'canceled'          => [
+            'label'   => 'Dibatalkan',
+            'class'   => 'red-800',
+            'color'   => 'red-800'
+        ]
+    ],
     'purchase_order_status' => [
         'draft'            => [
             'label' => 'Draft',

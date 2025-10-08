@@ -45,42 +45,13 @@
                 "hint": "Masukkan Penerima"
             },
             {
-                "name": "potongan_harga",
-                "type": "currency",
-                "label": "Potongan Harga",
-                "required": false,
-                "hint": "Potongan Harga Total"
-            },
-            {
-                "name": "status_pembayaran",
+                "name": "status",
                 "type": "select",
-                "label": "Status Pembayaran",
+                "label": "Status Penerimaan",
                 "required": true,
-                "hint": "Pilih Status Pembayaran",
-                "options": ":payment_status"
-            },
-            {
-                "name": "tipe_pembayaran",
-                "type": "select",
-                "label": "Tipe Pembayaran",
-                "required": true,
-                "hint": "Pilih Tipe Pembayaran",
-                "options": ":payment_type"
-            },
-            {
-                "name": "metode_pembayaran",
-                "type": "select",
-                "label": "Metode Pembayaran",
-                "required": true,
-                "hint": "Pilih Metode Pembayaran",
-                "options": ":payment_method"
-            },
-            {
-                "name": "syarat_pembayaran",
-                "type": "text",
-                "label": "Syarat Pembayaran",
-                "required": false,
-                "hint": "Contoh syarat pembayaran: 2/15 N30"
+                "hint": "Pilih Status ",
+                "readonly": ":status_readonly",
+                "options": ":status"
             },
             {
                 "name": "catatan",

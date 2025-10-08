@@ -154,6 +154,7 @@ import {
 import Trash from "@/views/Trash.vue";
 
 export default {
+    emits: ['reloadList'],
     components: {
         Badge,
         FilterHeader,
