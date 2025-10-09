@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             
             // Relasi utama
-            $table->foreignId('contact_id')->constrained('contacts');
-            $table->foreignId('purchase_order_id')->nullable()->constrained('trx_purchase_orders');
+            $table->integer('contact_id')->comment('Pemasok');
+            $table->integer('purchase_order_id')->nullable();
             
             // Identitas dokumen
             $table->string('kode', 50)->unique();
@@ -44,8 +44,8 @@ return new class extends Migration
             $table->text('catatan')->nullable();
             
             // Audit trail
-            $table->foreignId('created_by')->nullable()->constrained('users');
-            $table->foreignId('updated_by')->nullable()->constrained('users');
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
             
             $table->timestamps();
             $table->softDeletes();
@@ -58,8 +58,8 @@ return new class extends Migration
          */
         Schema::create('trx_purchase_invoice_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('purchase_invoice_id')->constrained('trx_purchase_invoices')->onDelete('cascade');
-            $table->foreignId('item_id')->constrained('items');
+            $table->integer('purchase_invoice_id');
+            $table->integer('item_id');
             $table->text('catatan')->nullable();
             $table->decimal('jumlah', 12, 2)->default(0);
             $table->unsignedBigInteger('harga')->default(0);
@@ -79,7 +79,7 @@ return new class extends Migration
          */
         Schema::create('trx_purchase_payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('purchase_invoice_id')->constrained('trx_purchase_invoices')->onDelete('cascade');
+            $table->integer('purchase_invoice_id');
             $table->date('tanggal');
             $table->string('metode_bayar', 20)->default('cash'); // cash | transfer | giro | ewallet | qris
             $table->string('no_referensi', 50)->nullable();
@@ -97,8 +97,8 @@ return new class extends Migration
          */
         Schema::create('trx_purchase_invoice_item_receiveds', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('purchase_invoice_id')->constrained('trx_purchase_invoices')->onDelete('cascade');
-            $table->foreignId('item_received_id')->constrained('trx_received_items')->onDelete('cascade');
+            $table->integer('purchase_invoice_id');
+            $table->integer('item_received_id');
             $table->unsignedBigInteger('total_terfaktur')->default(0);
             $table->timestamps();
         });
