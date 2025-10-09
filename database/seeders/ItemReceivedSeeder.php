@@ -8,7 +8,6 @@ use App\Models\{
     ItemReceived,
     ItemReceivedDetail,
     Master,
-    ItemReceivedPayment,
     ItemStock
 };
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -29,7 +28,6 @@ class ItemReceivedSeeder extends Seeder
         ItemReceived::truncate();
         ItemReceivedDetail::truncate();
         ItemPrice::truncate();
-        ItemReceivedPayment::truncate();
         ItemReceived::factory()->count(50)->create();
         ItemStock::truncate();
         $itemIds = Item::select('id')->where('status',true)->get()->pluck('id');
@@ -37,7 +35,6 @@ class ItemReceivedSeeder extends Seeder
         $receiveds = ItemReceived::all();
         $itemPrices = [];
         $details = [];
-        $payments = [];
         $preStocks = [];
         foreach ($receiveds as $key => $r) {
             $jlh =fake()->randomElement([4,5,6,7,8]);
@@ -76,21 +73,6 @@ class ItemReceivedSeeder extends Seeder
             }
             $r->total_harga = $totalHarga;
             $r->save();
-
-            if(in_array($r->tipe_pembayaran, ['tempo','cash','credit']) && in_array($r->status_pembayaran,['partially_paid','paid'])){
-                $harga = $r->total_harga;
-                if($r->type_pembayaran == 'tempo') $harga += $harga*(30/100);
-                array_push($payments, [
-                    'trx_received_item_id' => $r->id,
-                    'jumlah' => $harga,
-                    'metode_pembayaran' => fake()->randomElement(['cash_payment','bank_transfer']),
-                    'dibayar_oleh'      => 'App system',
-                    'tanggal_pembayaran' => now(),
-                    'catatan'           => 'dummy trx payment',
-                    'created_by'         => 2,
-                    'created_at'         => now()
-                ]);
-            }
         }
 
         $stocks = [];
@@ -109,6 +91,5 @@ class ItemReceivedSeeder extends Seeder
         ItemStock::insert($stocks);
         ItemPrice::insert($itemPrices);
         ItemReceivedDetail::insert($details);
-        ItemReceivedPayment::insert($payments);
     }
 }

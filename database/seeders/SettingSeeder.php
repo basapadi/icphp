@@ -14,7 +14,7 @@ class SettingSeeder extends Seeder
     public function run(): void
     {
         Setting::truncate();
-
+        $mailer = 'smtp';
         $preInsert = [
             [
                 'name' => 'toko',
@@ -35,14 +35,14 @@ class SettingSeeder extends Seeder
                 'label' => 'Mailing',
                 'status' => true,
                 'data' => json_encode([
-                    'driver' => 'smtp',
-                    'host' => 'smtp.gmail.com',
-                    'port' => '587',
+                    'driver' => $mailer,
+                    'host' => config('mail.mailers.'.$mailer.'.host'),
+                    'port' => config('mail.mailers.'.$mailer.'.port'),
                     'encryption' => 'tls',
-                    'username' => 'bepedebug@gmail.com',
-                    'password' => '',
-                    'fromAddress' => 'hmpbasapadi@gmail.com',
-                    'fromName' => 'IhandCashier App',
+                    'username' => config('mail.mailers.'.$mailer.'.username'),
+                    'password' => encrypt(trim(config('mail.mailers.'.$mailer.'.password'))),
+                    'fromAddress' => config('mail.from.address'),
+                    'fromName' => config('mail.from.name'),
 
                 ])
             ]

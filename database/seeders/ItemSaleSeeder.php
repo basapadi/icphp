@@ -9,7 +9,6 @@ use App\Models\{
     ItemSale,
     ItemSaleDetail,
     Master,
-    ItemSalePayment,
     ItemStock
 };
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -26,7 +25,6 @@ class ItemSaleSeeder extends Seeder
     {
         ItemSale::truncate();
         ItemSaleDetail::truncate();
-        ItemSalePayment::truncate();
         ItemSale::factory()->count(50)->create();
         $json = File::get(resource_path('dummies/items.json'));
         $items = collect(json_decode($json, true));
@@ -56,23 +54,7 @@ class ItemSaleSeeder extends Seeder
             }
             $r->total_harga = $totalHarga;
             $r->save();
-
-            if(in_array($r->tipe_pembayaran, ['tempo','cash']) && in_array($r->status_pembayaran,['partially_paid','paid'])){
-                $harga = $r->total_harga;
-                if($r->type_pembayaran == 'tempo') $harga*(30/100);
-                array_push($payments, [
-                    'trx_sale_item_id' => $r->id,
-                    'jumlah' => $harga,
-                    'metode_pembayaran' => fake()->randomElement(['cash_payment','bank_transfer']),
-                    'dijual_oleh'      => 'App system',
-                    'tanggal_pembayaran' => now(),
-                    'catatan'           => 'dummy trx payment',
-                    'created_by'         => 2,
-                    'created_at'         => now()
-                ]);
-            }
         }
         ItemSaleDetail::insert($details);
-        ItemSalePayment::insert($payments);
     }
 }

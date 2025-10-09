@@ -12,17 +12,11 @@ class ItemSale extends BaseModel
     public $table = 'trx_sale_items';
 
     protected $appends = [
-        'status_pembayaran_label',
-        'tipe_pembayaran_label',
-        'metode_pembayaran_label',
+        'status_label',
         'tanggal_jual_formatted',
         'total_harga_formatted',
-        'color_status_pembayaran_label',
-        'color_tipe_pembayaran_label',
-        'color_metode_pembayaran_label',
-        'tanggal_jatuh_tempo',
+        'color_status_label',
         'total_terbilang',
-        'sisa_bayar_formatted',
         'terbayar_formatted'
     ];
 
@@ -33,42 +27,20 @@ class ItemSale extends BaseModel
         'dijual_oleh',
         'catatan',
         'total_harga',
-        'potongan_harga',
-        'status_pembayaran',
-        'tipe_pembayaran',
-        'metode_pembayaran',
-        'syarat_pembayaran',
+        'status',
         'created_by',
         'updated_by',
         'deleted_by',
         'deleted_at',
     ];
 
-    public function getStatusPembayaranLabelAttribute(){
-        return isset($this->status_pembayaran) ? config('ihandcashier.payment_status')[$this->status_pembayaran]['label'] : null;
-    }
-
-    public function getTipePembayaranLabelAttribute(){
-        return isset($this->tipe_pembayaran) ? config('ihandcashier.payment_types')[$this->tipe_pembayaran]['label'] : null;
-    }
-
-    public function getMetodePembayaranLabelAttribute(){
-        return isset($this->metode_pembayaran) ? config('ihandcashier.payment_methods.sale')[$this->metode_pembayaran] ['label']: null;
+    public function getStatusLabelAttribute(){
+        return isset($this->status) ? config('ihandcashier.payment_status')[$this->status]['label'] : null;
     }
 
     public function getTanggalJualFormattedAttribute()
     {
         return $this->tanggal_jual ? Carbon::parse($this->tanggal_jual)->locale('id')->translatedFormat('l, d M Y H:i') : null;
-    }
-    public function getTanggalJatuhTempoAttribute(){
-        $tgl = '';
-        if($this->tipe_pembayaran == 'tempo'){
-            $syarats = explode(' ',$this->syarat_pembayaran);
-            $jlhHari = filter_var(@$syarats[1], FILTER_SANITIZE_NUMBER_INT);
-            $tgl = Carbon::parse($this->tanggal_jual)->addDays((int)$jlhHari)->locale('id')->translatedFormat('d M Y');
-        }
-
-        return $tgl;
     }
 
     public function getTotalHargaFormattedAttribute()
@@ -83,11 +55,6 @@ class ItemSale extends BaseModel
         else return null;
     }
 
-    public function getSisaBayarFormattedAttribute()
-    {
-        return 'IDR '.number_format($this->sisa_bayar, 0, ',', '.');
-    }
-
     public function getTerbayarFormattedAttribute()
     {
         return 'IDR '.number_format($this->terbayar, 0, ',', '.');
@@ -98,30 +65,12 @@ class ItemSale extends BaseModel
         return strtoupper(SpellNumber::generate($this->total_harga));
     }
 
-    public function getColorTipePembayaranLabelAttribute()
-    {
-        $paymentType = config('ihandcashier.payment_types');
-        if(isset($this->tipe_pembayaran)) return $paymentType[$this->tipe_pembayaran]['class'];
-        else return null;
-    }
-
-    public function getColorMetodePembayaranLabelAttribute()
-    {
-        $paymentMethod = config('ihandcashier.payment_methods')['sale'];
-        if(isset($this->metode_pembayaran)) return $paymentMethod[$this->metode_pembayaran]['class'];
-        else return null;
-    }
-
     public function contact(){
        return $this->belongsTo(Contact::class, 'contact_id', 'id');
     }
 
     public function details(){
         return $this->hasMany(ItemSaleDetail::class,'item_sale_id','id');
-    }
-
-    public function payments(){
-        return $this->hasMany(ItemSalePayment::class,'trx_sale_item_id','id');
     }
 
     public function createdBy(){
@@ -135,22 +84,21 @@ class ItemSale extends BaseModel
     protected static function booted()
     {
         static::deleting(function ($data) {
-            if ($data->payments()->exists()) {
-                throw new Exception('Transaksi ini tidak dapat dihapus karena sudah melakukan pembayaran');
+            if (!in_array($data->status,['draft','canceled'])) {
+                throw new Exception('Transaksi ini tidak dapat dihapus karena sudah melakukan penjualan.');
             }
 
-            //memperbarui stok:: stok ditambahkan
-            $details = $data->details()->get();
-            foreach ($details as $key => $d) {
-               $stock = ItemStock::where('item_id',$d->item_id)->first();
-               if(empty($stock)) continue;
+            // //memperbarui stok:: stok ditambahkan
+            // $details = $data->details()->get();
+            // foreach ($details as $key => $d) {
+            //    $stock = ItemStock::where('item_id',$d->item_id)->first();
+            //    if(empty($stock)) continue;
 
-               $stock->jumlah += (double) $d->jumlah;
-               $stock->save();
-            }
+            //    $stock->jumlah += (double) $d->jumlah;
+            //    $stock->save();
+            // }
 
             $data->details()->delete();
-            $data->payments()->delete();
         });
     }
 

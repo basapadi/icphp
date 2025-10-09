@@ -84,6 +84,11 @@ class ItemReceived extends BaseModel
        return $this->belongsTo(PurchaseOrder::class, 'purchase_order_id', 'id');
     }
 
+    public function invoices()
+    {
+        return $this->belongsToMany(PurchaseInvoice::class, 'trx_purchase_invoice_item_receiveds');
+    }
+
     protected static function booted()
     {
         static::deleting(function ($data) {
