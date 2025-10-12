@@ -24,6 +24,12 @@ trait HasQueryBuilder
         return $this;
     }
 
+    public function orderBy($column='id',$sort = 'desc')
+    {
+        $this->_queryBuilder = $this->_queryBuilder->orderBy($column,$sort);
+        return $this;
+    }
+
     /**
      * Setter manual query builder (kalau butuh override).
      */

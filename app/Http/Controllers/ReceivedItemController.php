@@ -12,6 +12,7 @@ use App\Models\{
 use Illuminate\Http\Request;
 use Exception;
 use App\Http\Response;
+use App\Objects\ContextMenu;
 
 class ReceivedItemController extends BaseController
 {
@@ -21,7 +22,7 @@ class ReceivedItemController extends BaseController
             ->select('trx_received_items.*')
             ->with(['details','details.item','details.unit','contact','createdBy','purchase_order'])
             ->leftJoin('contacts', 'contacts.id', '=', 'trx_received_items.contact_id')
-            ->orderBy('tanggal_terima','desc');
+            ->orderBy('created_at','desc');
         $this->setModule('transaction.item.receive');
         $this->setGridProperties([
             'filterDateRange' => true,
@@ -50,6 +51,19 @@ class ReceivedItemController extends BaseController
             'diterima_oleh' => auth()->user()->name,
             'status' => 'draft'
         ]);
+
+        //buat faktur
+        $createInvoice = new ContextMenu('createinvoice','Buat Faktur');
+        $createInvoice->conditions = ['status' => ['received']];
+        $createInvoice->type = 'form_dialog';
+        $createInvoice->apiUrl = route('api.purchase.invoice.createInvoice');
+        $createInvoice->icon = 'Receipt';
+        $createInvoice->color = '#6D94C5';
+        $createInvoice->onClick = 'getFormDialog';
+        $createInvoice->formUrl = route('api.purchase.invoice.form');
+
+        $contextMenus = [$createInvoice];
+        $this->setContextMenu($contextMenus);
     }
 
     public function store(Request $request)
@@ -194,6 +208,45 @@ class ReceivedItemController extends BaseController
             'dialog' => $form['dialog'],
             'sections' => $form['sections']
         ]); 
+
+    }
+
+    public function invoiceForm(Request $request){
+        $this->allowAccessModule('transaction.invoice.purchase', 'create');
+        $id = $this->decodeId($request->id);
+        $newInvoice = new \stdClass;
+        $newInvoice->kode = generateTransactionCode('INV');
+        $data = ItemReceived::with(['details'])->where('id',$id)->first();
+        if(empty($data)) return $this->setAlert('error','Galat!','Data yang tidak ditemukan!.');
+
+        $receiveds = ItemReceived::whereNot('purchase_order_id',null)
+            ->where('purchase_order_id', $data->purchase_order_id)
+            ->whereNot('id', $data->id)
+            ->where('status','received')
+            ->get();
+        $newInvoice->details = [$data,...$receiveds];
+        $newInvoice->contact_id = $data->contact_id;
+        $newInvoice->tanggal = date('d-m-Y');
+        $newInvoice->tipe_bayar = 'cash';
+        $newInvoice->total_diskon = 0;
+        $newInvoice->total_pajak = 0;
+        $newInvoice->biaya_pengiriman = 0;
+        $newInvoice->nominal_terbayar = 0;
+        $form = $this->getResourceForm('purchase_invoice');
+
+        injectData($form, [
+            'contacts'          => getContactToSelect('pemasok'),
+            'tipe_bayar'       => ihandCashierConfigToSelect('payment_types')
+        ]);
+        $form = serializeform($form);
+        return Response::ok('loaded',[
+            'data' => $newInvoice,
+            'dialog' => $form['dialog'],
+            'sections' => $form['sections']
+        ]); 
+    }
+
+    public function createInvoice(Request $request){
 
     }
 }

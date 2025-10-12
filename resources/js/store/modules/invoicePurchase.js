@@ -32,7 +32,7 @@ const mutations = {
 const actions = {
     async grid({ commit, rootState }, payload) { 
         try {
-            const resp = await axios.get('/api/invoice/purchase/grid', {
+            const resp = await axios.get('/api/purchase/invoice/grid', {
                 params: payload,
                 paramsSerializer: params => {
                     return qs.stringify(params, { arrayFormat: 'repeat' })
@@ -48,7 +48,7 @@ const actions = {
     },
     async form({ commit, rootState }, payload) { 
         try {
-            const resp = await axios.get('/api/invoice/purchase/form', {
+            const resp = await axios.get('/api/purchase/invoice/form', {
                 params: payload,
                 paramsSerializer: params => {
                     return qs.stringify(params, { arrayFormat: 'repeat' })
@@ -62,7 +62,7 @@ const actions = {
     },
     async delete({ commit, rootState }, id) {
         try {
-            const resp = await axios.delete('/api/invoice/purchase/'+id);
+            const resp = await axios.delete('/api/purchase/invoice/'+id);
             return resp
         } catch (err) {
             throw err

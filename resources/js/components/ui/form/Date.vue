@@ -1,5 +1,5 @@
 <script lang="ts">
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, onMounted, onBeforeUnmount, watch } from "vue";
 import type { HTMLAttributes } from "vue";
 import { useVModel } from "@vueuse/core";
 import { cn } from "@/lib/utils";
@@ -22,8 +22,8 @@ export default {
     class: { type: [String, Array, Object] as unknown as HTMLAttributes["class"], default: "" },
     disabled: { type: Boolean, default: false },
     readonly: { type: Boolean, default: false },
-    minDate: { type: String, default: "" }, // optional: batas min (DD-MM-YYYY)
-    maxDate: { type: String, default: "" }, // optional: batas max (DD-MM-YYYY)
+    minDate: { type: String, default: "" },
+    maxDate: { type: String, default: "" },
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
@@ -37,16 +37,34 @@ export default {
 
     onMounted(() => {
       picker = flatpickr(inputRef.value as HTMLInputElement, {
-        dateFormat: "d-m-Y",  // format DMY
+        dateFormat: "d-m-Y",
         locale: Indonesian,
         defaultDate: modelValue.value || undefined,
         minDate: props.minDate || undefined,
         maxDate: props.maxDate || undefined,
         allowInput: true,
+        clickOpens: !props.readonly && !props.disabled,
         onChange: (_, dateStr) => {
           modelValue.value = dateStr;
         },
       });
+
+      if (props.readonly) picker._input.setAttribute("readonly", "readonly");
+      if (props.disabled) picker._input.setAttribute("disabled", "disabled");
+    });
+
+    watch(() => props.disabled, (val) => {
+      if (picker) {
+        picker._input.toggleAttribute("disabled", val);
+        picker.set("clickOpens", !val && !props.readonly);
+      }
+    });
+
+    watch(() => props.readonly, (val) => {
+      if (picker) {
+        picker._input.toggleAttribute("readonly", val);
+        picker.set("clickOpens", !val && !props.disabled);
+      }
     });
 
     onBeforeUnmount(() => {
@@ -54,7 +72,9 @@ export default {
     });
 
     const inputClass = cn(
-      "flex h-8 w-full text-sm rounded-md border border-input bg-background px-3 py-2 ring-offset-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+      "flex h-8 w-full text-sm rounded-md border border-input bg-background px-3 py-2 ring-offset-background " +
+      "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 " +
+      "disabled:cursor-not-allowed disabled:opacity-50",
       props.class
     );
 
@@ -72,7 +92,6 @@ export default {
       <span class="text-gray-500 text-shadow-2xs">{{ label }}</span>
       <span v-if="required" class="text-red-700">*</span>
 
-      <!-- wrapper untuk icon + tooltip -->
       <div class="relative group">
         <Info class="h-4 w-4 text-orange-300 cursor-pointer" />
         <div

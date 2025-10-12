@@ -28,7 +28,8 @@
                 "label": "Pemasok",
                 "required": false,
                 "hint": "Pilih Pemasok barang",
-                "options": ":contacts"
+                "options": ":contacts",
+                "readonly": ":contact_readonly"
             },
             {
                 "name": "tanggal_terima",
@@ -43,15 +44,6 @@
                 "label": "Diterima Oleh",
                 "required": true,
                 "hint": "Masukkan Penerima"
-            },
-            {
-                "name": "status",
-                "type": "select",
-                "label": "Status Penerimaan",
-                "required": true,
-                "hint": "Pilih Status ",
-                "readonly": ":status_readonly",
-                "options": ":status"
             },
             {
                 "name": "catatan",

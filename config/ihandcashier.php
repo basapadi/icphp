@@ -78,7 +78,7 @@ return [
             'color'  => 'blue-600'
         ],
         'received'          => [
-            'label'  => 'Diterima Semua',
+            'label'  => 'Diterima',
             'class'  => 'black-400',
             'color'  => 'black-400'
         ],
@@ -182,6 +182,28 @@ return [
             'label'   => 'Ditolak',
             'class'   => 'red-800',
             'color'   => 'red-800'
+        ]
+    ],
+    'purchase_invoice_status' => [
+        'draft'            => [ //Faktur baru dibuat, belum final
+            'label' => 'Draft',
+            'class' => 'gray-800',
+            'color' => 'gray-800'
+        ],
+        'posted'              => [ //Sudah diverifikasi dan resmi jadi tagihan
+            'label' => 'Diposting',
+            'class' => 'green-700',
+            'color' => 'green-700'
+        ],
+        'canceled'          => [ //Faktur dibatalkan
+            'label'   => 'Dibatalkan',
+            'class'   => 'red-800',
+            'color'   => 'red-800'
+        ],
+        'void'          => [ //Faktur batal tapi tetap disimpan untuk audit
+            'label'   => 'Void',
+            'class'   => 'black-800',
+            'color'   => 'black-800'
         ]
     ],
     'menus' => [

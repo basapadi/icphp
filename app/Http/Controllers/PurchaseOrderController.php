@@ -283,9 +283,9 @@ class PurchaseOrderController extends BaseController
             'status'            => ihandCashierConfigToSelect('receive_item_status'),
             'status_readonly'   => true,
             'items'             => getItemToSelect(),
-            'units'             => getUnitToSelect()
+            'units'             => getUnitToSelect(),
+            'contact_readonly'  => true
         ]);
-
         $form = serializeform($form);
         return Response::ok('loaded',[
             'data' => $data,
@@ -304,7 +304,6 @@ class PurchaseOrderController extends BaseController
             'contact_id'        => 'required|numeric',
             'tanggal_terima'    => 'required|string',
             'diterima_oleh'     => 'nullable|string',
-            'status'            => 'required|string|in:'.implode(',',ihandCashierConfigKeyToArray('receive_item_status')),
             'catatan'           => 'nullable|string',
             'po_id'             => 'required|numeric',
 

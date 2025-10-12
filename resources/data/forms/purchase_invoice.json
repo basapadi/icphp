@@ -1,0 +1,157 @@
+{
+    "dialog": {
+        "width": 7
+    },
+    "main": {
+        "label": "Form Faktur",
+        "column": 3,
+        "forms": [
+            {
+                "name": "kode",
+                "type": "text",
+                "label": "Kode Faktur",
+                "required": false,
+                "readonly": true,
+                "hint": "Kode Faktur"
+            },
+            {
+                "name": "contact_id",
+                "type": "select",
+                "label": "Pemasok",
+                "required": false,
+                "hint": "Pilih Pemasok barang",
+                "options": ":contacts",
+                "readonly": true
+            },
+            {
+                "name": "tanggal",
+                "type": "date",
+                "label": "Tanggal Faktur",
+                "required": true,
+                "hint": "Masukkan Tanggal Faktur"
+            },
+            {
+                "name": "no_referensi",
+                "type": "text",
+                "label": "Nomor Referensi",
+                "required": false,
+                "disabled": false,
+                "hint": "Nomor Referensi"
+            },
+            {
+                "name": "tipe_bayar",
+                "type": "select",
+                "label": "Tipe Pembayaran",
+                "required": false,
+                "disabled": false,
+                "hint": "Tipe Pembayaran",
+                "options": ":tipe_bayar"
+            },
+            {
+                "name": "syarat_bayar",
+                "type": "text",
+                "label": "Syarat Pembayaran",
+                "required": false,
+                "disabled": false,
+                "hint": "Syarat Pembayaran"
+            },
+            {
+                "name": "jatuh_tempo",
+                "type": "date",
+                "label": "Jatuh Tempo",
+                "required": false,
+                "disabled": false,
+                "hint": "Jatuh Tempo"
+            },
+            {
+                "name": "total_diskon",
+                "type": "currency",
+                "label": "Total Diskon",
+                "required": false,
+                "disabled": false,
+                "hint": "Total Diskon"
+            },
+            {
+                "name": "total_pajak",
+                "type": "currency",
+                "label": "Total Pajak",
+                "required": false,
+                "disabled": false,
+                "hint": "Total Pajak"
+            },
+            {
+                "name": "biaya_pengiriman",
+                "type": "currency",
+                "label": "Biaya Pengiriman",
+                "required": false,
+                "disabled": false,
+                "hint": "Biaya Pengiriman"
+            },
+            {
+                "name": "nominal_terbayar",
+                "type": "currency",
+                "label": "Nominal Terbayar",
+                "required": false,
+                "disabled": false,
+                "hint": "Nominal Terbayar"
+            },
+            {
+                "name": "catatan",
+                "type": "textarea",
+                "label": "Catatan",
+                "required": false,
+                "disabled": false,
+                "hint": "Catatan"
+            }   
+        ]
+    },
+    "details": {
+        "label": "Penerimaan Masuk",
+        "description": "Anda dapat menghapus penerimaan dibawah ini apabila tidak ingin dimasukkan dalam faktur",
+        "column": 7,
+        "type": "addtable",
+        "editable": false,
+        "forms": [
+            {
+                "name": "kode_transaksi",
+                "type": "text",
+                "label": "Kode Penerimaan",
+                "required": true,
+                "hint": "Kode Penerimaan",
+                "readonly": true
+            },
+            {
+                "name": "kode_po",
+                "type": "text",
+                "label": "Kode PO",
+                "required": false,
+                "hint": "Kode PO",
+                "readonly": true
+            },
+            {
+                "name": "total_harga",
+                "type": "currency",
+                "label": "Total Harga",
+                "required": true,
+                "hint": "Total Harga Penerimaan",
+                "readonly": true
+            },
+            {
+                "name": "tanggal_terima",
+                "type": "date",
+                "label": "Tanggal Terima",
+                "required": true,
+                "hint": "Tanggal Terima",
+                "readonly": true
+            },
+            {
+                "name": "catatan",
+                "type": "text",
+                "label": "Catatan",
+                "required": false,
+                "hint": "Catatan",
+                "readonly": true
+            }
+        ]
+    }
+}

@@ -39,6 +39,7 @@ export {
 	Columns3,
 	MonitorCog,
 	UserCog,
-	SquareChevronRight
+	SquareChevronRight,
+	Receipt
 
 } from "lucide-vue-next";

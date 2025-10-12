@@ -32,7 +32,7 @@ class ReceivableController extends BaseController
             ->whereNotIn('status_pembayaran',$exceptStatus)
             ->leftJoin('trx_sale_payment_items', 'trx_sale_payment_items.trx_sale_item_id', '=', 'trx_sale_items.id')
             ->havingRaw('SUM(trx_sale_items.total_harga) - COALESCE(SUM(trx_sale_payment_items.jumlah),0) > 0');
-        
+            
         $this->setQuery($query)
             ->with(['contact'])
             ->groupBy('contact_id');

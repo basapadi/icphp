@@ -25,7 +25,7 @@ class PurchaseOrderSeeder extends Seeder
         PurchaseOrder::truncate();
         PurchaseOrderDetail::truncate();
         PurchaseOrder::factory()->count(30)->create();
-        $itemIds = Item::select('id')->where('status',true)->get()->pluck('id');
+        $itemIds = Item::select('id')->where('status',true)->get()->pluck('id')->toArray();
 
         $pos = PurchaseOrder::all();
         $details = [];
@@ -33,9 +33,11 @@ class PurchaseOrderSeeder extends Seeder
         foreach ($pos as $key => $po) {
             $jlh =fake()->randomElement([4,5,6,7,8]);
             $totalHarga = 0;
-
-            for ($i=0; $i <= $jlh; $i++) {
-                $itemId = fake()->randomElement($itemIds);
+            shuffle($itemIds);
+            $uniqueItemIds = array_slice($itemIds, 0, $jlh);
+            // dd($uniqueItemIds,$jlh);
+            for ($i=0; $i < count($uniqueItemIds); $i++) {
+                $itemId = $uniqueItemIds[$i];
                 $currentItem = $items->where('id',$itemId)->first();
                 $harga = $currentItem['harga'];
                 $banyak = fake()->randomElement([1,2,3,4,5,6,7,8,9,10]);
