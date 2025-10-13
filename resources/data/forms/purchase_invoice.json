@@ -1,6 +1,6 @@
 {
     "dialog": {
-        "width": 7
+        "width": 8
     },
     "main": {
         "label": "Form Faktur",
@@ -53,7 +53,7 @@
                 "label": "Syarat Pembayaran",
                 "required": false,
                 "disabled": false,
-                "hint": "Syarat Pembayaran"
+                "hint": "Syarat Pembayaran, contoh: 2/10 N30"
             },
             {
                 "name": "jatuh_tempo",
@@ -61,39 +61,7 @@
                 "label": "Jatuh Tempo",
                 "required": false,
                 "disabled": false,
-                "hint": "Jatuh Tempo"
-            },
-            {
-                "name": "total_diskon",
-                "type": "currency",
-                "label": "Total Diskon",
-                "required": false,
-                "disabled": false,
-                "hint": "Total Diskon"
-            },
-            {
-                "name": "total_pajak",
-                "type": "currency",
-                "label": "Total Pajak",
-                "required": false,
-                "disabled": false,
-                "hint": "Total Pajak"
-            },
-            {
-                "name": "biaya_pengiriman",
-                "type": "currency",
-                "label": "Biaya Pengiriman",
-                "required": false,
-                "disabled": false,
-                "hint": "Biaya Pengiriman"
-            },
-            {
-                "name": "nominal_terbayar",
-                "type": "currency",
-                "label": "Nominal Terbayar",
-                "required": false,
-                "disabled": false,
-                "hint": "Nominal Terbayar"
+                "hint": "Jatuh Tempo, isi apabila tidak menggunakan diskon syarat pembayaran"
             },
             {
                 "name": "catatan",
@@ -107,51 +75,66 @@
     },
     "details": {
         "label": "Penerimaan Masuk",
-        "description": "Anda dapat menghapus penerimaan dibawah ini apabila tidak ingin dimasukkan dalam faktur",
+        "description": "Anda dapat menghapus item dibawah ini apabila tidak ingin dimasukkan dalam faktur",
         "column": 7,
         "type": "addtable",
         "editable": false,
         "forms": [
             {
-                "name": "kode_transaksi",
+                "name": "kode",
                 "type": "text",
                 "label": "Kode Penerimaan",
-                "required": true,
                 "hint": "Kode Penerimaan",
                 "readonly": true
             },
             {
-                "name": "kode_po",
-                "type": "text",
-                "label": "Kode PO",
-                "required": false,
-                "hint": "Kode PO",
+                "name": "item_id",
+                "type": "select",
+                "label": "Barang",
+                "hint": "Barang",
+                "options": ":items",
                 "readonly": true
             },
             {
-                "name": "total_harga",
+                "name": "unit_id",
+                "type": "select",
+                "label": "Satuan",
+                "hint": "Satuan Barang",
+                "options": ":units",
+                "readonly": false
+            },
+            {
+                "name": "jumlah",
+                "type": "number",
+                "label": "Jumlah",
+                "required": true,
+                "hint": "Jumlah Barang",
+                "readonly": false
+            },
+            {
+                "name": "harga",
                 "type": "currency",
-                "label": "Total Harga",
+                "label": "Harga",
                 "required": true,
-                "hint": "Total Harga Penerimaan",
-                "readonly": true
+                "readonly": false,
+                "hint": "Harga Barang"
             },
             {
-                "name": "tanggal_terima",
-                "type": "date",
-                "label": "Tanggal Terima",
+                "name": "diskon_nominal",
+                "type": "currency",
+                "label": "Diskon (Total)",
                 "required": true,
-                "hint": "Tanggal Terima",
-                "readonly": true
+                "readonly": false,
+                "hint": "Masukkan diskon Sub Total"
             },
             {
-                "name": "catatan",
-                "type": "text",
-                "label": "Catatan",
-                "required": false,
-                "hint": "Catatan",
-                "readonly": true
+                "name": "pajak_persen",
+                "type": "select",
+                "label": "Pajak",
+                "hint": "Pajak",
+                "options": ":taxes"
             }
+
         ]
     }
 }

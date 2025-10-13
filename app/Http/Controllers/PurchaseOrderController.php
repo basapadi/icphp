@@ -39,7 +39,7 @@ class PurchaseOrderController extends BaseController
         injectData($form, [
             'kode_disabled'     => false,
             'contacts'          => getContactToSelect('pemasok'),
-            'po_status'         =>$purchaseStatus,
+            'po_status'         => $purchaseStatus,
             'items'             => getItemToSelect(),
             'units'             => getUnitToSelect('UNIT'),
             'users'             => getUserToSelect(),
@@ -246,7 +246,7 @@ class PurchaseOrderController extends BaseController
     }
 
     public function receivedForm(Request $request){
-        $this->allowAccessModule($this->_module, 'create');
+        $this->allowAccessModule('transaction.item.receive', 'create');
         $id = $this->decodeId($request->id);
 
         $data = PurchaseOrder::with(['details'])->where('id',$id)->first();
@@ -295,7 +295,7 @@ class PurchaseOrderController extends BaseController
     }
 
     public function createReceivedItem(Request $request){
-        $this->allowAccessModule($this->_module, 'create');
+        $this->allowAccessModule('transaction.item.receive', 'create');
 
         $rules = [
             'addtable'          => 'required|array',

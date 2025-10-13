@@ -138,6 +138,19 @@ if(!function_exists('getUnitToSelect')){
     }
 }
 
+if(!function_exists('getTaxToSelect')){
+    function getTaxToSelect(){
+        $data = Master::where('status', true)->where('type','TAX')->get();
+        $items = [];
+
+        foreach ($data as $key => $c) {
+            $items[$c->attributes] = $c->nama." ({$c->attributes}%)";
+        }
+        return $items;
+    }
+}
+
+
 if(!function_exists('getUserToSelect')){
     function getUserToSelect(array $except = []){
         $data = User::where('active', true)->whereNotIn('id',$except)->get();

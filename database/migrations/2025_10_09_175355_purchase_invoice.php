@@ -60,6 +60,7 @@ return new class extends Migration
             $table->id();
             $table->integer('purchase_invoice_id');
             $table->integer('item_id');
+            $table->integer('unit_id');
             $table->text('catatan')->nullable();
             $table->decimal('jumlah', 12, 2)->default(0);
             $table->unsignedBigInteger('harga')->default(0);

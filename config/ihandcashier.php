@@ -577,6 +577,12 @@ return [
         'px'       => [51, 'Pixel'],
         'btg'      => [52, 'Batang']
     ],
+    "taxes" => [
+        'tax_0' => [53,'Tidak Kena Pajak',0],
+        'tax_ppn' => [54,'PPN',11],
+        'tax_pph' => [55,'PPH',2],
+        'tax_jasa' => [56,'Jasa',10]   
+    ],
     'status' => [
         '0' => [
             'label' => 'Tidak Aktif',

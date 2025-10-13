@@ -216,27 +216,34 @@ class ReceivedItemController extends BaseController
         $id = $this->decodeId($request->id);
         $newInvoice = new \stdClass;
         $newInvoice->kode = generateTransactionCode('INV');
-        $data = ItemReceived::with(['details'])->where('id',$id)->first();
-        if(empty($data)) return $this->setAlert('error','Galat!','Data yang tidak ditemukan!.');
+        $item = ItemReceived::select('purchase_order_id','contact_id')->where('id',$id)->first();
+        if(empty($item)) return $this->setAlert('error','Galat!','Data yang tidak ditemukan!.');
+        if($item->purchase_order_id != null) $data = ItemReceived::with(['details'])->where('purchase_order_id',$item->purchase_order_id)->get();
+        else $data = ItemReceived::with(['details'])->where('id',$id)->get();
+        $details = [];
+        foreach ($data as $key => $d) {
+            // dd($d->details);
+            $receivedDetails = $d->details->map(function($item)use ($d){
+                $item['kode'] = $d->kode_transaksi;
+                $item['diskon_nominal'] = 0;
+                $item['pajak_persen'] = 11;
+                return $item;
+            })->toArray();
+            $details = array_merge($details, $receivedDetails);
+        }
 
-        $receiveds = ItemReceived::whereNot('purchase_order_id',null)
-            ->where('purchase_order_id', $data->purchase_order_id)
-            ->whereNot('id', $data->id)
-            ->where('status','received')
-            ->get();
-        $newInvoice->details = [$data,...$receiveds];
-        $newInvoice->contact_id = $data->contact_id;
+        $newInvoice->details = $details;
+        $newInvoice->contact_id = $item->contact_id;
         $newInvoice->tanggal = date('d-m-Y');
         $newInvoice->tipe_bayar = 'cash';
-        $newInvoice->total_diskon = 0;
-        $newInvoice->total_pajak = 0;
-        $newInvoice->biaya_pengiriman = 0;
-        $newInvoice->nominal_terbayar = 0;
         $form = $this->getResourceForm('purchase_invoice');
 
         injectData($form, [
             'contacts'          => getContactToSelect('pemasok'),
-            'tipe_bayar'       => ihandCashierConfigToSelect('payment_types')
+            'tipe_bayar'        => ihandCashierConfigToSelect('payment_types'),
+            'items'             => getItemToSelect(),
+            'units'             => getUnitToSelect('UNIT'),
+            'taxes'             => getTaxToSelect()
         ]);
         $form = serializeform($form);
         return Response::ok('loaded',[
@@ -247,6 +254,36 @@ class ReceivedItemController extends BaseController
     }
 
     public function createInvoice(Request $request){
+        $this->allowAccessModule('transaction.invoice.purchase', 'create');
+        $rules = [
+            'addtable'          => 'required|array',
+            'addtable.details'  => 'required|array|min:1',
+            'kode'              => 'required|string',
+            'contact_id'        => 'required|numeric',
+            'tanggal'           => 'required|string',
+            'tipe_bayar'        => 'required|string',
+            'catatan'           => 'nullable|string',
 
+            'addtable.details.*.id'             => 'required|integer|exists:trx_received_items,id|distinct',
+            'addtable.details.*.item_id'        => 'required|integer|exists:items,id|distinct',
+            'addtable.details.*.unit_id'        => 'required|integer|exists:masters,id',
+            'addtable.details.*.jumlah'         => 'required|numeric|min:1',
+            'addtable.details.*.harga'          => 'required|numeric|min:0',
+            'addtable.details.*.diskon_nominal' => 'required|numeric|min:0',
+            'addtable.details.*.pajak_persen'   => 'required|numeric|min:0',
+        ];  
+
+        $data = $this->validate($rules);
+        if ($data instanceof \Illuminate\Http\JsonResponse) return $data;
+
+        try {
+            begin();
+
+            //TODO: SIMPAN DATA INVOICE
+
+        }catch(Exception $e){
+            rollBack();
+            return $this->setAlert('error','Gagal',$e->getMessage());
+        }
     }
 }
