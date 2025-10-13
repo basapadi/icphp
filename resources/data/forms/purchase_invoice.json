@@ -114,10 +114,10 @@
             {
                 "name": "harga",
                 "type": "currency",
-                "label": "Harga",
+                "label": "Harga Satuan",
                 "required": true,
                 "readonly": false,
-                "hint": "Harga Barang"
+                "hint": "Harga Satuan Barang"
             },
             {
                 "name": "diskon_nominal",

@@ -16,7 +16,7 @@
                 "label": "Status Pembayaran"
             },
             "total_harga_formatted": {
-                "label": "Total Harga (Rupiah)",
+                "label": "Total Harga",
                 "class": "font-mono font-bold"
             },
             "total_terbilang": {
@@ -56,14 +56,14 @@
                 "class": "text-right"
             },
             "harga_formatted": {
-                "label": "Harga (Rupiah)",
+                "label": "Harga Satuan",
                 "class": "font-mono text-right"
             },
             "unit__nama": {
                 "label": "Satuan"
             },
             "total_harga_formatted": {
-                "label": "Sub Total (Rupiah)",
+                "label": "Sub Total",
                 "class": "font-mono text-right"
             }
         }
