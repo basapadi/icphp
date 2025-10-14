@@ -144,8 +144,8 @@ if(!function_exists('getTaxToSelect')){
         $items = [];
 
         foreach ($data as $key => $c) {
-            $items[$c->attributes] = $c->nama." ({$c->attributes}%)";
-        }
+            $items[$c->attributes->value] = $c->nama." ({$c->attributes->value}%)";
+        }   
         return $items;
     }
 }

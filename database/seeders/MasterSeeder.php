@@ -24,7 +24,7 @@ class MasterSeeder extends Seeder
                 'kode' => $key,
                 'nama' => $tax[1],
                 'status' => 1,
-                'attributes' => $tax[2]
+                'attributes' => json_encode(['value' => $tax[2]])
             ]);
         }
         Master::insert($preInsert);
