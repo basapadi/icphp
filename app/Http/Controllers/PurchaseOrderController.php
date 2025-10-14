@@ -349,8 +349,8 @@ class PurchaseOrderController extends BaseController
                         'unit_id'           => (int) trim($d['unit_id']),
                         'harga'             => (double) trim($d['harga']),
                         'jumlah'            => (int) trim($d['jumlah']),
-                        'kedaluarsa'        => (string) trim(@$d['kedaluarsa']??null),
-                        'batch'             => (string) trim(@$d['batch']??null)
+                        'kedaluarsa'        => (string) !empty(trim(@$d['kedaluarsa'])?trim(@$d['kedaluarsa']):null),
+                        'batch'             => (string) !empty(trim(@$d['batch'])?trim(@$d['batch']):null),
                     ]);
 
                     $total += $t;
