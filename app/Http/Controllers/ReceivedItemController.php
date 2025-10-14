@@ -119,7 +119,7 @@ class ReceivedItemController extends BaseController
                         array_push($perInsertDetails,[
                             'item_received_id' => $trx->id,
                             'item_id'           => (int) trim($d['item_id']),
-                            'unit_id'           => (int) trim($d['unit_id']),
+                            'unit_id'           => (int) trim($d['unit_id']),   
                             'harga'             => (double) trim($d['harga']),
                             'jumlah'            => (int) trim($d['jumlah']),
                             'kedaluarsa'        => !empty(trim(@$d['kedaluarsa'])) ? trim($d['kedaluarsa']) : null,
@@ -167,7 +167,7 @@ class ReceivedItemController extends BaseController
                             'unit_id'           => (int) trim($d['unit_id']),
                             'harga'             => (double) trim($d['harga']),
                             'jumlah'            => (int) trim($d['jumlah']),
-                            'kedaluarsa'        => !empty(trim(@$d['kedaluarsa'])) ? trim($d['kedaluarsa']) : null,,
+                            'kedaluarsa'        => !empty(trim(@$d['kedaluarsa'])) ? trim($d['kedaluarsa']) : null,
                             'batch'             => trim($d['batch'])??null,
                             'sub_total'         => $t
                         ]);
