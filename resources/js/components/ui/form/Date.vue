@@ -37,7 +37,7 @@ export default {
 
     onMounted(() => {
       picker = flatpickr(inputRef.value as HTMLInputElement, {
-        dateFormat: "d-m-Y",
+        dateFormat: "Y-m-d",
         locale: Indonesian,
         defaultDate: modelValue.value || undefined,
         minDate: props.minDate || undefined,
@@ -116,7 +116,7 @@ export default {
       :disabled="disabled"
       :readonly="readonly"
       autocomplete="false"
-      placeholder="dd-mm-yyyy"
+      placeholder="yyyy-mm-dd"
     />
   </div>
 </template>
