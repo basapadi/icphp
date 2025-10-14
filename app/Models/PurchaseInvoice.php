@@ -127,4 +127,21 @@ class PurchaseInvoice extends BaseModel
         return $this->tanggal ? Carbon::parse($this->tanggal)->locale('id')->translatedFormat('l, d M Y H:i') : null;
     }
 
+    protected static function booted()
+    {
+        static::deleting(function ($data) {
+            $statuses = config('ihandcashier.purchase_invoice_status');
+            if (in_array($data->status,['posted','void'])) {
+                throw new Exception('Faktur ini tidak dapat dihapus karena sudah '.$statuses[$data->status]['label']);
+            }
+            // dd($data->itemReceiveds()->get());
+            foreach ($data->itemReceiveds()->get() as $key => $ir) {
+                $ir->status = 'received';
+                $ir->save();
+            }
+            $data->details()->delete();
+            PurchaseInvoiceItemReceived::where('purchase_invoice_id',$data->id)->delete();
+        });
+    }
+
 }

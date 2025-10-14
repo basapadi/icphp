@@ -9,10 +9,11 @@ class PurchaseInvoiceDetail extends BaseModel
 {
     public $table = 'trx_purchase_invoice_details';
     protected $appends = [
-
+        'kode_penerimaan'
     ];
     protected $fillable = [
         'purchase_invoice_id',
+        'item_received_id',
         'item_id',
         'catatan',
         'jumlah',
@@ -32,6 +33,16 @@ class PurchaseInvoiceDetail extends BaseModel
     public function invoice()
     {
         return $this->belongsTo(PurchaseInvoice::class, 'purchase_invoice_id');
+    }
+
+    public function received()
+    {
+        return $this->belongsTo(ItemReceived::class,'item_received_id');
+    }
+
+    public function getKodePenerimaanAttribute()
+    {
+        return $this->received()->first()->kode_transaksi;   
     }
 
     // Barang / item

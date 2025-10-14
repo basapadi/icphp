@@ -81,7 +81,7 @@
         "editable": false,
         "forms": [
             {
-                "name": "kode",
+                "name": "kode_penerimaan",
                 "type": "text",
                 "label": "Kode Penerimaan",
                 "hint": "Kode Penerimaan",

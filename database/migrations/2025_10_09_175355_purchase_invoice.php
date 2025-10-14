@@ -58,6 +58,7 @@ return new class extends Migration
         Schema::create('trx_purchase_invoice_details', function (Blueprint $table) {
             $table->id();
             $table->integer('purchase_invoice_id')->index();
+            $table->integer('item_received_id')->index();
             $table->integer('item_id')->index();
             $table->integer('unit_id');
             $table->text('catatan')->nullable();

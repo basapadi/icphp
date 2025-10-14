@@ -25,36 +25,36 @@ class ItemSaleSeeder extends Seeder
     {
         ItemSale::truncate();
         ItemSaleDetail::truncate();
-        ItemSale::factory()->count(50)->create();
-        $json = File::get(resource_path('dummies/items.json'));
-        $items = collect(json_decode($json, true));
+        // ItemSale::factory()->count(50)->create();
+        // $json = File::get(resource_path('dummies/items.json'));
+        // $items = collect(json_decode($json, true));
 
-        $itemIds = ItemPrice::distinct('item_id')->get()->pluck('item_id');
-        $sales = ItemSale::all();
-        $details = [];
-        $payments = [];
-        foreach ($sales as $key => $r) {
-            $jlh =fake()->randomElement([1,2,3,4,5,6,7,8]);
-            $totalHarga = 0;
-            for ($i=0; $i <= $jlh; $i++) { 
-                $banyak = fake()->randomElement([1,2,3,4,5]);
-                $itemId = fake()->randomElement($itemIds);
-                $latestPrice = ItemPrice::where('item_id',$itemId)->latest('tanggal_berlaku','desc')->first();
-                $harga = @$latestPrice->harga + ($latestPrice->harga* (15/100))??0;
-                $currentItem = $items->where('id',$itemId)->first();
-                $unitId = $currentItem['satuan_id'];
-                array_push($details, [
-                    'item_sale_id'  => $r->id,
-                    'item_id'           => $itemId,
-                    'jumlah'            => $banyak,
-                    'harga'             => $harga,
-                    'unit_id'           => $unitId
-                ]);
-                $totalHarga += ($harga*$banyak);
-            }
-            $r->total_harga = $totalHarga;
-            $r->save();
-        }
-        ItemSaleDetail::insert($details);
+        // $itemIds = ItemPrice::distinct('item_id')->get()->pluck('item_id');
+        // $sales = ItemSale::all();
+        // $details = [];
+        // $payments = [];
+        // foreach ($sales as $key => $r) {
+        //     $jlh =fake()->randomElement([1,2,3,4,5,6,7,8]);
+        //     $totalHarga = 0;
+        //     for ($i=0; $i <= $jlh; $i++) { 
+        //         $banyak = fake()->randomElement([1,2,3,4,5]);
+        //         $itemId = fake()->randomElement($itemIds);
+        //         $latestPrice = ItemPrice::where('item_id',$itemId)->latest('tanggal_berlaku','desc')->first();
+        //         $harga = @$latestPrice->harga + ($latestPrice->harga* (15/100))??0;
+        //         $currentItem = $items->where('id',$itemId)->first();
+        //         $unitId = $currentItem['satuan_id'];
+        //         array_push($details, [
+        //             'item_sale_id'  => $r->id,
+        //             'item_id'           => $itemId,
+        //             'jumlah'            => $banyak,
+        //             'harga'             => $harga,
+        //             'unit_id'           => $unitId
+        //         ]);
+        //         $totalHarga += ($harga*$banyak);
+        //     }
+        //     $r->total_harga = $totalHarga;
+        //     $r->save();
+        // }
+        // ItemSaleDetail::insert($details);
     }
 }

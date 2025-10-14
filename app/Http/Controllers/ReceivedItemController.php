@@ -241,7 +241,7 @@ class ReceivedItemController extends BaseController
                 // Kalau masih ada sisa belum difakturkan
                 if ($remaining > 0) {
                     $detailArr = $detail->toArray();
-                    $detailArr['kode'] = $ir->kode_transaksi;
+                    $detailArr['kode_penerimaan'] = $ir->kode_transaksi;
                     $detailArr['jumlah'] = $remaining;
                     $detailArr['diskon_nominal'] = 0;
                     $detailArr['pajak_persen'] = 11;
@@ -281,6 +281,7 @@ class ReceivedItemController extends BaseController
             'contact_id'        => 'required|numeric',
             'tanggal'           => 'required|string',
             'tipe_bayar'        => 'required|string',
+            'no_referensi'      => 'nullable|string',
             'catatan'           => 'nullable|string',
 
             'addtable.details.*.id'                 => 'required|integer|exists:trx_received_item_details,id|distinct',
@@ -330,6 +331,7 @@ class ReceivedItemController extends BaseController
 
                     array_push($perInsertDetails,[
                         'purchase_invoice_id'   => $invoice->id,
+                        'item_received_id'      => (int) trim($d['item_received_id']),
                         'item_id'               => (int) trim($d['item_id']),
                         'unit_id'               => (int) trim($d['unit_id']),
                         'harga'                 => (double) trim($d['harga']),
