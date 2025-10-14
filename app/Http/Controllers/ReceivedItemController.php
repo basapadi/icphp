@@ -122,7 +122,7 @@ class ReceivedItemController extends BaseController
                             'unit_id'           => (int) trim($d['unit_id']),
                             'harga'             => (double) trim($d['harga']),
                             'jumlah'            => (int) trim($d['jumlah']),
-                            'kedaluarsa'        => @trim($d['kedaluarsa'])??null,
+                            'kedaluarsa'        => !empty(trim(@$d['kedaluarsa'])) ? trim($d['kedaluarsa']) : null,,
                             'batch'             => trim($d['batch'])??null,
                             'sub_total'         => $t
                         ]);
@@ -167,7 +167,7 @@ class ReceivedItemController extends BaseController
                             'unit_id'           => (int) trim($d['unit_id']),
                             'harga'             => (double) trim($d['harga']),
                             'jumlah'            => (int) trim($d['jumlah']),
-                            'kedaluarsa'        => @trim($d['kedaluarsa'])??null,
+                            'kedaluarsa'        => !empty(trim(@$d['kedaluarsa'])) ? trim($d['kedaluarsa']) : null,,
                             'batch'             => trim($d['batch'])??null,
                             'sub_total'         => $t
                         ]);
@@ -283,6 +283,8 @@ class ReceivedItemController extends BaseController
             'tipe_bayar'        => 'required|string',
             'no_referensi'      => 'nullable|string',
             'catatan'           => 'nullable|string',
+            'jatuh_tempo'       => 'nullable|string',
+            'syarat_bayar'      => 'nullable|string',
 
             'addtable.details.*.id'                 => 'required|integer|exists:trx_received_item_details,id|distinct',
             'addtable.details.*.item_id'            => 'required|integer|exists:items,id|distinct',
@@ -307,7 +309,7 @@ class ReceivedItemController extends BaseController
                 'no_referensi'              => trim(@$data['no_referensi'])??null,
                 'tipe_bayar'                => trim($data['tipe_bayar']),
                 'syarat_bayar'              => trim(@$data['syarat_bayar'])??null,
-                'jatuh_tempo'               => trim(@$data['jatuh_tempo'])??null,
+                'jatuh_tempo'               => !empty(trim(@$data['kedaluarsa'])) ? trim($data['kedaluarsa']) : null,
                 'status_pembayaran'         => 'unpaid',
                 'status'                    => 'draft',
                 'catatan'                   => trim(@$data['catatan'])??null,
