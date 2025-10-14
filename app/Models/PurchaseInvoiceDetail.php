@@ -2,14 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Carbon\Carbon;
 use Btx\Common\SpellNumber;
 use Exception;
 class PurchaseInvoiceDetail extends BaseModel
 {
-    use SoftDeletes,HasFactory;
     public $table = 'trx_purchase_invoice_details';
     protected $appends = [
 
@@ -41,6 +38,10 @@ class PurchaseInvoiceDetail extends BaseModel
     public function item()
     {
         return $this->belongsTo(Item::class);
+    }
+    
+    public function unit(){
+       return $this->belongsTo(Master::class, 'unit_id', 'id');
     }
 
 }

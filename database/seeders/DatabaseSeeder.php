@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PurchaseOrderSeeder::class); //seeder PO
         $this->call(SaleOrderSeeder::class); //seeder SO
         $this->call(SettingSeeder::class);
+        $this->call(PurchaseInvoiceSeeder::class); //seeder Purchase Invoice
         Trash::truncate();
     }
 }

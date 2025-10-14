@@ -83,7 +83,12 @@ return [
             'color'  => 'black-400'
         ],
         'invoiced'          => [
-            'label'  => 'Faktur Diterbitkan',
+            'label'  => 'Faktur Dibuat',
+            'class'  => 'green-700',
+            'color'  => 'green-700'
+        ],
+        'partial_invoiced'          => [
+            'label'  => 'Faktur Dibuat Sebagian',
             'class'  => 'green-700',
             'color'  => 'green-700'
         ],
@@ -187,8 +192,8 @@ return [
     'purchase_invoice_status' => [
         'draft'            => [ //Faktur baru dibuat, belum final
             'label' => 'Draft',
-            'class' => 'gray-800',
-            'color' => 'gray-800'
+            'class' => 'gray-400',
+            'color' => 'gray-400'
         ],
         'posted'              => [ //Sudah diverifikasi dan resmi jadi tagihan
             'label' => 'Diposting',

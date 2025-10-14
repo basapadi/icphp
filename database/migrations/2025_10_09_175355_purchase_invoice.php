@@ -17,11 +17,10 @@ return new class extends Migration
             $table->id();
             
             // Relasi utama
-            $table->integer('contact_id')->comment('Pemasok');
-            $table->integer('purchase_order_id')->nullable();
+            $table->integer('contact_id')->index()->comment('Pemasok');
             
             // Identitas dokumen
-            $table->string('kode', 50)->unique();
+            $table->string('kode', 50)->index()->unique();
             $table->date('tanggal');
             $table->string('no_referensi', 50)->nullable();
             
@@ -29,7 +28,7 @@ return new class extends Migration
             $table->string('tipe_bayar', 20)->default('credit'); // cash | credit
             $table->string('syarat_bayar', 50)->nullable(); // contoh: net 30, cod
             $table->date('jatuh_tempo')->nullable();
-            $table->string('status_pembayaran', 20)->default('unpaid'); // unpaid | partial | paid
+            $table->string('status_pembayaran', 20)->index()->default('unpaid'); // unpaid | partial | paid
             
             // Nilai keuangan
             $table->unsignedBigInteger('subtotal')->default(0);
@@ -40,7 +39,7 @@ return new class extends Migration
             $table->unsignedBigInteger('nominal_terbayar')->default(0);
             
             // Status dan catatan
-            $table->string('status', 20)->default('draft'); // draft | posted | cancelled
+            $table->string('status', 20)->index()->default('draft'); // draft | posted | cancelled
             $table->text('catatan')->nullable();
             
             // Audit trail
@@ -58,8 +57,8 @@ return new class extends Migration
          */
         Schema::create('trx_purchase_invoice_details', function (Blueprint $table) {
             $table->id();
-            $table->integer('purchase_invoice_id');
-            $table->integer('item_id');
+            $table->integer('purchase_invoice_id')->index();
+            $table->integer('item_id')->index();
             $table->integer('unit_id');
             $table->text('catatan')->nullable();
             $table->decimal('jumlah', 12, 2)->default(0);
@@ -80,7 +79,7 @@ return new class extends Migration
          */
         Schema::create('trx_purchase_payments', function (Blueprint $table) {
             $table->id();
-            $table->integer('purchase_invoice_id');
+            $table->integer('purchase_invoice_id')->index();
             $table->date('tanggal');
             $table->string('metode_bayar', 20)->default('cash'); // cash | transfer | giro | ewallet | qris
             $table->string('no_referensi', 50)->nullable();
@@ -98,8 +97,8 @@ return new class extends Migration
          */
         Schema::create('trx_purchase_invoice_item_receiveds', function (Blueprint $table) {
             $table->id();
-            $table->integer('purchase_invoice_id');
-            $table->integer('item_received_id');
+            $table->integer('purchase_invoice_id')->index();
+            $table->integer('item_received_id')->index();
             $table->unsignedBigInteger('total_terfaktur')->default(0);
             $table->timestamps();
         });
@@ -110,5 +109,6 @@ return new class extends Migration
         Schema::dropIfExists('trx_purchase_payments');
         Schema::dropIfExists('trx_purchase_invoice_details');
         Schema::dropIfExists('trx_purchase_invoices');
+        Schema::dropIfExists('trx_purchase_invoice_item_receiveds');
     }
 };

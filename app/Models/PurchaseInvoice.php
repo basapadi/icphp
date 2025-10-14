@@ -12,11 +12,14 @@ class PurchaseInvoice extends BaseModel
     use SoftDeletes,HasFactory;
     public $table = 'trx_purchase_invoices';
     protected $appends = [
-
+        'status_label',
+        'color_status_label',
+        'status_pembayaran_label',
+        'color_status_pembayaran_label',
+        'tanggal_formatted'
     ];
     protected $fillable = [
         'contact_id',
-        'purchase_order_id',
         'item_received_id',
         'kode',
         'tanggal',
@@ -81,6 +84,47 @@ class PurchaseInvoice extends BaseModel
     public function updater()
     {
         return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function createdBy(){
+       return $this->belongsTo(User::class, 'created_by', 'id');
+    }
+
+    public function updatedBy(){
+       return $this->belongsTo(User::class, 'updated_by', 'id');
+    }
+
+    public function getStatusLabelAttribute(){
+        return isset($this->status) ? config('ihandcashier.purchase_invoice_status')[$this->status]['label'] : null;
+    }
+
+    public function getColorStatusLabelAttribute()
+    {
+        $statuses = config('ihandcashier.purchase_invoice_status');
+        if(isset($this->status)){
+            return $statuses[$this->status]['color'];
+        }else return '';
+        
+    }
+
+    public function getStatusPembayaranLabelAttribute(){
+        return isset($this->status_pembayaran) ? config('ihandcashier.payment_status')[$this->status_pembayaran]['label'] : null;
+    }
+
+    public function getColorStatusPembayaranLabelAttribute()
+    {
+        $statuses = config('ihandcashier.payment_status');
+        if(isset($this->status_pembayaran)){
+            return $statuses[$this->status_pembayaran]['class'];
+        }else if(isset($this->status)){
+            return $statuses[$this->status_pembayaran]['class'];
+        } else return '';
+        
+    }
+
+    public function getTanggalFormattedAttribute()
+    {
+        return $this->tanggal ? Carbon::parse($this->tanggal)->locale('id')->translatedFormat('l, d M Y H:i') : null;
     }
 
 }

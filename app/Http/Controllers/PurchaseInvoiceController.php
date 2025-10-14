@@ -17,7 +17,7 @@ class PurchaseInvoiceController extends BaseController
     public function __construct(){
        $this->setModel(PurchaseInvoice::class)
             ->select(['trx_purchase_invoices.*'])
-            ->with(['details','details.item','details.unit','contact','createdBy','approvalBy','receiveds'])
+            ->with(['details','details.item','details.unit','contact','createdBy'])
             ->leftJoin('contacts', 'contacts.id', '=', 'trx_purchase_invoices.contact_id')->orderBy('tanggal','desc');
         $this->setModule('transaction.invoice.purchase');
         $this->setGridProperties([

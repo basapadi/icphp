@@ -7,12 +7,16 @@ use App\Models\{
     ItemReceivedDetail,
     Contact,
     Item,
-    Master
+    Master,
+    PurchaseInvoice,
+    PurchaseInvoiceDetail,
+    PurchaseInvoiceItemReceived
 };
 use Illuminate\Http\Request;
 use Exception;
 use App\Http\Response;
 use App\Objects\ContextMenu;
+use Illuminate\Support\Facades\DB;
 
 class ReceivedItemController extends BaseController
 {
@@ -54,7 +58,7 @@ class ReceivedItemController extends BaseController
 
         //buat faktur
         $createInvoice = new ContextMenu('createinvoice','Buat Faktur');
-        $createInvoice->conditions = ['status' => ['received']];
+        $createInvoice->conditions = ['status' => ['received','partial_invoiced']];
         $createInvoice->type = 'form_dialog';
         $createInvoice->apiUrl = route('api.purchase.invoice.createInvoice');
         $createInvoice->icon = 'Receipt';
@@ -218,18 +222,33 @@ class ReceivedItemController extends BaseController
         $newInvoice->kode = generateTransactionCode('INV');
         $item = ItemReceived::select('purchase_order_id','contact_id')->where('id',$id)->first();
         if(empty($item)) return $this->setAlert('error','Galat!','Data yang tidak ditemukan!.');
+
         if($item->purchase_order_id != null) $data = ItemReceived::with(['details'])->where('purchase_order_id',$item->purchase_order_id)->get();
         else $data = ItemReceived::with(['details'])->where('id',$id)->get();
+
         $details = [];
-        foreach ($data as $key => $d) {
-            // dd($d->details);
-            $receivedDetails = $d->details->map(function($item)use ($d){
-                $item['kode'] = $d->kode_transaksi;
-                $item['diskon_nominal'] = 0;
-                $item['pajak_persen'] = 11;
-                return $item;
-            })->toArray();
-            $details = array_merge($details, $receivedDetails);
+        foreach ($data as $key => $ir) {
+            foreach ($ir->details as $detail) {
+                // Hitung total jumlah yang sudah difakturkan untuk item ini
+                $invoicedQty = DB::table('trx_purchase_invoice_details')
+                    ->join('trx_purchase_invoice_item_receiveds', 'trx_purchase_invoice_item_receiveds.purchase_invoice_id', '=', 'trx_purchase_invoice_details.purchase_invoice_id')
+                    ->where('trx_purchase_invoice_item_receiveds.item_received_id', $ir->id)
+                    ->where('trx_purchase_invoice_details.item_id', $detail->item_id)
+                    ->sum('trx_purchase_invoice_details.jumlah');
+
+                $remaining = $detail->jumlah - $invoicedQty;
+
+                // Kalau masih ada sisa belum difakturkan
+                if ($remaining > 0) {
+                    $detailArr = $detail->toArray();
+                    $detailArr['kode'] = $ir->kode_transaksi;
+                    $detailArr['jumlah'] = $remaining;
+                    $detailArr['diskon_nominal'] = 0;
+                    $detailArr['pajak_persen'] = 11;
+                    $detailArr['item_received_id'] = $ir->id;
+                    $details[] = $detailArr;
+                }
+            }
         }
 
         $newInvoice->details = $details;
@@ -264,13 +283,14 @@ class ReceivedItemController extends BaseController
             'tipe_bayar'        => 'required|string',
             'catatan'           => 'nullable|string',
 
-            'addtable.details.*.id'             => 'required|integer|exists:trx_received_items,id|distinct',
-            'addtable.details.*.item_id'        => 'required|integer|exists:items,id|distinct',
-            'addtable.details.*.unit_id'        => 'required|integer|exists:masters,id',
-            'addtable.details.*.jumlah'         => 'required|numeric|min:1',
-            'addtable.details.*.harga'          => 'required|numeric|min:0',
-            'addtable.details.*.diskon_nominal' => 'required|numeric|min:0',
-            'addtable.details.*.pajak_persen'   => 'required|numeric|min:0',
+            'addtable.details.*.id'                 => 'required|integer|exists:trx_received_item_details,id|distinct',
+            'addtable.details.*.item_id'            => 'required|integer|exists:items,id|distinct',
+            'addtable.details.*.unit_id'            => 'required|integer|exists:masters,id',
+            'addtable.details.*.jumlah'             => 'required|numeric|min:1',
+            'addtable.details.*.harga'              => 'required|numeric|min:0',
+            'addtable.details.*.diskon_nominal'     => 'required|numeric|min:0',
+            'addtable.details.*.pajak_persen'       => 'required|numeric|min:0',
+            'addtable.details.*.item_received_id'   => 'required|numeric',
         ];  
 
         $data = $this->validate($rules);
@@ -279,7 +299,115 @@ class ReceivedItemController extends BaseController
         try {
             begin();
 
-            //TODO: SIMPAN DATA INVOICE
+            $preInsert = [
+                'kode'                      => trim($data['kode']),
+                'contact_id'                => trim($data['contact_id']),
+                'tanggal'                   => trim($data['tanggal']),
+                'no_referensi'              => trim(@$data['no_referensi'])??null,
+                'tipe_bayar'                => trim($data['tipe_bayar']),
+                'syarat_bayar'              => trim(@$data['syarat_bayar'])??null,
+                'jatuh_tempo'               => trim(@$data['jatuh_tempo'])??null,
+                'status_pembayaran'         => 'unpaid',
+                'status'                    => 'draft',
+                'catatan'                   => trim(@$data['catatan'])??null,
+                'created_by'                => auth()->user()->id,
+                'created_at'                => now()
+            ];
+
+            $invoice = PurchaseInvoice::create($preInsert);
+            $perInsertDetails = [];
+            $grandTotal = 0;
+            $totalDiskon = 0;
+            $totalPajak = 0;
+            $total = 0;
+            $pivotInvoice = [];
+            if(count($data['addtable']['details']) > 0){
+                foreach ($data['addtable']['details'] as $key => $d) {
+                    $t = (double) (trim($d['harga']) * trim($d['jumlah']));
+                    $diskon = (double) trim(@$d['diskon_nominal'])??0;
+                    $pajakPersen = (int) trim(@$d['pajak_persen'])??0;
+                    $pajakNominal = (double) ($pajakPersen/100) * ($t - $diskon);
+
+                    array_push($perInsertDetails,[
+                        'purchase_invoice_id'   => $invoice->id,
+                        'item_id'               => (int) trim($d['item_id']),
+                        'unit_id'               => (int) trim($d['unit_id']),
+                        'harga'                 => (double) trim($d['harga']),
+                        'jumlah'                => (int) trim($d['jumlah']),
+                        'diskon_persen'         => (int) trim(@$d['diskon_persen'])??0,
+                        'diskon_nominal'        => $diskon,
+                        'pajak_persen'          => $pajakPersen,
+                        'pajak_nominal'         => $pajakNominal,
+                    ]);
+                    $totalDiskon += $diskon;
+                    $total += $t;
+                    $totalPajak += $pajakNominal;
+                    $totalFaktur = $t - $diskon + $pajakNominal;    
+                    $grandTotal += $totalFaktur;
+
+                    if(!isset($pivotInvoice[$d['item_received_id']])){
+                        $pivotInvoice[$d['item_received_id']] = [
+                            'purchase_invoice_id'   => $invoice->id,
+                            'item_received_id'      => $d['item_received_id'],
+                            'total_terfaktur'       => (double) $totalFaktur,
+                            'created_at'            => now() 
+                        ];
+                    } else {
+                        $pivotInvoice[$d['item_received_id']]['total_terfaktur'] += (double) $totalFaktur;
+                    }
+                }
+            }
+
+            $invoice->update([
+                'subtotal'      => $total,
+                'total_diskon'  => $totalDiskon,
+                'total_pajak'   => $totalPajak,
+                'grand_total'   => ($total - $totalDiskon + $totalPajak),
+            ]);
+
+            PurchaseInvoiceDetail::insert($perInsertDetails);
+            PurchaseInvoiceItemReceived::insert(array_values($pivotInvoice));
+
+            foreach ($pivotInvoice as $irId => $totalBaru) {
+                $pivot = PurchaseInvoiceItemReceived::where('item_received_id', $irId)->first();
+
+                if ($pivot) {
+                    $pivot->total_terfaktur += $totalBaru['total_terfaktur'];
+                    $pivot->save();
+                } else {
+                    $pivot = PurchaseInvoiceItemReceived::create([
+                        'purchase_invoice_id' => $invoice->id,
+                        'item_received_id'    => $irId,
+                        'total_terfaktur'     => $totalBaru['total_terfaktur'],
+                    ]);
+                }
+
+                // --- LOGIKA CEK FAKTUR SEBAGIAN BERDASARKAN DETAIL ---
+                $ir = ItemReceived::with('details')->find($irId);
+                $allFull = true;
+
+                foreach ($ir->details as $detail) {
+                    // hitung total jumlah yang sudah difakturkan utk detail ini
+                    $totalInvoicedQty = PurchaseInvoiceDetail::whereHas('invoice', function ($q) use ($irId) {
+                            $q->whereHas('itemReceiveds', function ($r) use ($irId) {
+                                $r->where('item_received_id', $irId);
+                            });
+                        })
+                        ->where('item_id', $detail->item_id)
+                        ->sum('jumlah');
+
+                    // jika masih ada qty yang belum difaktur → belum penuh
+                    if ($totalInvoicedQty < $detail->jumlah) {
+                        $allFull = false;
+                        break;
+                    }
+                }
+
+                $statusIR = $allFull ? 'invoiced' : 'partial_invoiced';
+                $ir->update(['status' => $statusIR]);
+            }
+            commit();
+            return $this->setAlert('info','Berhasil','Faktur '.$invoice->kode.' berhasil disimpan');
 
         }catch(Exception $e){
             rollBack();
