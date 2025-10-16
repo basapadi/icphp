@@ -160,6 +160,10 @@
 </template> 
 
 <script>
+const audioAlertError = new Audio('/audio/soundAlertError.mp3')
+const audioWarning = new Audio('/audio/soundWarning.mp3')
+const audioAlertInfo = new Audio('/audio/soundAlertInfo.mp3')
+const audioPopup = new Audio('/audio/soundPopup.mp3')
 import * as operator from "./../constants/operator";
 import { mapGetters } from "vuex";
 import { ref } from "vue"
@@ -353,6 +357,7 @@ export default {
                 .catch((err) => {
                     if (err.response) {
                         if(err.response.status != 200){
+                            audioAlertError.play()
                             alert(err.response.data?.message)
                         }
                     }
@@ -385,6 +390,7 @@ export default {
                 this.form = data.data;
                 this.selected = {}  
             }).finally(() => {
+                audioPopup.play()
                 this.showDialog = true
                 this.loading = false
                 this.openDropdown = false
@@ -395,12 +401,14 @@ export default {
             await this.$store.dispatch(this.module+'/edit', this.selected.encode_id).then(({ data }) => {
                 this.form = data.data;
             }).finally(() => {
+                audioPopup.play()
                 this.showDialog = true
                 this.loading = false
                 this.openDropdown = false
             });
         },
         async hapusData() {
+            audioWarning.play()
             this.openDropdown = false
             this.$confirm(
                 {
@@ -433,6 +441,7 @@ export default {
                 this.detail_schema = JSON.parse(this.selected.schema)
                 this.selected = JSON.parse(this.selected.data)
             }
+            audioPopup.play()
             this.showDetail = true
             this.openDropdown = false
         },
@@ -471,6 +480,7 @@ export default {
             )
         },
         async handleSubmit(form) {
+            audioWarning.play()
             this.$confirm(
                 {
                     message: `Apakah anda yakin menyimpan data ini?`,
@@ -487,6 +497,7 @@ export default {
                                 .then(({ data }) => {
                                     this.load();
                                     if(data.message != undefined && data.status == true) {
+                                        audioAlertInfo.play()
                                         alert(data.message)
                                         this.showDialog = false
                                         this.form = {}
@@ -501,6 +512,7 @@ export default {
                                         const errors = Object.values(resp.response.data.data);
                                         msgError = errors[0]
                                     }
+                                    audioAlertError.play()
                                     alert(resp.response.data.message+ ' '+msgError)
                                 })
                                 .finally(() => {
@@ -512,6 +524,7 @@ export default {
                                 .then(({ data }) => {
                                     this.load();
                                     if(data.message != undefined && data.status == true) {
+                                        audioAlertInfo.play()
                                         alert(data.message)
                                         this.showDialog = false
                                         this.form = {}
@@ -524,6 +537,7 @@ export default {
                                         const errors = Object.values(resp.response.data.data);
                                         msgError = errors[0]
                                     }
+                                    audioAlertError.play()
                                     alert(resp.response.data.message+ ' '+msgError)
                                 })
                                 .finally((f) => {
@@ -537,6 +551,7 @@ export default {
             )
         },
         hapusDataMultiple(){
+            audioWarning.play()
             alert('hapus data terpilih')
         },
         toggleDropdown(column,data,e) {
@@ -614,6 +629,7 @@ export default {
             })
             .catch(err => console.error(err))
             .finally(() => {
+                audioPopup.play()
                 this.showDialog = true
                 this.loading = false
                 this.openDropdown = false
@@ -662,11 +678,13 @@ export default {
                     // Bersihkan
                     link.remove();
                     window.URL.revokeObjectURL(url);
-                })
+                })  
                 .catch((resp) => {
+                    audioAlertError.play()
                     alert(resp.response?.data?.message)
                 })
             }
+            audioPopup.play()
             
         },
         async handleSubmitConfirmDialog(form){
@@ -675,10 +693,12 @@ export default {
             await axios.post(this.selectedContextMenu.apiUrl, form)
             .then(({data}) => {
                 if(data.message != undefined && data.status == true) {
+                    audioAlertInfo.play()
                     alert(data.message)
                 }
             })
             .catch((resp) => {
+                audioAlertError.play()
                 alert(resp.response.data.message)
             })
             .finally(() => {
@@ -690,6 +710,7 @@ export default {
             });
         },
         openColumnEditor(cm){
+            audioPopup.play()
             this.showColumnEditor = true
         },
         reload(state){
