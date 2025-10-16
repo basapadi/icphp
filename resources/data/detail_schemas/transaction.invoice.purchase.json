@@ -76,7 +76,7 @@
             "item__kode_barang": {
                 "label": "SKU"
             },
-            "jumlah": {
+            "jumlah_formatted": {
                 "label": "Jumlah",
                 "class": "text-right"
             },

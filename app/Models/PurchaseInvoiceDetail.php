@@ -15,7 +15,8 @@ class PurchaseInvoiceDetail extends BaseModel
         'diskon_nominal_formatted',
         'pajak_nominal_formatted',
         'pajak_persen_formatted',
-        'total_formatted'
+        'total_formatted',
+        'jumlah_formatted'
     ];
     protected $fillable = [
         'purchase_invoice_id',
@@ -84,6 +85,10 @@ class PurchaseInvoiceDetail extends BaseModel
     public function getTotalFormattedAttribute()
     {
         return currency($this->sub_total + $this->pajak_nominal - $this->diskon_nominal);
+    }
+
+    public function getJumlahFormattedAttribute(){
+        return (int) $this->jumlah;
     }
 
     // Barang / item
