@@ -1,30 +1,55 @@
 {
     "main": {
         "type": "object",
-        "title": "Detail Penerimaan Barang",
+        "title": "Faktur Penerimaan Barang",
         "fields": {
-            "tanggal_terima_formatted": {
+            "tanggal_formatted": {
                 "label": "Tanggal"
             },
-            "kode_transaksi": {
-                "label": "Kode Transaksi"
+            "kode": {
+                "label": "Kode Faktur"
             },
-            "kode_po": {
-                "label": "Kode PO"
+            "no_referensi": {
+                "label": "No. Referensi"
             },
             "status_label": {
+                "label": "Status Faktur"
+            },
+            "status_pembayaran_label": {
                 "label": "Status Pembayaran"
             },
-            "total_harga_formatted": {
-                "label": "Total Harga",
+            "tipe_bayar_label": {
+                "label": "Tipe Pembayaran"
+            },
+            "syarat_bayar": {
+                "label": "Syarat Bayar"
+            },
+            "jatuh_tempo_formatted": {
+                "label": "Jatuh Tempo"
+            },
+            "subtotal_formatted": {
+                "label": "Sub Total",
+                "class": "font-mono"
+            },
+            "total_diskon_formatted": {
+                "label": "Total Diskon",
+                "class": "font-mono"
+            },
+            "total_pajak_formatted": {
+                "label": "Total Pajak",
+                "class": "font-mono"
+            },
+            "biaya_pengiriman_formatted": {
+                "label": "Biaya Pengiriman",
+                "class": "font-mono"
+            },
+            "grand_total_formatted": {
+                "label": "Grand Total",
                 "class": "font-mono font-bold"
             },
-            "total_terbilang": {
-                "label": "Total Harga (Terbilang)",
-                "class": "italic underline"
-            },
-            "diterima_oleh": {
-                "label": "Diterima Oleh"
+            "nominal_terbayar_formatted": {
+                "label": "Terbayar",
+                "class": "font-mono font-bold"
             },
             "created_by__name": {
                 "label": "Dibuat Oleh"
@@ -39,7 +64,7 @@
     },
     "details": {
         "type": "array",
-        "title": "Detail Penerimaan",
+        "title": "Detail Faktur",
         "fields": {
             "no": {
                 "label": "No",
@@ -62,8 +87,23 @@
             "unit__nama": {
                 "label": "Satuan"
             },
-            "total_harga_formatted": {
+            "sub_total_formatted": {
                 "label": "Sub Total",
+                "class": "font-mono text-right"
+            },
+            "diskon_nominal_formatted": {
+                "label": "Diskon",
+                "class": "font-mono text-right"
+            },
+            "pajak_nominal_formatted": {
+                "label": "Pajak",
+                "class": "font-mono text-right"
+            },
+            "pajak_persen_formatted": {
+                "label": "Pajak (%)"
+            },
+            "total_formatted": {
+                "label": "Total",
                 "class": "font-mono text-right"
             }
         }

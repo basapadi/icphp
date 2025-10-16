@@ -9,7 +9,13 @@ class PurchaseInvoiceDetail extends BaseModel
 {
     public $table = 'trx_purchase_invoice_details';
     protected $appends = [
-        'kode_penerimaan'
+        'kode_penerimaan',
+        'harga_formatted',
+        'sub_total_formatted',
+        'diskon_nominal_formatted',
+        'pajak_nominal_formatted',
+        'pajak_persen_formatted',
+        'total_formatted'
     ];
     protected $fillable = [
         'purchase_invoice_id',
@@ -43,6 +49,41 @@ class PurchaseInvoiceDetail extends BaseModel
     public function getKodePenerimaanAttribute()
     {
         return $this->received()->first()->kode_transaksi;   
+    }
+
+    public function getHargaFormattedAttribute()
+    {
+        return currency($this->harga);
+    }
+
+    public function getSubTotalAttribute()
+    {
+        return ($this->harga * $this->jumlah);
+    }
+
+    public function getSubTotalFormattedAttribute()
+    {
+        return currency(($this->harga * $this->jumlah));
+    }
+
+    public function getDiskonNominalFormattedAttribute()
+    {
+        return currency($this->diskon_nominal);
+    }
+
+    public function getPajakNominalFormattedAttribute()
+    {
+        return currency($this->pajak_nominal);
+    }
+
+    public function getPajakPersenFormattedAttribute()
+    {
+        return $this->pajak_persen.'%';
+    }
+
+    public function getTotalFormattedAttribute()
+    {
+        return currency($this->sub_total + $this->pajak_nominal - $this->diskon_nominal);
     }
 
     // Barang / item

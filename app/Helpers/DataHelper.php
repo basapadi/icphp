@@ -211,3 +211,9 @@ if (! function_exists('smart_dispatch')) {
         }
     }
 }
+
+if (! function_exists('currency')) {
+    function currency($value){
+        return 'IDR '.number_format($value, 0, ',', '.');
+    }
+}

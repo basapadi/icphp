@@ -16,7 +16,15 @@ class PurchaseInvoice extends BaseModel
         'color_status_label',
         'status_pembayaran_label',
         'color_status_pembayaran_label',
-        'tanggal_formatted'
+        'tanggal_formatted',
+        'tipe_bayar_label',
+        'jatuh_tempo_formatted',
+        'subtotal_formatted',
+        'total_diskon_formatted',
+        'total_pajak_formatted',
+        'biaya_pengiriman_formatted',
+        'grand_total_formatted',
+        'nominal_terbayar_formatted'
     ];
     protected $fillable = [
         'contact_id',
@@ -92,6 +100,44 @@ class PurchaseInvoice extends BaseModel
 
     public function updatedBy(){
        return $this->belongsTo(User::class, 'updated_by', 'id');
+    }
+
+    public function getTipeBayarLabelAttribute(){
+        return isset($this->tipe_bayar) ? config('ihandcashier.payment_types')[$this->tipe_bayar]['label'] : null;
+    }
+
+    public function getJatuhTempoFormattedAttribute(){
+        return $this->jatuh_tempo ? Carbon::parse($this->jatuh_tempo)->locale('id')->translatedFormat('l, d M Y H:i') : null;
+    }
+
+    public function getSubtotalFormattedAttribute()
+    {
+        return currency($this->subtotal);
+    }
+
+    public function getTotalDiskonFormattedAttribute()
+    {
+        return currency($this->total_diskon);
+    }
+
+    public function getTotalPajakFormattedAttribute()
+    {
+        return currency($this->total_pajak);
+    }
+
+    public function getGrandTotalFormattedAttribute()
+    {
+        return currency($this->grand_total);
+    }
+
+    public function getBiayaPengirimanFormattedAttribute()
+    {
+        return currency($this->biaya_pengiriman);
+    }
+
+    public function getNominalTerbayarFormattedAttribute()
+    {
+        return currency($this->nominal_terbayar);
     }
 
     public function getStatusLabelAttribute(){

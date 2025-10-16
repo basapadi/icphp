@@ -1,7 +1,7 @@
 <template>
     <!-- Overlay -->
     <div v-if="open" class="h-screen fixed inset-0 flex items-center justify-center bg-black/50 z-50" @click="close()">
-        <Card class="w-full max-w-7xl" @click.stop>
+        <Card class="w-auto" @click.stop>
             <CardContent class="max-h-[80vh] overflow-y-auto">
                 <div v-for="(sub, i) in schema" :key="i">
                     <template v-if="i == 'main' && sub.type == 'object'">
@@ -11,8 +11,8 @@
                                 <table class="w-full border border-gray-200 rounded-lg overflow-hidden">
                                     <tbody>
                                         <tr class="border-b" v-for="(f,k) in sub.fields" :key="k">
-                                            <td class="px-4 py-2 border-r text-gray-500 text-sm" style="width:250px;">{{ f?.label }}</td>
-                                            <td :class="`px-4 py-2 text-gray-500 text-sm text-${data['color_'+k]} ${f?.class}`">{{ $helpers.getSubObjectValue(data,k) }}</td>
+                                            <td class="px-4 py-1 border-r text-gray-500 font-sans text-sm" style="width:250px;">{{ f?.label }}</td>
+                                            <td :class="`px-4 py-1 text-gray-500 text-sm text-${data['color_'+k]} ${f?.class}`">{{ $helpers.getSubObjectValue(data,k) }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
