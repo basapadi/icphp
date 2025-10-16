@@ -46,6 +46,13 @@ class RoleMenuSeeder extends Seeder
                     $delete = 0;
                     $download = 0;
                 }
+                if(in_array($menu->id,[37,38])){ //invoice purchase and sale
+                    $create = 0;
+                    $edit = 1;
+                    $update = 1;
+                    $delete = 1;
+                    $download = 1;
+                }
                 array_push($roleMenus, [
                     'role'      => $role,
                     'menu_id'   => $menu->id,

@@ -32,7 +32,7 @@ class PurchaseOrder extends BaseModel
 
     public function getTotalFormattedAttribute()
     {
-        return 'IDR '.number_format($this->total, 0, ',', '.');
+        return currency($this->total);
     }
 
     public function getStatusLabelAttribute(){

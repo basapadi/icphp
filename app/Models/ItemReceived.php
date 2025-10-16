@@ -44,7 +44,7 @@ class ItemReceived extends BaseModel
 
     public function getTotalHargaFormattedAttribute()
     {
-        return 'IDR '.number_format($this->total_harga, 0, ',', '.');
+       return currency($this->total_harga);
     }
 
     public function getTotalTerbilangAttribute()

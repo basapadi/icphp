@@ -213,7 +213,7 @@ if (! function_exists('smart_dispatch')) {
 }
 
 if (! function_exists('currency')) {
-    function currency($value){
+    function currency($value = 0){
         return 'IDR '.number_format($value, 0, ',', '.');
     }
 }

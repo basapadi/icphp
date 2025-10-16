@@ -222,7 +222,7 @@ class ReceivedItemController extends BaseController
     }
 
     public function invoiceForm(Request $request){
-        $this->allowAccessModule('transaction.invoice.purchase', 'create');
+        $this->allowAccessModule('transaction.invoice.purchase', 'view');
         $id = $this->decodeId($request->id);
         $newInvoice = new \stdClass;
         $newInvoice->kode = generateTransactionCode('INV');
@@ -279,7 +279,7 @@ class ReceivedItemController extends BaseController
     }
 
     public function createInvoice(Request $request){
-        $this->allowAccessModule('transaction.invoice.purchase', 'create');
+        $this->allowAccessModule('transaction.invoice.purchase', 'view');
         $rules = [
             'addtable'          => 'required|array',
             'addtable.details'  => 'required|array|min:1',

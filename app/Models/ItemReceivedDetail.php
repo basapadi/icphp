@@ -20,12 +20,12 @@ class ItemReceivedDetail extends BaseModel
 
     public function getTotalHargaFormattedAttribute()
     {
-        return 'IDR '.number_format($this->total_harga, 0, ',', '.');
+        return currency($this->total_harga);
     }
 
     public function getHargaFormattedAttribute()
     {
-        return 'IDR '.number_format($this->harga, 0, ',', '.');
+        return currency($this->harga);
     }
 
     public function getTotalHargaAttribute()

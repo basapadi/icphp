@@ -25,12 +25,12 @@ class PurchaseOrderDetail extends BaseModel
 
     public function getTotalHargaFormattedAttribute()
     {
-        return 'IDR '.number_format($this->sub_total, 0, ',', '.');
+        return currency($this->sub_total);
     }
 
     public function getHargaFormattedAttribute()
     {
-        return 'IDR '.number_format($this->harga, 0, ',', '.');
+        return currency($this->harga);
     }
 
     public function getTotalHargaAttribute()
