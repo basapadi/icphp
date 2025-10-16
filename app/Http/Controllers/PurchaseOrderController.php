@@ -379,8 +379,9 @@ class PurchaseOrderController extends BaseController
                     rollBack();
                     return $this->setAlert('error','Gagal', 'Total jumlah diterima pada barang '.$poItem->item->nama.' lebih besar sebanyak '.($receivedQty - $poItem->jumlah).' dari jumlah pemesanan, silahkan masukkan jumlah yang sesuai dengan jumlah pesanan.');
                 }
-
             }
+
+            //TODO: Buat step untuk menambah stok sesuai dengan jumlah yang diterima per barang
 
             //cek apakah ada barang yang belum diterima?
             foreach ($poDetails as $d) {

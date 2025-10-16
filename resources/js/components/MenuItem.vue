@@ -11,7 +11,7 @@
                 <component v-if="item.icon" :is="item.icon" class="w-4 h-4 mr-3 text-gray-700" />
                 <span class="text-gray-600">{{ item.label }}</span>
             </div>
-            <div class="flex items-center">
+            <div class="flex items-center mr-2">
                 <ChevronDown v-if="hasSubItems && isOpen" class="w-4 h-4" />
                 <ChevronRight v-else-if="hasSubItems" class="w-4 h-4" />
             </div>
@@ -33,13 +33,13 @@
                     <div class="menu-arrow ml-2"></div>
                 </div> -->
             </div>
-            <div class="flex items-center">
+            <div class="flex items-center mr-2">
                 <ChevronDown v-if="hasSubItems && isOpen" class="w-4 h-4" />
                 <ChevronRight v-else-if="hasSubItems" class="w-4 h-4" />
             </div>
         </router-link>
 
-        <ul v-if="hasSubItems && isOpen" class="border-l-2 ml-4 text-left">
+        <ul v-if="hasSubItems && isOpen" class="border-l-2 mr-2 ml-6 text-left border-orange-100">
             <MenuItem
                 v-for="(subItem, index) in item.sub_items"
                 :key="index"

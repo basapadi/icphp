@@ -135,6 +135,9 @@ class ReceivedItemController extends BaseController
                 $trx->save();
                 
                 ItemReceivedDetail::insert($perInsertDetails);
+
+                //TODO: Buat step untuk menambah stok sesuai dengan jumlah yang diterima per barang
+
                 commit();
                 return $this->setAlert('info','Berhasil','Penerimaan '.$trx->kode_transaksi.' berhasil disimpan');
 
@@ -181,6 +184,9 @@ class ReceivedItemController extends BaseController
                 $exist->save();
 
                 ItemReceivedDetail::insert($perInsertDetails);
+
+                //TODO: Buat step untuk mengupdate stok sesuai dengan jumlah yang diubah per barang
+
                 commit();
                 return $this->setAlert('info','Berhasil','Penerimaan '.$exist->kode_transaksi.' berhasil diubah');
 
