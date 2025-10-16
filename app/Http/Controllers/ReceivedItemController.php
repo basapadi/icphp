@@ -260,7 +260,7 @@ class ReceivedItemController extends BaseController
         $newInvoice->details = $details;
         $newInvoice->contact_id = $item->contact_id;
         $newInvoice->tanggal = date('Y-m-d');
-        $newInvoice->tipe_bayar = 'cash';
+        $newInvoice->tipe_bayar = 'tempo';
         $form = $this->getResourceForm('purchase_invoice');
 
         injectData($form, [
