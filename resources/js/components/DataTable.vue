@@ -425,6 +425,7 @@ export default {
                                     this.load(); // Refresh the data table after deletion
                                 })
                                 .catch((resp) => {
+                                    audioAlertError.play()
                                     alert(resp.response.data.message)
                                 })
                                 .finally((f) => {
