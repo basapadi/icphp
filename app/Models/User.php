@@ -70,16 +70,6 @@ class User extends BaseUser
         return $this->hasMany(ItemSale::class,'created_by');
     }
 
-    public function itemReceivedPayments()
-    {
-        return $this->hasMany(ItemReceivedPayment::class,'created_by');
-    }
-
-    public function itemSalePayments()
-    {
-        return $this->hasMany(ItemSalePayment::class,'created_by');
-    }
-
     protected static function booted()
     {
         static::deleting(function ($data) {

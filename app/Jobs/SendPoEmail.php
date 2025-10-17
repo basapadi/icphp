@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Mail\OrderConfirmed;
 use App\Mail\PurchaseOrderMailToSupplier;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

@@ -215,12 +215,12 @@ class BaseController extends Controller
                 ->{$action};
             return !$can ? (!$asBoolean ? abort(response()->json([
                 'status' => false,
-                'message' => 'Unauthorized'
+                'message' => 'Anda tidak memiliki hak akses.'
             ], 401)) : false) : true;
         }
         return !$asBoolean ? abort(response()->json([
             'status' => false,
-            'message' => 'Unauthorized'
+            'message' => 'Anda tidak memiliki hak akses.'
         ], 401)) : false;
     }
 
