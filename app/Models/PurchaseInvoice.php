@@ -185,6 +185,10 @@ class PurchaseInvoice extends BaseModel
                 $ir->status = 'received';
                 $ir->save();
             }
+
+            $details = $data->details();
+            // dd($details);
+
             $data->details()->delete();
             PurchaseInvoiceItemReceived::where('purchase_invoice_id',$data->id)->delete();
         });
