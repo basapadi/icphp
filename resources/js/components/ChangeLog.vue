@@ -1,19 +1,43 @@
 <template>
-  <div class="max-w-2xl mx-2 p-2">
+  <div class="max-w-2xl mx-2">
     <h2 class="text-xl mb-4 text-gray-600">Histori Perubahan Kode Sumber</h2>
 
     <!-- Loading State -->
-    <div v-if="loading" class="text-gray-500 text-center">Memuat commits...</div>
+    <div v-if="loading" class="text-gray-500 text-center">Memuat data perubahan...</div>
 
     <!-- Error State -->
     <div v-else-if="error" class="text-red-600 text-center">{{ error }}</div>
 
     <!-- Commit List -->
     <ul v-else class="space-y-2 max-h-84 overflow-y-auto">
-      <li v-for="(commit, index) in commits" :key="index" class="p-2 border border-dashed rounded-lg bg-white shadow-sm hover:shadow-md transition">
-        <div class="text-gray-600 font-semibold" v-html="renderEmoji(commit.message)"></div>
-        <div class="mt-1 text-sm text-gray-600 flex justify-between">
-          <span class="italic text-xs text-muted-foreground">by {{ commit.author }}</span>
+      <li
+        v-for="(commit, index) in commits"
+        :key="index"
+        class="p-2 border border-dashed rounded-lg bg-white shadow-sm hover:shadow-md transition"
+      >
+        <!-- Pesan commit -->
+        <div class="text-gray-600 text-sm" v-html="renderEmoji(commit.message)"></div>
+
+        <!-- Info author + tanggal -->
+        <div class="mt-2 text-sm text-gray-600 flex justify-between items-center">
+          <div class="flex items-center space-x-2">
+            <a
+              v-if="commit.profile"
+              :href="commit.profile"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center space-x-2 hover:text-orange-600 transition"
+            >
+              <!-- Avatar author -->
+              <img
+                :src="commit.avatar || '/images/default-avatar.png'"
+                alt="Author avatar"
+                class="w-6 h-6 rounded-full border"
+              />
+              <span class="italic text-xs text-orange-500">{{ commit.author }} <small class="text-gray-300">({{ commit.username }}) </small></span>
+            </a>
+          </div>
+
           <span class="italic text-xs">{{ formatDate(commit.date) }}</span>
         </div>
       </li>

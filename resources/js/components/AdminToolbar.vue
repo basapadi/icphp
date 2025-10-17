@@ -65,8 +65,8 @@
 
         <!-- ChangeLog Dialog -->
         <div v-if="showChangeLog"  class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" @click="showChangeLog=false" >
-          <Card class="w-full max-w-2xl bg-white shadow-lg rounded-lg overflow-hidden" @click.stop>
-            <CardContent class="p-6" >
+          <Card class="w-full max-w-2xl bg-white rounded-md overflow-hidden" @click.stop>
+            <CardContent class="p-2" >
               <ChangeLog/>
             </CardContent>
           </Card>

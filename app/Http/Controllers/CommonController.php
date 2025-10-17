@@ -30,7 +30,10 @@ class CommonController extends BaseController
             return [
                 'message'   => $item['commit']['message'],
                 'author'    => $item['commit']['author']['name'],
-                'date'      => $item['commit']['author']['date']
+                'date'      => $item['commit']['author']['date'],
+                'avatar'    => $item['author']['avatar_url'] ?? null,
+                'username'  => $item['author']['login'] ?? null,
+                'profile'   => $item['author']['html_url'] ?? null
             ];
         });
 
