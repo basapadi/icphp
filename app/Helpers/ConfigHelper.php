@@ -20,12 +20,13 @@ if (!function_exists('ihandCashierConfigToOptions')) {
 }
 
 if (!function_exists('ihandCashierConfigToSelect')) {
-    function ihandCashierConfigToSelect(string $config) {
+    function ihandCashierConfigToSelect(string $config, array $except = []) {
         $result=[];
         $configs = config('ihandcashier.'.$config);
         if(!isset($configs) || empty($configs)) return [];
         
         foreach ($configs as $key => $c) {
+            if(in_array($key, $except)) continue;
             $result[$key] = $c['label'];
         }
 

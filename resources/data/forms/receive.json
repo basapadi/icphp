@@ -46,6 +46,15 @@
                 "hint": "Masukkan Penerima"
             },
             {
+                "name": "status",
+                "type": "select",
+                "label": "Status",
+                "required": true,
+                "hint": "Pilih Status",
+                "options": ":status",
+                "readonly": ":status_readonly"
+            },
+            {
                 "name": "catatan",
                 "type": "textarea",
                 "label": "Catatan",

@@ -10,7 +10,8 @@ use App\Models\{
     Master,
     PurchaseInvoice,
     PurchaseInvoiceDetail,
-    PurchaseInvoiceItemReceived
+    PurchaseInvoiceItemReceived,
+    ItemStock
 };
 use Illuminate\Http\Request;
 use Exception;
@@ -42,10 +43,11 @@ class ReceivedItemController extends BaseController
         injectData($form, [
             'kode_disabled'     => false,
             'contacts'          => getContactToSelect('pemasok'),
-            'status'            => ihandCashierConfigToSelect('receive_item_status'),
+            'status'            => ihandCashierConfigToSelect('receive_item_status', ['invoiced','partial_invoiced','canceled']),
             'items'             => getItemToSelect(),
             'units'             => getUnitToSelect(),
-            'status_readonly'   => false
+            'status_readonly'   => false,
+            'contact_readonly'  => false
         ]);
 
         //set default value
@@ -136,8 +138,26 @@ class ReceivedItemController extends BaseController
                 
                 ItemReceivedDetail::insert($perInsertDetails);
 
-                //TODO: Buat step untuk menambah stok sesuai dengan jumlah yang diterima per barang
-
+                //Update stocks
+                if(in_array($data['status'],['received','partial_received'])){
+                    $stocks = ItemStock::get();
+                    foreach ($perInsertDetails as $key => $item) {
+                        $preInsertStock = [
+                            'item_id'           => $item['item_id'],
+                            'unit_id'           => $item['unit_id'],
+                            'jumlah'            => $item['jumlah'],
+                            'tanggal_pembaruan' => now(),
+                            'minimum_stock'     => 10
+                        ];
+                        $stock = $stocks->where('item_id',$item['item_id'])->where('unit_id',$item['unit_id'])->first();
+                        if(empty($stock)) ItemStock::create($preInsertStock);
+                        else {
+                            $stock->jumlah += (int) $item['jumlah'];
+                            $stock->tanggal_pembaruan = now();
+                            $stock->save();
+                        }
+                    }
+                }
                 commit();
                 return $this->setAlert('info','Berhasil','Penerimaan '.$trx->kode_transaksi.' berhasil disimpan');
 
@@ -151,13 +171,32 @@ class ReceivedItemController extends BaseController
                 if(empty($exist)) return $this->setAlert('error','Galat!','Data tidak ditemukan');
                 begin();
 
-                $exist->contact_id = trim($data['contact_id']);
-                $exist->tanggal_terima = trim($data['tanggal_terima']);
-                $exist->diterima_oleh = trim($data['diterima_oleh']);
-                $exist->status = trim($data['status']);
-                $exist->catatan = @trim($data['catatan'])??null;
-                $exist->updated_by = auth()->user()->id;
-                $exist->updated_at = now();
+                $oldStatus = $exist->status;
+                $newStatus = $data['status'];
+
+                $exist->contact_id      = trim($data['contact_id']);
+                $exist->tanggal_terima  = trim($data['tanggal_terima']);
+                $exist->diterima_oleh   = trim($data['diterima_oleh']);
+                $exist->status          = trim($data['status']);
+                $exist->catatan = isset($data['catatan']) ? trim($data['catatan']) : null;
+                $exist->updated_by      = auth()->user()->id;
+                $exist->updated_at      = now();
+
+                //kurang stock sebanyak data lama
+                if (in_array($oldStatus, ['received', 'partial_received'])) {
+                    $oldDetails = $exist->details()->get();
+                    foreach ($oldDetails as $old) {
+                        $stock = ItemStock::where('item_id', $old->item_id)
+                            ->where('unit_id', $old->unit_id)
+                            ->first();
+                        if ($stock) {
+                            $stock->jumlah -= (int) $old->jumlah;
+                            $stock->save();
+                        }
+                    }
+                }
+                
+                $exist->details()->delete();
 
                 $perInsertDetails = [];
                 $total = 0;
@@ -165,7 +204,7 @@ class ReceivedItemController extends BaseController
                     foreach ($data['addtable']['details'] as $key => $d) {
                         $t = (double) (trim($d['harga']) * (int) trim($d['jumlah']));
                         array_push($perInsertDetails,[
-                            'item_received_id' => $exist->id,
+                            'item_received_id'  => $exist->id,
                             'item_id'           => (int) trim($d['item_id']),
                             'unit_id'           => (int) trim($d['unit_id']),
                             'harga'             => (double) trim($d['harga']),
@@ -179,13 +218,23 @@ class ReceivedItemController extends BaseController
                     }
                 }
 
-                $exist->total_harga = $total;
-                $exist->details()->delete();
-                $exist->save();
-
                 ItemReceivedDetail::insert($perInsertDetails);
+                $exist->update(['total_harga' => $total]);
 
-                //TODO: Buat step untuk mengupdate stok sesuai dengan jumlah yang diubah per barang
+                //tambah stock sebanyak data baru
+                if (in_array($newStatus, ['received', 'partial_received'])) {
+                    foreach ($perInsertDetails as $item) {
+                        $stock = ItemStock::firstOrNew([
+                            'item_id' => $item['item_id'],
+                            'unit_id' => $item['unit_id']
+                        ]);
+
+                        $stock->jumlah = ($stock->jumlah ?? 0) + (int) $item['jumlah'];
+                        $stock->tanggal_pembaruan = now();
+                        $stock->minimum_stock = $stock->minimum_stock ?? 10;
+                        $stock->save();
+                    }
+                }
 
                 commit();
                 return $this->setAlert('info','Berhasil','Penerimaan '.$exist->kode_transaksi.' berhasil diubah');
@@ -206,7 +255,7 @@ class ReceivedItemController extends BaseController
         injectData($this->_form, [
             'kode_disabled'     => true,
             'contacts'          => getContactToSelect('pemasok'),
-            'status'            => ihandCashierConfigToSelect('receive_item_status'),
+            'status'            => ihandCashierConfigToSelect('receive_item_status',['invoiced','partial_invoiced','canceled']),
             'status_readonly'   => false,
             'items'             => getItemToSelect(),
             'units'             => getUnitToSelect()

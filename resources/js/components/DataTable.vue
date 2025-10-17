@@ -422,6 +422,8 @@ export default {
                             this.loading = true
                             await this.$store.dispatch(this.module+'/delete', this.selected.encode_id)
                                 .then(({ data }) => {
+                                    audioAlertInfo.play()
+                                    alert(data?.message)
                                     this.load(); // Refresh the data table after deletion
                                 })
                                 .catch((resp) => {

@@ -258,6 +258,7 @@ class PurchaseOrderController extends BaseController
         $data->diterima_oleh = auth()->user()->name;
         $data->status_pembayaran = 'unpaid';
         $data->po_id = $data->id;
+        $data->status = 'received';
         unset($data->id);
         $newDetails = [];
         //hitung sisa belum diterima dari penerimaan barang
@@ -281,7 +282,7 @@ class PurchaseOrderController extends BaseController
         injectData($form, [
             'kode_disabled'     => false,
             'contacts'          => getContactToSelect('pemasok'),
-            'status'            => ihandCashierConfigToSelect('receive_item_status'),
+            'status'            => ihandCashierConfigToSelect('receive_item_status', ['invoiced','partial_invoiced','canceled']),
             'status_readonly'   => true,
             'items'             => getItemToSelect(),
             'units'             => getUnitToSelect(),

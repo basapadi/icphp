@@ -96,6 +96,13 @@ class ItemReceived extends BaseModel
                 throw new Exception('Transaksi ini tidak dapat dihapus karena sudah melakukan penerimaan.');
             }
 
+            if(!empty($data->purchase_order_id)){
+                $po = PurchaseOrder::where('id',$data->purchase_order_id)->first();
+                if(!empty($po)){
+                    $po->update(['status' => 'sended']);
+                }
+            }
+
             //memperbarui stok:: stok dikurangi
             // $details = $data->details()->get();
             // foreach ($details as $key => $d) {
