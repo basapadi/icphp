@@ -34,7 +34,7 @@
                 alt="Author avatar"
                 class="w-6 h-6 rounded-full border"
               />
-              <span class="italic text-xs text-orange-500">{{ commit.author }} <small class="text-gray-300">({{ commit.username }}) </small></span>
+              <span class="italic text-xs text-orange-500">{{ commit.author }} <small class="text-gray-300">@{{ commit.username }}</small></span>
             </a>
           </div>
 

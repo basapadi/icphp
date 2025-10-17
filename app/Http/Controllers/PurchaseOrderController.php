@@ -7,6 +7,7 @@ use App\Models\{
     PurchaseOrder,
     PurchaseOrderDetail,
     ItemReceivedDetail,
+    ItemStock,
     Setting
 };
 use App\Objects\ContextMenu;
@@ -381,7 +382,23 @@ class PurchaseOrderController extends BaseController
                 }
             }
 
-            //TODO: Buat step untuk menambah stok sesuai dengan jumlah yang diterima per barang
+            $stocks = ItemStock::get();
+            foreach ($perInsertDetails as $key => $item) {
+                $preInsertStock = [
+                    'item_id'           => $item['item_id'],
+                    'unit_id'           => $item['unit_id'],
+                    'jumlah'            => $item['jumlah'],
+                    'tanggal_pembaruan' => now(),
+                    'minimum_stock'     => 10
+                ];
+                $stock = $stocks->where('item_id',$item['item_id'])->where('unit_id',$item['unit_id'])->first();
+                if(empty($stock)) ItemStock::create($preInsertStock);
+                else {
+                    $stock->jumlah += (int) $item['jumlah'];
+                    $stock->tanggal_pembaruan = now();
+                    $stock->save();
+                }
+            }
 
             //cek apakah ada barang yang belum diterima?
             foreach ($poDetails as $d) {
