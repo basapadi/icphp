@@ -11,7 +11,8 @@
         <title>Ihand Cashier</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
+        <!-- <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet"> -->
+        <!-- <link href="ia-writer-quattro-latin-400-normal.ttf" rel="stylesheet"> -->
 
         <meta property="og:title" content="Simple POS Multiplatform App. Tersedia versi build Windows, MacOS dan Linux - Ihand Cashier">
         <meta property="og:description" content="Aplikasi yang dapat membantu mengelola bisnis anda">
