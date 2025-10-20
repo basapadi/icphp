@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('role_menus', function (Blueprint $table) {
             $table->id();
             $table->string('role')->index();
-            $table->boolean('side_menu')->default(true);
             $table->integer('menu_id')->index();
             $table->boolean('view')->default(false);
             $table->boolean('create')->default(false);
