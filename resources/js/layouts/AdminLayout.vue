@@ -16,7 +16,7 @@
       >
         <div class="h-screen">
           <div class="absolute inset-0 bg-[length:15px_15px]
-              [background-image:linear-gradient(to_right,rgba(107,114,128,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(107,114,128,0.06)_1px,transparent_1px)]
+              [background-image:linear-gradient(to_right,rgba(107,114,128,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(107,114,128,0.04)_1px,transparent_1px)]
               pointer-events-none">
           </div>
           <slot/>
