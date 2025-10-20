@@ -2,7 +2,7 @@
   <AdminLayout>
     <div class="w-full max-h-1">
       <PageHeader title="Kontak" description="Daftar Kontak Pelanggan, Pemasok dan lainnya"/>
-      <div class="p-2 relative h-screen">
+      <div class="p-2">
         <DataTable title="Kontak" module="contact"/>
       </div>
     </div>

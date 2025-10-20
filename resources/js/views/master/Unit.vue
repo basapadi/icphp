@@ -2,7 +2,7 @@
   <AdminLayout>
     <div class="w-full max-h-1">
       <PageHeader title="Satuan Barang" description="Daftar Satuan Barang"/>
-      <div class="p-2 relative h-screen">
+      <div class="p-2">
          <DataTable title="Satuan Barang" module="unit"/>
       </div>
     </div>

@@ -14,8 +14,8 @@
           'flex-1 mt-10 bg-white min-h-[calc(100vh-4rem)] ml-64 overflow-hidden'
         ]"
       >
-        <div class="relative h-screen">
-          <div class="absolute inset-0 bg-[length:20px_20px]
+        <div class="h-screen">
+          <div class="absolute inset-0 bg-[length:15px_15px]
               [background-image:linear-gradient(to_right,rgba(107,114,128,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(107,114,128,0.06)_1px,transparent_1px)]
               pointer-events-none">
           </div>

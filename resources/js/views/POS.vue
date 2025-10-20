@@ -12,6 +12,10 @@
        <main :class="`flex-1 relative ${!isFullscreen ? 'ml-side mt-10' : 'ml-0 mt-0'}`">
         
         <div class="max-w-full">
+          <div class="absolute inset-0 bg-[length:15px_15px]
+            [background-image:linear-gradient(to_right,rgba(107,114,128,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(107,114,128,0.06)_1px,transparent_1px)]
+            pointer-events-none">
+          </div>
           <div class=" mr-4 border-b border-gray-200 flex justify-between items-center">
             <PageHeader title="POS" description="Proses transaksi pelanggan"/>
             <button
@@ -26,11 +30,7 @@
           </div>
 
           <!-- POS Interface -->
-          <div class="p-2 h-screen relative">
-            <div class="absolute inset-0 bg-[length:20px_20px]
-              [background-image:linear-gradient(to_right,rgba(107,114,128,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(107,114,128,0.06)_1px,transparent_1px)]
-              pointer-events-none">
-            </div>
+          <div class="p-2">
             <POSInterface />
           </div>
         </div>

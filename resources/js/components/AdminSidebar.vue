@@ -1,5 +1,5 @@
 <template>
-  <aside :class="['fixed left-0 top-10 bg-white h-[calc(100vh)] border-r border-gray-200 overflow-y-auto overflow-x-hidden w-65']">
+  <aside :class="['fixed left-0 top-10 bg-white h-[calc(100vh)] z-2 border-r border-gray-200 overflow-y-auto overflow-x-hidden w-65']">
     <nav class="p-1">
       <div class="pl-2 pt-2 sticky top-0 z-10">
         <Search class="absolute left-4 top-5/8 transform -translate-y-1/2 text-gray-400 w-4 h-4" />

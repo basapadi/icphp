@@ -20,7 +20,7 @@
                     </div>
                 </div>
             </div>
-            <div class="overflow-x-auto h-15/20">
+            <div class="overflow-x-auto z-1 h-15/20">
                 <table class="min-w-full border border-1 border-dashed border-gray-300">
                     <thead class="bg-orange-50 sticky top-0">
                     <tr>
