@@ -1,0 +1,136 @@
+{
+    "dialog": {
+        "width": 8
+    },
+    "details": {
+        "label": "Informasi Pembayaran",
+        "description": "Daftar pembayaran yang sudah pernah dilakukan pada faktur ini.",
+        "column": 7,
+        "type": "addtable",
+        "editable": false,
+        "forms": [
+            {
+                "name": "kode",
+                "type": "text",
+                "label": "Kode Pembayaran",
+                "required": false,
+                "readonly": true,
+                "hint": "Kode Pembayaran"
+            },
+            {
+                "name": "tanggal",
+                "type": "date",
+                "label": "Tanggal Pembayaran",
+                "required": true,
+                "readonly": true,
+                "hint": "Masukkan Tanggal Pembayaran"
+            },
+            {
+                "name": "metode_bayar",
+                "type": "select",
+                "label": "Metode Pembayaran",
+                "required": true,
+                "disabled": true,
+                "hint": "Metode Pembayaran",
+                "options": ":metode_bayar"
+            },
+            {
+                "name": "no_referensi",
+                "type": "text",
+                "label": "Nomor Referensi",
+                "required": false,
+                "readonly": true,
+                "hint": "Nomor referensi seperti kode pembayaran,ref, pada struk pembayaran eksternal"
+            },
+            {
+                "name": "jumlah",
+                "type": "number",
+                "label": "Jumlah Dibayar",
+                "required": true,
+                "hint": "Jumlah dibayar dalam bentuk rupiah",
+                "readonly": true
+            },
+            {
+                "name": "diskon",
+                "type": "number",
+                "label": "Diskon",
+                "required": true,
+                "hint": "Diskon",
+                "readonly": true
+            },
+            {
+                "name": "catatan",
+                "type": "text",
+                "label": "Catatan",
+                "required": false,
+                "readonly": true,
+                "hint": "Catatan"
+            }
+        ]
+    },
+    "main": {
+        "label": "Pembayaran",
+        "column": 3,
+        "description": "Isi form dibawah ini untuk menambah pembayaran faktur.",
+        "forms": [
+            {
+                "name": "kode",
+                "type": "text",
+                "label": "Kode Pembayaran",
+                "required": false,
+                "readonly": true,
+                "hint": "Kode Pembayaran"
+            },
+            {
+                "name": "tanggal",
+                "type": "date",
+                "label": "Tanggal Pembayaran",
+                "required": true,
+                "hint": "Masukkan Tanggal Pembayaran"
+            },
+            {
+                "name": "metode_bayar",
+                "type": "select",
+                "label": "Metode Pembayaran",
+                "required": true,
+                "disabled": false,
+                "hint": "Metode Pembayaran",
+                "options": ":metode_bayar"
+            },
+            {
+                "name": "no_referensi",
+                "type": "text",
+                "label": "Nomor Referensi",
+                "required": false,
+                "disabled": false,
+                "max": 35,
+                "hint": "Nomor referensi seperti kode pembayaran,ref, pada struk pembayaran eksternal"
+            },
+            {
+                "name": "jumlah",
+                "type": "currency",
+                "label": "Jumlah Bayar",
+                "required": true,
+                "hint": "Jumlah bayar dalam bentuk rupiah",
+                "readonly": false
+            },
+            {
+                "name": "diskon",
+                "type": "number",
+                "label": "Diskon",
+                "required": true,
+                "hint": "Diskon",
+                "readonly": false
+            },
+            {
+                "name": "catatan",
+                "type": "textarea",
+                "label": "Catatan",
+                "required": false,
+                "disabled": false,
+                "hint": "Catatan"
+            }   
+        ]
+    }
+    
+}

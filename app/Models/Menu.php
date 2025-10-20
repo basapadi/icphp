@@ -10,7 +10,8 @@ class Menu extends BaseModel
         'label',
         'route',
         'order',
-        'parent_id'
+        'parent_id',
+        'side_menu'
     ];
 
     protected $appends = ['active'];

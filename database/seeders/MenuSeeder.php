@@ -26,7 +26,8 @@ class MenuSeeder extends Seeder
                 'route' => $menu['route'],
                 'order' => $menu['order'],
                 'parent_id' => $menu['parent']??null,
-                'module'    => $menu['module']??null
+                'module'    => $menu['module']??null,
+                'side_menu' => isset($menu['side_menu']) ? $menu['side_menu'] : true
             ]);
         }
         Menu::insert($preInsertMenu);

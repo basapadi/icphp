@@ -18,23 +18,29 @@ class MenuController extends BaseController
         // Ambil hanya menu_id yang punya izin view = 1
         $menuIds = RoleMenu::where('role', $role)
             ->where('view', true)
+            ->whereHas('menu', function ($q) {
+                $q->where('side_menu', true);
+            })
             ->pluck('menu_id');
-
         // Query menu induk + subItems secara rekursif
         $menus = Menu::with([
             'subItems' => function ($q) use ($role) {
                 $q->whereIn('id', function ($subQ) use ($role) {
                     $subQ->select('menu_id')
-                         ->from('role_menus')
-                         ->where('role', $role)
-                         ->where('view', 1);
+                        ->from('role_menus')
+                        ->join('menus', 'menus.id', '=', 'role_menus.menu_id')
+                        ->where('role_menus.role', $role)
+                        ->where('role_menus.view', 1)
+                        ->where('menus.side_menu', 1);
                 })
                 ->with(['subItems' => function ($q2) use ($role) {
                     $q2->whereIn('id', function ($subQ2) use ($role) {
                         $subQ2->select('menu_id')
-                              ->from('role_menus')
-                              ->where('role', $role)
-                              ->where('view', 1);
+                            ->from('role_menus')
+                            ->join('menus', 'menus.id', '=', 'role_menus.menu_id')
+                            ->where('role_menus.role', $role)
+                            ->where('role_menus.view', 1)
+                            ->where('menus.side_menu', 1);
                     });
                 }])
                 ->orderBy('order');

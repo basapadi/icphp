@@ -171,6 +171,8 @@ Route::prefix('api')->group(function () {
             Route::get('/edit/{id}', 'edit');
             Route::post('/', 'store');
             Route::delete('/{id}', 'delete');
+            Route::post('/create-payment', 'createPayment')->name('api.purchase.invoice.createPayment');
+            Route::get('/invoice/payment-form', 'paymentForm')->name('api.purchase.invoice.paymentForm');
         });
 
 

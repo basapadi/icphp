@@ -170,10 +170,10 @@
                                                 type="text"
                                             />
                                         </div>
-                                        <div class="pt-5 flex gap-1">
+                                        <div class="pt-5 flex gap-1" v-if="section['editable'] != false">
                                             <!-- Fixed variable name from 'i' to 'sectionKey' -->
                                             <Button type="button" @click="addRow(sectionKey)" class="border-orange-200" variant="secondary" ><Plus class="h-1 w-1 text-orange-300 inline-block align-middle cursor-pointer" /></Button>
-                                            <Button type="button" :disabled="rowIndex == 0" @click="removeRow(sectionKey,rowIndex)" class="border-orange-200" variant="secondary" ><SquareX class="h-1 w-1 text-red-300 inline-block align-middle cursor-pointer" /></Button>
+                                            <Button type="button" :disabled="rowIndex ==    0" @click="removeRow(sectionKey,rowIndex)" class="border-orange-200" variant="secondary" ><SquareX class="h-1 w-1 text-red-300 inline-block align-middle cursor-pointer" /></Button>
                                         </div>
                                     </div>
                                 </div>

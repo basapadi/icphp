@@ -80,6 +80,7 @@ return new class extends Migration
          */
         Schema::create('trx_purchase_payments', function (Blueprint $table) {
             $table->id();
+            $table->string('kode', 50)->index()->unique();
             $table->integer('purchase_invoice_id')->index();
             $table->date('tanggal');
             $table->string('metode_bayar', 20)->default('cash'); // cash | transfer | giro | ewallet | qris

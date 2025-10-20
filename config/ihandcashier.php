@@ -518,7 +518,17 @@ return [
             'parent'=> 40,
             'module'=>'task.purchase.order'
         ],
-        //last_id:41
+        [
+            'id'    => 42,
+            'side_menu' => false,
+            'icon'  => '',
+            'label' => 'Pembayaran Pembelian',
+            'route' => '',
+            'order' => 3,
+            'parent'=> 32,
+            'module'=>'transaction.invoice.purchase.payment'
+        ],
+        //last_id:42
     ],
     'units' => [
         'pcs'      => [1, 'Piece', 1, 'pcs'],

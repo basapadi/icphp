@@ -32,6 +32,19 @@ class PurchaseInvoiceController extends BaseController
             'status' => ihandCashierConfigToSelect('purchase_invoice_status'),
             'status_pembayaran' => ihandCashierConfigToSelect('payment_status')
         ]);
+
+        //buat payment
+        $createPayment = new ContextMenu('createPayment','Pembayaran');
+        $createPayment->conditions = ['status' => ['draft']];
+        $createPayment->type = 'form_dialog';
+        $createPayment->apiUrl = route('api.purchase.invoice.createPayment');
+        $createPayment->icon = 'BanknoteArrowUp';
+        $createPayment->color = '#da8300ff';
+        $createPayment->onClick = 'getFormDialog';
+        $createPayment->formUrl = route('api.purchase.invoice.paymentForm');
+
+        $contextMenus = [$createPayment];
+        $this->setContextMenu($contextMenus);
     }
 
     public function edit(Request $request,$id){
@@ -203,5 +216,28 @@ class PurchaseInvoiceController extends BaseController
             rollBack();
             return $this->setAlert('error','Gagal',$e->getMessage());
         }
+    }
+
+    public function paymentForm(Request $request){
+        $this->allowAccessModule('transaction.invoice.purchase.payment', 'create');
+
+        $id = $this->decodeId($request->id);
+        $newPayment = new \stdClass;
+        $newPayment->kode = generateTransactionCode('PAY');
+
+        $item = PurchaseInvoice::select('id')->where('id',$id)->first();
+        if(empty($item)) return $this->setAlert('error','Galat!','Data tidak ditemukan!.');
+
+        $form = $this->getResourceForm('purchase_invoice_payment');
+
+        injectData($form, [
+            'metode_bayar'        => ihandCashierConfigToSelect('payment_methods.receive'),
+        ]);
+        $form = serializeform($form);
+        return Response::ok('loaded',[
+            'data' => $newPayment,
+            'dialog' => $form['dialog'],
+            'sections' => $form['sections']
+        ]);
     }
 }

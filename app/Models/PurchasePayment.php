@@ -13,6 +13,7 @@ class PurchasePayment extends BaseModel
     ];
     protected $fillable = [
         'purchase_invoice_id',
+        'kode',
         'tanggal',
         'metode_bayar',
         'no_referensi',

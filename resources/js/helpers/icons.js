@@ -40,6 +40,7 @@ export {
 	MonitorCog,
 	UserCog,
 	SquareChevronRight,
-	Receipt
+	Receipt,
+	BanknoteArrowUp
 
 } from "lucide-vue-next";
