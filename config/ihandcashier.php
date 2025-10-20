@@ -358,7 +358,10 @@ return [
             'route' => '/transaction/invoice/purchase',
             'order' => 2,
             'parent'=> 32,
-            'module'=>'transaction.invoice.purchase'
+            'module'=>'transaction.invoice.purchase',
+            'hide'  => [
+                'create'
+            ]
         ],
         [
             'id'    => 35,
@@ -403,7 +406,10 @@ return [
             'route' => '/transaction/invoice/sale',
             'order' => 3,
             'parent'=> 35,
-            'module'=>'transaction.invoice.sale'
+            'module'=>'transaction.invoice.sale',
+            'hide'  => [
+                'create'
+            ]
         ],
         [
             'id'    => 11,
@@ -499,7 +505,13 @@ return [
             'label' => 'Keranjang Sampah',
             'route' => '/trash',
             'order' => 8,
-            'module'=>'trash'
+            'module'=>'trash',
+            'hide'  => [
+                'create',
+                'edit',
+                'update',
+                'download'
+            ]
         ],
         [
             'id'    => 40,

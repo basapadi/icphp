@@ -17,12 +17,42 @@ class RoleController extends BaseController
     // override function grid di BaseController
     public function grid(Request $request){
         $this->allowAccessModule('setting.role','view');
+        $configMenus = collect(config('ihandcashier.menus'));
         $query = RoleMenu::select('role_menus.*')->with(['menu','menu.parent'])->leftJoin('menus', 'role_menus.menu_id', '=', 'menus.id');
         if(isset($request->q) && $request->q != ''){
             $query->whereRaw('LOWER(role_menus.role) LIKE ?', ['%'.strtolower($request->q).'%'])->orWhereRaw('LOWER(menus.label) LIKE ?', ['%'.strtolower($request->q).'%']);
         }
         $tQuery = clone $query;
-        $data = $query->filter()->get();
+        $show = [
+            'view'      => 1,
+            'create'    => 1,
+            'edit'      => 1,
+            'update'    => 1,
+            'delete'    => 1,
+            'download'  => 1
+        ];
+        $data = $query->filter()->get()->map(function($role) use ($configMenus,$show){
+            $roleShow = $show;
+            $cm = $configMenus->where('id',$role->menu_id)->first();
+            if($cm && isset($cm['hide'])){
+                foreach ($cm['hide'] as $hide) {
+                    $roleShow[$hide] = 0;
+                }
+            }
+            if($role->menu->route == '#'){
+                $roleShow = [
+                    'view'      => 1,
+                    'create'    => 0,
+                    'edit'      => 0,
+                    'update'    => 0,
+                    'delete'    => 0,
+                    'download'  => 0
+                ];
+            }
+
+            $role->show = $roleShow;
+            return $role;
+        });
         $total = $tQuery->filter(false)->count();
         return Response::ok('Loaded', [
             'rows' => $data->toArray(), 

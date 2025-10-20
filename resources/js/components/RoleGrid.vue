@@ -42,19 +42,9 @@
                     <tr v-for="(data,i) in filterData" :key="data.id"  class="hover:bg-gray-100 transition-colors odd:bg-gray-100 even:bg-white" >
                         <template v-for="column in columns" :key="column.value">
                             <td class="px-4 pt-2 whitespace-nowrap border border-1 border-dashed border-gray-300 text-center" v-if="['view','create','edit','update','delete','download'].includes(column.name)">
-                                <template v-if="['create','edit','update','download'].includes(column.name) && data.menu.module =='trash'">
-                                    <!-- <input :checked="data[column.name]" disabled type="checkbox" class="role-cb h-4 w-4 text-orange-600" style="align-items: center;"/> -->
+                                <template v-if="data.show[column.name]">
+                                    <input :checked="data[column.name]" type="checkbox" class="role-cb h-4 w-4 text-orange-600" style="align-items: center;"/>
                                 </template>
-                                <template v-else-if="['create','edit','update','delete'].includes(column.name) && data.menu.module =='transaction.warehouse.stock'">
-                                    <!-- <input :checked="data[column.name]" disabled type="checkbox" class="role-cb h-4 w-4 text-orange-600" style="align-items: center;"/> -->
-                                </template>
-                                <template v-else-if="['create'].includes(column.name) && ['transaction.invoice.purchase','transaction.invoice.sale'].includes(data.menu.module)">
-                                    <!-- <input :checked="data[column.name]" disabled type="checkbox" class="role-cb h-4 w-4 text-orange-600" style="align-items: center;"/> -->
-                                </template>
-                                <template v-else-if="['create','edit','update','delete','download'].includes(column.name) && data.menu.route == '#'">
-                                    <!-- <input :checked="data[column.name]" disabled type="checkbox" class="role-cb h-4 w-4 text-orange-600" style="align-items: center;"/> -->
-                                </template>
-                                <template v-else><input :checked="data[column.name]" @click="onCheck($event,data,column.name)" type="checkbox" class="role-cb h-4 w-4 text-orange-600" style="align-items: center;"/></template>
                             </td>
                             <td class="px-4 whitespace-nowrap border border-1 border-dashed border-gray-300" v-else>
                                 <span :class="`text-sm items-center text-gray-600 ${column.class}`">{{ $helpers.getSubObjectValue(data, column.name) }}</span>
