@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gray-200">
+  <div class="min-h-screen">
     <!-- Removed AdminHeader component -->
     <AdminToolbar v-if="!isFullscreen" />
 
@@ -9,9 +9,10 @@
 
       <!-- Main Content -->
       <!-- Changed mt-20 to mt-12 to account for only toolbar height -->
-       <main :class="`flex-1 bg-white ${!isFullscreen ? 'ml-side mt-10' : 'ml-0 mt-0'}`">
+       <main :class="`flex-1 relative ${!isFullscreen ? 'ml-side mt-10' : 'ml-0 mt-0'}`">
+        
         <div class="max-w-full">
-          <div class="mb-2 mr-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
+          <div class=" mr-4 border-b border-gray-200 flex justify-between items-center">
             <PageHeader title="POS" description="Proses transaksi pelanggan"/>
             <button
               @click="toggleFullscreen"
@@ -25,7 +26,11 @@
           </div>
 
           <!-- POS Interface -->
-          <div class="p-2">
+          <div class="p-2 h-screen relative">
+            <div class="absolute inset-0 bg-[length:20px_20px]
+              [background-image:linear-gradient(to_right,rgba(107,114,128,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(107,114,128,0.06)_1px,transparent_1px)]
+              pointer-events-none">
+            </div>
             <POSInterface />
           </div>
         </div>

@@ -1,6 +1,7 @@
 <template>
-    <div class="bg-white rounded-lg shadow-sm border border-gray-200 z-1">
+    <div class="rounded-lg shadow-sm border border-gray-200 z-1">
         <div class="h-screen relative">
+            
             <!-- Table Header -->
             <div class="px-1 py-1 h-auto border-b border-gray-300">
                 <div class="flex justify-between">
@@ -93,7 +94,7 @@
             </div>
 
             <!-- Table Footer -->
-            <div class="px-4 py-3 h-auto border-t border-gray-200 bg-white z-1">
+            <div class="px-4 py-3 h-auto border-t border-gray-200 z-1">
                 <div class="flex items-center justify-between">
                     <div class="text-sm text-gray-700">
                         Data

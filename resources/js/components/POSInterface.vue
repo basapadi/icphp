@@ -1,8 +1,8 @@
 <template>
   <div class="grid grid-cols-3 gap-2 h-[calc(100vh-180px)]">
     <!-- Product Selection -->
-    <div class="col-span-2 bg-white border border-gray-200 rounded-lg shadow-sm">
-      <div class="border-b border-gray-200 rounded-lg p-2 bg-gray-50">
+    <div class="col-span-2 border border-gray-200 rounded-lg shadow-sm">
+      <div class="border-b border-gray-200 rounded-lg p-2">
         <div class="flex gap-2 mb-2">
           <div class="relative flex-1">
             <Search class="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 h-3 w-3" />
@@ -49,7 +49,7 @@
     <!-- Cart and Payment -->
     <div class="bg-white border border-gray-200 rounded-lg shadow-sm flex flex-col">
       <!-- Cart Header -->
-      <div class="border-b border-gray-200 rounded-lg shadow-sm p-2 bg-gray-50">
+      <div class="border-b rounded-lg p-2">
         <div class="flex justify-between items-center">
           <h3 class="text-sm font-bold text-gray-900">Current Order</h3>
           <button

@@ -2,7 +2,7 @@
   <AdminLayout>
     <div class="w-full max-h-1">
       <PageHeader title="Pengguna" description="Daftar Pengguna Aplikasi"/>
-      <div class="p-2">
+      <div class="p-2 relative h-screen">
         <DataTable title="Pengguna" module="user"/>
       </div>
     </div>

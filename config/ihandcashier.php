@@ -532,7 +532,7 @@ return [
         ],
         [
             'id'    => 42,
-            'side_menu' => false,
+            'side_menu' => false, //apabila menu tidak akan dimunculkan di side menu, default TRUE
             'icon'  => '',
             'label' => 'Pembayaran Pembelian',
             'route' => '',
