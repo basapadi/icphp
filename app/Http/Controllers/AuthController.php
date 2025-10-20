@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Native\Laravel\Facades\Window;
-use Native\Laravel\Facades\Settings;
+use Native\Desktop\Facades\Window;
+use Native\Desktop\Facades\Settings;
 use PDO;
 use PDOException;
 use Illuminate\Support\Facades\Artisan;
@@ -172,7 +172,7 @@ class AuthController extends BaseController
             updateEnv('DB_CHARSET', trim($request->charset));
         }
         Settings::set('initial_setup', false);
-        Artisan::call('native:config');
+        // Artisan::call('native:config');
         return Response::ok('Data tersimpan');
     }
 }

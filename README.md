@@ -1,5 +1,6 @@
 # About IhandCashier Project
 #### Requirement
+- NativePHP v2+
 - PHP 8.4
 - NodeJS 22+
 - [Laravel 12](https://laravel.com/docs/12.x/)
@@ -21,7 +22,7 @@ See example app on https://ihandcashier.basapadi.com with latest development
 - Migrate and seed database: `php artisan migrate` and `php artisan db:seed`.
 - For NativePHP desktop: `php artisan native:migrate` and `php artisan native:seed`.
 - Start development servers:
-  - Web: `php artisan native:serve` (backend) and `npm run dev` (frontend)
+  - Web: `php artisan native:run` (backend) and `npm run dev` (frontend)
   - Or both: `composer native:dev`
 - Build desktop app: `php artisan native:build <os>` (e.g., `win`, `mac`)
 

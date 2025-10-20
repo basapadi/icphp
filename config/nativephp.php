@@ -156,7 +156,7 @@ return [
      * Define your own scripts to run before and after the build process.
      */
     'prebuild' => [
-        'bun run build',
+        'npm run build',
         'php artisan optimize'
     ],
 
