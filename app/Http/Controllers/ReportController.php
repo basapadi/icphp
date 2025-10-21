@@ -234,12 +234,17 @@ class ReportController extends BaseController
     public function deleteQuery(Request $request, $name){
         $this->allowAccessModule('report.report', 'delete');
         if(empty($name)) return Response::badRequest('Nama file tidak ditemukan');
-        $filePath = resource_path('data/queries/reports/'.$name);
-        if (File::exists($filePath)) {
-            File::delete($filePath);
-            return Response::ok('Laporan berhasil dihapus');
+        $filePath = resource_path('data/queries/reports/user/'.$name);
+        try {
+            if (File::exists($filePath)) {
+                File::delete($filePath);
+                return Response::ok('Laporan berhasil dihapus');
+            }
+            return Response::badRequest('Laporan gagal dihapus, coba lagi.');
+        }catch(Exception $e){
+            return $this->setAlert('error','Gagal',$e->getMessage());
         }
-        return Response::badRequest('Laporan gagal dihapus, coba lagi.');
+        
     }
 
     private function getQueryFiles($folder = 'reports',$showNav = false){
@@ -250,7 +255,9 @@ class ReportController extends BaseController
 
         $dirUser = new Directory();
         $dirUser->withNavigation = $showNav;
-        $user = $dirUser->scan('data/queries/'.$folder.'/user')->get();
+        $user = $dirUser->scan('data/queries/'.$folder.'/user')->get()->reject(function($item){
+            return $item['name'] == '.gitignore';
+        });
         foreach ($default as $k => $d) {
             $exist = $user->where('name',$d['name'])->first();
             if($exist) array_push($files,$exist);
