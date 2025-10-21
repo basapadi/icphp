@@ -97,7 +97,7 @@ onMounted(() => {
         history(),
         keymap.of(historyKeymap),
         keymap.of([...defaultKeymap, indentWithTab]),
-        syntaxHighlighting(sqlHighlighting), // ✅ custom highlight tetap jalan
+        syntaxHighlighting(sqlHighlighting),
         completionCompartment.of(
           autocompletion({ override: [schemaCompletionSource(props.schemas)] })
         ),

@@ -25,11 +25,8 @@
 								    <label
 								      class="flex items-center gap-1 text-sm font-medium leading-none"
 								    ><span class="text-gray-500 text-shadow-2xs">Query</span> </label>
-			   						<div class="flex overflow-x-auto shadow-md rounded-md flex-wrap gap-2 mb-1 border border-dashed p-1 my-2" style="height: 300px; border: 1px solid #ddd; background-color: #282C34;">
-							        <SqlEditor
-												v-model="form.query"
-												:schemas="schemas"
-											/>
+			   						<div class="flex overflow-x-auto shadow-md rounded-md flex-wrap gap-2 mb-1 border border-dashed p-1 my-2" style="height: 300px; border: 1px solid #ddd; background-color: #282C34; color:#ffffff;">
+							        <SqlEditor v-model="form.query" :schemas="schemas" />
 						        </div>
 						    	</div>
 						    	<div class=" pt-2">

@@ -1,15 +1,20 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-
 @custom-variant dark (&:is(.dark *));
 
-@font-face {
+/* @font-face {
   font-family: 'IAWriterQuattro';
-  src: url('../ia-writer-quattro-latin-400-normal.ttf') format('opentype');
+  src: url('/fonts/ia-writer-quattro-latin-400-normal.woff2') format('truetype');
 }
 
+@font-face {
+  font-family: 'HelveticaNow';
+  src: url('/fonts/Helvetica.ttf') format('truetype');
+} */
+
 html {
-  font-family: "IAWriterQuattro", sans-serif;
+  /* font-family: "IAWriterQuattro", sans-serif; */
+  font-family: 'Inter', sans-serif;
 }
 :root {
   --background: oklch(1 0 0);
