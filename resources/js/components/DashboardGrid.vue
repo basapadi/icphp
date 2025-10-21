@@ -1,6 +1,6 @@
 <template>
   <div class="grid grid-cols-2 lg:grid-cols-3 gap-2">
-    <div class="bg-white border border-gray-200 rounded-lg shadow-sm">
+    <div class="z-2 border border-gray-200 rounded-lg shadow-sm">
       <div class="flex flex-row items-center justify-between p-2">
         <h3 class="text-sm font-semibold text-gray-500">Jatuh Tempo Penerimaan</h3>
         <button class="p-2 hover:bg-gray-100 rounded">
@@ -38,7 +38,7 @@
       </div>
     </div>
 
-    <div class="bg-white border border-gray-200 rounded-lg shadow-sm">
+    <div class="z-2 border border-gray-200 rounded-lg shadow-sm">
       <div class="flex flex-row items-center justify-between p-2">
         <h3 class="text-sm font-semibold text-gray-500">Jatuh Tempo Penjualan</h3>
         <button class="p-2 hover:bg-gray-100 rounded">
@@ -77,7 +77,7 @@
     </div>
 
     <!-- Top Products -->
-    <div class="bg-white border border-gray-200 rounded-lg shadow-sm">
+    <div class="z-2 border border-gray-200 rounded-lg shadow-sm">
       <div class="flex flex-row items-center justify-between p-2">
         <h3 class="text-sm font-semibold text-gray-500">Barang paling laku bulan ini</h3>
         <button class="p-2 hover:bg-gray-100 rounded">
@@ -110,7 +110,7 @@
     </div>
 
     <!-- Minimum Stock Products -->
-    <div class="bg-white border border-gray-200 rounded-lg shadow-sm">
+    <div class="z-2 border border-gray-200 rounded-lg shadow-sm">
       <div class="flex flex-row items-center justify-between p-2">
         <h3 class="text-sm font-semibold text-gray-500">Barang Hampir Habis</h3>
         <button class="p-2 hover:bg-gray-100 rounded">

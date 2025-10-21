@@ -1,6 +1,6 @@
 <template>
   <AdminLayout>
-    <div class="max-w-full">
+    <div class="max-w-full relative">
       <PageHeader title="Dashboard" description="Selamat datang kembali, apa yang terjadi pada bisnis anda hari ini?"/>
         <!-- Dashboard Content -->
       <div class="p-2">

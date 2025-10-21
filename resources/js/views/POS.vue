@@ -12,10 +12,11 @@
        <main :class="`flex-1 relative ${!isFullscreen ? 'ml-side mt-10' : 'ml-0 mt-0'}`">
         
         <div class="max-w-full">
-          <div class="absolute inset-0 bg-[length:15px_15px]
-            [background-image:linear-gradient(to_right,rgba(107,114,128,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(107,114,128,0.06)_1px,transparent_1px)]
-            pointer-events-none">
+          <div class="absolute inset-0 z-1 bg-[length:15px_15px]
+              [background-image:linear-gradient(to_right,rgba(107,114,128,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(107,114,128,0.04)_1px,transparent_1px)]
+              pointer-events-none">
           </div>
+          <div ref="gridOverlay" class="absolute inset-0 z-1 pointer-events-none"></div>
           <div class=" mr-4 border-b border-gray-200 flex justify-between items-center">
             <PageHeader title="POS" description="Proses transaksi pelanggan"/>
             <button
@@ -30,7 +31,7 @@
           </div>
 
           <!-- POS Interface -->
-          <div class="p-2">
+          <div class="p-2 z-3">
             <POSInterface />
           </div>
         </div>
@@ -45,7 +46,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref,onMounted } from 'vue'
+const gridOverlay = ref(null)
 import AdminToolbar from '@/components/AdminToolbar.vue'
 import AdminSidebar from '@/components/AdminSidebar.vue'
 import POSInterface from '@/components/POSInterface.vue'
@@ -64,4 +66,35 @@ const toggleFullscreen = () => {
     isFullscreen.value = false
   }
 }
+onMounted(() => {
+  const overlay = gridOverlay.value
+  const canvas = document.createElement('canvas')
+  const size = 15
+  const ctx = canvas.getContext('2d')
+  const drawGrid = () => {
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
+
+    for (let y = 0; y < canvas.height; y += size) {
+      for (let x = 0; x < canvas.width; x += size) {
+        if (Math.random() > 0.93) {
+          ctx.fillStyle = 'rgba(230,230,230,0.4)'
+          ctx.fillRect(x, y, size, size)
+        }
+      }
+    }
+
+    ctx.filter = 'blur(10px)'
+  }
+
+  drawGrid()
+
+  canvas.classList.add('absolute', 'inset-0', 'pointer-events-none')
+  overlay.appendChild(canvas)
+
+  // saat window di-resize, gambar ulang
+  window.addEventListener('resize', () => {
+    drawGrid()
+  })
+})
 </script>

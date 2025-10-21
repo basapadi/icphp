@@ -1,5 +1,5 @@
 <template>
-    <div class="rounded-lg shadow-sm border border-gray-200 z-1">
+    <div class="relative rounded-lg shadow-sm border border-gray-200 z-1">
         <div class="h-screen relative">
             
             <!-- Table Header -->
@@ -32,8 +32,8 @@
                 </div>
             </div>
             <!-- Table -->
-            <div class="overflow-x-auto h-15/20 z-1" ref="tableContainer">
-                <table class="min-w-full border-collapse border border-dashed border-orange-100 z-1">
+            <div class="overflow-x-auto h-15/20" ref="tableContainer">
+                <table class="min-w-full relative border-collapse border border-dashed border-orange-100">
                     <thead class="bg-orange-50 sticky top-0" style="z-index:11">
                         <tr>
                             <template v-if="properties.multipleSelect">
@@ -61,8 +61,8 @@
                             </template>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        <tr v-for="(data,index) in filterData" :key="data.id" :class="['transition-colors duration-50 border border-1 border-dashed text-sm border-gray-300',selectedIndex.includes(index) ? 'bg-orange-200' : 'hover:bg-orange-100 odd:bg-gray-100 even:bg-white']" @dblclick="viewData(data)" @click="handleClickRow(data,index,$event)" @contextmenu.prevent="handleRightClick(data,index,$event)">
+                    <tbody class="bg-white/10 divide-y divide-gray-200">
+                        <tr v-for="(data,index) in filterData" :key="data.id" :class="['transition-colors duration-50 border border-1 border-dashed text-sm border-gray-300',selectedIndex.includes(index) ? 'bg-orange-200' : 'hover:bg-orange-100 odd:bg-gray-300/20 even:bg-white/30']" @dblclick="viewData(data)" @click="handleClickRow(data,index,$event)" @contextmenu.prevent="handleRightClick(data,index,$event)">
                             <template v-if="properties.multipleSelect">
                                 <td class="px-4 whitespace-nowrap border border-dashed border-1 border-gray-300" style="width: 10px">
                                     <input @change.stop="handleCheckboxChange(index, $event)" v-model="selectedData" :value="data.id" type="checkbox"
