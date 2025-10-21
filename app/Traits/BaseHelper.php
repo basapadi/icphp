@@ -1,6 +1,6 @@
 <?php
 namespace App\Traits;
-use Native\Laravel\Facades\{Alert,Notification};
+use Native\Desktop\Facades\{Alert,Notification};
 use App\Http\Response;
 use App\Objects\Notification as ObjectsNotification;
 use Illuminate\Support\Facades\Validator;
