@@ -235,14 +235,9 @@ class ReportController extends BaseController
         $this->allowAccessModule('report.report', 'delete');
         if(empty($name)) return Response::badRequest('Nama file tidak ditemukan');
         $filePath = resource_path('data/queries/reports/user/'.$name);
-        try {
-            if (File::exists($filePath)) {
-                File::delete($filePath);
-                return Response::ok('Laporan berhasil dihapus');
-            }
-            return Response::badRequest('Laporan gagal dihapus, coba lagi.');
-        }catch(Exception $e){
-            return $this->setAlert('error','Gagal',$e->getMessage());
+        if (File::exists($filePath)) {
+            File::delete($filePath);
+            return Response::ok('Laporan berhasil dihapus');
         }
         
     }
