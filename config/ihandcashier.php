@@ -427,7 +427,13 @@ return [
             'route' => '/transaction/warehouse/stock',
             'order' => 0,
             'parent'=> 11,
-            'module'=>'transaction.warehouse.stock'
+            'module'=>'transaction.warehouse.stock',
+            'hide'  => [
+                'create',
+                'edit',
+                'update',
+                'delete'
+            ]
         ],
          [
             'id'    => 21,

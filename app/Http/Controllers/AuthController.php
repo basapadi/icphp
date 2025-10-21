@@ -58,7 +58,6 @@ class AuthController extends BaseController
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
-        Window::close();
         return response()->json(['message' => 'Logout berhasil']);
     }
 
