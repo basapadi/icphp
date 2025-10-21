@@ -1,4 +1,9 @@
 {
+    "name": "Ihand Cashier",
+    "version": "1.0.1",
+    "description": "Simple POS Multiplatform App. Tersedia versi build Windows, MacOS dan Linux",
+    "author": "HMP Basapadi",
+    "homepage": "https://ihandcashier.basapadi.com",
     "$schema": "https://json.schemastore.org/package.json",
     "private": true,
     "type": "module",

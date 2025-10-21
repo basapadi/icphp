@@ -1,7 +1,7 @@
 {
-    "name": "ihandcashier-dev",
+    "name": "IhandCashier",
     "version": "1.0.1",
-    "description": "An Single Entry POS Cashier for your bussiness",
+    "description": "Simple POS Multiplatform App. Tersedia versi build Windows, MacOS dan Linux",
     "main": "./out/main/index.js",
     "author": "HMP Basapadi",
     "homepage": "https://ihandcashier.basapadi.com",
