@@ -1,8 +1,0 @@
-libdir=/home/bachtiarpanjaitan/Documents/bachtiarpanjaitan/ic-php/resources/python/linux/lib
-includedir=/home/bachtiarpanjaitan/Documents/bachtiarpanjaitan/ic-php/resources/python/linux/include
-
-Name: libsolv
-Description: Library for solving packages
-Version: 0.7.30
-Libs: -L${libdir} -lsolv
-Cflags: -I${includedir}
