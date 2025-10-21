@@ -203,7 +203,12 @@ class BaseController extends Controller
      */
     protected function allowAccessModule(string $module, string $action, bool $asBoolean = false)
     {
+        
         $role = (string) auth()->user()->role;
+        $configMenu = collect(config('ihandcashier.menus'))->where('module',$module)->first();
+        if(empty($configMenu)) return false;
+        if(isset($configMenu['hide']) && in_array($action,$configMenu['hide'])) return false;
+
         if (!empty($module) && !empty($action)) {
             $can = Menu::select('menus.id', 'module', 'role_menus.' . $action)
                 ->where('module', $module)
