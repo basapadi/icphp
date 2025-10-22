@@ -13,7 +13,7 @@
           <component
             v-if="item.icon"
             :is="item.icon"
-            class="w-4 h-4 text-gray-700"
+            class="w-4 h-4 text-orange-500"
             :class="collapsed ? 'mx-auto' : 'mr-3'"
           />
           <!-- Label hanya tampil jika tidak collapsed -->
