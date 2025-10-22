@@ -1,11 +1,14 @@
 <template>
   <!-- Overlay -->
   <div v-if="open" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" @click="close()">
-    <Card class="w-full max-w-2xl bg-white shadow-lg rounded-lg overflow-hidden" @click.stop>
-      <CardContent class="p-6">
+    <Card class="w-full max-w-2xl bg-white shadow-lg rounded-lg overflow-hidden pt-0" @click.stop>
+      <CardContent class="p-4">
         <form @submit="submit" class="flex flex-col" enctype="multipart/form-data">
-          <h2 v-if="contextMenu.title" class="text-xl font-bold mb-2">{{ contextMenu.title }}</h2>
-          <span class="text-gray-600 mb-4">{{ contextMenu.message }}</span>
+          
+          <div class="border-b mb-2">
+            <h2 v-if="contextMenu.title" class="text-xl font-bold mb-2 text-gray-500 text-center">{{ contextMenu.title }}</h2>
+          </div>
+          <div class="text-gray-600 mb-4" v-html="contextMenu.message"/>
 
           <!-- Scrollable Form Area -->
           <div class="max-h-[70vh] overflow-y-auto space-y-4">

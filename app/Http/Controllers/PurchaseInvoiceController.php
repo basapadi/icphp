@@ -51,7 +51,7 @@ class PurchaseInvoiceController extends BaseController
         $openPayment->color = '#1667ffff';
         $openPayment->onClick = 'confirmPopup';
         $openPayment->title = 'Posting/Buka Pembayaran Faktur';
-        $openPayment->message = 'Apakah anda yakin membuka atau memposting pembayaran untuk faktur ini?.';
+        $openPayment->message = 'Apakah anda yakin memposting faktur ini?. <br> <blockquote class="text-red-700 text-sm italic">Aksi ini akan mengubah status faktur menjadi <b>DIPOSTING</b> dan tidak dapat diurungkan.</blockquote>';
         $openPayment->apiUrl = route('api.purchase.invoice.openPayment').'?status=posted';
 
         $contextMenus = [$createPayment,$openPayment];

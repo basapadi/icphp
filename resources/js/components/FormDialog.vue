@@ -1,7 +1,7 @@
 <template>
     <!-- Overlay -->
     <div v-if="open" class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-        <Card :class="`w-full max-w-${dialog.width}xl`">
+        <Card :class="`w-full max-w-${dialog.width}xl mx-4`">
             <CardContent>
                 <ul class="list-disc list-outside px-4 pb-2">
                     <li class="text-xs italic text-gray-600">
