@@ -120,14 +120,6 @@
                 "hint": "Harga Satuan Barang"
             },
             {
-                "name": "diskon_nominal",
-                "type": "currency",
-                "label": "Diskon (Total)",
-                "required": true,
-                "readonly": false,
-                "hint": "Masukkan diskon Sub Total"
-            },
-            {
                 "name": "pajak_persen",
                 "type": "select",
                 "label": "Pajak",

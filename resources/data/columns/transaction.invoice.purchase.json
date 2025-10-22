@@ -132,11 +132,47 @@
         "option_filter": true
     },
     {
+        "name": "total_diskon_formatted",
+        "required": true,
+        "label": "Total Diskon",
+        "align": "right",
+        "field": "total_diskon_formatted",
+        "sortable": true,
+        "type": "currency",
+        "show": true,
+        "class": "font-mono",
+        "styles": ""
+    },
+    {
         "name": "grand_total_formatted",
         "required": true,
         "label": "Nilai Faktur",
         "align": "right",
         "field": "grand_total_formatted",
+        "sortable": true,
+        "type": "currency",
+        "show": true,
+        "class": "font-mono",
+        "styles": ""
+    },
+    {
+        "name": "nominal_terbayar_formatted",
+        "required": true,
+        "label": "Terbayar",
+        "align": "right",
+        "field": "nominal_terbayar_formatted",
+        "sortable": true,
+        "type": "currency",
+        "show": true,
+        "class": "font-mono",
+        "styles": ""
+    },
+    {
+        "name": "sisa_bayar_formatted",
+        "required": true,
+        "label": "Sisa Bayar",
+        "align": "right",
+        "field": "sisa_bayar_formatted",
         "sortable": true,
         "type": "currency",
         "show": true,

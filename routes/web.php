@@ -173,6 +173,7 @@ Route::prefix('api')->group(function () {
             Route::delete('/{id}', 'delete');
             Route::post('/create-payment', 'createPayment')->name('api.purchase.invoice.createPayment');
             Route::get('/invoice/payment-form', 'paymentForm')->name('api.purchase.invoice.paymentForm');
+            Route::post('/open-payment', 'openPayment')->name('api.purchase.invoice.openPayment');
         });
 
 

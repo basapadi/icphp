@@ -179,7 +179,7 @@
                                 </div>
                                 <div v-else :class="`gap-2 p-4 grid grid-cols-1 md:grid-cols-${section.column}`">
                                     <template  v-for="(field,x) in section['forms']" :key="x">
-                                        <Input v-if="['text', 'email'].includes(field.type)"
+                                        <Input v-if="['text', 'email','hidden'].includes(field.type)"
                                             :key="field.name"
                                             :label="field.label"
                                             :type="field.type"
@@ -191,6 +191,7 @@
                                             :format="field?.format"
                                             :disabled="field.disabled"
                                             :readonly="field.readonly"
+                                            :show="field.show"
                                         />
                                         <Password v-if="field.type == 'password'"
                                             :key="field.name"

@@ -20,6 +20,8 @@ class PurchasePayment extends BaseModel
         'jumlah',
         'diskon',
         'catatan',
+        'created_by',
+        'updated_by'
     ];
 
     /* ========================

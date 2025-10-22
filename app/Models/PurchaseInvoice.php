@@ -24,7 +24,8 @@ class PurchaseInvoice extends BaseModel
         'total_pajak_formatted',
         'biaya_pengiriman_formatted',
         'grand_total_formatted',
-        'nominal_terbayar_formatted'
+        'nominal_terbayar_formatted',
+        'sisa_bayar_formatted'
     ];
     protected $fillable = [
         'contact_id',
@@ -138,6 +139,11 @@ class PurchaseInvoice extends BaseModel
     public function getNominalTerbayarFormattedAttribute()
     {
         return currency($this->nominal_terbayar);
+    }
+
+    public function getSisaBayarFormattedAttribute()
+    {
+        return currency($this->grand_total - ($this->nominal_terbayar + $this->total_diskon));
     }
 
     public function getStatusLabelAttribute(){

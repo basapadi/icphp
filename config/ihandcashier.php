@@ -196,7 +196,7 @@ return [
             'color' => 'gray-400'
         ],
         'posted'              => [ //Sudah diverifikasi dan resmi jadi tagihan
-            'label' => 'Diposting',
+            'label' => 'Diposting/Open',
             'class' => 'green-700',
             'color' => 'green-700'
         ],

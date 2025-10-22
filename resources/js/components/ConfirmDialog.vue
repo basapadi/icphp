@@ -160,8 +160,8 @@
             <div class="mt-6 flex justify-end gap-2">
                 <Button type="button" class="border-orange-200" variant="secondary" @click="close">Tidak</Button>
                 <Button class="border-orange-200" variant="secondary" type="submit">
-                    <LoaderCircle v-if="loader" class="animate-spin"/>
-                    <span v-else>Ya</span>
+                    <!-- <LoaderCircle v-if="loader" class="animate-spin"/> -->
+                    <span>Ya</span>
                 </Button>
             </div>
         </form>

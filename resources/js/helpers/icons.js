@@ -41,6 +41,7 @@ export {
 	UserCog,
 	SquareChevronRight,
 	Receipt,
-	BanknoteArrowUp
+	BanknoteArrowUp,
+	Banknote
 
 } from "lucide-vue-next";

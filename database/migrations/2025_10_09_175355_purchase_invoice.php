@@ -88,6 +88,10 @@ return new class extends Migration
             $table->unsignedBigInteger('jumlah');
             $table->unsignedBigInteger('diskon')->default(0);
             $table->text('catatan')->nullable();
+
+            // Audit trail
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
             
             $table->timestamps();
         });

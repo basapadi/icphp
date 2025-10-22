@@ -6,7 +6,8 @@ use App\Models\{
     PurchaseInvoice,
     PurchaseInvoiceDetail,
     ItemReceived,
-    PurchaseInvoiceItemReceived
+    PurchaseInvoiceItemReceived,
+    PurchasePayment
 };
 use App\Objects\ContextMenu;
 use Illuminate\Http\Request;
@@ -34,8 +35,8 @@ class PurchaseInvoiceController extends BaseController
         ]);
 
         //buat payment
-        $createPayment = new ContextMenu('createPayment','Pembayaran');
-        $createPayment->conditions = ['status' => ['draft']];
+        $createPayment = new ContextMenu('createPayment','Buat Pembayaran');
+        $createPayment->conditions = ['status' => ['posted'],'status_pembayaran' => ['unpaid','partially_paid']];
         $createPayment->type = 'form_dialog';
         $createPayment->apiUrl = route('api.purchase.invoice.createPayment');
         $createPayment->icon = 'BanknoteArrowUp';
@@ -43,7 +44,17 @@ class PurchaseInvoiceController extends BaseController
         $createPayment->onClick = 'getFormDialog';
         $createPayment->formUrl = route('api.purchase.invoice.paymentForm');
 
-        $contextMenus = [$createPayment];
+        $openPayment = new ContextMenu('openPayment','Buka Pembayaran');
+        $openPayment->conditions = ['status' => ['draft']];
+        $openPayment->type = 'confirm';
+        $openPayment->icon = 'Banknote';
+        $openPayment->color = '#1667ffff';
+        $openPayment->onClick = 'confirmPopup';
+        $openPayment->title = 'Posting/Buka Pembayaran Faktur';
+        $openPayment->message = 'Apakah anda yakin membuka atau memposting pembayaran untuk faktur ini?.';
+        $openPayment->apiUrl = route('api.purchase.invoice.openPayment').'?status=posted';
+
+        $contextMenus = [$createPayment,$openPayment];
         $this->setContextMenu($contextMenus);
     }
 
@@ -222,16 +233,23 @@ class PurchaseInvoiceController extends BaseController
         $this->allowAccessModule('transaction.invoice.purchase.payment', 'create');
 
         $id = $this->decodeId($request->id);
+
+        $item = PurchaseInvoice::select(['id','kode'])->where('id',$id)->first();
+        if(empty($item)) return $this->setAlert('error','Galat!','Data tidak ditemukan!.');
+
         $newPayment = new \stdClass;
         $newPayment->kode = generateTransactionCode('PAY');
-
-        $item = PurchaseInvoice::select('id')->where('id',$id)->first();
-        if(empty($item)) return $this->setAlert('error','Galat!','Data tidak ditemukan!.');
+        $newPayment->tanggal = date('Y-m-d');
+        $newPayment->metode_bayar = 'bank_transfer';
+        $newPayment->diskon = 0;
+        $newPayment->purchase_invoice_id = $item->id;
+        $newPayment->details = PurchasePayment::where('purchase_invoice_id',$id)->get();
 
         $form = $this->getResourceForm('purchase_invoice_payment');
 
         injectData($form, [
-            'metode_bayar'        => ihandCashierConfigToSelect('payment_methods.receive'),
+            'metode_bayar'      => ihandCashierConfigToSelect('payment_methods.receive'),
+            'detail_editable'   => false
         ]);
         $form = serializeform($form);
         return Response::ok('loaded',[
@@ -239,5 +257,86 @@ class PurchaseInvoiceController extends BaseController
             'dialog' => $form['dialog'],
             'sections' => $form['sections']
         ]);
+    }
+
+    public function openPayment(Request $request){
+        $this->allowAccessModule($this->_module, 'update');
+        try {
+            $id = $this->decodeId($request->id);
+            $pi = PurchaseInvoice::where('id',$id)->first();
+            if(empty($pi)) return $this->setAlert('error','Gagal','Data tidak ditemukan');
+            if(!in_array($pi->status,['draft'])) return $this->setAlert('error','Gagal','Aksi ini hanya bisa dilakukan apabila status faktur adalah DRAFT');
+            
+            $pi->status = trim($request->status);
+            $pi->save();
+            return $this->setAlert('info','Berhasil','Faktur berhasil dibuka.');
+        }catch(Exception $e){
+            return $this->setAlert('error','Gagal',$e->getMessage());
+        }
+    }
+
+    public function createPayment(Request $request){
+        $this->allowAccessModule('transaction.invoice.purchase.payment', 'create');
+
+        $rules = [
+            'kode'                  => 'required|string',
+            'tanggal'               => 'required|string',
+            'metode_bayar'          => 'required|string',
+            'catatan'               => 'nullable|string',
+            'diskon'                => 'required|numeric',
+            'jumlah'                => 'required|numeric|min:0',
+            'purchase_invoice_id'   => 'required|numeric'
+        ];  
+
+        $data = $this->validate($rules);
+        if ($data instanceof \Illuminate\Http\JsonResponse) return $data;
+
+        begin();
+        $purchaseInvoice = PurchaseInvoice::where('id', $data['purchase_invoice_id'])->first();
+        if(empty($purchaseInvoice)) return $this->setAlert('error','Galat!','Data faktur tidak ditemukan!.');
+        
+        try {
+            $preInsert = [
+                'kode'                  => trim($data['kode']),
+                'purchase_invoice_id'   => (int) trim($data['purchase_invoice_id']),
+                'tanggal'               => trim($data['tanggal']),
+                'metode_bayar'          => trim($data['metode_bayar']),
+                'no_referensi'          => isset($data['no_referensi']) ? trim($data['no_referensi']) : null,
+                'jumlah'                => (double) trim($data['jumlah']),
+                'diskon'                => isset($data['diskon']) ? (double) trim($data['diskon']) : 0,
+                'catatan'               => isset($data['catatan']) ? trim($data['catatan']) : null,
+                'created_by'            => auth()->user()->id
+            ];
+            PurchasePayment::create($preInsert);
+
+            $totalTerbayar = (double) PurchasePayment::where('purchase_invoice_id', $purchaseInvoice->id)->sum('jumlah');
+            $totalDiskon = (double) PurchasePayment::where('purchase_invoice_id', $purchaseInvoice->id)->sum('diskon');
+            $grandTotal = (double) $purchaseInvoice->grand_total;
+
+            // validasi overpayment
+            if ($totalTerbayar > $grandTotal) {
+                return $this->setAlert('error', 'Galat!', 'Jumlah pembayaran lebih besar dari total nilai faktur setelah diskon!');
+            }
+
+            // simpan rekap di invoice
+            $purchaseInvoice->nominal_terbayar = $totalTerbayar;
+            $purchaseInvoice->total_diskon = $totalDiskon;
+
+            // update status pembayaran
+            if ($totalTerbayar == 0) {
+                $purchaseInvoice->status_pembayaran = 'unpaid';
+            } elseif (($totalDiskon + $totalTerbayar) < $grandTotal) {
+                $purchaseInvoice->status_pembayaran = 'partially_paid';
+            } else {
+                $purchaseInvoice->status_pembayaran = 'paid';
+            }
+
+            $purchaseInvoice->save();
+            commit();
+            return $this->setAlert('info','Berhasil','Pembayaran berhasil dibuat');
+        }catch(Exception $e){
+            rollback();
+            return $this->setAlert('error','Gagal',$e->getMessage());
+        }
     }
 }

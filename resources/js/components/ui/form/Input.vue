@@ -18,7 +18,7 @@ export default {
     required: { type: Boolean, default: false },
     class: { type: [String, Array, Object] as unknown as HTMLAttributes["class"], default: "" },
     format: { type: String, default: "" },
-    disabled: {type: Boolean, default: false},
+    disabled: { type: Boolean, default: false },
     readonly: { type: Boolean, default: false }
   },
   emits: ["update:modelValue"],
@@ -61,39 +61,55 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col gap-1.5 w-full">
-    <Label
-      :for="id"
-      class="flex items-center gap-1 text-sm font-medium leading-none"
-    >
-      <span class="text-gray-500 text-shadow-2xs">{{ label }}</span>
-      <span v-if="required" class="text-red-700">*</span>
-
-      <!-- wrapper untuk icon + tooltip -->
-      <div class="relative group">
-        <Info class="h-4 w-4 text-orange-300 cursor-pointer" />
-
-        <!-- Tooltip -->
-        <div style="z-index:9999" class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-48 p-2 text-xs 
-                bg-orange-500 text-white rounded shadow-lg opacity-0 
-                group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
-        >
-          {{hint}}
-        </div>
-      </div>
-    </Label>
+  <!-- Kalau hidden, render sederhana -->
+  <template v-if="type === 'hidden'">
     <input
       :id="id"
       v-model="modelValue"
-      :type="type"
+      type="hidden"
       :name="name"
-      :required="required"
-      :pattern="props.format || undefined"
-      @invalid="e => e.target.setCustomValidity(`${label} tidak boleh kosong atau tidak sesuai format`)"
-      @input="handleInput"
-      :class="inputClass"
-      :disabled="disabled"
-      :readonly="readonly"
     />
-  </div>
+  </template>
+
+  <!-- Kalau bukan hidden, render normal -->
+  <template v-else>
+    <div class="flex flex-col gap-1.5 w-full">
+      <Label
+        :for="id"
+        class="flex items-center gap-1 text-sm font-medium leading-none"
+      >
+        <span class="text-gray-500 text-shadow-2xs">{{ label }}</span>
+        <span v-if="required" class="text-red-700">*</span>
+
+        <!-- wrapper untuk icon + tooltip -->
+        <div v-if="hint" class="relative group">
+          <Info class="h-4 w-4 text-orange-300 cursor-pointer" />
+
+          <!-- Tooltip -->
+          <div
+            style="z-index:9999"
+            class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-48 p-2 text-xs 
+                  bg-orange-500 text-white rounded shadow-lg opacity-0 
+                  group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
+          >
+            {{ hint }}
+          </div>
+        </div>
+      </Label>
+
+      <input
+        :id="id"
+        v-model="modelValue"
+        :type="type"
+        :name="name"
+        :required="required"
+        :pattern="props.format || undefined"
+        @invalid="e => e.target.setCustomValidity(`${label} tidak boleh kosong atau tidak sesuai format`)"
+        @input="handleInput"
+        :class="inputClass"
+        :disabled="disabled"
+        :readonly="readonly"
+      />
+    </div>
+  </template>
 </template>

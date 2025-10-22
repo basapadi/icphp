@@ -7,7 +7,7 @@
         "description": "Daftar pembayaran yang sudah pernah dilakukan pada faktur ini.",
         "column": 7,
         "type": "addtable",
-        "editable": false,
+        "editable": ":detail_editable",
         "forms": [
             {
                 "name": "kode",
@@ -44,7 +44,7 @@
             },
             {
                 "name": "jumlah",
-                "type": "number",
+                "type": "currency",
                 "label": "Jumlah Dibayar",
                 "required": true,
                 "hint": "Jumlah dibayar dalam bentuk rupiah",
@@ -52,7 +52,7 @@
             },
             {
                 "name": "diskon",
-                "type": "number",
+                "type": "currency",
                 "label": "Diskon",
                 "required": true,
                 "hint": "Diskon",
@@ -69,15 +69,23 @@
         ]
     },
     "main": {
-        "label": "Pembayaran",
+        "label": "Pembayaran Faktur",
         "column": 3,
         "description": "Isi form dibawah ini untuk menambah pembayaran faktur.",
         "forms": [
             {
+                "name": "purchase_invoice_id",
+                "type": "hidden",
+                "label": "ID Faktur",
+                "required": true,
+                "readonly": true,
+                "hint": "ID Faktur"
+            },
+            {
                 "name": "kode",
                 "type": "text",
                 "label": "Kode Pembayaran",
-                "required": false,
+                "required": true,
                 "readonly": true,
                 "hint": "Kode Pembayaran"
             },
@@ -116,9 +124,9 @@
             },
             {
                 "name": "diskon",
-                "type": "number",
+                "type": "currency",
                 "label": "Diskon",
-                "required": true,
+                "required": false,
                 "hint": "Diskon",
                 "readonly": false
             },
