@@ -27,8 +27,8 @@
               />
               <input
                 v-model="searchQuery"
-                placeholder="Cari..."
-                class="pl-7 h-7 text-xs bg-white border border-gray-300 rounded w-full px-2"
+                placeholder="Cari menu..."
+                class="pl-7 h-7 text-xs text-gray-500 bg-white border border-gray-300 rounded w-full px-2"
               />
             </div>
           </div>
@@ -36,7 +36,7 @@
           <!-- Menu -->
           <ul class="space-y-1 mt-4">
             <MenuItem
-              v-for="(item, index) in menus"
+              v-for="(item, index) in filteredMenus"
               :key="index"
               :item="item"
               :level="0"
@@ -76,7 +76,6 @@ import { Search, ChevronLeft, ChevronRight } from 'lucide-vue-next'
 
 const gridOverlay = ref(null)
 const isCollapsed = ref(false)
-const searchQuery = ref('')
 
 onMounted(() => {
   drawBackground(gridOverlay.value)
@@ -99,7 +98,35 @@ export default {
       user: 'auth/getUser',
       menus: 'menu/getMenus',
       app: 'menu/getApp'
-    })
+    }),
+    filteredMenus() {
+      if (!this.searchQuery) return this.menus
+
+      const q = this.searchQuery.toLowerCase()
+
+      const filterRecursive = (items) => {
+        return items
+          .map((item) => {
+            const matchCurrent = item.label?.toLowerCase().includes(q)
+
+            const filteredChildren = item.sub_items
+              ? filterRecursive(item.sub_items)
+              : []
+
+            if (matchCurrent || filteredChildren.length > 0) {
+              return {
+                ...item,
+                sub_items: filteredChildren
+              }
+            }
+            return null
+          })
+          .filter(Boolean)
+      }
+
+      return filterRecursive(this.menus)
+    },
+
   },
   watch: {
     $route(to) {
@@ -109,7 +136,8 @@ export default {
   data() {
     return {
       loading: true,
-      error: null
+      error: null,
+      searchQuery: ''
     }
   },
   methods: {
