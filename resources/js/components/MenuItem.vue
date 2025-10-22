@@ -1,98 +1,111 @@
 <template>
-    <li>
-        <router-link
-            v-if="item.route && item.parent_id == null"
-            :to="item.route"
-            @click="handleClick(item)"
-            :class="linkClasses"
-            :style="{ paddingLeft }"
-        >
-            <div class="flex items-center ">
-                <component v-if="item.icon" :is="item.icon" class="w-4 h-4 mr-3 text-gray-700" />
-                <span class="text-gray-600">{{ item.label }}</span>
-            </div>
-            <div class="flex items-center mr-2">
-                <ChevronDown v-if="hasSubItems && isOpen" class="w-4 h-4" />
-                <ChevronRight v-else-if="hasSubItems" class="w-4 h-4" />
-            </div>
-        </router-link>
-        <router-link
-            v-else
-            :to="item.route"
-            @click="handleClick(item)"
-            :class="linkClasses"
-            :style="{ paddingLeft }"
-        >
-            <div class="flex items-center" v-if="hasSubItems">
-                <GripVertical class="w-3 h-3 text-orange-400"/><span class=" text-gray-600">{{ item.label }}</span>
-            </div>
-            <div class="flex items-center" v-else>
-                <component v-if="item.icon" :is="item.icon" class="w-4 h-4 mr-2" />
-                <EllipsisVertical class="w-3 h-3 text-orange-400"/><span class=" text-gray-600">{{ item.label }} </span>
-                <!-- <div v-if="item.active">
-                    <div class="menu-arrow ml-2"></div>
-                </div> -->
-            </div>
-            <div class="flex items-center mr-2">
-                <ChevronDown v-if="hasSubItems && isOpen" class="w-4 h-4" />
-                <ChevronRight v-else-if="hasSubItems" class="w-4 h-4" />
-            </div>
-        </router-link>
+  <li>
+    <!-- Item utama -->
+    <router-link
+      :to="item.route || '#'"
+      @click="handleClick(item)"
+      :class="linkClasses"
+      :style="{ paddingLeft }"
+    >
+      <div class="flex items-center w-full justify-between">
+        <!-- Ikon + Label -->
+        <div class="flex items-center">
+          <component
+            v-if="item.icon"
+            :is="item.icon"
+            class="w-4 h-4 text-gray-700"
+            :class="collapsed ? 'mx-auto' : 'mr-3'"
+          />
+          <!-- Label hanya tampil jika tidak collapsed -->
+          <span v-if="!collapsed" class="text-gray-600 truncate">{{ item.label }}</span>
+        </div>
 
-        <ul v-if="hasSubItems && isOpen" class="border-l-2 mr-2 ml-6 text-left border-orange-100">
-            <MenuItem
-                v-for="(subItem, index) in item.sub_items"
-                :key="index"
-                :item="subItem"
-                :level="level + 1"
-                :open="isOpen"
-            />
-        </ul>
-    </li>
+        <!-- Panah submenu -->
+        <div v-if="hasSubItems && !collapsed" class="flex items-center mr-2">
+          <ChevronDown v-if="isOpen" class="w-4 h-4" />
+          <ChevronRight v-else class="w-4 h-4" />
+        </div>
+      </div>
+    </router-link>
+
+    <!-- Submenu -->
+    <transition name="fade">
+      <ul
+        v-if="hasSubItems && isOpen"
+        class="border-l-2 mr-2 ml-6 text-left border-orange-100"
+        v-show="!collapsed"
+      >
+        <MenuItem
+          v-for="(subItem, index) in item.sub_items"
+          :key="index"
+          :item="subItem"
+          :level="level + 1"
+          :open="isOpen"
+          :collapsed="collapsed"
+        />
+      </ul>
+    </transition>
+  </li>
 </template>
 
 <script setup>
-import { ref, computed,watch } from "vue";
-import { useStore } from 'vuex'
-const store = useStore()
+import { ref, computed, watch } from "vue";
+import { useStore } from "vuex";
+import { ChevronDown, ChevronRight } from "lucide-vue-next";
+
+const store = useStore();
+
 const props = defineProps({
-    item: {
-        type: Object,
-        required: true,
-    },
-    level: {
-        type: Number,
-        default: 0,
-    },
-    open: {
-        type: Boolean,
-        default: false,
-    },
-});
-let isOpen = ref(false);
-watch(() => props.item.open, (val) => {
-  isOpen.value = val;
-});
-if (props.item.open) isOpen.value = props.item.open;
-const hasSubItems = computed(() => {
-    return props.item.sub_items && props.item.sub_items.length > 0;
+  item: { type: Object, required: true },
+  level: { type: Number, default: 0 },
+  open: { type: Boolean, default: false },
+  collapsed: { type: Boolean, default: false }, // <--- tambahan penting
 });
 
-const paddingLeft = computed(() => `${0.75}rem`);
+const isOpen = ref(false);
 
-const linkClasses = computed(
-    () =>
-        `flex items-left justify-between mx-2 py-2 text-sm rounded-sm ${
-            props.item.active
-                ? "text-gray-700 border-1 bg-gray-100 border-gray-100 shadow-sm border-gray-300 border-dashed my-2"
-                : "text-gray-700 hover:bg-gray-100 hover:rounded-sm"
-        }`
+watch(
+  () => props.item.open,
+  (val) => {
+    isOpen.value = val;
+  },
+  { immediate: true }
 );
 
+const hasSubItems = computed(
+  () => props.item.sub_items && props.item.sub_items.length > 0
+);
+
+const paddingLeft = computed(() => {
+  // Jika collapsed, padding kecil supaya ikon tetap di tengah
+  return props.collapsed ? "0.5rem" : `${0.75 + props.level * 0.5}rem`;
+});
+
+const linkClasses = computed(() => {
+  return [
+    "flex items-center justify-between mx-2 py-2 text-sm rounded-sm transition-all duration-200",
+    props.item.active
+      ? "text-gray-700 bg-gray-100 border border-gray-200 shadow-sm"
+      : "text-gray-700 hover:bg-gray-100",
+    props.collapsed ? "justify-center" : "justify-between",
+  ].join(" ");
+});
+
 const handleClick = (item) => {
-    if (hasSubItems.value) {
-        isOpen.value = !isOpen.value;
-        store.commit('menu/setToggleMenu', item.id)
-    }
+  if (hasSubItems.value) {
+    isOpen.value = !isOpen.value;
+    store.commit("menu/setToggleMenu", item.id);
+  }
 };
 </script>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

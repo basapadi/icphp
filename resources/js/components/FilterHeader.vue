@@ -2,7 +2,7 @@
   <div class="flex-1 w-full" v-if="properties.advanceFilter">
     <div class="flex flex-col md:flex-row md:items-center gap-2">
       <!-- Select 1: Kolom -->
-      <div class="relative delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103">
+      <div class="relative delay-50 duration-50 ease-in-out hover:-translate-y-0.5 hover:scale-103">
         <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
           <ListFilter class="h-4 w-4 text-gray-400" />
         </div>
@@ -25,7 +25,7 @@
       </div>
 
       <!-- Select 2: Operator -->
-      <div class="relative delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103">
+      <div class="relative delay-50 duration-50 ease-in-out hover:-translate-y-0.5 hover:scale-103">
         <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
           <ListFilter class="h-4 w-4 text-gray-400" />
         </div>
@@ -92,7 +92,7 @@
         <!-- Input: text -->
         <template v-else>
           <div
-            class="relative delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103"
+            class="relative delay-50 duration-50 ease-in-out hover:-translate-y-0.5 hover:scale-103"
           >
             <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
               <LetterText class="h-4 w-4 text-gray-400" />
@@ -109,14 +109,14 @@
 
       <!-- Tombol Aksi -->
       <button
-        class="px-3 py-1.5 bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103"
+        class="px-3 py-1.5 bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 transition-colors delay-50 duration-50 ease-in-out hover:-translate-y-0.5 hover:scale-103"
         @click="load()"
       >
         <Funnel class="h-5 w-5 text-orange-500" />
       </button>
       <button
         @click="reset()"
-        class="px-3 py-1.5 bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 transition-colors delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103"
+        class="px-3 py-1.5 bg-orange-50 border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 transition-colors delay-50 duration-50 ease-in-out hover:-translate-y-0.5 hover:scale-103"
       >
         <FunnelX class="h-5 w-5 text-orange-500" />
       </button>

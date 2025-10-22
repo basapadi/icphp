@@ -47,7 +47,7 @@
     </div>
 
     <!-- Cart and Payment -->
-    <div class="bg-white border border-gray-200 rounded-lg shadow-sm flex flex-col">
+    <div class="bg-white/30 z-1 border border-gray-200 rounded-lg shadow-sm flex flex-col">
       <!-- Cart Header -->
       <div class="border-b rounded-lg p-2">
         <div class="flex justify-between items-center">
