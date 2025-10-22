@@ -7,14 +7,16 @@ class Contact extends BaseModel
 {
     use HasFactory;
     public $timestamps = false;
-
+    protected $appends = [
+        'status_label',
+    ];
     protected $fillable = [
         'type',
         'nama',
         'alamat',
         'telepon',
         'email',
-        'status'
+        'contact_status'
     ];
 
     public function itemReceiveds()
@@ -25,6 +27,13 @@ class Contact extends BaseModel
     public function itemSales()
     {
         return $this->hasMany(ItemSale::class,'contact_id');
+    }
+
+    public function getStatusLabelAttribute()
+    {
+        if(isset($this->contact_status)){
+            return $this->contact_status ? 'Aktif' : 'Tidak Aktif';
+        } else return null;
     }
 
     protected static function booted()

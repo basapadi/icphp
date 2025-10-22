@@ -111,11 +111,11 @@
         "option_filter": false
     },
     {
-        "name": "status",
+        "name": "contact_status",
         "required": true,
         "label": "Status",
         "align": "left",
-        "field": "status",
+        "field": "contact_status",
         "sortable": true,
         "type": "select",
         "options": [

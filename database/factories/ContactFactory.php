@@ -22,7 +22,7 @@ class ContactFactory extends Factory
             'alamat' => fake()->address(),
             'telepon' => fake()->e164PhoneNumber(),
             'email' => fake()->randomElement(['bachtiarpanjaitan0@gmail.com']),
-            'status' => 1
+            'contact_status' => 1
         ];
     }
 }

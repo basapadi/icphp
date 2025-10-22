@@ -18,7 +18,7 @@ class SaleOrderFactory extends Factory
      */
     public function definition(): array
     {
-        $pelangganIds = Contact::select('id')->where('type','pelanggan')->take(10)->where('status',1)->get()->pluck('id');
+        $pelangganIds = Contact::select('id')->where('type','pelanggan')->take(10)->where('contact_status',1)->get()->pluck('id');
         $status = [];
 
         foreach (config('ihandcashier.sale_order_status') as $key => $v) array_push($status, $key);

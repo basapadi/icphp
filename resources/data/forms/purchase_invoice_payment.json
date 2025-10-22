@@ -35,14 +35,6 @@
                 "options": ":metode_bayar"
             },
             {
-                "name": "no_referensi",
-                "type": "text",
-                "label": "Nomor Referensi",
-                "required": false,
-                "readonly": true,
-                "hint": "Nomor referensi seperti kode pembayaran,ref, pada struk pembayaran eksternal"
-            },
-            {
                 "name": "jumlah",
                 "type": "currency",
                 "label": "Jumlah Dibayar",
@@ -57,6 +49,14 @@
                 "required": true,
                 "hint": "Diskon",
                 "readonly": true
+            },
+            {
+                "name": "no_referensi",
+                "type": "text",
+                "label": "Nomor Referensi",
+                "required": false,
+                "readonly": true,
+                "hint": "Nomor referensi seperti kode pembayaran,ref, pada struk pembayaran eksternal"
             },
             {
                 "name": "catatan",

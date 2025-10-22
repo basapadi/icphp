@@ -12,7 +12,7 @@
           @change="onChangeColumn"
           class="pl-8 pr-3 py-1.5 text-sm border-1 text-gray-600 transition-colors rounded-md focus:border-transparent"
         >
-          <option value="" disabled selected>-- Pilih Kolom --</option>
+          <option value="" disabled selected>-- Kolom --</option>
           <option
             v-for="o in filterColumns"
             :value="o.name"
@@ -34,7 +34,7 @@
           v-model="filter.operator"
           class="pl-8 w-40 pr-3 py-1.5 text-sm border-1 text-gray-600 transition-colors rounded-md focus:border-transparent"
         >
-          <option value="" disabled selected>-- Pilih Operator --</option>
+          <option value="" disabled selected>-- Operator --</option>
           <option v-for="o in operators" :value="o.value" :key="o.value">{{ o.label }}</option>
         </select>
       </div>

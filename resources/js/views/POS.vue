@@ -53,6 +53,7 @@ import AdminSidebar from '@/components/AdminSidebar.vue'
 import POSInterface from '@/components/POSInterface.vue'
 import { Maximize, Minimize } from 'lucide-vue-next'
 import PageHeader from '@/components/PageHeader.vue'
+import {drawBackground} from '@/helpers/datautils.js'
 
 const isFullscreen = ref(false)
 const collapsed = localStorage.getItem('sidebarCollapsed')
@@ -67,34 +68,6 @@ const toggleFullscreen = () => {
   }
 }
 onMounted(() => {
-  const overlay = gridOverlay.value
-  const canvas = document.createElement('canvas')
-  const size = 15
-  const ctx = canvas.getContext('2d')
-  const drawGrid = () => {
-    canvas.width = window.innerWidth
-    canvas.height = window.innerHeight
-
-    for (let y = 0; y < canvas.height; y += size) {
-      for (let x = 0; x < canvas.width; x += size) {
-        if (Math.random() > 0.93) {
-          ctx.fillStyle = 'rgba(230,230,230,0.4)'
-          ctx.fillRect(x, y, size, size)
-        }
-      }
-    }
-
-    ctx.filter = 'blur(10px)'
-  }
-
-  drawGrid()
-
-  canvas.classList.add('absolute', 'inset-0', 'pointer-events-none')
-  overlay.appendChild(canvas)
-
-  // saat window di-resize, gambar ulang
-  window.addEventListener('resize', () => {
-    drawGrid()
-  })
+  drawBackground(gridOverlay.value)
 })
 </script>

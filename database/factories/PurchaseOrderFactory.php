@@ -18,7 +18,7 @@ class PurchaseOrderFactory extends Factory
      */
     public function definition(): array
     {
-        $pemasokIds = Contact::select('id')->where('type','pemasok')->take(10)->where('status',1)->get()->pluck('id');
+        $pemasokIds = Contact::select('id')->where('type','pemasok')->take(10)->where('contact_status',1)->get()->pluck('id');
         $status = [];
 
         foreach (config('ihandcashier.purchase_order_status') as $key => $v) array_push($status, $key);

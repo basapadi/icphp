@@ -1,6 +1,6 @@
 <template>
-    <div class="bg-white rounded-xl shadow-sm border-1 border-gray-200">
-        <div class="h-screen">
+    <div class="relative rounded-lg shadow-sm border border-gray-200 z-1">
+        <div class="h-screen relative">
             <!-- Table Header -->
             <div class="px-1 py-1 h-auto border-b border-gray-100">
                 <div class="flex items-center justify-between">
@@ -20,10 +20,10 @@
                     </div>
                 </div>
             </div>
-            <div class="overflow-x-auto z-1 h-15/20">
-                <table class="min-w-full border border-1 border-dashed border-gray-300">
+            <div class="overflow-x-auto h-15/20">
+                <table class="min-w-full relative border border-1 border-dashed border-gray-100">
                     <thead class="bg-orange-50 sticky top-0">
-                    <tr>
+                    <tr >
                         <template v-for="column in columns" :key="column.value">
                             <template v-if="column.name == 'actions'">
                                 <th  class="px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider border border-1 border-dashed border-gray-300" style="width: 50px;" >{{ column.label }}</th>
@@ -38,8 +38,8 @@
                         
                     </tr>
                     </thead>
-                    <tbody class="bg-white">
-                    <tr v-for="(data,i) in filterData" :key="data.id"  class="hover:bg-gray-100 transition-colors odd:bg-gray-100 even:bg-white" >
+                    <tbody class="bg-white/10 divide-y divide-gray-200" >
+                    <tr v-for="(data,i) in filterData" :key="data.id" class="transition-colors duration-50 border border-1 border-dashed text-sm border-gray-300 hover:bg-orange-100 odd:bg-gray-300/20 even:bg-white/30" >
                         <template v-for="column in columns" :key="column.value">
                             <td class="px-4 pt-2 whitespace-nowrap border border-1 border-dashed border-gray-300 text-center" v-if="['view','create','edit','update','delete','download'].includes(column.name)">
                                 <template v-if="data.show[column.name]">
@@ -54,7 +54,7 @@
                 </tbody>
             </table>
             </div>
-            <div class="px-4 py-3 border-t border-gray-200 bg-gray-50">
+            <div class="px-4 py-3 border-t border-gray-200">
                 <div class="flex items-center justify-between">
                     <div class="text-sm text-gray-700">
                     Data <span class="font-medium">{{ (currentPage * itemsPerPage) - (itemsPerPage -1) }}</span> hingga 

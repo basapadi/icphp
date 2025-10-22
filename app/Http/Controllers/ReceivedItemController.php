@@ -24,8 +24,8 @@ class ReceivedItemController extends BaseController
     private $_form = null;
     public function __construct(){
         $this->setModel(ItemReceived::class)
-            ->select('trx_received_items.*')
-            ->with(['details','details.item','details.unit','contact','createdBy','purchase_order'])
+            ->select(['trx_received_items.*'])
+            ->with(['details','contact','details.item','details.unit','createdBy','purchase_order'])
             ->leftJoin('contacts', 'contacts.id', '=', 'trx_received_items.contact_id')
             ->orderBy('created_at','desc');
         $this->setModule('transaction.item.receive');
@@ -48,6 +48,10 @@ class ReceivedItemController extends BaseController
             'units'             => getUnitToSelect(),
             'status_readonly'   => false,
             'contact_readonly'  => false
+        ]);
+
+        $this->setInjectDataColumn([
+            'status' => ihandCashierConfigToSelect('receive_item_status')
         ]);
 
         //set default value

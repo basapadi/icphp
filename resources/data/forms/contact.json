@@ -46,7 +46,7 @@
         "hint": "Alamat"
       },
       {
-        "name": "status",
+        "name": "contact_status",
         "type": "radio",
         "required": true,
         "direction": "row",

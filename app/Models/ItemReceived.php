@@ -16,7 +16,8 @@ class ItemReceived extends BaseModel
         'tanggal_terima_formatted',
         'total_harga_formatted',
         'total_terbilang',
-        'kode_po'
+        'kode_po',
+        'item_received_status'
     ];
     protected $fillable = [
         'kode_transaksi',
@@ -62,6 +63,11 @@ class ItemReceived extends BaseModel
     public function getKodePoAttribute()
     {
         return $this->purchase_order()->first()?->kode;
+    }
+
+    public function getItemReceivedStatusAttribute()
+    {
+        return $this->status;
     }
 
     public function contact(){

@@ -1,5 +1,5 @@
 <template>
-    <div class="z-1" ref="tableContainer">
+    <div class="relative" ref="tableContainer">
         <table class="table-auto border-collapse border border-dashed border-orange-100 z-1">
             <thead class="bg-orange-50 sticky top-0" style="z-index:11">
                 <tr>
@@ -13,7 +13,7 @@
                     </template>
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
+            <tbody class="divide-y divide-gray-200">
                 <tr v-for="(data,index) in rows" :key="data.id" :class="['transition-colors duration-50 border border-1 border-dashed text-sm border-gray-300',selectedIndex.includes(index) ? 'bg-orange-200' : 'hover:bg-orange-100 odd:bg-gray-100 even:bg-white']">
                     <template v-for="column in columns" :key="column.value">
                         <td v-if="column.show" :class="`relative px-4 py-1 whitespace-nowrap border border-1 border-dashed border-gray-300 text-${column.align}`">

@@ -104,7 +104,7 @@ if(!function_exists('generateTransactionCode')){
 
 if(!function_exists('getContactToSelect')){
     function getContactToSelect($type = 'pelanggan'){
-        $data = Contact::where('status', true)->where('type',$type)->get();
+        $data = Contact::where('contact_status', true)->where('type',$type)->get();
         $contacts = [];
 
         foreach ($data as $key => $c) {

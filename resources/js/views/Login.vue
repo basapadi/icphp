@@ -2,7 +2,7 @@
   <div class="relative h-screen flex flex-col justify-center py-2 sm:px-6 lg:px-8 bg-gradient-to-t from-gray-200 to-white">
     <!-- GRID -->
     <div class="absolute inset-0 z-1 bg-[length:15px_15px]
-        [background-image:linear-gradient(to_right,rgba(230,230,230,0.7)_1px,transparent_1px),linear-gradient(to_bottom,rgba(230,230,230,0.7)_1px,transparent_1px)]
+        [background-image:linear-gradient(to_right,rgba(230,230,230,0.4)_1px,transparent_1px),linear-gradient(to_bottom,rgba(230,230,230,0.4)_1px,transparent_1px)]
         pointer-events-none">
     </div>
     <div ref="gridOverlay" class="absolute inset-0 z-0 pointer-events-none"></div>
@@ -251,6 +251,7 @@
 import { mapActions } from 'vuex'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import {Input,Select,Radio} from '@/components/ui/form'
+import {drawBackground} from '@/helpers/datautils.js'
 export default {
   name: 'LoginPage',
   setup(){
@@ -353,35 +354,7 @@ export default {
     })
 
     const overlay = this.$refs.gridOverlay
-    const canvas = document.createElement('canvas')
-    const size = 15
-    const ctx = canvas.getContext('2d')
-
-    const drawGrid = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
-
-      for (let y = 0; y < canvas.height; y += size) {
-        for (let x = 0; x < canvas.width; x += size) {
-          if (Math.random() > 0.93) {
-            ctx.fillStyle = 'rgba(230,230,230,0.7)'
-            ctx.fillRect(x, y, size, size)
-          }
-        }
-      }
-
-      ctx.filter = 'blur(1px)'
-    }
-
-    drawGrid()
-
-    canvas.classList.add('absolute', 'inset-0', 'pointer-events-none')
-    overlay.appendChild(canvas)
-
-    // saat window di-resize, gambar ulang
-    window.addEventListener('resize', () => {
-      drawGrid()
-    })
+    drawBackground(overlay)
   }
 }
 </script>

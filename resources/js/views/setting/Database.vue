@@ -1,9 +1,9 @@
 <template>
   <AdminLayout>
-    <div class="">
+    <div class="relative z-1">
       <PageHeader title="Basis Data" description="Pengaturan Basis Data"/>
       <div class="flex gap-1 p-2">
-        <Card class="h-full flex-1 py-1 pb-4 px-2">
+        <Card class="h-full flex-1 py-1 pb-4 px-2 bg-white/10">
           <div class="mx-4">
             <nav class="flex space-x-2" aria-label="Tabs">
               <button

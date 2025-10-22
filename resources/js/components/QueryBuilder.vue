@@ -1,5 +1,5 @@
 <template>
-	<div class="bg-white rounded-lg shadow-xs border border-gray-200 z-1">
+	<div class="relative rounded-lg shadow-xs border border-gray-200 z-1">
         <div :class="!popup?'h-screen': 'h-110'">
         	<div class="p-2">
         		<div class="px-1">
@@ -8,17 +8,17 @@
 	        				<div class="space-y-4 grid grid-cols-3 gap-2">
 	   							<div class="flex flex-col md:flex-row md:items-center gap-2">
 		   							<Input
-											key="name"
-											label="Nama Laporan"
-											v-model="form.name"
-											name="name"
-											id="name"
-											hint="Masukkan nama laporan"
-											:required="true"
-											@input="sanitizeInput"
-											:readonly="popup"
-											/>
-										</div>
+										key="name"
+										label="Nama Laporan"
+										v-model="form.name"
+										name="name"
+										id="name"
+										hint="Masukkan nama laporan"
+										:required="true"
+										@input="sanitizeInput"
+										:readonly="popup"
+										/>
+								</div>
 	   						</div>
 					    	<div class="space-y-2 grid grid-cols-4 gap-2">
 					    		<div class="pt-2 col-span-3">

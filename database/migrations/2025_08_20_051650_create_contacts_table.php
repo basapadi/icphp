@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('alamat')->nullable();
             $table->string('telepon',17)->nullable();
             $table->string('email',100)->nullable();
-            $table->boolean('status')->default(true);
+            $table->boolean('contact_status')->default(true);
         });
     }
 

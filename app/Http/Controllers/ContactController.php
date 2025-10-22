@@ -25,7 +25,7 @@ class ContactController extends BaseController
             'telepon' => 'required|string',
             'nama' => 'required|string',
             'alamat' => 'required|string',
-            'status' => 'required|numeric|in:0,1',
+            'contact_status' => 'required|numeric|in:0,1',
             'id' => 'nullable|numeric',
         ];
 
@@ -44,7 +44,7 @@ class ContactController extends BaseController
                     'nama' => trim($data['nama']),
                     'type' => trim($data['type']),
                     'alamat' => trim($data['alamat']),
-                    'status' => trim($data['status']),
+                    'status' => trim($data['contact_status']),
                 ];
 
                 Contact::insert($preInsert);
@@ -60,7 +60,7 @@ class ContactController extends BaseController
                 $exist->email   = $data['email'];
                 $exist->telepon = $data['telepon'];
                 $exist->alamat  = $data['alamat'];
-                $exist->status  = $data['status'];
+                $exist->status  = $data['contact_status'];
 
                 $exist->save();
                 return $this->setAlert('info','Berhasil',$exist->nama.' berhasil disimpan');
