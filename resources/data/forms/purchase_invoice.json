@@ -78,7 +78,7 @@
         "description": "Anda dapat menghapus item dibawah ini apabila tidak ingin dimasukkan dalam faktur",
         "column": 7,
         "type": "addtable",
-        "editable": false,
+        "editable": true,
         "forms": [
             {
                 "name": "kode_penerimaan",

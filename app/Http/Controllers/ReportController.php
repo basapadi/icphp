@@ -89,7 +89,12 @@ class ReportController extends BaseController
             'trx_sale_orders',
             'trx_sale_order_details',
             'trx_sale_order_payment_items',
-            'trx_sale_order_shipments'
+            'trx_sale_order_shipments',
+            'contacts',
+            'trx_purchase_invoices',
+            'trx_purchase_invoice_details',
+            'trx_purchase_invoice_item_receiveds',
+            'trx_purchase_payments'
         ];
 
         foreach ($tables as $table) {
