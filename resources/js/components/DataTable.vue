@@ -585,8 +585,17 @@ export default {
                     this.selectedData = [data.id]
                 }
             }
-            this.contextMenuPosition.x = e.clientX
-            this.contextMenuPosition.y = e.clientY
+             // Dapatkan referensi sidebar & toolbar untuk perhitungan real
+            const sidebar = document.querySelector('aside')
+            const toolbar = document.querySelector('.h-10') // sesuai class toolbar kamu
+
+            const sidebarWidth = sidebar ? sidebar.offsetWidth : 0
+            const toolbarHeight = toolbar ? toolbar.offsetHeight : 0
+            console.log(sidebarWidth,toolbarHeight)
+            // Hitung posisi relatif ke area konten
+            this.contextMenuPosition.x = e.clientX - sidebarWidth
+            this.contextMenuPosition.y = e.clientY - toolbarHeight
+
             this.openContextMenu = true
             this.openDropdown = false
         },
