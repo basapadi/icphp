@@ -21,7 +21,7 @@ export function drawBackground(overlay){
         for (let x = 0; x < canvas.width; x += size) {
             if (Math.random() > 0.93) {
             ctx.fillStyle = 'rgba(230,230,230,0.4)'
-            drawRoundedRect(ctx, x, y, size, size,8)
+            drawRoundedRect(ctx, x, y, size, size,0)
             }
         }
         }

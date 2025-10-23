@@ -56,8 +56,7 @@
         <div class="h-screen relative">
           <div
             class="absolute inset-0 z-1 bg-[length:15px_15px]
-            [background-image:linear-gradient(to_right,rgba(107,114,128,0.04)_1px,transparent_1px),
-            linear-gradient(to_bottom,rgba(107,114,128,0.04)_1px,transparent_1px)]
+            [background-image:linear-gradient(to_right,rgba(242,242,242,0.3)_1px,transparent_1px),linear-gradient(to_bottom,rgba(242,242,242,0.3)_1px,transparent_1px)]
             pointer-events-none"
           ></div>
           <div ref="gridOverlay" class="absolute inset-0 z-1 pointer-events-none"></div>
