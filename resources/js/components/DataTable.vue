@@ -72,7 +72,7 @@
                             <template v-for="column in columns" :key="column.value">
                                 <td v-if="column.show" :class="`relative px-4 py-1 whitespace-nowrap border border-1 border-dashed border-gray-300 text-${column.align}`">
                                     <template v-if="column.name == 'actions'">
-                                        <button @click.stop="toggleDropdown(column,data,$event)" class="px-2 py-1 rounded hover:bg-gray-300" style="text-align:center;"><EllipsisVertical class="h-4 w-4"/></button>
+                                        <button @click.stop="toggleDropdown(column,data,$event, index)" class="px-2 py-1 rounded hover:bg-gray-300" style="text-align:center;"><EllipsisVertical class="h-4 w-4"/></button>
                                     </template>
                                     <template v-else-if="column.type === 'badge'">
                                         <div :class="`no-select inline-flex items-center rounded-md bg-${data[`color_${column.name}`]
@@ -558,9 +558,15 @@ export default {
             audioWarning.play()
             alert('hapus data terpilih')
         },
-        toggleDropdown(column,data,e) {
+        toggleDropdown(column,data,e, index) {
             this.columnOptions = column.options
-            this.selected = data
+            if(this.selectAll == false){
+                this.selected = data
+                this.selectedIndex = [index]
+                if(this.properties.multipleSelect){
+                    this.selectedData = [data.id]
+                }
+            }
             const sidebar = document.querySelector('aside')
             const toolbar = document.querySelector('.h-10') // sesuai class toolbar kamu
 
