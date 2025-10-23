@@ -560,11 +560,18 @@ export default {
         },
         toggleDropdown(column,data,e) {
             this.columnOptions = column.options
+            this.selected = data
+            const sidebar = document.querySelector('aside')
+            const toolbar = document.querySelector('.h-10') // sesuai class toolbar kamu
+
+            const sidebarWidth = sidebar ? sidebar.offsetWidth : 0
+            const toolbarHeight = toolbar ? toolbar.offsetHeight : 0
+            // Hitung posisi relatif ke area konten
+            this.dropDownPosition.x = e.clientX - sidebarWidth + 10
+            this.dropDownPosition.y = e.clientY - toolbarHeight
+
             this.openDropdown = true
             this.openContextMenu = false
-            this.selected = data
-            this.dropDownPosition.x = e.clientX
-            this.dropDownPosition.y = e.clientY
         },
         closeContextMenu(){
             this.openContextMenu = false
@@ -591,7 +598,6 @@ export default {
 
             const sidebarWidth = sidebar ? sidebar.offsetWidth : 0
             const toolbarHeight = toolbar ? toolbar.offsetHeight : 0
-            console.log(sidebarWidth,toolbarHeight)
             // Hitung posisi relatif ke area konten
             this.contextMenuPosition.x = e.clientX - sidebarWidth
             this.contextMenuPosition.y = e.clientY - toolbarHeight
