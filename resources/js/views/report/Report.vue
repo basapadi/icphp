@@ -2,7 +2,7 @@
   <AdminLayout>
     <div class="w-full max-h-1">
       <PageHeader title="Laporan" description="Laporan"/>
-      <div class="p-2">
+      <div class="relative p-1 z-1">
         <div class="px-1">
           <div class="flex flex-wrap gap-2 mb-1">
           <template v-for="q in queries" :key="q.label">

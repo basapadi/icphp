@@ -1,5 +1,5 @@
 <template>
-	<div class="relative rounded-lg shadow-xs border border-gray-200 z-1">
+	<div class="relative rounded-lg shadow-sm border border-gray-200 z-1">
         <div :class="!popup?'h-screen': 'h-110'">
         	<div class="p-2">
         		<div class="px-1">

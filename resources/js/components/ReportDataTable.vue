@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white rounded-lg shadow-xs border border-gray-200 z-1">
+    <div class="rounded-lg shadow-xs border border-gray-200 z-1">
         <div class="h-screen">
             <div class="px-1 py-1 h-auto border-b border-gray-300">
                 <div class="flex justify-between">
@@ -50,8 +50,8 @@
                             </template>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        <tr v-for="(data,index) in filterData" :key="data.id" :class="['transition-colors duration-50 border border-1 border-dashed text-sm border-gray-300',selectedIndex.includes(index) ? 'bg-orange-200' : 'hover:bg-orange-100 odd:bg-gray-100 even:bg-white']" @dblclick="viewData(data)" @click="handleClickRow(data,index,$event)" @contextmenu.prevent="handleRightClick(data,index,$event)">
+                    <tbody class="divide-y divide-gray-200">
+                        <tr v-for="(data,index) in filterData" :key="data.id" :class="['transition-colors duration-50 border border-1 border-dashed text-sm border-gray-300',selectedIndex.includes(index) ? 'bg-orange-200' : 'hover:bg-orange-100 odd:bg-gray-300/20 even:bg-white/30']" @dblclick="viewData(data)" @click="handleClickRow(data,index,$event)" @contextmenu.prevent="handleRightClick(data,index,$event)">
                             <template v-if="properties.multipleSelect">
                                 <td class="px-4 whitespace-nowrap border border-dashed border-1 border-gray-300" style="width: 10px">
                                     <input @change.stop="handleCheckboxChange(index, $event)" v-model="selectedData" :value="data.id" type="checkbox"
