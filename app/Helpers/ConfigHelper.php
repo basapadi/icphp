@@ -52,12 +52,13 @@ if (!function_exists('roleConfigToOptions')) {
 }
 
 if (!function_exists('ihandCashierConfigKeyToArray')) {
-    function ihandCashierConfigKeyToArray(string $config) {
+    function ihandCashierConfigKeyToArray(string $config,array $except = []) {
         $result=[];
         $configs = config('ihandcashier.'.$config);
         if(!isset($configs) || empty($configs)) return [];
         
         foreach ($configs as $key => $c) {
+            if(in_array($key, $except)) continue;
             array_push($result,$key);
         }
 

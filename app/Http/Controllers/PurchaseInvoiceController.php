@@ -54,7 +54,17 @@ class PurchaseInvoiceController extends BaseController
         $openPayment->message = 'Apakah anda yakin memposting faktur ini?. <br> <blockquote class="text-red-700 text-sm italic">Aksi ini akan mengubah status faktur menjadi <b>DIPOSTING</b> dan tidak dapat diurungkan.</blockquote>';
         $openPayment->apiUrl = route('api.purchase.invoice.openPayment').'?status=posted';
 
-        $contextMenus = [$createPayment,$openPayment];
+        $voidPayment = new ContextMenu('voidPayment','Pembayaran Void');
+        $voidPayment->conditions = ['status' => ['posted'],'status_pembayaran' => ['partially_paid','paid','overdue']];
+        $voidPayment->type = 'confirm';
+        $voidPayment->icon = 'BanknoteX';
+        $voidPayment->color = '#aa0600ff';
+        $voidPayment->onClick = 'confirmPopup';
+        $voidPayment->title = 'Void Pembayaran Faktur';
+        $voidPayment->message = 'Apakah anda yakin mengatur faktur ini menjadi void?. <br> <blockquote class="text-red-700 text-sm italic">Faktur ini akan tetap disimpan untuk kebutuhan audit.</blockquote>';
+        $voidPayment->apiUrl = route('api.purchase.invoice.voidPayment').'?status=void';
+
+        $contextMenus = [$createPayment,$openPayment, $voidPayment];
         $this->setContextMenu($contextMenus);
     }
 
@@ -234,9 +244,8 @@ class PurchaseInvoiceController extends BaseController
 
         $id = $this->decodeId($request->id);
 
-        $item = PurchaseInvoice::select(['id','kode'])->where('id',$id)->first();
+        $item = PurchaseInvoice::where('id',$id)->first();
         if(empty($item)) return $this->setAlert('error','Galat!','Data tidak ditemukan!.');
-
         $newPayment = new \stdClass;
         $newPayment->kode = generateTransactionCode('PAY');
         $newPayment->tanggal = date('Y-m-d');
@@ -244,6 +253,14 @@ class PurchaseInvoiceController extends BaseController
         $newPayment->diskon = 0;
         $newPayment->purchase_invoice_id = $item->id;
         $newPayment->details = PurchasePayment::where('purchase_invoice_id',$id)->get();
+        $newPayment->invoice_kode = $item->kode;
+        $newPayment->subtotal_formatted = $item->subtotal_formatted;
+        $newPayment->sisa_bayar_formatted = $item->sisa_bayar_formatted;
+        $newPayment->total_pajak_formatted = $item->total_pajak_formatted;
+        $newPayment->total_diskon_formatted = $item->total_diskon_formatted;
+        $newPayment->biaya_pengiriman_formatted = $item->biaya_pengiriman_formatted;
+        $newPayment->grand_total_formatted = $item->grand_total_formatted;
+        $newPayment->nominal_terbayar_formatted = $item->nominal_terbayar_formatted;
 
         $form = $this->getResourceForm('purchase_invoice_payment');
 
@@ -275,6 +292,22 @@ class PurchaseInvoiceController extends BaseController
         }
     }
 
+    public function voidPayment(Request $request){
+        $this->allowAccessModule($this->_module, 'update');
+        try {
+            $id = $this->decodeId($request->id);
+            $pi = PurchaseInvoice::where('id',$id)->first();
+            if(empty($pi)) return $this->setAlert('error','Gagal','Data tidak ditemukan');
+            if(!in_array($pi->status,['posted','partially_paid','paid'])) return $this->setAlert('error','Gagal','Aksi ini hanya bisa dilakukan apabila status faktur adalah '.implode(',',ihandCashierConfigKeyToArray('purchase_invoice_status',['draft'])));
+            
+            $pi->status = trim($request->status);
+            $pi->save();
+            return $this->setAlert('info','Berhasil','Faktur berhasil diubah menjadi VOID.');
+        }catch(Exception $e){
+            return $this->setAlert('error','Gagal',$e->getMessage());
+        }
+    }
+
     public function createPayment(Request $request){
         $this->allowAccessModule('transaction.invoice.purchase.payment', 'create');
 
@@ -284,7 +317,7 @@ class PurchaseInvoiceController extends BaseController
             'metode_bayar'          => 'required|string',
             'catatan'               => 'nullable|string',
             'diskon'                => 'required|numeric',
-            'jumlah'                => 'required|numeric|min:0',
+            'jumlah'                => 'required|numeric|min:1',
             'purchase_invoice_id'   => 'required|numeric'
         ];  
 

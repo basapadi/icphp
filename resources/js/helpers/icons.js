@@ -42,6 +42,7 @@ export {
 	SquareChevronRight,
 	Receipt,
 	BanknoteArrowUp,
-	Banknote
+	Banknote,
+	BanknoteX
 
 } from "lucide-vue-next";

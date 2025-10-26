@@ -2,6 +2,55 @@
     "dialog": {
         "width": 8
     },
+    "info": {
+        "label": "Informasi Faktur",
+        "description": "Berikut informasi faktur saat ini",
+        "type": "info",
+        "column": 3,
+        "forms": [
+            {
+                "name": "invoice_kode",
+                "class": "font-mono",
+                "label": "Kode Faktur"
+            },
+            {
+                "name": "subtotal_formatted",
+                "class": "font-mono",
+                "label": "Nilai faktur"
+            },
+            {
+                "name": "total_diskon_formatted",
+                "class": "font-mono",
+                "label": "Total Diskon"
+            },
+            {
+                "name": "total_pajak_formatted",
+                "class": "font-mono",
+                "label": "Total Pajak"
+            },
+            {
+                "name": "biaya_pengiriman_formatted",
+                "class": "font-mono",
+                "label": "Biaya Pengiriman"
+            },
+            {
+                "name": "grand_total_formatted",
+                "class": "font-mono",
+                "label": "Grand Total"
+            },
+            {
+                "name": "nominal_terbayar_formatted",
+                "class": "font-mono",
+                "label": "Terbayar"
+            },
+            {
+                "name": "sisa_bayar_formatted",
+                "class": "font-mono font-bold",
+                "label": "Sisa Bayar"
+            }
+            
+        ]
+    },
     "details": {
         "label": "Informasi Pembayaran",
         "description": "Daftar pembayaran yang sudah pernah dilakukan pada faktur ini.",
@@ -15,7 +64,15 @@
                 "label": "Kode Pembayaran",
                 "required": false,
                 "readonly": true,
-                "hint": "Kode Pembayaran"
+                "hint": "Kode Pembayaran Internal"
+            },
+            {
+                "name": "no_referensi",
+                "type": "text",
+                "label": "Nomor Referensi",
+                "required": false,
+                "readonly": true,
+                "hint": "Nomor referensi seperti no.faktur pemasok atau  no.invoice pada struk pembayaran eksternal"
             },
             {
                 "name": "tanggal",
@@ -51,14 +108,6 @@
                 "readonly": true
             },
             {
-                "name": "no_referensi",
-                "type": "text",
-                "label": "Nomor Referensi",
-                "required": false,
-                "readonly": true,
-                "hint": "Nomor referensi seperti kode pembayaran,ref, pada struk pembayaran eksternal"
-            },
-            {
                 "name": "catatan",
                 "type": "text",
                 "label": "Catatan",
@@ -90,6 +139,15 @@
                 "hint": "Kode Pembayaran"
             },
             {
+                "name": "no_referensi",
+                "type": "text",
+                "label": "Nomor Referensi",
+                "required": false,
+                "disabled": false,
+                "max": 35,
+                "hint": "Nomor referensi seperti no.faktur pemasok atau no.invoice invoice pada struk pembayaran eksternal"
+            },
+            {
                 "name": "tanggal",
                 "type": "date",
                 "label": "Tanggal Pembayaran",
@@ -104,15 +162,6 @@
                 "disabled": false,
                 "hint": "Metode Pembayaran",
                 "options": ":metode_bayar"
-            },
-            {
-                "name": "no_referensi",
-                "type": "text",
-                "label": "Nomor Referensi",
-                "required": false,
-                "disabled": false,
-                "max": 35,
-                "hint": "Nomor referensi seperti kode pembayaran,ref, pada struk pembayaran eksternal"
             },
             {
                 "name": "jumlah",

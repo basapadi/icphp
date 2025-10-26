@@ -20,7 +20,7 @@
                     <div class="h-150 overflow-y-auto" v-if="sections && Object.keys(sections).length">
                         <template v-for="(section, sectionKey) in sections" :key="sectionKey">
                             <span class="text-gray-600 font-bold"><SquareChevronRight class="h-5 w-5 mr-2 mb-1 text-orange-300 inline-block align-middle" />{{section?.label}}</span>
-                            <span class="text-xs px-4 italic text-orange-500">{{section?.description}}</span>
+                            <span class="text-xs px-2 italic text-orange-500">{{section?.description}}</span>
                             <div class="space-y-2 gap-2 border-1 border-dashed rounded-sm mb-4">
                                 <div class="space-y-2 p-4" v-if="section['type'] == 'addtable'">
                                     <div v-for="(row, rowIndex) in form.addtable[sectionKey]" :key="rowIndex" class="flex border-1 shadow-sm rounded-sm border-gray-300 border-dashed py-4 px-2 gap-1 odd:bg-gray-50 even:bg-white">
@@ -177,6 +177,20 @@
                                         </div>
                                     </div>
                                 </div>
+                                <template v-else-if="section['type'] == 'info'">
+                                    <div class="bg-white rounded-md py-2 px-2">
+                                        <div class="overflow-x-auto">
+                                            <table class="w-full border border-gray-200 rounded-lg overflow-hidden">
+                                                <tbody>
+                                                    <tr class="border-b" v-for="(f,k) in section['forms']" :key="k">
+                                                        <td class="px-4 py-1 border-r text-gray-500 font-sans text-sm" style="width:250px;">{{ f?.label }}</td>
+                                                        <td :class="`px-4 py-1 text-gray-500 text-sm ${f?.class}`">{{ form[f?.name] }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </template>
                                 <div v-else :class="`gap-2 p-4 grid grid-cols-1 md:grid-cols-${section.column}`">
                                     <template  v-for="(field,x) in section['forms']" :key="x">
                                         <Input v-if="['text', 'email','hidden'].includes(field.type)"

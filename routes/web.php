@@ -174,6 +174,7 @@ Route::prefix('api')->group(function () {
             Route::post('/create-payment', 'createPayment')->name('api.purchase.invoice.createPayment');
             Route::get('/invoice/payment-form', 'paymentForm')->name('api.purchase.invoice.paymentForm');
             Route::post('/open-payment', 'openPayment')->name('api.purchase.invoice.openPayment');
+            Route::post('/void-payment', 'voidPayment')->name('api.purchase.invoice.voidPayment');
         });
 
 
