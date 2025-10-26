@@ -556,6 +556,7 @@ export default {
         },
         hapusDataMultiple(){
             audioWarning.play()
+            console.log(this.selectedData)
             alert('hapus data terpilih')
         },
         toggleDropdown(column,data,e, index) {
@@ -591,7 +592,7 @@ export default {
             this.scrollPosition = position
         },
         handleRightClick(data,index, e) {
-            if(this.selectAll == false){
+            if(this.selectAll == false && this.selectedIndex.length <= 1){
                 this.selected = data
                 this.selectedIndex = [index]
                 if(this.properties.multipleSelect){
