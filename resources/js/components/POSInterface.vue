@@ -1,14 +1,14 @@
 <template>
   <div class="grid grid-cols-3 gap-2 h-[calc(100vh-180px)]">
     <!-- Product Selection -->
-    <div class="col-span-2 border border-gray-200 rounded-lg shadow-sm">
+    <div class="col-span-2 border border-gray-200 rounded-lg shadow-sm z-2">
       <div class="border-b border-gray-200 rounded-lg p-2">
         <div class="flex gap-2 mb-2">
           <div class="relative flex-1">
             <Search class="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 h-3 w-3" />
             <input
               v-model="searchTerm"
-              placeholder="Search products..."
+              placeholder="Cari Item/Barang..."
               class="pl-7 h-7 text-xs border border-gray-300 rounded w-full px-2"
             />
           </div>
@@ -37,9 +37,9 @@
             @click="addToCart(product)"
             class="p-2 border border-gray-300 rounded-lg shadow-sm bg-white hover:bg-gray-50 text-left transition-colors"
           >
-            <div class="text-xs font-medium text-gray-900 mb-1">{{ product.name }}</div>
+            <div class="text-xl text-gray-900 mb-1">{{ product.name }}</div>
             <div class="text-xs text-gray-600 mb-1">{{ product.category }}</div>
-            <div class="text-sm font-bold text-green-600">${{ product.price.toFixed(2) }}</div>
+            <div class="text-sm font-bold text-green-600">IDR {{ product.price.toFixed(2) }}</div>
             <div class="text-xs text-gray-500">Stock: {{ product.stock }}</div>
           </button>
         </div>
@@ -51,7 +51,7 @@
       <!-- Cart Header -->
       <div class="border-b rounded-lg p-2">
         <div class="flex justify-between items-center">
-          <h3 class="text-sm font-bold text-gray-900">Current Order</h3>
+          <h3 class="text-sm font-bold text-gray-900">Pesanan saat ini</h3>
           <button
             @click="clearCart"
             class="h-6 px-2 text-xs bg-transparent border border-gray-300 hover:bg-gray-50 rounded flex items-center"
@@ -99,7 +99,7 @@
                 </button>
               </div>
               <div class="text-xs font-bold text-green-600">
-                ${{ (item.price * item.quantity).toFixed(2) }}
+                IDR {{ (item.price * item.quantity).toFixed(2) }}
               </div>
             </div>
           </div>
@@ -111,15 +111,15 @@
         <div class="space-y-1 text-xs">
           <div class="flex justify-between">
             <span>Subtotal:</span>
-            <span>${{ subtotal.toFixed(2) }}</span>
+            <span>IDR {{ subtotal.toFixed(2) }}</span>
           </div>
           <div class="flex justify-between">
             <span>Tax (8%):</span>
-            <span>${{ tax.toFixed(2) }}</span>
+            <span>IDR {{ tax.toFixed(2) }}</span>
           </div>
           <div class="flex justify-between font-bold text-sm border-t border-gray-300 pt-1">
             <span>Total:</span>
-            <span>${{ total.toFixed(2) }}</span>
+            <span>IDR {{ total.toFixed(2) }}</span>
           </div>
         </div>
 
@@ -161,7 +161,7 @@
             <div v-if="cashReceived" class="text-xs">
               <span class="font-medium">Change: </span>
               <span :class="change >= 0 ? 'text-green-600' : 'text-red-600'">
-                ${{ change.toFixed(2) }}
+                IDR {{ change.toFixed(2) }}
               </span>
             </div>
           </div>
@@ -172,7 +172,7 @@
             class="w-full h-8 text-xs bg-orange-600 text-white rounded hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
           >
             <Receipt class="h-3 w-3 mr-1" />
-            Complete Sale
+            Selesaikan Penjualan
           </button>
         </div>
       </div>
@@ -185,7 +185,7 @@ import { ref, computed } from 'vue'
 import { Search, Plus, Minus, Trash2, CreditCard, DollarSign, Receipt } from 'lucide-vue-next'
 
 const cart = ref([])
-const selectedCategory = ref('All')
+const selectedCategory = ref('Semua')
 const searchTerm = ref('')
 const paymentMethod = ref('cash')
 const cashReceived = ref('')
@@ -201,11 +201,11 @@ const products = ref([
   { id: "8", name: "Smoothie", price: 6.25, category: "Beverages", stock: 18 },
 ])
 
-const categories = ref(['All', 'Food', 'Beverages'])
+const categories = ref(['Semua', 'Food', 'Beverages'])
 
 const filteredProducts = computed(() => {
   return products.value.filter((product) => {
-    const matchesCategory = selectedCategory.value === 'All' || product.category === selectedCategory.value
+    const matchesCategory = selectedCategory.value === 'Semua' || product.category === selectedCategory.value
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.value.toLowerCase())
     return matchesCategory && matchesSearch
   })
