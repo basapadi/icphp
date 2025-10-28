@@ -538,13 +538,17 @@ return [
         ],
         [
             'id'    => 42,
-            'side_menu' => false, //apabila menu tidak akan dimunculkan di side menu
+            'side_menu' => true, //apabila menu tidak akan dimunculkan di side menu
             'icon'  => '',
-            'label' => 'Pembayaran Pembelian',
-            'route' => '',
+            'label' => 'Pembayaran',
+            'route' => '/transaction/payment/purchase',
             'order' => 3,
             'parent'=> 32,
-            'module'=>'transaction.invoice.purchase.payment'
+            'module'=>'transaction.payment.purchase',
+            'hide'  => [
+                'create',
+                'edit'
+            ]
         ],
         //last_id:42
     ],

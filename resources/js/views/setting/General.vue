@@ -1,9 +1,9 @@
 <template>
   <AdminLayout>
-    <div class="h-screen">
+    <div class="relative z-2 h-screen">
       <PageHeader title="Pengaturan Umum" description="Pengaturan Umum Aplikasi"/>
       <div class="flex gap-1 p-2">
-        <Card class="flex-1 pt-1">
+        <Card class="flex-1 pt-1 bg-white/10">
           <!-- Tabs -->
           <div class="mx-4">
             <nav class=" flex space-x-2" aria-label="Tabs">

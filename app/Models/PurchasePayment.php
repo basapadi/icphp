@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Btx\Common\SpellNumber;
 use Exception;
 class PurchasePayment extends BaseModel
 {
     public $table = 'trx_purchase_payments';
     protected $appends = [
-
+        'tanggal_formatted',
+        'metode_bayar_label',
+        'color_metode_bayar_label',
+        'jumlah_formatted',
+        'diskon_formatted'
     ];
     protected $fillable = [
         'purchase_invoice_id',
@@ -24,14 +27,57 @@ class PurchasePayment extends BaseModel
         'updated_by'
     ];
 
-    /* ========================
-     * 🔗 RELASI
-     * ======================== */
-
     // Faktur yang dibayar
     public function invoice()
     {
         return $this->belongsTo(PurchaseInvoice::class, 'purchase_invoice_id');
+    }
+
+    public function creator(){
+       return $this->belongsTo(User::class, 'created_by', 'id');
+    }
+
+    public function updater(){
+       return $this->belongsTo(User::class, 'updated_by', 'id');
+    }
+
+    //attributes
+    public function getTanggalFormattedAttribute()
+    {
+        return formattedDate($this->tanggal,'l, d M Y');
+    }
+
+    public function getMetodeBayarLabelAttribute(){
+        return isset($this->metode_bayar) ? config('ihandcashier.payment_methods.receive')[$this->metode_bayar]['label'] : null;
+    }
+
+    public function getColorMetodeBayarLabelAttribute()
+    {
+        $statuses = config('ihandcashier.payment_methods.receive');
+        return isset($this->metode_bayar) ? $statuses[$this->metode_bayar]['class']: null;
+    }
+
+    public function getJumlahFormattedAttribute()
+    {
+        return currency($this->jumlah);
+    }
+
+    public function getDiskonFormattedAttribute()
+    {
+        return currency($this->diskon);
+    }
+
+    protected static function booted()
+    {
+        static::deleting(function ($data) {
+            $invoice = PurchaseInvoice::where('id',$data->purchase_invoice_id)->first();
+            if($invoice){
+                $invoice->total_diskon -= (double) $data->diskon;
+                $invoice->nominal_terbayar -= (double) $data->jumlah;
+                if($invoice->nominal_terbayar <= 0) $invoice->status_pembayaran = 'unpaid';
+                $invoice->save();
+            }
+        });
     }
 
 }

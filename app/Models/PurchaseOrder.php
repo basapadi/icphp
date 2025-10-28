@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Carbon\Carbon;
 use Btx\Common\SpellNumber;
 use Exception;
 class PurchaseOrder extends BaseModel
@@ -67,17 +66,17 @@ class PurchaseOrder extends BaseModel
 
     public function getTanggalPerkiraanFormattedAttribute()
     {
-        return $this->tanggal_perkiraan_datang ? Carbon::parse($this->tanggal_perkiraan_datang)->locale('id')->translatedFormat('l, d M Y H:i') : null;
+        return formattedDate($this->tanggal_perkiraan_datang, 'l, d M Y');
     }
 
     public function getApprovedAtFormattedAttribute()
     {
-        return $this->approved_at ? Carbon::parse($this->approved_at)->locale('id')->translatedFormat('l, d M Y H:i') : null;
+        return formattedDate($this->approved_at);
     }
 
     public function getTanggalFormattedAttribute()
     {
-        return $this->tanggal ? Carbon::parse($this->tanggal)->locale('id')->translatedFormat('l, d M Y H:i') : null;
+        return formattedDate($this->tanggal,'l, d M Y');
     }
 
     public function contact(){

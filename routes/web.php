@@ -25,7 +25,8 @@ use App\Http\Controllers\{
     SettingController,
     DatabaseController,
     ReportController,
-    PurchaseInvoiceController
+    PurchaseInvoiceController,
+    PurchasePaymentController
 };
 use App\Http\Controllers\Tasks\ApprovalPurchaseOrderController;
 
@@ -177,6 +178,13 @@ Route::prefix('api')->group(function () {
             Route::post('/void-payment', 'voidPayment')->name('api.purchase.invoice.voidPayment');
         });
 
+         Route::controller(PurchasePaymentController::class)->prefix('purchase/payment')->group(function () {
+            Route::get('grid', 'grid');
+            Route::get('form', 'form');
+            Route::get('/edit/{id}', 'edit');
+            Route::post('/', 'store');
+            Route::delete('/{id}', 'delete');
+         });
 
         /*
         |----------------------------------------------------------

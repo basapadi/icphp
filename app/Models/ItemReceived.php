@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Carbon\Carbon;
 use Btx\Common\SpellNumber;
 use Exception;
 class ItemReceived extends BaseModel
@@ -40,7 +39,7 @@ class ItemReceived extends BaseModel
 
     public function getTanggalTerimaFormattedAttribute()
     {
-        return $this->tanggal_terima ? Carbon::parse($this->tanggal_terima)->locale('id')->translatedFormat('l, d M Y H:i') : null;
+        return formattedDate($this->tanggal_terima,'l, d M Y');
     }
 
     public function getTotalHargaFormattedAttribute()

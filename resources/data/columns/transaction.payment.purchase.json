@@ -1,0 +1,123 @@
+[
+    {
+        "name": "actions",
+        "label": "Aksi",
+        "align": "left",
+        "field": "actions",
+        "sortable": true,
+        "type": "text",
+        "options": [
+            "detail",
+            "create",
+            "edit",
+            "delete"
+        ],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    },
+    {
+        "name": "kode",
+        "label": "Kode",
+        "align": "left",
+        "field": "kode",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,   
+        "class": "font-mono",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "invoice__kode",
+        "label": "Kode Faktur",
+        "align": "left",
+        "field": "invoice__kode",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,   
+        "class": "font-mono",
+        "styles": "",
+        "option_filter": true
+    },
+    {
+        "name": "tanggal_formatted",
+        "label": "Tanggal",
+        "align": "left",
+        "field": "tanggal_formatted",
+        "sortable": true,
+        "type": "date_range",
+        "options": [],
+        "show": true,
+        "class": "no-select",
+        "styles": null,
+        "option_filter": true
+    },
+    {
+        "name": "metode_bayar_label",
+        "label": "Metode Bayar",
+        "align": "left",
+        "field": "metode_bayar_label",
+        "sortable": true,
+        "type": "badge",
+        "options": [],
+        "show": true,
+        "class": "no-select",
+        "styles": null,
+        "option_filter": false
+    },
+    {
+        "name": "metode_bayar",
+        "label": "Metode Bayar",
+        "align": "left",
+        "field": "metode_bayar",
+        "sortable": true,
+        "type": "select",
+        "options": ":payment_methods",
+        "show": false,
+        "class": "no-select",
+        "styles": null,
+        "option_filter": true
+    },
+    {
+        "name": "jumlah_formatted",
+        "required": true,
+        "label": "Nominal Pembayaran",
+        "align": "right",
+        "field": "jumlah_formatted",
+        "sortable": true,
+        "type": "currency",
+        "show": true,
+        "class": "font-mono",
+        "styles": ""
+    },
+    {
+        "name": "diskon_formatted",
+        "required": true,
+        "label": "Diskon",
+        "align": "right",
+        "field": "diskon_formatted",
+        "sortable": true,
+        "type": "currency",
+        "show": true,
+        "class": "font-mono",
+        "styles": ""
+    },
+    {
+        "name": "catatan",
+        "required": true,
+        "label": "Catatan",
+        "align": "left",
+        "field": "catatan",
+        "sortable": true,
+        "type": "text",
+        "options": [],
+        "show": true,
+        "class": "",
+        "styles": "",
+        "option_filter": false
+    }
+]

@@ -69,7 +69,7 @@
               type="text"
               name="from_date"
               placeholder="Dari Tanggal"
-              class="pl-8 pr-3 py-1.5 text-sm border rounded-sm focus:border-transparent w-40"
+              class="pl-8 pr-3 py-1.5 italic text-gray-400 text-sm border rounded-sm focus:border-transparent w-40"
               readonly
             />
           </div>
@@ -83,7 +83,7 @@
               type="text"
               name="to_date"
               placeholder="Hingga Tanggal"
-              class="pl-8 pr-3 py-1.5 text-sm border rounded-sm focus:border-transparent w-40"
+              class="pl-8 pr-3 py-1.5 italic text-gray-400 text-sm border rounded-sm focus:border-transparent w-40"
               readonly
             />
           </div>
@@ -100,8 +100,8 @@
             <input
               v-model="filter.value"
               type="text"
-              placeholder="Nilai pencarian lanjutan"
-              class="pl-8 pr-3 py-1.5 text-sm border rounded-sm focus:border-transparent"
+              placeholder="Nilai pencarian lanjutan.."
+              class="pl-8 pr-3 py-1.5 text-sm border italic text-gray-400 rounded-sm focus:border-transparent"
             />
           </div>
         </template>

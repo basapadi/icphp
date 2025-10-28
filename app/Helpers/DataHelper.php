@@ -11,6 +11,7 @@ use App\Models\{
 use App\Transformers\FormTransformer;
 use Spatie\Fractalistic\ArraySerializer;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Carbon\Carbon;
 
 if(!function_exists('injectData')){
     function injectData(&$data, array $replacements)
@@ -215,5 +216,10 @@ if (! function_exists('smart_dispatch')) {
 if (! function_exists('currency')) {
     function currency($value = 0){
         return 'IDR '.number_format($value, 0, ',', '.');
+    }
+}
+if( !function_exists('formattedDate')){
+    function formattedDate($date, $format = 'l, d M Y H:i'){
+        return $date ? Carbon::parse($date)->locale('id')->translatedFormat($format) : null;
     }
 }

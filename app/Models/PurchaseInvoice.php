@@ -108,7 +108,7 @@ class PurchaseInvoice extends BaseModel
     }
 
     public function getJatuhTempoFormattedAttribute(){
-        return $this->jatuh_tempo ? Carbon::parse($this->jatuh_tempo)->locale('id')->translatedFormat('l, d M Y H:i') : null;
+        return formattedDate($this->jatuh_tempo,'l, d M Y');
     }
 
     public function getSubtotalFormattedAttribute()
@@ -176,7 +176,7 @@ class PurchaseInvoice extends BaseModel
 
     public function getTanggalFormattedAttribute()
     {
-        return $this->tanggal ? Carbon::parse($this->tanggal)->locale('id')->translatedFormat('l, d M Y H:i') : null;
+        return formattedDate($this->tanggal,'l, d M Y');
     }
 
     protected static function booted()

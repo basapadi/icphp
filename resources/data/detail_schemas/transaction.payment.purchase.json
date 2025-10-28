@@ -1,0 +1,40 @@
+{
+  "main": {
+    "type": "object",
+    "title": "Detail Pembayaran",
+    "column": 2,
+    "fields": {
+        "kode": {
+            "label": "Kode Pembayaran"
+        },
+        "invoice__kode": {
+            "label": "Kode Faktur"
+        },
+        "tanggal_formatted": {
+            "label": "Tanggal"
+        },
+        "metode_bayar_label": {
+            "label": "Metode Bayar"
+        },
+        "diskon_formatted": {
+            "label": "Diskon",
+            "class": "font-mono"
+        },
+        "jumlah_formatted": {
+            "label": "Nominal Pembayaran",
+            "class": "font-mono font-bold"
+        },
+        "catatan": {
+            "label": "Catatan"
+        },
+        "creator__name": {
+            "label": "Dibuat Oleh"
+        },
+        "updater__name": {
+            "label": "Diubah Oleh"
+        }
+
+    }
+    
+  }
+}

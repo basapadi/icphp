@@ -18,6 +18,7 @@ import expense from './modules/expense'
 import trash from './modules/trash'
 import database from './modules/database'
 import purchaseOrder from './modules/purchaseOrder'
+import purchasePayment from './modules/purchasePayment'
 import saleOrder from './modules/saleOrder'
 import shipment from './modules/shipment'
 import invoicePurchase from './modules/invoicePurchase'
@@ -55,6 +56,7 @@ export default createStore({
     approvalPurchaseOrder,
     setting,
     report,
-    common
+    common,
+    purchasePayment
   }
 })

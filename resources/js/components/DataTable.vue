@@ -12,7 +12,7 @@
                         <div class="flex flex-col md:flex-row md:items-center gap-2">
                             <div class="relative delay-50 duration-100 ease-in-out hover:-translate-y-0.5 hover:scale-103" v-if="properties.simpleFilter">
                                 <input v-model="searchQuery" type="text" :placeholder="`Cari ${title}`"
-                                    class="pl-8 pr-3 py-1.5 text-sm border-1 border-gray-300 rounded-md focus:border-transparent" />
+                                    class="pl-8 pr-3 py-1.5 italic text-gray-400 text-sm border-1 border-gray-300 rounded-md focus:border-transparent" />
                                 <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
                                     <Search class="h-4 w-4 text-gray-400" />
                                 </div>

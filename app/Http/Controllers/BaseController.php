@@ -446,7 +446,7 @@ class BaseController extends Controller
             $data->__user = auth()->user()->id;
             $data->__can_rollback = true;
 
-            $relations = ['details','details.unit','details.item','payments','unit','item','contact'];
+            $relations = ['details','details.unit','details.item','payments','unit','item','contact','invoice'];
             $data->loadRelationsWithNested($relations);
             $data->delete();
             $this->saveTrash($data);
