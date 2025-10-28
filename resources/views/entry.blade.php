@@ -19,7 +19,7 @@
         <meta property="og:type" content="website"> <!-- article jika konten artikel -->
         <meta property="og:url" content="https://ihandcashier.basapadi.com">
         <meta property="og:site_name" content="Ihand Cashier">
-        <meta property="og:image" content="/splash.png">
+        <meta property="og:image" content="https://ihandcashier.basapadi.com/ogimage.png">
         <meta property="og:image:alt" content="Logo Ihand Cashier">
         <meta property="og:image:type" content="image/png">
         <meta property="og:locale" content="id_ID">
