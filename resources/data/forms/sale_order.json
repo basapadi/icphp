@@ -66,6 +66,7 @@
         "label": "Detail Pesanan Pembelian",
         "column": 5,
         "type": "addtable",
+        "editable": true,
         "forms": [
             {
                 "name": "item_id",

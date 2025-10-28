@@ -27,7 +27,8 @@ class FormTransformer extends TransformerAbstract {
             'direction' => @$resp['direction']??'',
             'disabled' => @$resp['disabled']??false,
             'readonly' => @$resp['readonly']??false,
-            'class'    => @$resp['class']??''
+            'class'    => @$resp['class']??'',
+            'editable' => @$resp['editable']??true
         ];
     }
 }

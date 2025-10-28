@@ -23,159 +23,164 @@
                             <span class="text-xs px-2 italic text-orange-500">{{section?.description}}</span>
                             <div class="space-y-2 gap-2 border-1 border-dashed rounded-sm mb-4">
                                 <div class="space-y-2 p-4" v-if="section['type'] == 'addtable'">
-                                    <div v-for="(row, rowIndex) in form.addtable[sectionKey]" :key="rowIndex" class="flex border-1 shadow-sm rounded-sm border-gray-300 border-dashed py-4 px-2 gap-1 odd:bg-gray-50 even:bg-white">
-                                        <span class="pl-2 pr-4 font-bold text-orange-400">{{rowIndex+1}}</span>
-                                        <div class="flex flex-1 w-full" v-for="(field,x) in section['forms']" :key="x">
-                                            <Input v-if="['text', 'email'].includes(field.type)"
-                                                :key="field.name"
-                                                :label="field.label"
-                                                :type="field.type"
-                                                v-model="row[field.name]"
-                                                :name="`${field.name}[${rowIndex}]`"
-                                                :id="`${field.name}_${rowIndex}`"
-                                                :hint="field.hint"
-                                                :required="field.required"
-                                                :format="field?.format"
-                                                :disabled="field.disabled"
-                                                :readonly="field.readonly"
-                                                :modelValue="field.value"
-                                            />
-                                            <Password v-if="field.type == 'password'"
-                                                :key="field.name"
-                                                :label="field.label"
-                                                :type="field.type"
-                                                v-model="row[field.name]"
-                                                :name="`${field.name}[${rowIndex}]`"
-                                                :id="`${field.name}_${rowIndex}`"
-                                                :hint="field.hint"
-                                                :required="field.required"
-                                                :format="field?.format"
-                                                :disabled="field.disabled"
-                                                :readonly="field.readonly"
-                                            />
-                                            <Number v-if="field.type == 'number'"
-                                                :key="field.name"
-                                                :label="field.label"
-                                                :type="field.type"
-                                                v-model="row[field.name]"
-                                                :name="`${field.name}[${rowIndex}]`"
-                                                :id="`${field.name}_${rowIndex}`"
-                                                :hint="field.hint"
-                                                :required="field.required"
-                                                :min="field?.min"
-                                                :max="field?.max"
-                                                :step="field?.step"
-                                                :format="field?.format"
-                                                :disabled="field.disabled"
-                                                :readonly="field.readonly"
-                                            />
-                                            <Phone v-if="field.type == 'phone'"
-                                                :key="field.name"
-                                                :label="field.label"
-                                                :type="field.type"
-                                                v-model="row[field.name]"
-                                                :name="`${field.name}[${rowIndex}]`"
-                                                :id="`${field.name}_${rowIndex}`"
-                                                :hint="field.hint"
-                                                :required="field.required"
-                                                :min="field?.min"
-                                                :max="field?.max"
-                                                :step="field?.step"
-                                                :format="field?.format"
-                                                :disabled="field.disabled"
-                                                :readonly="field.readonly"
-                                            />
-                                            <Select v-if="field.type == 'select'"
-                                                :key="field.name"
-                                                :label="field.label"
-                                                :type="field.type"
-                                                v-model="row[field.name]"
-                                                :name="`${field.name}[${rowIndex}]`"
-                                                :id="`${field.name}_${rowIndex}`"
-                                                :hint="field.hint"
-                                                :required="field.required"
-                                                :options="field.options"
-                                                :disabled="field.disabled"
-                                                :readonly="field.readonly"
-                                                :multiple="field.multiple"
-                                            />
-                                            <Radio v-if="field.type == 'radio'"
-                                                :key="field.name"
-                                                :label="field.label"
-                                                :type="field.type"
-                                                v-model="row[field.name]"
-                                                :name="`${field.name}[${rowIndex}]`"
-                                                :id="`${field.name}_${rowIndex}`"
-                                                :hint="field.hint"
-                                                :required="field.required"
-                                                :options="field.options"
-                                                :direction="field?.direction"
-                                                :disabled="field.disabled"
-                                                :readonly="field.readonly"
-                                            />  
-                                            <FileUpload v-if="field.type == 'file'"
-                                                :key="field.name"
-                                                :label="field.label"
-                                                :type="field.type"
-                                                v-model="row[field.name]"
-                                                :name="`${field.name}[${rowIndex}]`"
-                                                :id="`${field.name}_${rowIndex}`"
-                                                :hint="field.hint"
-                                                :required="field.required"
-                                                :multiple="field.multiple"
-                                                :extension="field.extension"
-                                                :maxsize="field.maxsize"
-                                                :maxfile="field.maxfile"
-                                                :disabled="field.disabled"
-                                                :readonly="field.readonly"
-                                            />
-                                            <Textarea v-if="field.type == 'textarea'"
-                                                :key="field.name"
-                                                :label="field.label"
-                                                :type="field.type"
-                                                v-model="row[field.name]"
-                                                :name="`${field.name}[${rowIndex}]`"
-                                                :id="`${field.name}_${rowIndex}`"
-                                                :hint="field.hint"
-                                                :required="field.required"
-                                                :disabled="field.disabled"
-                                                :readonly="field.readonly"
-                                            />
-                                            <Date v-if="field.type == 'date'"
-                                                :key="field.name"
-                                                :label="field.label"
-                                                :type="field.type"
-                                                v-model="row[field.name]"
-                                                :name="`${field.name}[${rowIndex}]`"
-                                                :id="`${field.name}_${rowIndex}`"
-                                                :hint="field.hint"
-                                                :required="field.required"
-                                                :disabled="field.disabled"
-                                                :readonly="field.readonly"
-                                                :min="field?.min"
-                                                :max="field?.max"
-                                            />
-                                            <Currency v-if="field.type == 'currency'"
-                                                :key="field.name"
-                                                :label="field.label"
-                                                v-model="row[field.name]"
-                                                :name="`${field.name}[${rowIndex}]`"
-                                                :id="`${field.name}_${rowIndex}`"
-                                                :hint="field.hint"
-                                                :required="field.required"
-                                                :disabled="field.disabled"
-                                                :readonly="field.readonly"
-                                                :min="field?.min"
-                                                :max="field?.max"
-                                                type="text"
-                                            />
+                                    <template v-if="form.addtable[sectionKey] != undefined && form.addtable[sectionKey].length > 0">
+                                        <div v-for="(row, rowIndex) in form.addtable[sectionKey]" :key="rowIndex" class="flex border-1 shadow-sm rounded-sm border-gray-300 border-dashed py-4 px-2 gap-1 odd:bg-gray-50 even:bg-white">
+                                            <span class="pl-2 pr-4 font-bold text-orange-400">{{rowIndex+1}}</span>
+                                            <div class="flex flex-1 w-full" v-for="(field,x) in section['forms']" :key="x">
+                                                <Input v-if="['text', 'email'].includes(field.type)"
+                                                    :key="field.name"
+                                                    :label="field.label"
+                                                    :type="field.type"
+                                                    v-model="row[field.name]"
+                                                    :name="`${field.name}[${rowIndex}]`"
+                                                    :id="`${field.name}_${rowIndex}`"
+                                                    :hint="field.hint"
+                                                    :required="field.required"
+                                                    :format="field?.format"
+                                                    :disabled="field.disabled"
+                                                    :readonly="field.readonly"
+                                                    :modelValue="field.value"
+                                                />
+                                                <Password v-if="field.type == 'password'"
+                                                    :key="field.name"
+                                                    :label="field.label"
+                                                    :type="field.type"
+                                                    v-model="row[field.name]"
+                                                    :name="`${field.name}[${rowIndex}]`"
+                                                    :id="`${field.name}_${rowIndex}`"
+                                                    :hint="field.hint"
+                                                    :required="field.required"
+                                                    :format="field?.format"
+                                                    :disabled="field.disabled"
+                                                    :readonly="field.readonly"
+                                                />
+                                                <Number v-if="field.type == 'number'"
+                                                    :key="field.name"
+                                                    :label="field.label"
+                                                    :type="field.type"
+                                                    v-model="row[field.name]"
+                                                    :name="`${field.name}[${rowIndex}]`"
+                                                    :id="`${field.name}_${rowIndex}`"
+                                                    :hint="field.hint"
+                                                    :required="field.required"
+                                                    :min="field?.min"
+                                                    :max="field?.max"
+                                                    :step="field?.step"
+                                                    :format="field?.format"
+                                                    :disabled="field.disabled"
+                                                    :readonly="field.readonly"
+                                                />
+                                                <Phone v-if="field.type == 'phone'"
+                                                    :key="field.name"
+                                                    :label="field.label"
+                                                    :type="field.type"
+                                                    v-model="row[field.name]"
+                                                    :name="`${field.name}[${rowIndex}]`"
+                                                    :id="`${field.name}_${rowIndex}`"
+                                                    :hint="field.hint"
+                                                    :required="field.required"
+                                                    :min="field?.min"
+                                                    :max="field?.max"
+                                                    :step="field?.step"
+                                                    :format="field?.format"
+                                                    :disabled="field.disabled"
+                                                    :readonly="field.readonly"
+                                                />
+                                                <Select v-if="field.type == 'select'"
+                                                    :key="field.name"
+                                                    :label="field.label"
+                                                    :type="field.type"
+                                                    v-model="row[field.name]"
+                                                    :name="`${field.name}[${rowIndex}]`"
+                                                    :id="`${field.name}_${rowIndex}`"
+                                                    :hint="field.hint"
+                                                    :required="field.required"
+                                                    :options="field.options"
+                                                    :disabled="field.disabled"
+                                                    :readonly="field.readonly"
+                                                    :multiple="field.multiple"
+                                                />
+                                                <Radio v-if="field.type == 'radio'"
+                                                    :key="field.name"
+                                                    :label="field.label"
+                                                    :type="field.type"
+                                                    v-model="row[field.name]"
+                                                    :name="`${field.name}[${rowIndex}]`"
+                                                    :id="`${field.name}_${rowIndex}`"
+                                                    :hint="field.hint"
+                                                    :required="field.required"
+                                                    :options="field.options"
+                                                    :direction="field?.direction"
+                                                    :disabled="field.disabled"
+                                                    :readonly="field.readonly"
+                                                />  
+                                                <FileUpload v-if="field.type == 'file'"
+                                                    :key="field.name"
+                                                    :label="field.label"
+                                                    :type="field.type"
+                                                    v-model="row[field.name]"
+                                                    :name="`${field.name}[${rowIndex}]`"
+                                                    :id="`${field.name}_${rowIndex}`"
+                                                    :hint="field.hint"
+                                                    :required="field.required"
+                                                    :multiple="field.multiple"
+                                                    :extension="field.extension"
+                                                    :maxsize="field.maxsize"
+                                                    :maxfile="field.maxfile"
+                                                    :disabled="field.disabled"
+                                                    :readonly="field.readonly"
+                                                />
+                                                <Textarea v-if="field.type == 'textarea'"
+                                                    :key="field.name"
+                                                    :label="field.label"
+                                                    :type="field.type"
+                                                    v-model="row[field.name]"
+                                                    :name="`${field.name}[${rowIndex}]`"
+                                                    :id="`${field.name}_${rowIndex}`"
+                                                    :hint="field.hint"
+                                                    :required="field.required"
+                                                    :disabled="field.disabled"
+                                                    :readonly="field.readonly"
+                                                />
+                                                <Date v-if="field.type == 'date'"
+                                                    :key="field.name"
+                                                    :label="field.label"
+                                                    :type="field.type"
+                                                    v-model="row[field.name]"
+                                                    :name="`${field.name}[${rowIndex}]`"
+                                                    :id="`${field.name}_${rowIndex}`"
+                                                    :hint="field.hint"
+                                                    :required="field.required"
+                                                    :disabled="field.disabled"
+                                                    :readonly="field.readonly"
+                                                    :min="field?.min"
+                                                    :max="field?.max"
+                                                />
+                                                <Currency v-if="field.type == 'currency'"
+                                                    :key="field.name"
+                                                    :label="field.label"
+                                                    v-model="row[field.name]"
+                                                    :name="`${field.name}[${rowIndex}]`"
+                                                    :id="`${field.name}_${rowIndex}`"
+                                                    :hint="field.hint"
+                                                    :required="field.required"
+                                                    :disabled="field.disabled"
+                                                    :readonly="field.readonly"
+                                                    :min="field?.min"
+                                                    :max="field?.max"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div class="pt-5 flex gap-1" v-if="section['editable'] != false">
+                                                <!-- Fixed variable name from 'i' to 'sectionKey' -->
+                                                <Button type="button" @click="addRow(sectionKey)" class="border-orange-200" variant="secondary" ><Plus class="h-1 w-1 text-orange-300 inline-block align-middle cursor-pointer" /></Button>
+                                                <Button type="button" :disabled="rowIndex ==    0" @click="removeRow(sectionKey,rowIndex)" class="border-orange-200" variant="secondary" ><SquareX class="h-1 w-1 text-red-300 inline-block align-middle cursor-pointer" /></Button>
+                                            </div>
                                         </div>
-                                        <div class="pt-5 flex gap-1" v-if="section['editable'] != false">
-                                            <!-- Fixed variable name from 'i' to 'sectionKey' -->
-                                            <Button type="button" @click="addRow(sectionKey)" class="border-orange-200" variant="secondary" ><Plus class="h-1 w-1 text-orange-300 inline-block align-middle cursor-pointer" /></Button>
-                                            <Button type="button" :disabled="rowIndex ==    0" @click="removeRow(sectionKey,rowIndex)" class="border-orange-200" variant="secondary" ><SquareX class="h-1 w-1 text-red-300 inline-block align-middle cursor-pointer" /></Button>
-                                        </div>
-                                    </div>
+                                    </template>
+                                    <template v-else>
+                                        <span class="text-sm text-gray-500 italic">{{section?.label}} akan muncul disini.</span>
+                                    </template>
                                 </div>
                                 <template v-else-if="section['type'] == 'info'">
                                     <div class="bg-white rounded-md py-2 px-2">
@@ -205,7 +210,6 @@
                                             :format="field?.format"
                                             :disabled="field.disabled"
                                             :readonly="field.readonly"
-                                            :show="field.show"
                                         />
                                         <Password v-if="field.type == 'password'"
                                             :key="field.name"
@@ -359,12 +363,14 @@ import { reactive } from 'vue';
 
 export default {
     name: "FormDialog",
+    inheritAttrs: false,
     props: {
         open: Boolean,
         title: { type: String, default: "Form" },
         sections: { type: Object, default: () => ({}) },
         formData: { type: Object, default: () => ({}) },
-        dialog: { type: Object, default: () => ({width: 2}) }
+        dialog: { type: Object, default: () => ({width: 2}) },
+        // show: {type: Boolean, default: true}
     },
     components: {
         Input,
@@ -430,15 +436,17 @@ export default {
             
             Object.entries(this.sections).forEach(([key, section]) => {
                 if (section.type === 'addtable') {
-
                     if(this.formData[key] != undefined){
                         this.form.addtable[key] = this.formData[key]
                     }
 
                     if (!this.form.addtable[key] || this.form.addtable[key].length === 0) {
-                        const newRow = {};
-                        section.forms.forEach(f => newRow[f.name] = '');
-                        this.form.addtable[key] = [newRow];
+                        if(section.editable != undefined && section.editable == true){
+                            const newRow = {};
+                            section.forms.forEach(f => newRow[f.name] = '');
+                            this.form.addtable[key] = [newRow];
+                        }
+                        
                     }
                 }
             });

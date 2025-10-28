@@ -68,6 +68,7 @@
         "label": "Detail Penerimaan",
         "column": 7,
         "type": "addtable",
+        "editable": true,
         "forms": [
             {
                 "name": "item_id",
