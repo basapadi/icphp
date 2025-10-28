@@ -75,6 +75,7 @@ class PurchasePayment extends BaseModel
                 $invoice->total_diskon -= (double) $data->diskon;
                 $invoice->nominal_terbayar -= (double) $data->jumlah;
                 if($invoice->nominal_terbayar <= 0) $invoice->status_pembayaran = 'unpaid';
+                if($invoice->nominal_terbayar < ($invoice->grand_total + $invoice->total_diskon)) $invoice->status_pembayaran = 'partially_paid';
                 $invoice->save();
             }
         });
