@@ -150,7 +150,7 @@
           "partially_paid": "Terbayar Sebagian",
           "paid": "Lunas",
           "overdue": "Jatuh Tempo",
-          "canceled": "Dibatalkan",
+          "cancelled": "Dibatalkan",
           "refunded": "Dikembalikan"
         },
         "show": true,

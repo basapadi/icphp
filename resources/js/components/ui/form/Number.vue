@@ -17,8 +17,8 @@ export default {
     hint: { type: String, default: "" },
     required: { type: Boolean, default: false },
     class: { type: [String, Array, Object] as unknown as HTMLAttributes["class"], default: "" },
-    min: { type: [String, Number], default: undefined },
-    max: { type: [String, Number], default: undefined },
+    min: { type: [String, Number], default: 0 },
+    max: { type: [String, Number], default: null },
     step: { type: [String, Number], default: 1 },
     disabled: {type: Boolean, default: false},
     readonly: {type: Boolean, default: false},
@@ -66,8 +66,8 @@ export default {
       :required="required"
       @invalid="e => e.target.setCustomValidity(`${label} tidak boleh kosong atau tidak sesuai format`)"
       @input="e => e.target.setCustomValidity('')"
-      :min="min?? null"
-      :max="max?? null"
+      :min="min"
+      :max="max"
       :step="step?? 1"
       :pattern="props.format || undefined"
       :disabled="disabled"

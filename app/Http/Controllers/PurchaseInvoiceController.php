@@ -21,7 +21,7 @@ class PurchaseInvoiceController extends BaseController
        $this->setModel(PurchaseInvoice::class)
             ->select(['trx_purchase_invoices.*'])
             ->with(['details','details.item','payments','details.unit','contact','createdBy'])
-            ->leftJoin('contacts', 'contacts.id', '=', 'trx_purchase_invoices.contact_id')->orderBy('tanggal','desc');
+            ->leftJoin('contacts', 'contacts.id', '=', 'trx_purchase_invoices.contact_id')->orderBy('created_at','desc');
         $this->setModule('transaction.invoice.purchase');
         $this->setGridProperties([
             'filterDateRange' => true,
@@ -295,15 +295,27 @@ class PurchaseInvoiceController extends BaseController
     public function voidPayment(Request $request){
         $this->allowAccessModule($this->_module, 'update');
         try {
+            begin();
             $id = $this->decodeId($request->id);
             $pi = PurchaseInvoice::where('id',$id)->first();
             if(empty($pi)) return $this->setAlert('error','Gagal','Data tidak ditemukan');
             if(!in_array($pi->status,['posted','partially_paid','paid'])) return $this->setAlert('error','Gagal','Aksi ini hanya bisa dilakukan apabila status faktur adalah '.implode(',',ihandCashierConfigKeyToArray('purchase_invoice_status',['draft'])));
-            
-            $pi->status = trim($request->status);
+            $pi->status = 'void';
             $pi->save();
+
+            $received = $pi->itemReceiveds()->first();
+            if($received){
+                $received->status = 'partial_invoiced';
+                $invoiceIds = PurchaseInvoiceItemReceived::select(['purchase_invoice_id'])->where('item_received_id',$received->id)->pluck('purchase_invoice_id');
+                $invoiceNotVoid = PurchaseInvoice::whereIn('id',$invoiceIds)->whereNotIn('status', ['void', 'cancelled'])->count();
+                if($invoiceNotVoid <= 0) $received->status = 'received';
+                $received->save();
+            }
+
+            commit();
             return $this->setAlert('info','Berhasil','Faktur berhasil diubah menjadi VOID.');
         }catch(Exception $e){
+            rollback();
             return $this->setAlert('error','Gagal',$e->getMessage());
         }
     }

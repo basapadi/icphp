@@ -134,7 +134,7 @@
                 "label": "Selesai"
             },
             {
-                "value": "canceled",
+                "value": "cancelled",
                 "label": "Dibatalkan"
             }
         ],

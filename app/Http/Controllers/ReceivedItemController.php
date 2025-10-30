@@ -43,7 +43,7 @@ class ReceivedItemController extends BaseController
         injectData($form, [
             'kode_disabled'     => false,
             'contacts'          => getContactToSelect('pemasok'),
-            'status'            => ihandCashierConfigToSelect('receive_item_status', ['invoiced','partial_invoiced','canceled']),
+            'status'            => ihandCashierConfigToSelect('receive_item_status', ['invoiced','partial_invoiced','cancelled']),
             'items'             => getItemToSelect(),
             'units'             => getUnitToSelect(),
             'status_readonly'   => false,
@@ -259,7 +259,7 @@ class ReceivedItemController extends BaseController
         injectData($this->_form, [
             'kode_disabled'     => true,
             'contacts'          => getContactToSelect('pemasok'),
-            'status'            => ihandCashierConfigToSelect('receive_item_status',['invoiced','partial_invoiced','canceled']),
+            'status'            => ihandCashierConfigToSelect('receive_item_status',['invoiced','partial_invoiced','cancelled']),
             'status_readonly'   => false,
             'items'             => getItemToSelect(),
             'units'             => getUnitToSelect()
@@ -290,8 +290,10 @@ class ReceivedItemController extends BaseController
             foreach ($ir->details as $detail) {
                 // Hitung total jumlah yang sudah difakturkan untuk item ini
                 $invoicedQty = DB::table('trx_purchase_invoice_details')
+                    ->join('trx_purchase_invoices','trx_purchase_invoices.id','=','trx_purchase_invoice_details.purchase_invoice_id')
                     ->join('trx_purchase_invoice_item_receiveds', 'trx_purchase_invoice_item_receiveds.purchase_invoice_id', '=', 'trx_purchase_invoice_details.purchase_invoice_id')
                     ->where('trx_purchase_invoice_item_receiveds.item_received_id', $ir->id)
+                    ->where('trx_purchase_invoices.status','!=', 'void')
                     ->where('trx_purchase_invoice_details.item_id', $detail->item_id)
                     ->sum('trx_purchase_invoice_details.jumlah');
 
@@ -452,7 +454,7 @@ class ReceivedItemController extends BaseController
                 foreach ($ir->details as $detail) {
                     // hitung total jumlah yang sudah difakturkan utk detail ini
                     $totalInvoicedQty = PurchaseInvoiceDetail::whereHas('invoice', function ($q) use ($irId) {
-                            $q->whereHas('itemReceiveds', function ($r) use ($irId) {
+                            $q->whereNotIn('status', ['void', 'cancelled'])->whereHas('itemReceiveds', function ($r) use ($irId) {
                                 $r->where('item_received_id', $irId);
                             });
                         })

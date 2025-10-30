@@ -57,7 +57,7 @@ return [
             'label'  => 'Jatuh Tempo',
             'class'  => 'red-400'
         ],
-        'canceled'          => [
+        'cancelled'          => [
             'label'   => 'Dibatalkan',
             'class'   => 'red-800'
         ],
@@ -92,8 +92,13 @@ return [
             'class'  => 'green-700',
             'color'  => 'green-700'
         ],
-        'canceled'          => [
+        'cancelled'          => [
             'label'   => 'Dibatalkan',
+            'class'   => 'red-800',
+            'color'   => 'red-800'
+        ],
+        'void'          => [
+            'label'   => 'Void',
             'class'   => 'red-800',
             'color'   => 'red-800'
         ]
@@ -134,7 +139,7 @@ return [
             'class'  => 'blue-600',
             'color'  => 'blue-600'
         ],
-        'canceled'          => [
+        'cancelled'          => [
             'label'   => 'Dibatalkan',
             'class'   => 'red-800',
             'color'   => 'red-800'
@@ -166,7 +171,7 @@ return [
             'class' => 'green-700',
             'color' => 'green-700'
         ],
-        'canceled'          => [
+        'cancelled'          => [
             'label'   => 'Dibatalkan',
             'class'   => 'red-800',
             'color'   => 'red-800'
@@ -200,15 +205,15 @@ return [
             'class' => 'green-700',
             'color' => 'green-700'
         ],
-        'canceled'          => [ //Faktur dibatalkan
+        'cancelled'          => [ //Faktur dibatalkan
             'label'   => 'Dibatalkan',
             'class'   => 'red-800',
             'color'   => 'red-800'
         ],
         'void'          => [ //Faktur batal tapi tetap disimpan untuk audit
             'label'   => 'Void',
-            'class'   => 'black-800',
-            'color'   => 'black-800'
+            'class'   => 'red-800',
+            'color'   => 'red-800'
         ]
     ],
     'menus' => [
@@ -615,6 +620,7 @@ return [
         'btg'      => [52, 'Batang']
     ],
     "taxes" => [
+        'tax_included' => [57,'Harga Termasuk Pajak',0],
         'tax_0' => [53,'Tidak Kena Pajak',0],
         'tax_ppn' => [54,'PPN',11],
         'tax_pph' => [55,'PPH',2],

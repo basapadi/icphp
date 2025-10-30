@@ -24,7 +24,7 @@
 					    		<div class="pt-2 col-span-3">
 								    <label
 								      class="flex items-center gap-1 text-sm font-medium leading-none"
-								    ><span class="text-gray-500 text-shadow-2xs">Query</span> </label>
+								    ><span class="text-gray-500 text-shadow-2xs">Query</span> <span class="text-xs text-red-400">filter data berdasarkan '<b>deleted_at = null</b>' apabila skema memiliki attribut tersebut</span></label>
 			   						<div class="flex overflow-x-auto shadow-md rounded-md flex-wrap gap-2 mb-1 border border-dashed p-1 my-2" style="height: 300px; border: 1px solid #ddd; background-color: #282C34; color:#ffffff;">
 							        <SqlEditor v-model="form.query" :schemas="schemas" />
 						        </div>

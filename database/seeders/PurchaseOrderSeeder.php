@@ -8,9 +8,15 @@ use Illuminate\Support\Facades\File;
 use App\Models\{
     Item,
     ItemPrice,
+    ItemReceived,
+    ItemReceivedDetail,
     PurchaseOrder,
     PurchaseOrderDetail,
     Master,
+    PurchaseInvoice,
+    PurchaseInvoiceDetail,
+    PurchaseInvoiceItemReceived,
+    PurchasePayment,
 };
 
 class PurchaseOrderSeeder extends Seeder
@@ -57,7 +63,12 @@ class PurchaseOrderSeeder extends Seeder
             $po->total = $totalHarga;
             $po->save();
         }
-
+        ItemReceived::truncate();
+        ItemReceivedDetail::truncate();
+        PurchaseInvoice::truncate();
+        PurchaseInvoiceDetail::truncate();
+        PurchaseInvoiceItemReceived::truncate();
+        PurchasePayment::truncate();
         PurchaseOrderDetail::insert($details);
     }
 }

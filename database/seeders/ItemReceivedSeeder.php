@@ -50,7 +50,7 @@ class ItemReceivedSeeder extends Seeder
         //         $unitId = $currentItem['satuan_id'];
         //         $latestPrice = ItemPrice::where('item_id',$itemId)->latest('tanggal_berlaku','desc')->first();
 
-        //         if(!in_array($r->status_pembayaran, ['refunded','canceled'])){
+        //         if(!in_array($r->status_pembayaran, ['refunded','cancelled'])){
         //             $preStocks[$itemId.'_'.$unitId] = ($preStocks[$itemId.'_'.$unitId] ?? 0) + $banyak;
         //         }
                 

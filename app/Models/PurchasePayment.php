@@ -12,7 +12,9 @@ class PurchasePayment extends BaseModel
         'metode_bayar_label',
         'color_metode_bayar_label',
         'jumlah_formatted',
-        'diskon_formatted'
+        'diskon_formatted',
+        'invoice_status_label',
+        'color_invoice_status_label'
     ];
     protected $fillable = [
         'purchase_invoice_id',
@@ -55,6 +57,21 @@ class PurchasePayment extends BaseModel
     {
         $statuses = config('ihandcashier.payment_methods.receive');
         return isset($this->metode_bayar) ? $statuses[$this->metode_bayar]['class']: null;
+    }
+
+    public function getInvoiceStatusAttribute(){
+        $statuses = config('ihandcashier.purchase_invoice_status');
+        return $this->invoice->status;
+    }
+
+    public function getInvoiceStatusLabelAttribute(){
+        $statuses = config('ihandcashier.purchase_invoice_status');
+        return isset($this->invoice->status) ? $statuses[$this->invoice->status]['label']: null;
+    }
+
+    public function getColorInvoiceStatusLabelAttribute(){
+        $statuses = config('ihandcashier.purchase_invoice_status');
+        return isset($this->invoice->status) ? $statuses[$this->invoice->status]['class']: null;
     }
 
     public function getJumlahFormattedAttribute()

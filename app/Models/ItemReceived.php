@@ -97,7 +97,7 @@ class ItemReceived extends BaseModel
     protected static function booted()
     {
         static::deleting(function ($data) {
-            if (!in_array($data->status,['draft','canceled'])) {
+            if (!in_array($data->status,['draft','cancelled'])) {
                 throw new Exception('Transaksi ini tidak dapat dihapus karena sudah melakukan penerimaan.');
             }
 

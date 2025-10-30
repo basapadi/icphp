@@ -20,7 +20,7 @@ class FormTransformer extends TransformerAbstract {
             'multiple' => @$resp['multiple']??false,
             'maxsize' => @$resp['maxsize']??0,
             'maxfile' => @$resp['maxfile']??0,
-            'min' => @$resp['min']??null,
+            'min' => @$resp['min']??0,
             'max' => @$resp['max']??null,
             'step' => @$resp['step']??1,
             'format' => @$resp['format']??'',

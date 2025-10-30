@@ -128,7 +128,7 @@ class SaleOrderController extends BaseController
                 $exist = SaleOrder::with(['details'])->where('id',$data['id'])->first();
                 if(empty($exist)) return $this->setAlert('error','Galat!','Data tidak ditemukan');
 
-                if(!in_array($exist->status,['draft','canceled'])) return $this->setAlert('error','Galat!','Data sudah tidak dapat diubah karena status sudah '. config('ihandcashier.sale_order_status')[$exist->status]['label']);
+                if(!in_array($exist->status,['draft','cancelled'])) return $this->setAlert('error','Galat!','Data sudah tidak dapat diubah karena status sudah '. config('ihandcashier.sale_order_status')[$exist->status]['label']);
                 
                 begin();
 

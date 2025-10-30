@@ -181,7 +181,7 @@ class PurchaseOrderController extends BaseController
                 $exist = PurchaseOrder::with(['details'])->where('id',$data['id'])->first();
                 if(empty($exist)) return $this->setAlert('error','Galat!','Data tidak ditemukan');
                 
-                if(!in_array($exist->status,['draft','rejected','canceled'])) return $this->setAlert('error','Galat!','Data sudah tidak dapat diubah karena status sudah '. config('ihandcashier.purchase_order_status')[$exist->status]['label']);
+                if(!in_array($exist->status,['draft','rejected','cancelled'])) return $this->setAlert('error','Galat!','Data sudah tidak dapat diubah karena status sudah '. config('ihandcashier.purchase_order_status')[$exist->status]['label']);
 
                 begin();
                 $exist->contact_id = trim($data['contact_id']);
@@ -282,7 +282,7 @@ class PurchaseOrderController extends BaseController
         injectData($form, [
             'kode_disabled'     => false,
             'contacts'          => getContactToSelect('pemasok'),
-            'status'            => ihandCashierConfigToSelect('receive_item_status', ['invoiced','partial_invoiced','canceled']),
+            'status'            => ihandCashierConfigToSelect('receive_item_status', ['invoiced','partial_invoiced','cancelled']),
             'status_readonly'   => true,
             'items'             => getItemToSelect(),
             'units'             => getUnitToSelect(),

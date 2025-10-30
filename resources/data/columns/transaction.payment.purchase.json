@@ -57,6 +57,19 @@
         "option_filter": true
     },
     {
+        "name": "invoice_status_label",
+        "label": "Status Faktur",
+        "align": "left",
+        "field": "invoice_status_label",
+        "sortable": true,
+        "type": "badge",
+        "options": [],
+        "show": true,
+        "class": "no-select",
+        "styles": null,
+        "option_filter": false
+    },
+    {
         "name": "metode_bayar_label",
         "label": "Metode Bayar",
         "align": "left",

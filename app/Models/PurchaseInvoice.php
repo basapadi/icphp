@@ -29,7 +29,6 @@ class PurchaseInvoice extends BaseModel
     ];
     protected $fillable = [
         'contact_id',
-        'item_received_id',
         'kode',
         'tanggal',
         'no_referensi',

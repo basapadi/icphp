@@ -14,7 +14,7 @@ class ReceivableController extends BaseController
 {
     public function __construct(){
         $this->setModule('finance.receivable');
-        $exceptStatus = ['paid','canceled','refunded'];
+        $exceptStatus = ['paid','cancelled','refunded'];
         $mergeData = new MergeData();
         $mergeData->attribute = 'details';
         $mergeData->class = ItemSale::class;
