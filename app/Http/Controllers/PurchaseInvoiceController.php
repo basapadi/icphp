@@ -124,7 +124,7 @@ class PurchaseInvoiceController extends BaseController
             $exist = PurchaseInvoice::with(['details'])->where('id',$data['id'])->first();
             if(empty($exist)) return $this->setAlert('error','Galat!','Data tidak ditemukan');
             
-            if(in_array($exist->status,['posted','void'])) return $this->setAlert('error','Galat!','Data sudah tidak dapat diubah karena status sudah '. config('ihandcashier.purchase_invoice_status')[$exist->status]['label']);
+            if(in_array($exist->status,['posted','void','cancelled'])) return $this->setAlert('error','Galat!','Data sudah tidak dapat diubah karena status sudah '. config('ihandcashier.purchase_invoice_status')[$exist->status]['label']);
 
             $exist->tanggal             = trim($data['tanggal']);
             $exist->no_referensi        = trim(@$data['no_referensi'])??'';
