@@ -52,7 +52,7 @@
         ]
     },
     "details": {
-        "label": "Informasi Pembayaran",
+        "label": "Daftar Pembayaran",
         "description": "Daftar pembayaran yang sudah pernah dilakukan pada faktur ini.",
         "column": 7,
         "type": "addtable",

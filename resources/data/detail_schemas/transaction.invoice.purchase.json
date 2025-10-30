@@ -107,5 +107,32 @@
                 "class": "font-mono text-right"
             }
         }
+    },
+    "payments": {
+        "type": "array",
+        "title": "Detail Pembayaran",
+        "fields": {
+            "no": {
+                "label": "No",
+                "style": "width: 20px"
+            },
+            "kode": {
+                "label": "Kode Pembayaran"
+            },
+            "tanggal_formatted": {
+                "label": "Tanggal"
+            },
+            "metode_bayar_label": {
+                "label": "Metode Bayar"
+            },
+            "diskon_formatted": {
+                "label": "Diskon",
+                "class": "font-mono text-right"
+            },
+            "jumlah_formatted": {
+                "label": "Nominal Pembayaran",
+                "class": "font-mono text-right"
+            }
+        }
     }
 }   
