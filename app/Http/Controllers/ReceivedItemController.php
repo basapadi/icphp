@@ -43,7 +43,7 @@ class ReceivedItemController extends BaseController
         injectData($form, [
             'kode_disabled'     => false,
             'contacts'          => getContactToSelect('pemasok'),
-            'status'            => ihandCashierConfigToSelect('receive_item_status', ['invoiced','partial_invoiced','cancelled']),
+            'status'            => ihandCashierConfigToSelect('receive_item_status', ['invoiced','partial_invoiced','cancelled','void']),
             'items'             => getItemToSelect(),
             'units'             => getUnitToSelect(),
             'status_readonly'   => false,
