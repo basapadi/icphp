@@ -1,10 +1,9 @@
 <?php
 namespace App\Traits;
-use Native\Desktop\Facades\{Alert,Notification};
+use Native\Laravel\Facades\{Alert,Notification};
 use App\Http\Response;
 use App\Objects\Notification as ObjectsNotification;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 use App\Objects\IcPdf;
 
 trait BaseHelper
