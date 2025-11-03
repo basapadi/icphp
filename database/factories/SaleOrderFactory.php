@@ -29,9 +29,9 @@ class SaleOrderFactory extends Factory
             'tanggal'           => date('Y-m-d H:i:s'), 
             'tanggal_permintaan'  => Carbon::now()->addDays(10)->format('Y-m-d H:i:s'),
             'status'            => $statusSo,
-            'status_pembayaran' => 'unpaid',
             'total'             => 0,
             'catatan'           => 'Dummy SO',
+            'approval_by'       => 1,
             'created_by'        => $this->faker->randomElement([1,2])
         ];
     }

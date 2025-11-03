@@ -22,6 +22,7 @@ class ItemSale extends BaseModel
 
     protected $fillable = [
         'kode_transaksi',
+        'sale_order_id',
         'contact_id',
         'tanggal_jual',
         'dijual_oleh',

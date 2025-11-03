@@ -28,7 +28,10 @@ use App\Http\Controllers\{
     PurchaseInvoiceController,
     PurchasePaymentController
 };
-use App\Http\Controllers\Tasks\ApprovalPurchaseOrderController;
+use App\Http\Controllers\Tasks\{
+    ApprovalPurchaseOrderController,
+    ApprovalSaleOrderController
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -197,6 +200,7 @@ Route::prefix('api')->group(function () {
             Route::get('/edit/{id}', 'edit');
             Route::post('/', 'store');
             Route::delete('/{id}', 'delete');
+            Route::post('/need-approval', 'needApproval')->name('api.sale.order.needApproval');
         });
 
         Route::controller(SaleItemController::class)->prefix('sale')->group(function () {
@@ -285,6 +289,12 @@ Route::prefix('api')->group(function () {
                 ->group(function () {
                     Route::get('grid', 'grid');
                     Route::post('/approval', 'approval')->name('api.task.approval-purchase-order.approval');
+                });
+            Route::controller(ApprovalSaleOrderController::class)
+                ->prefix('approval-sale-order')
+                ->group(function () {
+                    Route::get('grid', 'grid');
+                    Route::post('/approval', 'approval')->name('api.task.approval-sale-order.approval');
                 });
         });
 

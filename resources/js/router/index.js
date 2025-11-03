@@ -24,6 +24,7 @@ import PurchaseInvoice from "@/views/transaction/invoice/Purchase.vue"
 import SaleInvoice from "@/views/transaction/invoice/Sale.vue"
 import Shipment from "@/views/transaction/order/Shipment.vue"
 import ApprovalPurchaseOrder from "@/views/task/ApprovalPurchaseOrder.vue"
+import ApprovalSaleOrder from "@/views/task/ApprovalSaleOrder.vue"
 import Report from "@/views/report/Report.vue"
 import Builder from "@/views/report/Builder.vue"
 import PurchasePayment from "@/views/transaction/payment/Purchase.vue"
@@ -54,6 +55,7 @@ const routes = [
   { path: "/transaction/invoice/purchase", name: "Transaction.Invoice.Purchase", component: PurchaseInvoice, meta: { requiresAuth: true } },
   { path: "/transaction/invoice/sale", name: "Transaction.Invoice.Sale", component: SaleInvoice, meta: { requiresAuth: true } },
   { path: "/task/purchase/order", name: "Task.Purchase.Order", component: ApprovalPurchaseOrder, meta: { requiresAuth: true } },
+  { path: "/task/sale/order", name: "Task.Sale.Order", component: ApprovalSaleOrder, meta: { requiresAuth: true } },
   { path: "/report/report", name: "Report.Report", component: Report, meta: { requiresAuth: true } },
   { path: "/report/builder", name: "Report.Builder", component: Builder, meta: { requiresAuth: true } },
   { path: "/transaction/payment/purchase", name: "Transaction.Payment.Purchase", component: PurchasePayment, meta: { requiresAuth: true } }

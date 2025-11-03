@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Carbon\Carbon;
 use Btx\Common\SpellNumber;
 use Exception;
 
@@ -12,7 +11,7 @@ class SaleOrder extends BaseModel
 {
     use SoftDeletes,HasFactory;
     public $table = 'trx_sale_orders';
-    protected $appends = ['total_formatted','status_label','color_status_label','tanggal_formatted','tanggal_permintaan_formatted', 'total_terbilang','status_pembayaran_label','color_status_pembayaran_label'];
+    protected $appends = ['total_formatted','status_label','color_status_label','tanggal_formatted','tanggal_permintaan_formatted', 'total_terbilang','approval_status_label','color_approval_status_label','approved_at_formatted'];
     protected $fillable = [
         'kode',
         'contact_id',
@@ -20,8 +19,11 @@ class SaleOrder extends BaseModel
         'tanggal_permintaan',
         'status',
         'total',
-        'status_pembayaran',
         'catatan',
+        'approval_by',
+        'approval_status',
+        'approved_at',
+        'approval_note',
         'created_by',
         'updated_by',
         'deleted_by',
@@ -30,7 +32,7 @@ class SaleOrder extends BaseModel
 
     public function getTotalFormattedAttribute()
     {
-        return 'IDR '.number_format($this->total, 0, ',', '.');
+        return currency($this->total);
     }
 
     public function getStatusLabelAttribute(){
@@ -46,14 +48,6 @@ class SaleOrder extends BaseModel
             return $statuses[$this->status]['color'];
         } else return '';
         
-    }
-
-    public function getStatusPembayaranLabelAttribute(){
-        return isset($this->status_pembayaran) ? config('ihandcashier.payment_status')[$this->status_pembayaran]['label'] : null;
-    }
-
-    public function getColorStatusPembayaranLabelAttribute(){
-        return isset($this->status_pembayaran) ? config('ihandcashier.payment_status')[$this->status_pembayaran]['class'] : null;
     }
 
     public function contact(){
@@ -83,12 +77,31 @@ class SaleOrder extends BaseModel
 
     public function getTanggalPermintaanFormattedAttribute()
     {
-        return $this->tanggal_permintaan ? Carbon::parse($this->tanggal_permintaan)->locale('id')->translatedFormat('l, d M Y H:i') : null;
+        return formattedDate($this->tanggal_permintaan, 'l, d M Y');
     }
 
     public function getTanggalFormattedAttribute()
     {
-        return $this->tanggal ? Carbon::parse($this->tanggal)->locale('id')->translatedFormat('l, d M Y H:i') : null;
+        return formattedDate($this->tanggal);
+    }
+
+    public function getApprovalStatusLabelAttribute(){
+        return isset($this->approval_status) ? config('ihandcashier.sale_approval_status')[$this->approval_status]['label'] : null;
+    }
+
+    public function getColorApprovalStatusLabelAttribute()
+    {
+        $statuses = config('ihandcashier.sale_approval_status');
+        return isset($this->approval_status) ? $statuses[$this->approval_status]['color']: null;
+    }
+
+    public function getApprovedAtFormattedAttribute()
+    {
+        return formattedDate($this->approved_at);
+    }
+
+    public function approvalBy(){
+       return $this->belongsTo(User::class, 'approval_by', 'id');
     }
 
     protected static function booted()

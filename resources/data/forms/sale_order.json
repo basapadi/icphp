@@ -3,7 +3,7 @@
         "width": 7
     },
     "main": {
-        "label": "Form Penerimaan",
+        "label": "Form Pemesanan Penjualan",
         "column": 3,
         "forms": [
             {
@@ -42,16 +42,16 @@
                 "label": "Status SO",
                 "required": true,
                 "hint": "Pilih Status SO",
-                "options": ":so_status"
+                "options": ":so_status",
+                "disabled": ":status_disabled"
             },
             {
-                "name": "status_pembayaran",
+                "name": "approval_by",
                 "type": "select",
-                "label": "Status Pembayaran",
-                "required": false,
-                "hint": "Pilih Status Pembayaran",
-                "options": ":payment_status",
-                "readonly": true
+                "label": "Persetujuan Dari",
+                "required": true,
+                "hint": "Pilih Pengguna",
+                "options": ":users"
             },
             {
                 "name": "catatan",
@@ -63,7 +63,7 @@
         ]
     },
     "details": {
-        "label": "Detail Pesanan Pembelian",
+        "label": "Detail Pesanan Penjualan",
         "column": 5,
         "type": "addtable",
         "editable": true,
@@ -96,7 +96,7 @@
                 "type": "currency",
                 "label": "Harga",
                 "required": true,
-                "hint": "Harga Barang"
+                "hint": "Harga Satuan Barang"
             },
             {
                 "name": "discount",

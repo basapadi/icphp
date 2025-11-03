@@ -73,43 +73,6 @@
         "option_filter": true
     },
     {
-        "name": "tanggal_permintaan_formatted",
-        "required": true,
-        "label": "Tanggal Permintaan",
-        "align": "left",
-        "field": "tanggal_permintaan_formatted",
-        "sortable": true,
-        "type": "date_range",
-        "options": [],
-        "show": true,
-        "class": "",
-        "styles": "",
-        "option_filter": true
-    },
-    {
-        "name": "status_label",
-        "required": true,
-        "label": "Status",
-        "align": "left",
-        "field": "status_label",
-        "sortable": true,
-        "type": "badge",
-        "show": true,
-        "option_filter": false
-    },
-    {
-        "name": "so_status",
-        "required": true,
-        "label": "Status",
-        "align": "left",
-        "field": "so_status",
-        "sortable": true,
-        "type": "select",
-        "options": ":so_options",
-        "show": false,
-        "option_filter": true
-    },
-    {
         "name": "approval_status",
         "required": true,
         "label": "Status Persetujuan",
@@ -119,8 +82,8 @@
         "type": "select",
         "options": ":approval_status",
         "show": false,
-        "class": "no-select",
-        "styles": null,
+        "class": "",
+        "styles": "",
         "option_filter": true
     },
     {
@@ -132,10 +95,7 @@
         "sortable": true,
         "type": "badge",
         "show": true,
-        "class": "no-select",
-        "option_filter": false,
-        "styles": null,
-        "options": []
+        "option_filter": false
     },
     {
         "name": "total_formatted",
@@ -150,20 +110,6 @@
         "class": "font-mono",
         "styles": "",
         "option_filter": false
-    },
-    {
-        "name": "approval_by__name",
-        "required": true,
-        "label": "Persetujuan Dari",
-        "align": "left",
-        "field": "approval_by__name",
-        "sortable": true,
-        "type": "text",
-        "show": true,
-        "class": "no-select",
-        "option_filter": false,
-        "styles": null,
-        "options": []
     },
     {
         "name": "catatan",

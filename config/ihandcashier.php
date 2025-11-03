@@ -151,20 +151,35 @@ return [
             'class' => 'gray-400',
             'color' => 'gray-400'
         ],
+        'need_approval' => [
+            'label' => 'Approval Diproses',
+            'class' => 'green-700',
+            'color' => 'green-700'
+        ],
+        'approved'              => [
+            'label' => 'Disetujui',
+            'class' => 'green-700',
+            'color' => 'green-700'
+        ],
+        'rejected'              => [
+            'label' => 'Ditolak',
+            'class' => 'red-700',
+            'color' => 'red-700'
+        ],
         'confirmed'    => [
             'label' => 'Dikonfirmasi',
-            'class' => 'orange-500',
-            'color' => 'orange-500'
+            'class' => 'black-500',
+            'color' => 'black-500'
         ],
         'shipped'          => [
             'label'  => 'Dikirim',
-            'class'  => 'black-400',
-            'color'  => 'black-400'
+            'class'  => 'orange-500',
+            'color'  => 'orange-500'
         ],
         'partial_shipped'   => [
             'label'  => 'Dikirim Sebagian',
-            'class'  => 'blue-600',
-            'color'  => 'blue-600'
+            'class'  => 'orange-500',
+            'color'  => 'orange-500'
         ],
         'completed' => [
             'label' => 'Selesai',
@@ -178,6 +193,23 @@ return [
         ]
     ],
     'purchase_approval_status' => [
+        'pending'            => [
+            'label' => 'Pending',
+            'class' => 'gray-800',
+            'color' => 'gray-800'
+        ],
+        'approved'              => [
+            'label' => 'Disetujui',
+            'class' => 'green-700',
+            'color' => 'green-700'
+        ],
+        'rejected'          => [
+            'label'   => 'Ditolak',
+            'class'   => 'red-800',
+            'color'   => 'red-800'
+        ]
+    ],
+    'sale_approval_status' => [
         'pending'            => [
             'label' => 'Pending',
             'class' => 'gray-800',
@@ -555,7 +587,16 @@ return [
                 'edit'
             ]
         ],
-        //last_id:42
+        [
+            'id'    => 43,
+            'icon'  => '',
+            'label' => 'Approval SO',
+            'route' => '/task/sale/order',
+            'order' => 0,
+            'parent'=> 40,
+            'module'=>'task.sale.order'
+        ],
+        //last_id:43
     ],
     'units' => [
         'pcs'      => [1, 'Piece', 1, 'pcs'],

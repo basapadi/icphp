@@ -13,6 +13,7 @@ use App\Models\{
 use Illuminate\Http\Request;
 use Exception;
 use App\Http\Response;
+use App\Objects\ContextMenu;
 
 class SaleOrderController extends BaseController
 {
@@ -20,7 +21,7 @@ class SaleOrderController extends BaseController
     public function __construct(){
         $this->setModel(SaleOrder::class)
             ->select(['trx_sale_orders.*', 'trx_sale_orders.status as so_status'])
-            ->with(['details','details.item','details.unit','contact','createdBy'])
+            ->with(['details','details.item','details.unit','contact','createdBy','approvalBy'])
             ->leftJoin('contacts', 'contacts.id', '=', 'trx_sale_orders.contact_id')->orderBy('tanggal','desc');
         $this->setModule('transaction.order.sale');
         $this->setGridProperties([
@@ -28,9 +29,9 @@ class SaleOrderController extends BaseController
             'filterDateName' => 'tanggal'
         ]);
         $this->setFilterColumnsLike(['contacts.nama','kode'],request('q')??'');
+        $saleStatus = ihandCashierConfigToSelect('sale_order_status');
 
         $this->_form = $this->getResourceForm('sale_order');
-
         $form = $this->_form;
         //inject data ke form
         injectData($form, [
@@ -39,27 +40,47 @@ class SaleOrderController extends BaseController
             'so_status'         => ihandCashierConfigToSelect('sale_order_status'),
             'items'             => getItemToSelect(),
             'units'             => getUnitToSelect('UNIT'),
-            'payment_status'    => ihandCashierConfigToSelect('payment_status'),
+            'status_disabled'   => true,
+            'users'             => getUserToSelect()
+        ]);
+
+        $this->setInjectDataColumn([
+            'so_options' => $saleStatus,
         ]);
 
          $this->setForm($form,[
             'kode' => generateTransactionCode('SO'),
-            'tanggal' => date('d-m-Y'),
+            'tanggal' => date('Y-m-d'),
             'status' => 'draft',
-            'status_pembayaran' => 'unpaid'
+            'tanggal_permintaan' => date('Y-m-d')
         ]);
+
+
+        //butuh persetujuan
+        $needApproval = new ContextMenu('needapproval','Minta Persetujuan');
+        $needApproval->conditions = ['status' => ['draft','rejected']];
+        $needApproval->type = 'confirm';
+        $needApproval->apiUrl = route('api.sale.order.needApproval');
+        $needApproval->icon = 'BadgeCheck';
+        $needApproval->color = '#6D94C5';
+        $needApproval->onClick = 'confirmPopup';
+        $needApproval->title = 'Meminta Persetujuan';
+        $needApproval->message = 'Apakah anda yakin meminta persetujuan untuk pesanan ini?.';
+
+        $contextMenus = [$needApproval];
+        $this->setContextMenu($contextMenus);
     }
 
     public function store(Request $request)
     {
         $rules = [
-            'addtable.details'       => 'required|array|min:1',
+            'addtable.details'      => 'required|array|min:1',
             'contact_id'            => 'required|numeric',
             'tanggal'               => 'required|string',
             'tanggal_permintaan'    => 'required|string',
             'status'                => 'required|string|in:'.implode(',',ihandCashierConfigKeyToArray('sale_order_status')),
-            'status_pembayaran'     => 'nullable|string|in:'.implode(',',ihandCashierConfigKeyToArray('payment_status')),
             'catatan'               => 'nullable|string',
+            'approval_by'           => 'required|numeric',
             'id'                    => 'nullable|numeric',
 
             'addtable.details.*.item_id'     => 'required|integer|exists:items,id',
@@ -80,15 +101,16 @@ class SaleOrderController extends BaseController
                 begin();
 
                 $preInsert = [
-                    'kode' => trim($data['kode']),
-                    'contact_id' => trim($data['contact_id']),
-                    'tanggal' => trim($data['tanggal']),
-                    'tanggal_permintaan' => trim($data['tanggal_permintaan']),
-                    'status' => trim($data['status']),
-                    'status_pembayaran' => trim($data['status_pembayaran']),
-                    'catatan' => @trim($data['catatan'])??null,
-                    'created_by' => auth()->user()->id,
-                    'created_at' => now()
+                    'kode'                  => trim($data['kode']),
+                    'contact_id'            => trim($data['contact_id']),
+                    'tanggal'               => trim($data['tanggal']),
+                    'tanggal_permintaan'    => trim($data['tanggal_permintaan']),
+                    'status'                => trim($data['status']),
+                    'catatan'               => @trim($data['catatan'])??null,
+                    'approval_by'           => trim($data['approval_by']),
+                    'approval_status'       => 'pending',
+                    'created_by'            => auth()->user()->id,
+                    'created_at'            => now()
                 ];
 
                 $so = SaleOrder::create($preInsert);
@@ -149,12 +171,12 @@ class SaleOrderController extends BaseController
                         $t = (double) (trim($d['harga']) * trim($d['jumlah']));
                         $discount = (double) trim($d['discount'])??0;
                         array_push($perInsertDetails,[
-                            'sale_order_id' => $exist->id,
+                            'sale_order_id'     => $exist->id,
                             'item_id'           => (int) trim($d['item_id']),
                             'unit_id'           => (int) trim($d['unit_id']),
                             'harga'             => (double) trim($d['harga']),
                             'jumlah'            => (int) trim($d['jumlah']),
-                            'discount'            => $discount,
+                            'discount'          => $discount,
                             'sub_total'         => $t - $discount,
                         ]);
                         $total += ($t - $discount);
@@ -188,7 +210,8 @@ class SaleOrderController extends BaseController
             'so_status'         => ihandCashierConfigToSelect('sale_order_status'),
             'items'             => getItemToSelect(),
             'units'             => getUnitToSelect('UNIT'),
-            'payment_status'    => ihandCashierConfigToSelect('payment_status'),
+            'status_disabled'   => true,
+            'users'             => getUserToSelect()
         ]);
         
         $form = serializeform($this->_form);
@@ -198,5 +221,22 @@ class SaleOrderController extends BaseController
             'sections' => $form['sections']
         ]); 
 
+    }
+
+    public function needApproval(Request $request){
+
+        try {
+            $id = $this->decodeId($request->id);
+            $so = SaleOrder::where('id',$id)->first();
+            if(empty($so)) return $this->setAlert('error','Gagal','Data tidak ditemukan');
+
+            if(!in_array($so->status,['draft','rejected'])) return $this->setAlert('error','Gagal','Meminta persetujuan hanya bisa dilakukan apabila statusnya adalah Draft atau Ditolak');
+
+            $so->status = 'need_approval';
+            $so->save();
+            return $this->setAlert('info','Berhasil','Permintaan terkirim, persetujuan pesanan sedang diproses.');
+        }catch(Exception $e){
+            return $this->setAlert('error','Gagal',$e->getMessage());
+        }
     }
 }

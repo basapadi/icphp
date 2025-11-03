@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('trx_sale_items', function (Blueprint $table) {
             $table->id();
             $table->string('kode_transaksi')->unique();
+            $table->bigInteger('sale_order_id')->index()->nullable();
             $table->integer('contact_id')->index()->nullable()->comment('ID Pelanggan');
             $table->dateTime('tanggal_jual');
             $table->string('dijual_oleh')->nullable();

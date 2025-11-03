@@ -19,7 +19,10 @@ return new class extends Migration
             $table->date('tanggal_permintaan')->nullable();
             $table->string('status',20)->default('draft');
             $table->unsignedBigInteger('total')->default(0);
-            $table->string('status_pembayaran')->nullable();
+            $table->integer('approval_by')->nullable();   
+            $table->string('approval_status',15)->default('pending');   
+            $table->dateTime('approved_at')->nullable();   
+            $table->text('approval_note')->nullable();
             $table->text('catatan')->nullable();
             $table->integer('created_by');
             $table->integer('updated_by')->nullable();

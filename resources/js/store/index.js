@@ -24,6 +24,7 @@ import shipment from './modules/shipment'
 import invoicePurchase from './modules/invoicePurchase'
 import invoiceSale from './modules/invoiceSale'
 import approvalPurchaseOrder from './modules/approvalPurchaseOrder'
+import approvalSaleOrder from './modules/approvalSaleOrder'
 import setting from './modules/setting'
 import report from './modules/report'
 import common from './modules/common'
@@ -54,6 +55,7 @@ export default createStore({
     invoicePurchase,
     invoiceSale,
     approvalPurchaseOrder,
+    approvalSaleOrder,
     setting,
     report,
     common,
