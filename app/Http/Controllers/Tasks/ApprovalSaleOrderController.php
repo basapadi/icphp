@@ -87,6 +87,7 @@ class ApprovalSaleOrderController extends BaseController
             if(!in_array($request->status,['approved','rejected'])) return $this->setAlert('error','Gagal','Status yang dikirim tidak dapat diproses');
 
             $so->status = trim($request->status);
+            if ($request->status == 'approved') $so->status = 'confirmed';
             $so->approval_status = trim($request->status);
             $so->approved_at = now();
             $so->approval_note = @$request->approval_note??null;
