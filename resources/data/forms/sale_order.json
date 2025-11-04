@@ -94,7 +94,7 @@
             {
                 "name": "harga",
                 "type": "currency",
-                "label": "Harga",
+                "label": "Harga Satuan",
                 "required": true,
                 "hint": "Harga Satuan Barang"
             },
