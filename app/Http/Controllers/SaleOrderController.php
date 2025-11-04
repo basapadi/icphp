@@ -41,6 +41,7 @@ class SaleOrderController extends BaseController
             'items'             => getItemToSelect(),
             'units'             => getUnitToSelect('UNIT'),
             'status_disabled'   => true,
+            'approval_by_disabled' => false,
             'users'             => getUserToSelect()
         ]);
 
@@ -67,7 +68,17 @@ class SaleOrderController extends BaseController
         $needApproval->title = 'Meminta Persetujuan';
         $needApproval->message = 'Apakah anda yakin meminta persetujuan untuk pesanan ini?.';
 
-        $contextMenus = [$needApproval];
+        //buat penjualan baru
+        $createSaleItem = new ContextMenu('createsale','Buat Penjualan');
+        $createSaleItem->conditions = ['status' => ['confirmed','partial_sold']];
+        $createSaleItem->type = 'form_dialog';
+        $createSaleItem->apiUrl = route('api.sale.order.createSaleItem');
+        $createSaleItem->icon = 'HandHelping';
+        $createSaleItem->color = '#6D94C5';
+        $createSaleItem->onClick = 'getFormDialog';
+        $createSaleItem->formUrl = route('api.sale.order.saleForm');
+
+        $contextMenus = [$needApproval,$createSaleItem];
         $this->setContextMenu($contextMenus);
     }
 
@@ -211,6 +222,7 @@ class SaleOrderController extends BaseController
             'items'             => getItemToSelect(),
             'units'             => getUnitToSelect('UNIT'),
             'status_disabled'   => true,
+            'approval_by_disabled' => true,
             'users'             => getUserToSelect()
         ]);
         
@@ -238,5 +250,13 @@ class SaleOrderController extends BaseController
         }catch(Exception $e){
             return $this->setAlert('error','Gagal',$e->getMessage());
         }
+    }
+
+    public function saleForm(Request $request){
+        //TODO:: Form Penjualan
+    }
+
+    public function createSaleItem(Request $request){
+        //TODO:: buat penjualan di Pesanan penjualan
     }
 }

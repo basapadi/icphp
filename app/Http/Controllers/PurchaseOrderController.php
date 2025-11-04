@@ -44,11 +44,12 @@ class PurchaseOrderController extends BaseController
             'items'             => getItemToSelect(),
             'units'             => getUnitToSelect('UNIT'),
             'users'             => getUserToSelect(),
+            'approval_by_disabled' => false
         ]);
 
         $this->setInjectDataColumn([
             'status' => $purchaseStatus,
-            'approval_status' => ihandCashierConfigToSelect('purchase_approval_status')
+            'approval_status' => ihandCashierConfigToSelect('purchase_approval_status'),
         ]);
 
         //set default value
@@ -234,7 +235,8 @@ class PurchaseOrderController extends BaseController
             'po_status'         => ihandCashierConfigToSelect('purchase_order_status'),
             'items'             => getItemToSelect(),
             'units'             => getUnitToSelect('UNIT'),
-            'users'             => getUserToSelect()
+            'users'             => getUserToSelect(),
+            'approval_by_disabled' => true
         ]);
         
         $form = serializeform($this->_form);

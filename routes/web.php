@@ -201,6 +201,9 @@ Route::prefix('api')->group(function () {
             Route::post('/', 'store');
             Route::delete('/{id}', 'delete');
             Route::post('/need-approval', 'needApproval')->name('api.sale.order.needApproval');
+
+            Route::post('/create-sale-item', 'createSaleItem')->name('api.sale.order.createSaleItem');
+            Route::get('/sale/form', 'saleForm')->name('api.sale.order.saleForm');
         });
 
         Route::controller(SaleItemController::class)->prefix('sale')->group(function () {

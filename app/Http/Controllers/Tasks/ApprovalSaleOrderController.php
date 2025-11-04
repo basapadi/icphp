@@ -41,7 +41,7 @@ class ApprovalSaleOrderController extends BaseController
         $approved->color = '#388E3C';
         $approved->onClick = 'confirmPopup';
         $approved->title = 'Setujui Permintaan';
-        $approved->message = 'Apakah anda yakin menyetujui permintaan ini?.';
+        $approved->message = 'Apakah anda yakin menyetujui dan mengkonfirmasi pesanan penjualan ini?. <br> <span class="text-xs text-orange-600">* Pastikan stok barang tersedia.</span>';
         $approved->forms = [
             [
                 'name' => 'approval_note',

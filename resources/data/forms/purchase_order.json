@@ -42,7 +42,8 @@
                 "label": "Persetujuan Dari",
                 "required": true,
                 "hint": "Pilih Pengguna",
-                "options": ":users"
+                "options": ":users",
+                "disabled": ":approval_by_disabled"
             },
             {
                 "name": "catatan",
