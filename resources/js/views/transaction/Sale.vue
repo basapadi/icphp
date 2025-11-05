@@ -1,9 +1,9 @@
 <template>
   <AdminLayout>
     <div class="w-full max-h-1">
-      <PageHeader title="Penjualan Barang" description="Daftar Penjualan Barang"/>
+      <PageHeader title="Pengiriman Barang" description="Daftar Pengiriman Barang"/>
       <div class="p-2">
-        <DataTable title="Barang Terjual" module="sale"/>
+        <DataTable title="Barang Terkirim" module="sale"/>
       </div>
     </div>
   </AdminLayout>

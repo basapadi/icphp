@@ -68,8 +68,8 @@ class SaleOrderController extends BaseController
         $needApproval->title = 'Meminta Persetujuan';
         $needApproval->message = 'Apakah anda yakin meminta persetujuan untuk pesanan ini?.';
 
-        //buat penjualan baru
-        $createSaleItem = new ContextMenu('createsale','Buat Penjualan');
+        //buat pengiriman baru
+        $createSaleItem = new ContextMenu('createsale','Buat Pengiriman');
         $createSaleItem->conditions = ['status' => ['confirmed','partial_sold']];
         $createSaleItem->type = 'form_dialog';
         $createSaleItem->apiUrl = route('api.sale.order.createSaleItem');

@@ -255,7 +255,7 @@ class PurchaseOrderController extends BaseController
         $data = PurchaseOrder::with(['details'])->where('id',$id)->first();
         if(empty($data)) return $this->setAlert('error','Galat!','Data yang tidak ditemukan!.');
         $data->kode_po = $data->kode;
-        $data->kode_transaksi = generateTransactionCode('TR');
+        $data->kode_transaksi = generateTransactionCode('PR');
         $data->tanggal_terima = date('Y-m-d');
         $data->diterima_oleh = auth()->user()->name;
         $data->status_pembayaran = 'unpaid';

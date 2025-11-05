@@ -5,7 +5,7 @@
       <!-- Sidebar -->
       <aside
         :class="[
-          'fixed left-0 top-10 bg-white h-[calc(100vh-2.5rem)] z-20 border-r border-gray-200 overflow-y-auto overflow-x-hidden transition-all duration-300 ease-in-out',
+          'fixed left-0 top-10 bg-white h-[calc(100vh-2.5rem)] z-20 border-r border-gray-200 overflow-y-auto overflow-x-hidden transition-all duration-300 ease-in-out scroll-container',
           isCollapsed ? 'w-16' : 'w-64'
         ]"
       >

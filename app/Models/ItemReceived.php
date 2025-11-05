@@ -97,10 +97,10 @@ class ItemReceived extends BaseModel
     protected static function booted()
     {
         static::deleting(function ($data) {
-            if (!in_array($data->status,['draft','cancelled'])) {
-                throw new Exception('Transaksi ini tidak dapat dihapus karena sudah melakukan penerimaan.');
+            if (!in_array($data->status,['draft','cancelled','received','partial_received'])) {
+                throw new Exception('Transaksi ini tidak dapat dihapus karena '.$data->status_label);
             }
-
+            $po = null;
             if(!empty($data->purchase_order_id)){
                 $po = PurchaseOrder::where('id',$data->purchase_order_id)->first();
                 if(!empty($po)){
@@ -108,15 +108,23 @@ class ItemReceived extends BaseModel
                 }
             }
 
-            //memperbarui stok:: stok dikurangi
-            // $details = $data->details()->get();
-            // foreach ($details as $key => $d) {
-            //    $stock = ItemStock::where('item_id',$d->item_id)->first();
-            //    if(empty($stock)) continue;
+            if(in_array($data->status, ['received','partial_received'])){
+                //perbarui stok
+                $details = $data->details()->get();
+                foreach ($details as $key => $d) {
+                   $stock = ItemStock::where('item_id',$d->item_id)->first();
+                   if(empty($stock)) continue;
 
-            //    $stock->jumlah -= (double) $d->jumlah;
-            //    $stock->save();
-            // }
+                   $stock->jumlah -= (double) $d->jumlah;
+                   $stock->save();
+                }
+
+                //ubah status PO
+                if(!empty($po)){
+                    $receiveds = ItemReceived::where('purchase_order_id',$po->id)->where('id','!=',$data->id)->count();
+                    if($receiveds > 0) $po->update(['status' => 'partial_received']);
+                }
+            }
 
             $data->details()->delete();
         });

@@ -648,6 +648,17 @@ html {
   -moz-user-select: none;
 }
 
+.scroll-container {
+  overflow: auto;       /* tetap bisa discroll */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer dan Edge lama */
+}
+
+.scroll-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, dan Edge baru */
+}
+
+
 /* HTML: <div class="loader"></div> */
 .loader {
   width: 120px;
