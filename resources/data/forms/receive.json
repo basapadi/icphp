@@ -59,7 +59,7 @@
                 "type": "textarea",
                 "label": "Catatan",
                 "required": false,
-                "hint": "Pilih Catatan"
+                "hint": "Catatan"
             }
             
         ]

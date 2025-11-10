@@ -4,8 +4,15 @@
     },
     "main": {
         "label": "Form Detail Pengiriman",
-        "column": 3,
+        "column": 2,
         "forms": [
+            {
+                "name": "tanggal_kirim",
+                "type": "date",
+                "label": "Tanggal Kirim",
+                "required": true,
+                "hint": "Masukkan Tanggal Kirim"
+            },
             {
                 "name": "tipe_pengiriman",
                 "type": "select",
@@ -15,7 +22,7 @@
                 "options": ":delivery_types"
             },
             {
-                "name": "kurir",
+                "name": "jasa_kirim",
                 "type": "text",
                 "label": "Kurir",
                 "required": true,
@@ -56,6 +63,13 @@
                 "label": "No.Kendaraan",
                 "required": false,
                 "hint": "No kendaraan apabila ada"
+            },
+            {
+                "name": "catatan",
+                "type": "textarea",
+                "label": "Catatan",
+                "required": false,
+                "hint": "Catatan"
             }
         ]
     }

@@ -4,18 +4,20 @@ namespace App\Models;
 
 class SaleOrderShipment extends BaseModel
 {
-    public $table = 'trx_sale_order_shipments';
+    public $table = 'trx_sale_shipments';
 
     protected $fillable = [
-        'sale_order_id',
+        'item_sale_id',
         'tanggal_pengiriman',
-        'nomor_resi',
-        'status',
-        'dikirim_oleh',
+        'tipe_pengiriman',
+        'biaya_pengiriman',
+        'no_resi',
+        'jasa_kirim',
+        'driver',
+        'telepon',
         'catatan',
+        'no_kendaraan',
         'created_by',
-        'updated_by',
-        'deleted_by',
-        'deleted_at'
+        'updated_by'
     ];
 }

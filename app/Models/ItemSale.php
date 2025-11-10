@@ -92,7 +92,7 @@ class ItemSale extends BaseModel
     protected static function booted()
     {
         static::deleting(function ($data) {
-            if (!in_array($data->status,['draft','cancelled'])) {
+            if (!in_array($data->status,['draft','cancelled','sent','partial_sent'])) {
                 throw new Exception('Transaksi ini tidak dapat dihapus karena sudah melakukan penjualan.');
             }
 
@@ -105,6 +105,32 @@ class ItemSale extends BaseModel
             //    $stock->jumlah += (double) $d->jumlah;
             //    $stock->save();
             // }
+
+            $so = null;
+            if(!empty($data->sale_order_id)){
+                $so = SaleOrder::where('id',$data->sale_order_id)->first();
+                if(!empty($so)){
+                    $so->update(['status' => 'confirmed']);
+                }
+            }
+
+            if(in_array($data->status, ['sent','partial_sent'])){
+                //perbarui stok
+                $details = $data->details()->get();
+                foreach ($details as $key => $d) {
+                   $stock = ItemStock::where('item_id',$d->item_id)->first();
+                   if(empty($stock)) continue;
+
+                   $stock->jumlah += (double) $d->jumlah;
+                   $stock->save();
+                }
+
+                //ubah status SO
+                if(!empty($so)){
+                    $sents = ItemSale::where('sale_order_id',$so->id)->where('id','!=',$data->id)->count();
+                    if($sents > 0) $so->update(['status' => 'partial_sent']);
+                }
+            }
 
             $data->details()->delete();
         });

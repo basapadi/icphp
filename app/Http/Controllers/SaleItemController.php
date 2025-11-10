@@ -80,10 +80,11 @@ class SaleItemController extends BaseController
         $delivery = new stdClass;
         $delivery->biaya_pengiriman = 0;
         $delivery->tipe_pengiriman = 'internal';
+        $delivery->tanggal_kirim = date('Y-m-d');
 
         $form = $this->getResourceForm('sale_delivery');
         injectData($form, [
-            'delivery_types'     => ihandCashierConfigToSelect('delivery_types'),
+            'delivery_types'        => ihandCashierConfigToSelect('delivery_types'),
         ]);
         
         $form = serializeform($form);

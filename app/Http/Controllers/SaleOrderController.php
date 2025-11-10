@@ -77,7 +77,7 @@ class SaleOrderController extends BaseController
         $createSaleItem->conditions = ['status' => ['confirmed','partial_sent']];
         $createSaleItem->type = 'form_dialog';
         $createSaleItem->apiUrl = route('api.sale.order.createSaleItem');
-        $createSaleItem->icon = 'HandHelping';
+        $createSaleItem->icon = 'Truck';
         $createSaleItem->color = '#6D94C5';
         $createSaleItem->onClick = 'getFormDialog';
         $createSaleItem->formUrl = route('api.sale.order.saleForm');
