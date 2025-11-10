@@ -8,12 +8,16 @@ use App\Models\{
     SaleOrderDetail,
     Contact,
     Item,
-    Master
+    ItemSale,
+    ItemSaleDetail,
+    Master,
+    ItemStock
 };
 use Illuminate\Http\Request;
 use Exception;
 use App\Http\Response;
 use App\Objects\ContextMenu;
+use Illuminate\Support\Facades\{DB,Mail,Log};
 
 class SaleOrderController extends BaseController
 {
@@ -253,10 +257,177 @@ class SaleOrderController extends BaseController
     }
 
     public function saleForm(Request $request){
-        //TODO:: Form Penjualan
+        $this->allowAccessModule('transaction.item.sale', 'create');
+        $id = $this->decodeId($request->id);
+
+        $data = SaleOrder::with(['details'])->where('id',$id)->first();
+        if(empty($data)) return $this->setAlert('error','Galat!','Data yang tidak ditemukan!.');
+
+        $data->kode_so = $data->kode;
+        $data->kode_transaksi = generateTransactionCode('DO');
+        $data->tanggal_jual = date('Y-m-d');
+        $data->status = 'sent';
+        $data->dijual_oleh = auth()->user()->name;
+        $data->so_id = $data->id;
+        unset($data->id);
+
+        $newDetails = [];
+
+        foreach ($data->details as $detail) {
+            $saleQty = DB::table('trx_sale_item_details as sid')
+                ->join('trx_sale_items as si', 'si.id', '=', 'sid.item_sale_id')
+                ->where('si.sale_order_id', $data->so_id)
+                ->where('sid.item_id', $detail->item_id)
+                ->sum('sid.jumlah');
+            $sisa = $detail->jumlah - $saleQty;
+
+            if ($sisa > 0) {
+                $detail->jumlah = $sisa;
+                $newDetails[] = $detail;
+            }
+        }
+        // dd($data);
+        $data->setRelation('details', collect($newDetails));
+        $form = $this->getResourceForm('sale');
+        injectData($form, [
+            'kode_disabled'     => false,
+            'contacts'          => getContactToSelect('pelanggan'),
+            'status'            => ihandCashierConfigToSelect('sale_item_status', ['invoiced','partial_invoiced','cancelled']),
+            'status_readonly'   => true,
+            'items'             => getItemToSelect(),
+            'units'             => getUnitToSelect(),
+            'contact_readonly'  => true
+        ]);
+        $form = serializeform($form);
+
+        return Response::ok('loaded',[
+            'data' => $data,
+            'dialog' => $form['dialog'],
+            'sections' => $form['sections']
+        ]); 
     }
 
     public function createSaleItem(Request $request){
-        //TODO:: buat penjualan di Pesanan penjualan
+        $this->allowAccessModule('transaction.item.sale', 'create');
+
+        $rules = [
+            'addtable'          => 'required|array',
+            'addtable.details'  => 'required|array|min:1',
+            'kode_transaksi'    => 'required|string',
+            'contact_id'        => 'required|numeric',
+            'tanggal_jual'      => 'required|string',
+            'dijual_oleh'       => 'nullable|string',
+            'catatan'           => 'nullable|string',
+            'so_id'             => 'required|numeric',
+
+            'addtable.details.*.item_id'    => 'required|integer|exists:items,id|distinct',
+            'addtable.details.*.unit_id'    => 'required|integer|exists:masters,id',
+            'addtable.details.*.jumlah'     => 'required|numeric|min:1',
+            'addtable.details.*.harga'      => 'required|numeric|min:0',
+            'addtable.details.*.kedaluarsa' => 'nullable|string',
+            'addtable.details.*.batch'      => 'nullable|string'
+        ];
+
+        $data = $this->validate($rules);
+        if ($data instanceof \Illuminate\Http\JsonResponse) return $data;
+
+        try {
+            begin();
+            $preInsert = [
+                'sale_order_id'             => trim($data['so_id']),
+                'kode_transaksi'            => trim($data['kode_transaksi']),
+                'contact_id'                => trim($data['contact_id']),
+                'tanggal_jual'              => trim($data['tanggal_jual']),
+                'dijual_oleh'               => trim($data['dijual_oleh']),
+                'status'                    => 'sent',
+                'catatan'                   => trim(@$data['catatan'])??null,
+                'created_by'                => auth()->user()->id,
+                'created_at'                => now()
+            ];
+
+            $so = SaleOrder::with(['details','details.item'])->where('id', $data['so_id'])->first();
+            if(empty($so))return $this->setAlert('error','Gagal', 'SO dengan id '.$data['so_id'].' tidak ditemukan');
+
+            $sent = ItemSale::create($preInsert);
+
+            $perInsertDetails = [];
+            $total = 0;
+            if(count($data['addtable']['details']) > 0){
+                foreach ($data['addtable']['details'] as $key => $d) {
+                    $t = (double) (trim($d['harga']) * trim($d['jumlah']));
+                    array_push($perInsertDetails,[
+                        'item_sale_id'      => $sent->id,
+                        'item_id'           => (int) trim($d['item_id']),
+                        'unit_id'           => (int) trim($d['unit_id']),
+                        'harga'             => (double) trim($d['harga']),
+                        'jumlah'            => (int) trim($d['jumlah']),
+                        'kedaluarsa'        => !empty(trim(@$d['kedaluarsa'])) ? trim($d['kedaluarsa']) : null,
+                        'batch'             => (string) !empty(trim(@$d['batch'])?trim(@$d['batch']):null),
+                    ]);
+
+                    $total += $t;
+                }
+            }
+            ItemSaleDetail::insert($perInsertDetails);
+            $allFull = true;
+            $soDetails = $so->details;
+            foreach ($perInsertDetails as $key => $ird) {
+                $receivedQty = ItemSaleDetail::whereHas('sale', function ($q) use ($so) {
+                    $q->where('sale_order_id', $so->id);
+                })
+                ->where('item_id', $ird['item_id'])
+                ->sum('jumlah');
+
+                $soItem = $soDetails->where('item_id',$ird['item_id'])->first();
+                if(empty($soItem)){
+                    rollBack();
+                    return $this->setAlert('error','Gagal', 'Barang yang anda masukkan tidak ada di pemesanan');
+                }
+                if ($receivedQty < $soItem->jumlah) {
+                    $allFull = false;
+                } else if( $receivedQty > $soItem->jumlah){
+                    rollBack();
+                    return $this->setAlert('error','Gagal', 'Total jumlah pengiriman pada barang '.$soItem->item->nama.' lebih besar sebanyak '.($receivedQty - $soItem->jumlah).' dari jumlah pemesanan, silahkan masukkan jumlah yang sesuai dengan jumlah pesanan.');
+                }
+            }
+
+            $stocks = ItemStock::get();
+            foreach ($perInsertDetails as $key => $item) {
+                $mitem = Item::where('id', $item['item_id'])->first();
+                $stock = $stocks->where('item_id',$item['item_id'])->where('unit_id',$item['unit_id'])->first();
+                if(!empty($stock) && $stock->jumlah >= $item['jumlah']) {
+                    $stock->jumlah -= (int) $item['jumlah'];
+                    $stock->tanggal_pembaruan = now();
+                    $stock->save();
+                } else {
+                    return $this->setAlert('error','Gagal', 'Stok '. $mitem->nama .' tidak tersedia sebanyak '. $item['jumlah']);
+                }
+            }
+
+            //cek apakah ada barang yang belum dikirim?
+            foreach ($soDetails as $d) {
+                $receivedQty = ItemSaleDetail::whereHas('sale', function ($q) use ($so) {
+                        $q->where('sale_order_id', $so->id);
+                    })
+                    ->where('item_id', $d->item_id)
+                    ->sum('jumlah');
+
+                if ($receivedQty < $d->jumlah) {
+                    $allFull = false;
+                }
+            }
+
+            $so->status = $allFull ? 'sent': 'partial_sent';
+            $sent->total_harga = $total;
+            $sent->sale_order_id = $so->id;
+            $sent->save();
+            $so->save();
+
+            commit();
+            return $this->setAlert('info','Berhasil','Pengiriman '.$sent->kode.' berhasil disimpan');
+        }catch(Exception $e){
+            rollBack();
+            return $this->setAlert('error','Gagal',$e->getMessage());
+        }
     }
 }

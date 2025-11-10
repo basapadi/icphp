@@ -171,6 +171,16 @@ return [
             "class" => "orange-500",
             "color" => "orange-500",
         ],
+        "partial_sent" => [
+            "label" => "Dikirim Sebagian",
+            "class" => "blue-600",
+            "color" => "blue-600",
+        ],
+        "sent" => [
+            "label" => "Dikirim",
+            "class" => "black-400",
+            "color" => "black-400",
+        ],
         "completed" => [
             "label" => "Selesai",
             "class" => "green-700",
@@ -188,13 +198,18 @@ return [
             "class" => "gray-400",
             "color" => "gray-400",
         ],
-        "partial_sold" => [
-            "label" => "Dijual Sebagian",
+        "partial_sent" => [
+            "label" => "Dikirim Sebagian",
             "class" => "blue-600",
             "color" => "blue-600",
         ],
-        "sold" => [
-            "label" => "Dijual",
+        "sent" => [
+            "label" => "Dikirim",
+            "class" => "black-400",
+            "color" => "black-400",
+        ],
+        "delivered" => [
+            "label" => "Terkirim",
             "class" => "black-400",
             "color" => "black-400",
         ],

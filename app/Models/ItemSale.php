@@ -17,7 +17,8 @@ class ItemSale extends BaseModel
         'total_harga_formatted',
         'color_status_label',
         'total_terbilang',
-        'terbayar_formatted'
+        'terbayar_formatted',
+        'kode_so'
     ];
 
     protected $fillable = [
@@ -36,34 +37,36 @@ class ItemSale extends BaseModel
     ];
 
     public function getStatusLabelAttribute(){
-        return isset($this->status) ? config('ihandcashier.payment_status')[$this->status]['label'] : null;
+        return isset($this->status) ? config('ihandcashier.sale_item_status')[$this->status]['label'] : null;
+    }
+
+    public function getColorStatusLabelAttribute(){
+        return isset($this->status) ? config('ihandcashier.sale_item_status')[$this->status]['color'] : null;
     }
 
     public function getTanggalJualFormattedAttribute()
     {
-        return $this->tanggal_jual ? Carbon::parse($this->tanggal_jual)->locale('id')->translatedFormat('l, d M Y H:i') : null;
+        return formattedDate($this->tanggal_jual,'l, d M Y');
     }
 
     public function getTotalHargaFormattedAttribute()
     {
-        return 'IDR '.number_format($this->total_harga, 0, ',', '.');
-    }
-
-    public function getColorStatusPembayaranLabelAttribute()
-    {
-        $paymentStatus = config('ihandcashier.payment_status');
-        if(isset($this->status_pembayaran)) return $paymentStatus[$this->status_pembayaran]['class'];
-        else return null;
+        return currency($this->total_harga);
     }
 
     public function getTerbayarFormattedAttribute()
     {
-        return 'IDR '.number_format($this->terbayar, 0, ',', '.');
+        return currency($this->terbayar);
     }
 
     public function getTotalTerbilangAttribute()
     {
         return strtoupper(SpellNumber::generate($this->total_harga));
+    }
+
+    public function getKodeSoAttribute()
+    {
+        return $this->sale_order()->first()?->kode;
     }
 
     public function contact(){
@@ -80,6 +83,10 @@ class ItemSale extends BaseModel
 
     public function updatedBy(){
        return $this->belongsTo(User::class, 'updated_by', 'id');
+    }
+
+    public function sale_order(){
+       return $this->belongsTo(SaleOrder::class, 'sale_order_id', 'id');
     }
 
     protected static function booted()

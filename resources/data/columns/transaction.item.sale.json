@@ -64,7 +64,7 @@
     {
         "name": "tanggal_jual_formatted",
         "required": true,
-        "label": "Tanggal Jual",
+        "label": "Tanggal",
         "align": "left",
         "field": "tanggal_jual_formatted",
         "sortable": true,
@@ -78,7 +78,7 @@
     {
         "name": "tanggal_jual",
         "required": true,
-        "label": "Tanggal Jual",
+        "label": "Tanggal",
         "align": "left",
         "field": "tanggal_jual",
         "sortable": true,
@@ -90,11 +90,11 @@
         "option_filter": true
     },
     {
-        "name": "status_pembayaran_label",
+        "name": "status_label",
         "required": true,
-        "label": "Status Bayar",
+        "label": "Status",
         "align": "left",
-        "field": "status_pembayaran_label",
+        "field": "status_label",
         "sortable": true,
         "type": "badge",
         "options": [],
@@ -104,153 +104,18 @@
         "option_filter": false
     },
     {
-        "name": "status_pembayaran",
+        "name": "status",
         "required": true,
-        "label": "Status Bayar",
+        "label": "Status",
         "align": "left",
-        "field": "status_pembayaran",
+        "field": "status",
         "sortable": true,
         "type": "select",
-        "options": [
-            {
-                "value": "unpaid",
-                "label": "Belum Dibayar"
-            },
-            {
-                "value": "partially_paid",
-                "label": "Terbayar Sebagian"
-            },
-            {
-                "value": "paid",
-                "label": "Lunas"
-            },
-            {
-                "value": "overdue",
-                "label": "Jatuh Tempo"
-            },
-            {
-                "value": "cancelled",
-                "label": "Dibatalkan"
-            },
-            {
-                "value": "refunded",
-                "label": "Dikembalikan"
-            }
-        ],
+        "options": ":status",
         "show": false,
         "class": "",
         "styles": "",
         "option_filter": true
-    },
-    {
-        "name": "tipe_pembayaran_label",
-        "required": true,
-        "label": "Tipe Bayar",
-        "align": "left",
-        "field": "tipe_pembayaran_label",
-        "sortable": true,
-        "type": "badge",
-        "options": [],
-        "show": true,
-        "class": "",
-        "styles": "",
-        "option_filter": false
-    },
-    {
-        "name": "tipe_pembayaran",
-        "required": true,
-        "label": "Tipe Bayar",
-        "align": "left",
-        "field": "tipe_pembayaran",
-        "sortable": true,
-        "type": "select",
-        "options": [
-            {
-                "value": "cash",
-                "label": "Lunas"
-            },
-            {
-                "value": "credit",
-                "label": "Cicilan"
-            },
-            {
-                "value": "tempo",
-                "label": "Hutang"
-            }
-        ],
-        "show": false,
-        "class": "",
-        "styles": "",
-        "option_filter": true
-    },
-    {
-        "name": "metode_pembayaran_label",
-        "required": true,
-        "label": "Metode Bayar",
-        "align": "left",
-        "field": "metode_pembayaran_label",
-        "sortable": true,
-        "type": "badge",
-        "options": [],
-        "show": true,
-        "class": "",
-        "styles": "",
-        "option_filter": false
-    },
-    {
-        "name": "metode_pembayaran",
-        "required": true,
-        "label": "Metode Bayar",
-        "align": "left",
-        "field": "metode_pembayaran",
-        "sortable": true,
-        "type": "select",
-        "options": [
-            {
-                "value": "cash_payment",
-                "label": "Tunai"
-            },
-            {
-                "value": "bank_transfer",
-                "label": "Transfer Bank"
-            },
-            {
-                "value": "qris",
-                "label": "QRIS"
-            }
-        ],
-        "show": false,
-        "class": "",
-        "styles": "",
-        "option_filter": true
-    },
-    {
-        "name": "syarat_pembayaran",
-        "required": true,
-        "label": "Syarat",
-        "align": "left",
-        "field": "syarat_pembayaran",
-        "sortable": true,
-        "type": "text",
-        "options": [],
-        "show": true,
-        "class": "font-mono text-red-500",
-        "styles": "",
-        "option_filter": false
-    },
-    {
-        "name": "tanggal_jatuh_tempo",
-        "required": true,
-        "label": "Jatuh Tempo",
-        "align": "left",
-        "field": "tanggal_jatuh_tempo",
-        "sortable": true,
-        "type": "text",
-        "options": [],
-        "show": true,
-        "class": "",
-        "styles": "",
-        "option_filter": false
     },
     {
         "name": "catatan",

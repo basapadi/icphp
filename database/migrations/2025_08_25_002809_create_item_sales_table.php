@@ -20,11 +20,7 @@ return new class extends Migration
             $table->string('dijual_oleh')->nullable();
             $table->text('catatan')->nullable();
             $table->unsignedBigInteger('total_harga')->default(0);
-            $table->double('potongan_harga')->default(0);
-            $table->string('status_pembayaran',20);
-            $table->string('tipe_pembayaran',20);
-            $table->string('metode_pembayaran',20);
-            $table->string('syarat_pembayaran',20)->nullable();
+            $table->string('status',20);
             $table->integer('created_by');
             $table->integer('updated_by')->nullable();
             $table->integer('deleted_by')->nullable();

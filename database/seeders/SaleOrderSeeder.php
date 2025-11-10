@@ -22,19 +22,21 @@ class SaleOrderSeeder extends Seeder
         $itemIds = Item::select("id")
             ->where("status", true)
             ->get()
-            ->pluck("id");
+            ->pluck("id")
+            ->toArray();
 
         $pos = SaleOrder::all();
         $details = [];
         $totalHarga = 0;
-        foreach ($pos as $key => $po) {
+        foreach ($pos as $key => $so) {
             $jlh = fake()->randomElement([4, 5, 6, 7, 8]);
             $totalHarga = 0;
-
-            for ($i = 0; $i <= $jlh; $i++) {
-                $itemId = fake()->randomElement($itemIds);
+            shuffle($itemIds);
+            $uniqueItemIds = array_slice($itemIds, 0, $jlh);
+            for ($i = 0; $i < count($uniqueItemIds); $i++) {
+                $itemId = $uniqueItemIds[$i];
                 $currentItem = $items->where("id", $itemId)->first();
-                $harga = $currentItem["harga"];
+                $harga = $currentItem["harga"] + (double) 0.10 * $currentItem["harga"];
                 $banyak = fake()->randomElement([
                     1,
                     2,
@@ -48,25 +50,25 @@ class SaleOrderSeeder extends Seeder
                     10,
                 ]);
                 $unitId = $currentItem["satuan_id"];
-                $discountPersen = fake()->randomElement([0, 1, 2, 3, 4, 5]);
+                $discountPersen = fake()->randomElement([0, 1, 2]);
                 $total = (int) $banyak * (float) $harga;
                 $discount = round(($discountPersen / 100) * $total, 0);
                 $subtotal = $total - $discount;
                 array_push($details, [
-                    "sale_order_id" => $po->id,
+                    "sale_order_id" => $so->id,
                     "item_id" => $itemId,
                     "unit_id" => $unitId,
                     "harga" => $harga,
-                    "discount" => $discount,
                     "jumlah" => $banyak,
+                    "discount" => $discount,
                     "sub_total" => $subtotal,
                     // 'persentase'        => $discountPersen,
                     // 'total'             => $total
                 ]);
                 $totalHarga += $subtotal;
             }
-            $po->total = $totalHarga;
-            $po->save();
+            $so->total = $totalHarga;
+            $so->save();
         }
 
         SaleOrderDetail::insert($details);

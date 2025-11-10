@@ -1,25 +1,31 @@
 {
     "main": {
         "type": "object",
-        "title": "Detail Penjualan Barang",
+        "title": "Detail Pengiriman Barang",
         "fields": {
+            "contact__nama": {
+                "label": "Nama Pelanggan"
+            },
+            "contact__telepon": {
+                "label": "Telepon"
+            },
+            "contact__email": {
+                "label": "Email"
+            },
+            "contact__alamat": {
+                "label": "Alamat"
+            },
             "tanggal_jual_formatted": {
                 "label": "Tanggal"
             },
+            "kode_so": {
+                "label": "Kode SO"
+            },
             "kode_transaksi": {
-                "label": "Kode Transaksi"
+                "label": "Kode Pengiriman"
             },
-            "status_pembayaran_label": {
-                "label": "Status Pembayaran"
-            },
-            "tipe_pembayaran_label": {
-                "label": "Tipe Pembayaran"
-            },
-            "metode_pembayaran_label": {
-                "label": "Metode Pembayaran"
-            },
-            "syarat_pembayaran": {
-                "label": "Syarat Pembayaran"
+            "status_label": {
+                "label": "Status"
             },
             "tanggal_jatuh_tempo": {
                 "label": "Tanggal Jatuh Tempo"
@@ -45,7 +51,7 @@
     },
     "details": {
         "type": "array",
-        "title": "Detail Penjualan",
+        "title": "Detail Pengiriman",
         "fields": {
             "no": {
                 "label": "No",
@@ -71,32 +77,6 @@
             "total_harga_formatted": {
                 "label": "Sub Total (Rupiah)",
                 "class": "font-mono text-right"
-            }
-        }
-    },
-    "payments": {
-        "type": "array",
-        "title": "Riwayat Pembayaran",
-        "fields": {
-            "no": {
-                "label": "No",
-                "style": "width: 20px"
-            },
-            "tanggal_pembayaran_formatted": {
-                "label": "Tanggal"
-            },
-            "jumlah_formatted": {
-                "label": "Jumlah (Rupiah)",
-                "class": "font-mono text-right font-bold"
-            },
-            "metode_pembayaran_label": {
-                "label": "Metode Pembayaran"
-            },
-            "dijual_oleh": {
-                "label": "Dijual Oleh"
-            },
-            "created_by__name": {
-                "label": "Dibuat Oleh"
             }
         }
     }

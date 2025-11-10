@@ -1,0 +1,119 @@
+{
+    "dialog": {
+        "width": 7
+    },
+    "main": {
+        "label": "Form Pengiriman",
+        "column": 3,
+        "forms": [
+            {
+                "name": "kode_so",
+                "type": "text",
+                "label": "Kode Pesanan Penjualan",
+                "required": false,
+                "disabled": true,
+                "hint": "Kode Pesanan Penjualan"
+            },
+            {
+                "name": "kode_transaksi",
+                "type": "text",
+                "label": "Kode Transaksi",
+                "required": true,
+                "disabled": ":kode_disabled",
+                "hint": "Masukkan Kode Barang atau autogenerate"
+            },
+            {
+                "name": "contact_id",
+                "type": "select",
+                "label": "Pelanggan",
+                "required": false,
+                "hint": "Pilih Pelanggan barang",
+                "options": ":contacts",
+                "readonly": ":contact_readonly"
+            },
+            {
+                "name": "tanggal_jual",
+                "type": "date",
+                "label": "Tanggal Pengiriman",
+                "required": true,
+                "hint": "Masukkan Tanggal Kirim"
+            },
+            {
+                "name": "dijual_oleh",
+                "type": "text",
+                "label": "Dijual Oleh",
+                "required": true,
+                "hint": "Masukkan Penjual"
+            },
+            {
+                "name": "status",
+                "type": "select",
+                "label": "Status",
+                "required": true,
+                "hint": "Pilih Status",
+                "options": ":status",
+                "readonly": ":status_readonly"
+            },
+            {
+                "name": "catatan",
+                "type": "textarea",
+                "label": "Catatan",
+                "required": false,
+                "hint": "Pilih Catatan"
+            }
+            
+        ]
+    },
+    "details": {
+        "label": "Detail Pengiriman",
+        "column": 7,
+        "type": "addtable",
+        "editable": true,
+        "forms": [
+            {
+                "name": "item_id",
+                "type": "select",
+                "label": "Barang",
+                "required": true,
+                "hint": "Pilih Barang",
+                "options": ":items"
+            },
+            {
+                "name": "unit_id",
+                "type": "select",
+                "label": "Satuan",
+                "required": true,
+                "hint": "Pilih Satuan Barang",
+                "options": ":units"
+            },
+            {
+                "name": "jumlah",
+                "type": "number",
+                "label": "Jumlah",
+                "required": true,
+                "hint": "Masukkan Jumlah Barang"
+            },
+            {
+                "name": "harga",
+                "type": "currency",
+                "label": "Harga Satuan",
+                "required": true,
+                "hint": "Masukkan Harga Satuan Barang"
+            },
+            {
+                "name": "kedaluarsa",
+                "type": "date",
+                "label": "Tanggal Kedaluarsa",
+                "required": false,
+                "hint": "Masukkan Tanggal Kedaluarsa"
+            },
+            {
+                "name": "batch",
+                "type": "text",
+                "label": "Kode Batch",
+                "required": false,
+                "hint": "Masukkan Batch"
+            }
+        ]
+    }
+}

@@ -18,9 +18,6 @@
             "contact__telepon": {
                 "label": "Telepon Pemasok"
             },
-            "tanggal_formatted": {
-                "label": "Tanggal PO"
-            },
             "tanggal_perkiraan_formatted": {
                 "label": "Tanggal Perkiraan Datang"
             },

@@ -45,5 +45,10 @@ class ItemSaleDetail extends BaseModel
        return $this->belongsTo(Master::class, 'unit_id', 'id');
     }
 
+    public function sale()
+    {
+        return $this->belongsTo(ItemSale::class, 'item_sale_id');
+    }
+
     
 }
