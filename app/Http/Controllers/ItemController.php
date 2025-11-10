@@ -20,7 +20,7 @@ class ItemController extends BaseController
             'categories' => $categories
         ]);
         // dd($form);
-        $this->setForm($form);
+        $this->setDataDefaultForm($form);
     }
 
     public function store(Request $request) {

@@ -47,7 +47,7 @@ class StockAdjustmentController extends BaseController
             'adjustment_type_readonly' => false,
             'item_id_readonly' => false
         ]);
-        $this->setForm($form);
+        $this->setDataDefaultForm($form);
     }
 
     public function store(Request $request) {

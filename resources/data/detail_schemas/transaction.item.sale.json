@@ -51,7 +51,7 @@
     },
     "details": {
         "type": "array",
-        "title": "Detail Pengiriman",
+        "title": "Detail Barang",
         "fields": {
             "no": {
                 "label": "No",

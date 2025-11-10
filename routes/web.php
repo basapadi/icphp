@@ -210,6 +210,9 @@ Route::prefix('api')->group(function () {
             Route::get('grid', 'grid');
             Route::get('form', 'form');
             Route::delete('/{id}', 'delete');
+
+            Route::post('/create-delivery', 'createDelivery')->name('api.sale.createDelivery');
+            Route::get('/delivery/form', 'deliveryForm')->name('api.sale.deliveryForm');
         });
 
 

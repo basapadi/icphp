@@ -43,6 +43,7 @@ export {
 	Receipt,
 	BanknoteArrowUp,
 	Banknote,
-	BanknoteX
+	BanknoteX,
+	Truck
 
 } from "lucide-vue-next";

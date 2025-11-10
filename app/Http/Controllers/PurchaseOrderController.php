@@ -53,7 +53,7 @@ class PurchaseOrderController extends BaseController
         ]);
 
         //set default value
-        $this->setForm($form,[
+        $this->setDataDefaultForm($form,[
             'kode' => generateTransactionCode('PO'),
             'tanggal' => date('d-m-Y'),
             'status' => 'draft',

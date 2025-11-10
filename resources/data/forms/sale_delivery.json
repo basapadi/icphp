@@ -1,0 +1,62 @@
+{
+    "dialog": {
+        "width": 4
+    },
+    "main": {
+        "label": "Form Detail Pengiriman",
+        "column": 3,
+        "forms": [
+            {
+                "name": "tipe_pengiriman",
+                "type": "select",
+                "label": "Tipe Pengiriman",
+                "required": true,
+                "hint": "Pilih Tipe Pengiriman",
+                "options": ":delivery_types"
+            },
+            {
+                "name": "kurir",
+                "type": "text",
+                "label": "Kurir",
+                "required": true,
+                "hint": "Masukkan kurir internal atau jasa pihak ketiga"
+            },
+            {
+                "name": "biaya_pengiriman",
+                "type": "currency",
+                "label": "Biaya Pengiriman",
+                "required": true,
+                "hint": "Biaya pengiriman"
+            },
+            {
+                "name": "no_resi",
+                "type": "text",
+                "label": "No.Resi",
+                "required": false,
+                "hint": "Masukkan nomor resi pihak ketiga apabila ada"
+            },
+            {
+                "name": "driver",
+                "type": "text",
+                "label": "Driver",
+                "required": false,
+                "hint": "Masukkan nama driver"
+            },
+            {
+                "name": "telepon",
+                "type": "phone",
+                "label": "Telepon Driver",
+                "required": false,
+                "hint": "Telepon driver apabila ada",
+                "format": "^(?:\\+62|62|0)8[1-9][0-9]{6,10}$"
+            },
+            {
+                "name": "no_kendaraan",
+                "type": "text",
+                "label": "No.Kendaraan",
+                "required": false,
+                "hint": "No kendaraan apabila ada"
+            }
+        ]
+    }
+}

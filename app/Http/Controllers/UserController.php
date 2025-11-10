@@ -28,7 +28,7 @@ class UserController extends BaseController
             'roles' => $roles,
             'username_disabled' => false
         ]);
-        $this->setForm($form);
+        $this->setDataDefaultForm($form);
     }
 
     public function store(Request $request) {

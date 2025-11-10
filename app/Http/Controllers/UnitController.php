@@ -20,7 +20,7 @@ class UnitController extends BaseController
         injectData($form, [
             'basic_units' => $basicUnits
         ]);
-        $this->setForm($form);
+        $this->setDataDefaultForm($form);
     }
 
     public function store(Request $request) {

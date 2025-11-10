@@ -65,7 +65,7 @@
         ]
     },
     "details": {
-        "label": "Detail Pengiriman",
+        "label": "Detail Barang",
         "column": 7,
         "type": "addtable",
         "editable": true,

@@ -15,7 +15,7 @@ class ContactController extends BaseController
         $this->setModule('master.contact');
         $this->setFilterColumnsLike(['nama','telepon'],request('q')??'');
         $form = $this->getResourceForm('contact');
-        $this->setForm($form);
+        $this->setDataDefaultForm($form);
     }
 
     public function store(Request $request) {

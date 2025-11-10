@@ -18,9 +18,6 @@
             "contact__telepon": {
                 "label": "Telepon Pelanggan"
             },
-            "tanggal_formatted": {
-                "label": "Tanggal SO"
-            },
             "tanggal_permintaan_formatted": {
                 "label": "Tanggal Permintaan"
             },

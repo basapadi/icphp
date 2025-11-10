@@ -172,14 +172,14 @@ return [
             "color" => "orange-500",
         ],
         "partial_sent" => [
-            "label" => "Dikirim Sebagian",
+            "label" => "Pengiriman Sebagian",
             "class" => "blue-600",
             "color" => "blue-600",
         ],
         "sent" => [
-            "label" => "Dikirim",
-            "class" => "black-400",
-            "color" => "black-400",
+            "label" => "Pengiriman",
+            "class" => "blue-600",
+            "color" => "blue-600",
         ],
         "completed" => [
             "label" => "Selesai",
@@ -723,4 +723,21 @@ return [
             "action_create" => "reduction",
         ],
     ],
+    "delivery_types" => [
+        "ekspedisi" => [
+            "label" => "Jasa Ekspedisi",
+            "class" => "green-700",
+            "color" => "green-700"
+        ],
+        "internal" => [
+            "label" => "Internal",
+            "class" => "blue-600",
+            "color" => "blue-600"
+        ],
+        "pickup" => [
+            "label" => "Ditempat",
+            "class" => "blue-600",
+            "color" => "blue-600"
+        ],
+    ]
 ];

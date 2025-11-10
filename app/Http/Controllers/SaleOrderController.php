@@ -53,7 +53,7 @@ class SaleOrderController extends BaseController
             'so_options' => $saleStatus,
         ]);
 
-         $this->setForm($form,[
+        $this->setDataDefaultForm($form,[
             'kode' => generateTransactionCode('SO'),
             'tanggal' => date('Y-m-d'),
             'status' => 'draft',
@@ -339,7 +339,7 @@ class SaleOrderController extends BaseController
                 'contact_id'                => trim($data['contact_id']),
                 'tanggal_jual'              => trim($data['tanggal_jual']),
                 'dijual_oleh'               => trim($data['dijual_oleh']),
-                'status'                    => 'sent',
+                'status'                    => 'draft',
                 'catatan'                   => trim(@$data['catatan'])??null,
                 'created_by'                => auth()->user()->id,
                 'created_at'                => now()
@@ -391,18 +391,19 @@ class SaleOrderController extends BaseController
                 }
             }
 
-            $stocks = ItemStock::get();
-            foreach ($perInsertDetails as $key => $item) {
-                $mitem = Item::where('id', $item['item_id'])->first();
-                $stock = $stocks->where('item_id',$item['item_id'])->where('unit_id',$item['unit_id'])->first();
-                if(!empty($stock) && $stock->jumlah >= $item['jumlah']) {
-                    $stock->jumlah -= (int) $item['jumlah'];
-                    $stock->tanggal_pembaruan = now();
-                    $stock->save();
-                } else {
-                    return $this->setAlert('error','Gagal', 'Stok '. $mitem->nama .' tidak tersedia sebanyak '. $item['jumlah']);
-                }
-            }
+            // $stocks = ItemStock::get();
+            // foreach ($perInsertDetails as $key => $item) {
+            //     $mitem = Item::where('id', $item['item_id'])->first();
+            //     $munit = Master::where('id', $item['unit_id'])->first();
+            //     $stock = $stocks->where('item_id',$item['item_id'])->where('unit_id',$item['unit_id'])->first();
+            //     if(!empty($stock) && $stock->jumlah >= $item['jumlah']) {
+            //         $stock->jumlah -= (int) $item['jumlah'];
+            //         $stock->tanggal_pembaruan = now();
+            //         $stock->save();
+            //     } else {
+            //         return $this->setAlert('error','Gagal', 'Stok '. $mitem->nama .' tidak tersedia sebanyak '. $item['jumlah'] . ' '. $munit->nama);
+            //     }
+            // }
 
             //cek apakah ada barang yang belum dikirim?
             foreach ($soDetails as $d) {

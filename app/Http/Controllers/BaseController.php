@@ -250,7 +250,7 @@ class BaseController extends Controller
      * @return void
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      */
-    protected function setForm(array $fields,array $data = [])
+    protected function setDataDefaultForm(array $fields,array $data = [])
     {
         $this->_form = $fields;
         $this->_formData = $data;

@@ -55,7 +55,7 @@ class ReceivedItemController extends BaseController
         ]);
 
         //set default value
-        $this->setForm($form,[
+        $this->setDataDefaultForm($form,[
             'kode_transaksi' => generateTransactionCode('TR'),
             'tanggal_terima' => now(),
             'diterima_oleh' => auth()->user()->name,
