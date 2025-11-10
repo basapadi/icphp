@@ -74,7 +74,7 @@ class SaleOrderController extends BaseController
 
         //buat pengiriman baru
         $createSaleItem = new ContextMenu('createsale','Buat Pengiriman');
-        $createSaleItem->conditions = ['status' => ['confirmed','partial_sold']];
+        $createSaleItem->conditions = ['status' => ['confirmed','partial_sent']];
         $createSaleItem->type = 'form_dialog';
         $createSaleItem->apiUrl = route('api.sale.order.createSaleItem');
         $createSaleItem->icon = 'HandHelping';
