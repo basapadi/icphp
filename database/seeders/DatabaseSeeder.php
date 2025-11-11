@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PurchaseOrderSeeder::class); //seeder PO
         $this->call(ItemReceivedSeeder::class); //seeder penerimaan barang
         $this->call(PurchaseInvoiceSeeder::class); //seeder Purchase Invoice
-        $this->call(ItemSaleSeeder::class); //seeder penjualan barang
+        $this->call(ItemDeliverySeeder::class); //seeder pengiriman barang
         $this->call(ItemAdjustmentSeeder::class); //seeder penyesuaian jumlah barang
         $this->call(SaleOrderSeeder::class); //seeder SO
         $this->call(SettingSeeder::class);

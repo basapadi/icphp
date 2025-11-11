@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Carbon\Carbon;
 use Btx\Common\SpellNumber;
 use Exception;
-class ItemSale extends BaseModel
+class ItemDelivery extends BaseModel
 {
     use SoftDeletes, HasFactory;
-    public $table = 'trx_sale_items';
+    public $table = 'trx_delivery_items';
 
     protected $appends = [
         'status_label',
@@ -37,11 +37,11 @@ class ItemSale extends BaseModel
     ];
 
     public function getStatusLabelAttribute(){
-        return isset($this->status) ? config('ihandcashier.sale_item_status')[$this->status]['label'] : null;
+        return isset($this->status) ? config('ihandcashier.delivery_item_status')[$this->status]['label'] : null;
     }
 
     public function getColorStatusLabelAttribute(){
-        return isset($this->status) ? config('ihandcashier.sale_item_status')[$this->status]['color'] : null;
+        return isset($this->status) ? config('ihandcashier.delivery_item_status')[$this->status]['color'] : null;
     }
 
     public function getTanggalJualFormattedAttribute()
@@ -74,7 +74,7 @@ class ItemSale extends BaseModel
     }
 
     public function details(){
-        return $this->hasMany(ItemSaleDetail::class,'item_sale_id','id');
+        return $this->hasMany(ItemDeliveryDetail::class,'item_delivery_id','id');
     }
 
     public function createdBy(){
@@ -90,7 +90,7 @@ class ItemSale extends BaseModel
     }
 
     public function shipment(){
-       return $this->belongsTo(SaleShipment::class, 'id', 'item_sale_id');
+       return $this->belongsTo(SaleShipment::class, 'id', 'item_delivery_id');
     }
 
     protected static function booted()
@@ -131,7 +131,7 @@ class ItemSale extends BaseModel
 
                 //ubah status SO
                 if(!empty($so)){
-                    $sents = ItemSale::where('sale_order_id',$so->id)->where('id','!=',$data->id)->count();
+                    $sents = ItemDelivery::where('sale_order_id',$so->id)->where('id','!=',$data->id)->count();
                     if($sents > 0) $so->update(['status' => 'partial_sent']);
                 }
             }

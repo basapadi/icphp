@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('trx_sale_items', function (Blueprint $table) {
+        Schema::create('trx_delivery_items', function (Blueprint $table) {
             $table->id();
             $table->string('kode_transaksi')->unique();
             $table->bigInteger('sale_order_id')->index()->nullable();
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('trx_sale_items');
+        Schema::dropIfExists('trx_delivery_items');
     }
 };

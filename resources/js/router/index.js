@@ -11,7 +11,7 @@ import Role from "@/views/setting/Role.vue"
 import Database from "@/views/setting/Database.vue"
 import General from "@/views/setting/General.vue"
 import Received from "@/views/transaction/Received.vue"
-import Sale from "@/views/transaction/Sale.vue"
+import Delivery from "@/views/transaction/Delivery.vue"
 import Stock from "@/views/transaction/warehouse/Stock.vue"
 import Adjustment from "@/views/transaction/warehouse/Adjustment.vue"
 import Payable from "@/views/finance/Payable.vue"
@@ -42,7 +42,7 @@ const routes = [
   { path: "/setting/general", name: "Setting.General", component: General, meta: { requiresAuth: true } },
   { path: "/setting/database", name: "Setting.Database", component: Database, meta: { requiresAuth: true } },
   { path: "/transaction/receive", name: "Transaction.Receive", component: Received, meta: { requiresAuth: true } },
-  { path: "/transaction/sale", name: "Transaction.Sale", component: Sale, meta: { requiresAuth: true } },
+  { path: "/transaction/delivery", name: "Transaction.Delivery", component: Delivery, meta: { requiresAuth: true } },
   { path: "/transaction/warehouse/stock", name: "Transaction.Warehouse.Stock", component: Stock, meta: { requiresAuth: true } },
   { path: "/transaction/warehouse/adjustment", name: "Transaction.Warehouse.Adjustment", component: Adjustment, meta: { requiresAuth: true } },
   { path: "/finance/payable", name: "Finance.Payable", component: Payable, meta: { requiresAuth: true } },

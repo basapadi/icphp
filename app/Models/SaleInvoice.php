@@ -66,7 +66,7 @@ class SaleInvoice extends BaseModel
     // Pengiriman barang (item_sale)
     public function itemSales()
     {
-        return $this->belongsToMany(ItemSale::class, 'trx_sale_invoice_item_sales');
+        return $this->belongsToMany(ItemDelivery::class, 'trx_sale_invoice_item_deliveries');
     }
 
     // Detail item faktur
@@ -193,7 +193,7 @@ class SaleInvoice extends BaseModel
             // dd($details);
 
             $data->details()->delete();
-            SaleInvoiceItemSale::where('sale_invoice_id',$data->id)->delete();
+            SaleInvoiceItemDelivery::where('sale_invoice_id',$data->id)->delete();
         });
     }
 

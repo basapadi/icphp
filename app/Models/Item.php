@@ -24,7 +24,7 @@ class Item extends BaseModel
 
     public function itemSaleDetails()
     {
-        return $this->hasMany(ItemSaleDetail::class,'item_id');
+        return $this->hasMany(ItemDeliveryDetail::class,'item_id');
     }
 
     public function purchaseOrderDetails()

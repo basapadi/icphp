@@ -26,7 +26,7 @@ class Contact extends BaseModel
 
     public function itemSales()
     {
-        return $this->hasMany(ItemSale::class,'contact_id');
+        return $this->hasMany(ItemDelivery::class,'contact_id');
     }
 
     public function getStatusLabelAttribute()

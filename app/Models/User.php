@@ -67,7 +67,7 @@ class User extends BaseUser
 
     public function itemSales()
     {
-        return $this->hasMany(ItemSale::class,'created_by');
+        return $this->hasMany(ItemDelivery::class,'created_by');
     }
 
     protected static function booted()

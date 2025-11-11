@@ -59,7 +59,7 @@ class SaleOrder extends BaseModel
     }
 
     public function sales(){
-        return $this->hasMany(ItemSale::class,'sale_order_id','id');
+        return $this->hasMany(ItemDelivery::class,'sale_order_id','id');
     }
 
     public function createdBy(){

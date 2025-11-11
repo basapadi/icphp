@@ -58,7 +58,7 @@ return new class extends Migration
         Schema::create('trx_sale_invoice_details', function (Blueprint $table) {
             $table->id();
             $table->integer('sale_invoice_id')->index();
-            $table->integer('item_sale_id')->index();
+            $table->integer('item_delivery_id')->index();
             $table->integer('item_id')->index();
             $table->integer('unit_id');
             $table->text('catatan')->nullable();
@@ -101,10 +101,10 @@ return new class extends Migration
          * -------------------------------------
          * Relasi many-to-many antara faktur dan penjualan barang
          */
-        Schema::create('trx_sale_invoice_item_sales', function (Blueprint $table) {
+        Schema::create('trx_sale_invoice_item_deliveries', function (Blueprint $table) {
             $table->id();
             $table->integer('sale_invoice_id')->index();
-            $table->integer('item_sale_id')->index();
+            $table->integer('item_delivery_id')->index();
             $table->unsignedBigInteger('total_terfaktur')->default(0);
             $table->timestamps();
         });
@@ -115,6 +115,6 @@ return new class extends Migration
         Schema::dropIfExists('trx_sale_payments');
         Schema::dropIfExists('trx_sale_invoice_details');
         Schema::dropIfExists('trx_sale_invoices');
-        Schema::dropIfExists('trx_sale_invoice_item_sales');
+        Schema::dropIfExists('trx_sale_invoice_item_deliveries');
     }
 };

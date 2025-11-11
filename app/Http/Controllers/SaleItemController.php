@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\{
-    ItemSale,
+    ItemDelivery,
     SaleShipment
 };
 use Illuminate\Http\Request;
@@ -17,17 +17,17 @@ class SaleItemController extends BaseController
 {
     private $_form = null;
     public function __construct(){
-        $this->setModel(ItemSale::class)
-            ->select('trx_sale_items.*')
+        $this->setModel(ItemDelivery::class)
+            ->select('trx_delivery_items.*')
             ->with(['shipment','details','details.item','details.unit','contact','createdBy'])
-            ->leftJoin('contacts', 'contacts.id', '=', 'trx_sale_items.contact_id')->orderBy('tanggal_jual','desc');
-        $this->setModule('transaction.item.sale');
+            ->leftJoin('contacts', 'contacts.id', '=', 'trx_delivery_items.contact_id')->orderBy('tanggal_jual','desc');
+        $this->setModule('transaction.item.delivery');
         $this->setGridProperties([
             'filterDateRange' => true,
             'filterDateName' => 'tanggal_jual'
         ]);
         $this->setFilterColumnsLike(['contacts.nama','kode_transaksi'],request('q')??'');
-        $saleStatus = ihandCashierConfigToSelect('sale_item_status');
+        $saleStatus = ihandCashierConfigToSelect('delivery_item_status');
         $this->setInjectDataColumn([
             'status' => $saleStatus,
         ]);
@@ -40,7 +40,7 @@ class SaleItemController extends BaseController
         injectData($form, [
             'kode_disabled'     => false,
             'contacts'          => getContactToSelect('pelanggan'),
-            'status'            => ihandCashierConfigToSelect('sale_item_status', ['invoiced','partial_invoiced','cancelled','void']),
+            'status'            => ihandCashierConfigToSelect('delivery_item_status', ['invoiced','partial_invoiced','cancelled','void']),
             'items'             => getItemToSelect(),
             'units'             => getUnitToSelect(),
             'status_readonly'   => false,
@@ -79,8 +79,32 @@ class SaleItemController extends BaseController
         $this->setContextMenu($contextMenus);
     }
 
+    public function edit(Request $request,$id){
+        $this->allowAccessModule('transaction.item.delivery', 'edit');
+        $id = $this->decodeId($id);
+        $data = ItemDelivery::with(['contact','details'])->where('id',$id)->first();
+        if(empty($data)) return $this->setAlert('error','Galat!','Data yang tidak ditemukan!.');
+
+        injectData($this->_form, [
+            'kode_disabled'     => true,
+            'contacts'          => getContactToSelect('pelanggan'),
+            'status'            => ihandCashierConfigToSelect('delivery_item_status',['invoiced','partial_invoiced','cancelled']),
+            'status_readonly'   => false,
+            'items'             => getItemToSelect(),
+            'units'             => getUnitToSelect()
+        ]);
+        
+        $form = serializeform($this->_form);
+        return Response::ok('loaded',[
+            'data' => $data,
+            'dialog' => $form['dialog'],
+            'sections' => $form['sections']
+        ]); 
+
+    }
+
     public function createDelivery(Request $request){
-        $this->allowAccessModule('transaction.item.sale', 'create');
+        $this->allowAccessModule('transaction.item.delivery', 'create');
 
         $rules = [
             'tipe_pengiriman'           => 'required|string',
@@ -92,13 +116,13 @@ class SaleItemController extends BaseController
             'driver'                    => 'nullable|string',
             'telepon'                   => 'nullable|string',
             'no_kendaraan'              => 'nullable|string',
-            'item_sale_id'              => 'required|numeric'
+            'item_delivery_id'              => 'required|numeric'
         ];
 
         try {
             $data = $this->validate($rules);
             if ($data instanceof \Illuminate\Http\JsonResponse) return $data;
-            $is = ItemSale::where('id', $data['item_sale_id'])->first();
+            $is = ItemDelivery::where('id', $data['item_delivery_id'])->first();
             if(empty($is))  return $this->setAlert('error','Gagal', 'Data pengiriman tidak ditemukan.');
 
             if($data['tipe_pengiriman'] == 'ekspedisi'){
@@ -115,7 +139,7 @@ class SaleItemController extends BaseController
                 'driver'                    => trim(@$data['driver']??null),
                 'telepon'                   => trim(@$data['telepon']??null),
                 'no_kendaraan'              => trim(@$data['no_kendaraan']??null),
-                'item_sale_id'              => trim($data['item_sale_id']),
+                'item_delivery_id'              => trim($data['item_delivery_id']),
                 'catatan'                   => @trim($data['catatan'])??null,
                 'created_by'                => auth()->user()->id,
                 'created_at'                => now()
@@ -135,17 +159,17 @@ class SaleItemController extends BaseController
     }
 
     public function deliveryForm(Request $request){
-        $this->allowAccessModule('transaction.item.sale', 'create');
+        $this->allowAccessModule('transaction.item.delivery', 'create');
         $id = $this->decodeId($request->id);
 
-        $data = ItemSale::with(['details'])->where('id',$id)->first();
+        $data = ItemDelivery::with(['details'])->where('id',$id)->first();
         if(empty($data)) return $this->setAlert('error','Galat!','Data yang tidak ditemukan!.');
 
         $delivery = new stdClass;
         $delivery->biaya_pengiriman = 0;
         $delivery->tipe_pengiriman = 'internal';
         $delivery->tanggal_kirim = date('Y-m-d');
-        $delivery->item_sale_id = $data->id;
+        $delivery->item_delivery_id = $data->id;
 
         $form = $this->getResourceForm('sale_delivery');
         injectData($form, [
@@ -171,11 +195,11 @@ class SaleItemController extends BaseController
         $id = $this->decodeId($request->id);
         $newInvoice = new \stdClass;
         $newInvoice->kode = generateTransactionCode('INV');
-        $item = ItemSale::select('sale_order_id','contact_id')->where('id',$id)->first();
+        $item = ItemDelivery::select('sale_order_id','contact_id')->where('id',$id)->first();
         if(empty($item)) return $this->setAlert('error','Galat!','Data yang tidak ditemukan!.');
 
-        if($item->sale_order_id != null) $data = ItemSale::with(['details'])->where('sale_order_id',$item->sale_order_id)->get();
-        else $data = ItemSale::with(['details'])->where('id',$id)->get();
+        if($item->sale_order_id != null) $data = ItemDelivery::with(['details'])->where('sale_order_id',$item->sale_order_id)->get();
+        else $data = ItemDelivery::with(['details'])->where('id',$id)->get();
 
         $details = [];
         foreach ($data as $key => $ir) {
@@ -183,8 +207,8 @@ class SaleItemController extends BaseController
                 // Hitung total jumlah yang sudah difakturkan untuk item ini
                 $invoicedQty = DB::table('trx_sale_invoice_details')
                     ->join('trx_sale_invoices','trx_sale_invoices.id','=','trx_sale_invoice_details.sale_invoice_id')
-                    ->join('trx_sale_invoice_item_sales', 'trx_sale_invoice_item_sales.sale_invoice_id', '=', 'trx_sale_invoice_details.sale_invoice_id')
-                    ->where('trx_sale_invoice_item_sales.item_sale_id', $ir->id)
+                    ->join('trx_sale_invoice_item_deliveries', 'trx_sale_invoice_item_deliveries.sale_invoice_id', '=', 'trx_sale_invoice_details.sale_invoice_id')
+                    ->where('trx_sale_invoice_item_deliveries.item_delivery_id', $ir->id)
                     ->where('trx_sale_invoices.status','!=', 'void')
                     ->where('trx_sale_invoice_details.item_id', $detail->item_id)
                     ->sum('trx_sale_invoice_details.jumlah');
@@ -198,7 +222,7 @@ class SaleItemController extends BaseController
                     $detailArr['jumlah'] = $remaining;
                     $detailArr['diskon_nominal'] = 0;
                     $detailArr['pajak_persen'] = 11;
-                    $detailArr['item_sale_id'] = $ir->id;
+                    $detailArr['item_delivery_id'] = $ir->id;
                     $details[] = $detailArr;
                 }
             }

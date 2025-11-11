@@ -84,8 +84,8 @@ class ReportController extends BaseController
             'trx_received_items',
             'trx_received_item_details',
             'trx_received_payment_items',
-            'trx_sale_items',
-            'trx_sale_item_details',
+            'trx_delivery_items',
+            'trx_delivery_item_details',
             'trx_sale_orders',
             'trx_sale_order_details',
             'trx_sale_order_payment_items',
@@ -97,7 +97,7 @@ class ReportController extends BaseController
             'trx_purchase_payments',
             'trx_sale_invoices',
             'trx_sale_invoice_details',
-            'trx_sale_invoice_item_sales',
+            'trx_sale_invoice_item_deliveries',
             'trx_sale_payments'
         ];
 
