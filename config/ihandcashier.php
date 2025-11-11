@@ -192,7 +192,7 @@ return [
             "color" => "red-800",
         ],
     ],
-    "sale_item_status" => [
+    "delivery_item_status" => [
         "draft" => [
             "label" => "Draft",
             "class" => "gray-400",
@@ -466,10 +466,10 @@ return [
             "id" => 13,
             "icon" => "",
             "label" => "Pengiriman (DO)",
-            "route" => "/transaction/sale",
+            "route" => "/transaction/delivery",
             "order" => 1,
             "parent" => 35,
-            "module" => "transaction.item.sale",
+            "module" => "transaction.item.delivery",
         ],
         [
             "id" => 38,

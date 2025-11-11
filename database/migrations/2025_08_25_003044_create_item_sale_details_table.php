@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('trx_sale_item_details', function (Blueprint $table) {
+        Schema::create('trx_delivery_item_details', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('item_sale_id')->index();
+            $table->bigInteger('item_delivery_id')->index();
             $table->integer('item_id');
             $table->decimal('jumlah')->default(0);
             $table->double('harga')->default(0);
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('trx_sale_item_details');
+        Schema::dropIfExists('trx_delivery_item_details');
     }
 };

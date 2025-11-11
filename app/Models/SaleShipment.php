@@ -7,7 +7,7 @@ class SaleShipment extends BaseModel
     public $table = 'trx_sale_shipments';
     protected $appends = ['tipe_pengiriman_label','tanggal_kirim_formatted','biaya_pengiriman_formatted'];
     protected $fillable = [
-        'item_sale_id',
+        'item_delivery_id',
         'tanggal_kirim',
         'tipe_pengiriman',
         'biaya_pengiriman',

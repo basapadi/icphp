@@ -7,15 +7,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Carbon\Carbon;
 use Btx\Common\SpellNumber;
 use Exception;
-class SaleInvoiceItemSale extends BaseModel
+class SaleInvoiceItemDelivery extends BaseModel
 {
-    public $table = 'trx_sale_invoice_item_sales';
+    public $table = 'trx_sale_invoice_item_deliveries';
     protected $appends = [
 
     ];
     protected $fillable = [
         'sale_invoice_id',
-        'item_sale_id',
+        'item_delivery_id',
         'total_terfaktur'
     ];
 
@@ -32,7 +32,7 @@ class SaleInvoiceItemSale extends BaseModel
     // pengiriman
     public function sale()
     {
-        return $this->belongsTo(ItemSale::class, 'item_sale_id');
+        return $this->belongsTo(ItemDelivery::class, 'item_delivery_id');
     }
 
 }

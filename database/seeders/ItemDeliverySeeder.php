@@ -6,31 +6,34 @@ use App\Models\{
     ItemPrice,
     ItemReceived,
     ItemReceivedDetail,
-    ItemSale,
-    ItemSaleDetail,
+    ItemDelivery,
+    ItemDeliveryDetail,
     Master,
-    ItemStock
+    ItemStock,
+    SalePayment,
+    SaleShipment
 };
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 
-class ItemSaleSeeder extends Seeder
+class ItemDeliverySeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        ItemSale::truncate();
-        ItemSaleDetail::truncate();
-        // ItemSale::factory()->count(50)->create();
+        ItemDelivery::truncate();
+        ItemDeliveryDetail::truncate();
+        SaleShipment::truncate();
+        // ItemDelivery::factory()->count(50)->create();
         // $json = File::get(resource_path('dummies/items.json'));
         // $items = collect(json_decode($json, true));
 
         // $itemIds = ItemPrice::distinct('item_id')->get()->pluck('item_id');
-        // $sales = ItemSale::all();
+        // $sales = ItemDelivery::all();
         // $details = [];
         // $payments = [];
         // foreach ($sales as $key => $r) {
@@ -44,7 +47,7 @@ class ItemSaleSeeder extends Seeder
         //         $currentItem = $items->where('id',$itemId)->first();
         //         $unitId = $currentItem['satuan_id'];
         //         array_push($details, [
-        //             'item_sale_id'  => $r->id,
+        //             'item_delivery_id'  => $r->id,
         //             'item_id'           => $itemId,
         //             'jumlah'            => $banyak,
         //             'harga'             => $harga,
@@ -55,6 +58,6 @@ class ItemSaleSeeder extends Seeder
         //     $r->total_harga = $totalHarga;
         //     $r->save();
         // }
-        // ItemSaleDetail::insert($details);
+        // ItemDeliveryDetail::insert($details);
     }
 }

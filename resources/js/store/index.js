@@ -8,7 +8,7 @@ import item from './modules/item'
 import dataMenu from './modules/dataMenu'
 import contact from './modules/contact'
 import receive from './modules/receive'
-import sale from './modules/sale'
+import delivery from './modules/delivery'
 import stock from './modules/stock'
 import dashboard from './modules/dashboard'
 import adjustment from './modules/adjustment'
@@ -40,7 +40,7 @@ export default createStore({
     dataMenu,
     contact,
     receive,
-    sale,
+    delivery,
     stock,
     dashboard,
     adjustment,

@@ -8,8 +8,8 @@ use App\Models\{
     SaleOrderDetail,
     Contact,
     Item,
-    ItemSale,
-    ItemSaleDetail,
+    ItemDelivery,
+    ItemDeliveryDetail,
     Master,
     ItemStock
 };
@@ -257,7 +257,7 @@ class SaleOrderController extends BaseController
     }
 
     public function saleForm(Request $request){
-        $this->allowAccessModule('transaction.item.sale', 'create');
+        $this->allowAccessModule('transaction.item.delivery', 'create');
         $id = $this->decodeId($request->id);
 
         $data = SaleOrder::with(['details'])->where('id',$id)->first();
@@ -274,8 +274,8 @@ class SaleOrderController extends BaseController
         $newDetails = [];
 
         foreach ($data->details as $detail) {
-            $saleQty = DB::table('trx_sale_item_details as sid')
-                ->join('trx_sale_items as si', 'si.id', '=', 'sid.item_sale_id')
+            $saleQty = DB::table('trx_delivery_item_details as sid')
+                ->join('trx_delivery_items as si', 'si.id', '=', 'sid.item_delivery_id')
                 ->where('si.sale_order_id', $data->so_id)
                 ->where('sid.item_id', $detail->item_id)
                 ->sum('sid.jumlah');
@@ -292,7 +292,7 @@ class SaleOrderController extends BaseController
         injectData($form, [
             'kode_disabled'     => false,
             'contacts'          => getContactToSelect('pelanggan'),
-            'status'            => ihandCashierConfigToSelect('sale_item_status', ['invoiced','partial_invoiced','cancelled']),
+            'status'            => ihandCashierConfigToSelect('delivery_item_status', ['invoiced','partial_invoiced','cancelled']),
             'status_readonly'   => true,
             'items'             => getItemToSelect(),
             'units'             => getUnitToSelect(),
@@ -308,7 +308,7 @@ class SaleOrderController extends BaseController
     }
 
     public function createSaleItem(Request $request){
-        $this->allowAccessModule('transaction.item.sale', 'create');
+        $this->allowAccessModule('transaction.item.delivery', 'create');
 
         $rules = [
             'addtable'          => 'required|array',
@@ -348,7 +348,7 @@ class SaleOrderController extends BaseController
             $so = SaleOrder::with(['details','details.item'])->where('id', $data['so_id'])->first();
             if(empty($so))return $this->setAlert('error','Gagal', 'SO dengan id '.$data['so_id'].' tidak ditemukan');
 
-            $sent = ItemSale::create($preInsert);
+            $sent = ItemDelivery::create($preInsert);
 
             $perInsertDetails = [];
             $total = 0;
@@ -356,7 +356,7 @@ class SaleOrderController extends BaseController
                 foreach ($data['addtable']['details'] as $key => $d) {
                     $t = (double) (trim($d['harga']) * trim($d['jumlah']));
                     array_push($perInsertDetails,[
-                        'item_sale_id'      => $sent->id,
+                        'item_delivery_id'      => $sent->id,
                         'item_id'           => (int) trim($d['item_id']),
                         'unit_id'           => (int) trim($d['unit_id']),
                         'harga'             => (double) trim($d['harga']),
@@ -368,11 +368,11 @@ class SaleOrderController extends BaseController
                     $total += $t;
                 }
             }
-            ItemSaleDetail::insert($perInsertDetails);
+            ItemDeliveryDetail::insert($perInsertDetails);
             $allFull = true;
             $soDetails = $so->details;
             foreach ($perInsertDetails as $key => $ird) {
-                $receivedQty = ItemSaleDetail::whereHas('sale', function ($q) use ($so) {
+                $deliveryQty = ItemDeliveryDetail::whereHas('delivery', function ($q) use ($so) {
                     $q->where('sale_order_id', $so->id);
                 })
                 ->where('item_id', $ird['item_id'])
@@ -383,11 +383,11 @@ class SaleOrderController extends BaseController
                     rollBack();
                     return $this->setAlert('error','Gagal', 'Barang yang anda masukkan tidak ada di pemesanan');
                 }
-                if ($receivedQty < $soItem->jumlah) {
+                if ($deliveryQty < $soItem->jumlah) {
                     $allFull = false;
-                } else if( $receivedQty > $soItem->jumlah){
+                } else if( $deliveryQty > $soItem->jumlah){
                     rollBack();
-                    return $this->setAlert('error','Gagal', 'Total jumlah pengiriman pada barang '.$soItem->item->nama.' lebih besar sebanyak '.($receivedQty - $soItem->jumlah).' dari jumlah pemesanan, silahkan masukkan jumlah yang sesuai dengan jumlah pesanan.');
+                    return $this->setAlert('error','Gagal', 'Total jumlah pengiriman pada barang '.$soItem->item->nama.' lebih besar sebanyak '.($deliveryQty - $soItem->jumlah).' dari jumlah pemesanan, silahkan masukkan jumlah yang sesuai dengan jumlah pesanan.');
                 }
             }
 
@@ -407,13 +407,13 @@ class SaleOrderController extends BaseController
 
             //cek apakah ada barang yang belum dikirim?
             foreach ($soDetails as $d) {
-                $receivedQty = ItemSaleDetail::whereHas('sale', function ($q) use ($so) {
+                $deliveryQty = ItemDeliveryDetail::whereHas('delivery', function ($q) use ($so) {
                         $q->where('sale_order_id', $so->id);
                     })
                     ->where('item_id', $d->item_id)
                     ->sum('jumlah');
 
-                if ($receivedQty < $d->jumlah) {
+                if ($deliveryQty < $d->jumlah) {
                     $allFull = false;
                 }
             }

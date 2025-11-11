@@ -26,7 +26,7 @@ class Master extends BaseModel
 
     public function itemSaleDetails()
     {
-        return $this->hasMany(ItemSaleDetail::class,'unit_id');
+        return $this->hasMany(ItemDeliveryDetail::class,'unit_id');
     }
 
     public function itemStocks()

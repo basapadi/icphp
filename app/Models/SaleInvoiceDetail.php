@@ -20,7 +20,7 @@ class SaleInvoiceDetail extends BaseModel
     ];
     protected $fillable = [
         'sale_invoice_id',
-        'item_sale_id',
+        'item_delivery_id',
         'item_id',
         'catatan',
         'jumlah',
@@ -44,7 +44,7 @@ class SaleInvoiceDetail extends BaseModel
 
     public function sale()
     {
-        return $this->belongsTo(ItemReceived::class,'item_sale_id');
+        return $this->belongsTo(ItemReceived::class,'item_delivery_id');
     }
 
     public function getKodePengirimanAttribute()

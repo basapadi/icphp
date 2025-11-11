@@ -191,7 +191,7 @@ Route::prefix('api')->group(function () {
 
         /*
         |----------------------------------------------------------
-        | Sales
+        | Sales & Delivery
         |----------------------------------------------------------
         */
         Route::controller(SaleOrderController::class)->prefix('sale/order')->group(function () {
@@ -206,10 +206,12 @@ Route::prefix('api')->group(function () {
             Route::get('/sent/form', 'saleForm')->name('api.sale.order.saleForm');
         });
 
-        Route::controller(SaleItemController::class)->prefix('sale')->group(function () {
+        Route::controller(SaleItemController::class)->prefix('delivery')->group(function () {
             Route::get('grid', 'grid');
             Route::get('form', 'form');
             Route::delete('/{id}', 'delete');
+            Route::get('/edit/{id}', 'edit');
+            Route::post('/', 'store');
 
             Route::post('/create-delivery', 'createDelivery')->name('api.sale.createDelivery');
             Route::get('/delivery/form', 'deliveryForm')->name('api.sale.deliveryForm');

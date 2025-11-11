@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Carbon\Carbon;
-class ItemSaleDetail extends BaseModel
+class ItemDeliveryDetail extends BaseModel
 {
-    public $table = 'trx_sale_item_details';
+    public $table = 'trx_delivery_item_details';
     protected $appends = ['total_harga','harga_formatted','total_harga_formatted'];
     public $timestamps = false;
 
     protected $fillable = [
-        'item_sale_id',
+        'item_delivery_id',
         'item_id',
         'jumlah',
         'harga',
@@ -45,9 +45,9 @@ class ItemSaleDetail extends BaseModel
        return $this->belongsTo(Master::class, 'unit_id', 'id');
     }
 
-    public function sale()
+    public function delivery()
     {
-        return $this->belongsTo(ItemSale::class, 'item_sale_id');
+        return $this->belongsTo(ItemDelivery::class, 'item_delivery_id');
     }
 
     

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('trx_sale_shipments', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('item_sale_id')->index();
+            $table->bigInteger('item_delivery_id')->index();
             $table->string('tipe_pengiriman',20);
             $table->date('tanggal_kirim')->nullable();
             $table->unsignedBigInteger('biaya_pengiriman')->nullable();
