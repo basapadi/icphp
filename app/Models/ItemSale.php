@@ -89,6 +89,10 @@ class ItemSale extends BaseModel
        return $this->belongsTo(SaleOrder::class, 'sale_order_id', 'id');
     }
 
+    public function shipment(){
+       return $this->belongsTo(SaleShipment::class, 'id', 'item_sale_id');
+    }
+
     protected static function booted()
     {
         static::deleting(function ($data) {

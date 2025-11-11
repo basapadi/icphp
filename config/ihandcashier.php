@@ -616,7 +616,18 @@ return [
             "parent" => 40,
             "module" => "task.sale.order",
         ],
-        //last_id:43
+        [
+            "id" => 44,
+            "side_menu" => true, //false: apabila menu tidak akan dimunculkan di side menu
+            "icon" => "",
+            "label" => "Pembayaran",
+            "route" => "/transaction/payment/sale",
+            "order" => 3,
+            "parent" => 35,
+            "module" => "transaction.payment.sale",
+            "hide" => ["create", "edit"],
+        ],
+        //last_id:44
     ],
     "units" => [
         "pcs" => [1, "Piece", 1, "pcs"],

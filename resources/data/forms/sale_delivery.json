@@ -7,6 +7,14 @@
         "column": 2,
         "forms": [
             {
+                "name": "item_sale_id",
+                "type": "hidden",
+                "label": "ID Pengiriman",
+                "required": true,
+                "readonly": true,
+                "hint": "ID Pengiriman"
+            },
+            {
                 "name": "tanggal_kirim",
                 "type": "date",
                 "label": "Tanggal Kirim",
@@ -25,7 +33,7 @@
                 "name": "jasa_kirim",
                 "type": "text",
                 "label": "Kurir",
-                "required": true,
+                "required": false,
                 "hint": "Masukkan kurir internal atau jasa pihak ketiga"
             },
             {

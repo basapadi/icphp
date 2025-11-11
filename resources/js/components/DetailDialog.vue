@@ -50,8 +50,8 @@
                                 <table class="w-full border border-gray-200 rounded-lg overflow-hidden">
                                     <tbody>
                                         <tr class="border border-1 border-dashed border-gray-300 odd:bg-gray-300/20 even:bg-white/30" v-for="(f,k) in sub.fields" :key="k">
-                                            <td class="px-4 py-2 border-r text-gray-500 text-sm" style="width:250px;">{{ f?.label }}</td>
-                                            <td :class="`px-4 py-2 text-gray-500 text-sm text-${data['color_'+k]} ${f?.class}`">{{ $helpers.getSubObjectValue(data,k) }}</td>
+                                            <td class="px-4 py-1 border-r text-gray-500 text-sm" style="width:250px;">{{ f?.label }}</td>
+                                            <td :class="`px-4 py-1 text-gray-500 text-sm text-${data['color_'+k]} ${f?.class}`">{{ $helpers.getSubObjectValue(data,k) }}</td>
                                         </tr>
                                     </tbody>
                                 </table>

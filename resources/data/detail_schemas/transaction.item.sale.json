@@ -27,9 +27,6 @@
             "status_label": {
                 "label": "Status"
             },
-            "tanggal_jatuh_tempo": {
-                "label": "Tanggal Jatuh Tempo"
-            },
             "total_harga_formatted": {
                 "label": "Total Harga",
                 "class": "font-mono font-bold"
@@ -77,6 +74,40 @@
             "total_harga_formatted": {
                 "label": "Sub Total (Rupiah)",
                 "class": "font-mono text-right"
+            }
+        }
+    },
+    "shipment": {
+        "type": "object",
+        "title": "Detail Ekspedisi",
+        "fields": {
+            "shipment__tipe_pengiriman_label": {
+                "label": "Tipe Pengiriman"
+            },
+            "shipment__tanggal_kirim_formatted": {
+                "label": "Tanggal Kirim"
+            },
+            "shipment__jasa_kirim": {
+                "label": "Jasa Kirim"
+            },
+            "shipment__no_resi": {
+                "label": "No. Resi"
+            },
+            "shipment__biaya_pengiriman_formatted": {
+                "label": "Biaya Pengiriman",
+                "class": "font-mono font-bold"
+            },
+            "shipment__driver": {
+                "label": "Pengemudi"
+            },
+            "shipment__telepon": {
+                "label": "Telepon Pengemudi"
+            },
+            "shipment__no_kendaraan": {
+                "label": "No.Kendaraan"
+            },
+            "shipment__catatan": {
+                "label": "Catatan"
             }
         }
     }

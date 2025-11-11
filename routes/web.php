@@ -213,6 +213,9 @@ Route::prefix('api')->group(function () {
 
             Route::post('/create-delivery', 'createDelivery')->name('api.sale.createDelivery');
             Route::get('/delivery/form', 'deliveryForm')->name('api.sale.deliveryForm');
+
+            Route::post('/create-invoice', 'createInvoice')->name('api.sale.invoice.createInvoice');
+            Route::get('/invoice/form', 'invoiceForm')->name('api.sale.invoice.form');
         });
 
 
