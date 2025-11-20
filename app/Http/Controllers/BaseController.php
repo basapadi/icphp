@@ -14,13 +14,13 @@ use App\Models\Menu;
 use App\Transformers\FormTransformer;
 use Spatie\Fractalistic\ArraySerializer;
 use App\Http\Response;
-use App\Traits\{HasQueryBuilder,QueryHelper,DataBuilder,BaseHelper, Services};
+use App\Traits\{HasQueryBuilder, QueryHelper, DataBuilder, BaseHelper, Services};
 use App\Models\Trash;
 use App\Objects\ContextMenu;
 
 class BaseController extends Controller
 {
-    use HasQueryBuilder,QueryHelper,DataBuilder,BaseHelper, Services;
+    use HasQueryBuilder, QueryHelper, DataBuilder, BaseHelper, Services;
 
     private Model $_model;
     private ?Fractal $_columns;
@@ -39,6 +39,13 @@ class BaseController extends Controller
     private ?array $_injectDataColumns = [];
     private ?array $_exceptContextMenu = [];
 
+    /**
+     * Handle grid request to fetch data with filtering and pagination.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+     */
     public function grid(Request $request)
     {
         // $this->generateDetailSchemaToJson($this->_detailSchema);
@@ -63,12 +70,12 @@ class BaseController extends Controller
         $rows = $rows->get();
         $total = $total->count();
 
-        if(!empty($this->_mergeData))$this->mergeData($rows);
+        if (!empty($this->_mergeData)) $this->mergeData($rows);
         $this->defaultContextMenu();
-        $this->_gridProperties['filterDateRange'] = $this->_gridProperties['filterDateRange']??false;
-        $this->_gridProperties['advanceFilter'] = $this->_gridProperties['advanceFilter']??true;
-        $this->_gridProperties['simpleFilter'] = $this->_gridProperties['simpleFilter']??true;
-        $this->_gridProperties['multipleSelect'] = $this->_gridProperties['multipleSelect']??$this->_multipleSelectGrid;
+        $this->_gridProperties['filterDateRange'] = $this->_gridProperties['filterDateRange'] ?? false;
+        $this->_gridProperties['advanceFilter'] = $this->_gridProperties['advanceFilter'] ?? true;
+        $this->_gridProperties['simpleFilter'] = $this->_gridProperties['simpleFilter'] ?? true;
+        $this->_gridProperties['multipleSelect'] = $this->_gridProperties['multipleSelect'] ?? $this->_multipleSelectGrid;
         $this->_gridProperties['contextMenu'] = $this->_contextMenus;
         // dd($rows->toArray()[0],$this->getDetailSchema());
         return Response::ok('Loaded', [
@@ -81,6 +88,13 @@ class BaseController extends Controller
         ]);
     }
 
+    /**
+     * Handle form request to fetch form configuration and data.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+     */
     public function form(Request $request)
     {
         $this->allowAccessModule($this->_module, 'create');
@@ -89,7 +103,7 @@ class BaseController extends Controller
             'width' => 2
         ];
         foreach ($this->_form as $key => $f) {
-            if($key == 'dialog'){
+            if ($key == 'dialog') {
                 $dialog = $f;
                 continue;
             }
@@ -203,11 +217,11 @@ class BaseController extends Controller
      */
     protected function allowAccessModule(string $module, string $action, bool $asBoolean = false)
     {
-        
+
         $role = (string) auth()->user()->role;
-        $configMenu = collect(config('ihandcashier.menus'))->where('module',$module)->first();
-        if(empty($configMenu)) return false;
-        if(isset($configMenu['hide']) && in_array($action,$configMenu['hide'])) return false;
+        $configMenu = collect(config('ihandcashier.menus'))->where('module', $module)->first();
+        if (empty($configMenu)) return false;
+        if (isset($configMenu['hide']) && in_array($action, $configMenu['hide'])) return false;
 
         if (!empty($module) && !empty($action)) {
             $can = Menu::select('menus.id', 'module', 'role_menus.' . $action)
@@ -250,7 +264,7 @@ class BaseController extends Controller
      * @return void
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      */
-    protected function setDataDefaultForm(array $fields,array $data = [])
+    protected function setDataDefaultForm(array $fields, array $data = [])
     {
         $this->_form = $fields;
         $this->_formData = $data;
@@ -293,38 +307,78 @@ class BaseController extends Controller
      * @return void
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      */
-    protected function setContextMenu(array $contextMenu){
+    protected function setContextMenu(array $contextMenu)
+    {
         foreach ($contextMenu as $key => $cm) {
             $contextMenu[$key]->module = $this->_module;
         }
         $this->_contextMenus = $contextMenu;
     }
 
-    protected function getDetailSchema(){
-        $path = base_path('resources/data/detail_schemas/'.$this->_module.'.json');
+    /**
+     * Get the detail schema from the JSON file.
+     *
+     * @return array
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+     */
+    protected function getDetailSchema()
+    {
+        $path = base_path('resources/data/detail_schemas/' . $this->_module . '.json');
         $schema = file_get_contents($path);
         return json_decode($schema, true);
     }
 
-    protected function getResourceForm($name){
-        $path = base_path('resources/data/forms/'.$name.'.json');
+    /**
+     * Get the resource form configuration from the JSON file.
+     *
+     * @param string $name Form name
+     * @return array
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+     */
+    protected function getResourceForm($name)
+    {
+        $path = base_path('resources/data/forms/' . $name . '.json');
         $form = file_get_contents($path);
         return json_decode($form, true);
     }
 
-    protected function getResourceQuery($path){
-        $basepath = base_path('resources/'.$path);
+    /**
+     * Get the resource query configuration from the file.
+     *
+     * @param string $path Path to the query file
+     * @return array
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+     */
+    protected function getResourceQuery($path)
+    {
+        $basepath = base_path('resources/' . $path);
         $query = file_get_contents($basepath);
         return json_decode($query, true);
     }
 
-    protected function getResourceStatic($name){
-        $path = base_path('resources/data/statics/'.$name.'.json');
+    /**
+     * Get static resource data from the JSON file.
+     *
+     * @param string $name Static resource name
+     * @return array
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+     */
+    protected function getResourceStatic($name)
+    {
+        $path = base_path('resources/data/statics/' . $name . '.json');
         $data = file_get_contents($path);
         return json_decode($data, true);
     }
 
-    protected function setInjectDataColumn(array $data){
+    /**
+     * Set data columns to be injected into the grid columns.
+     *
+     * @param array $data Data to inject
+     * @return void
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+     */
+    protected function setInjectDataColumn(array $data)
+    {
         $this->_injectDataColumns = $data;
     }
 
@@ -334,28 +388,35 @@ class BaseController extends Controller
      * @return void
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      * */
-    protected function setExceptContextMenu(array $contextmenukey){
+    protected function setExceptContextMenu(array $contextmenukey)
+    {
         $this->_exceptContextMenu = $contextmenukey;
     }
 
-    protected function getColumns(){
-        $path = base_path('resources/data/columns/'.$this->_module.'.json');
-        $schema = json_decode(file_get_contents($path),true);
-        injectDataColumn($schema,$this->_injectDataColumns);
-        $schema = collect($schema)->map(function($col){
-            if($col['name'] == 'actions'){
+    /**
+     * Get the columns configuration for the grid, injecting data and filtering actions.
+     *
+     * @return array
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+     */
+    protected function getColumns()
+    {
+        $path = base_path('resources/data/columns/' . $this->_module . '.json');
+        $schema = json_decode(file_get_contents($path), true);
+        injectDataColumn($schema, $this->_injectDataColumns);
+        $schema = collect($schema)->map(function ($col) {
+            if ($col['name'] == 'actions') {
                 $options = [];
-                foreach($col['options'] as $o){
-                    if(in_array($o,['view','edit','update','delete'])){
+                foreach ($col['options'] as $o) {
+                    if (in_array($o, ['view', 'edit', 'update', 'delete'])) {
                         $op = $this->allowAccess($o);
-                        if($op != '') array_push($options,$op);
-                    } else array_push($options,$o);
+                        if ($op != '') array_push($options, $op);
+                    } else array_push($options, $o);
 
-                    if(in_array($o,['no_view','no_create','no_edit','no_update','no_delete'])){
-                        $no =  explode('_',$o);
-                        $options = array_diff($options, [explode('_',$o)[1]]);
+                    if (in_array($o, ['no_view', 'no_create', 'no_edit', 'no_update', 'no_delete'])) {
+                        $no =  explode('_', $o);
+                        $options = array_diff($options, [explode('_', $o)[1]]);
                     }
-
                 }
                 $col['options'] = $options;
             }
@@ -364,19 +425,43 @@ class BaseController extends Controller
         return $schema;
     }
 
-    private function generateDetailSchemaToJson($data){
+    /**
+     * Generate and save the detail schema to a JSON file.
+     *
+     * @param array $data Schema data
+     * @return void
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+     */
+    private function generateDetailSchemaToJson($data)
+    {
         $json = json_encode($data, JSON_PRETTY_PRINT);
-        $path = base_path('resources/data/detail_schemas/'.$this->_module.'.json');
+        $path = base_path('resources/data/detail_schemas/' . $this->_module . '.json');
         file_put_contents($path, $json);
     }
 
-    private function generateColumnsToJson($data){
+    /**
+     * Generate and save the columns configuration to a JSON file.
+     *
+     * @param array $data Columns data
+     * @return void
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+     */
+    private function generateColumnsToJson($data)
+    {
         $json = json_encode($data, JSON_PRETTY_PRINT);
-        $path = base_path('resources/data/columns/'.$this->_module.'.json');
+        $path = base_path('resources/data/columns/' . $this->_module . '.json');
         file_put_contents($path, $json);
     }
 
-    private function saveTrash($data){
+    /**
+     * Save deleted data to the trash for potential rollback.
+     *
+     * @param mixed $data The data model instance being deleted
+     * @return void
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+     */
+    private function saveTrash($data)
+    {
         Trash::create([
             'module' => $data->__module,
             'data' => json_encode($data),
@@ -386,29 +471,36 @@ class BaseController extends Controller
         ]);
     }
 
-    private function defaultContextMenu(){
+    /**
+     * Initialize default context menu items based on permissions.
+     *
+     * @return void
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+     */
+    private function defaultContextMenu()
+    {
         $menus = [
-            'view' => ['method' => 'viewData', 'label' => 'Detail','icon' => 'SquareChartGantt','color' => '#009688'],
-            'create' => ['method' => 'tambahData', 'label' => 'Tambah','icon' => 'Plus','color' => '#FF9800'],
+            'view' => ['method' => 'viewData', 'label' => 'Detail', 'icon' => 'SquareChartGantt', 'color' => '#009688'],
+            'create' => ['method' => 'tambahData', 'label' => 'Tambah', 'icon' => 'Plus', 'color' => '#FF9800'],
             'edit' => ['method' => 'editData', 'label' => 'Ubah', 'icon' => 'SquarePen', 'color' => '#3F51B5'],
             'delete' => ['method' => 'hapusData', 'label' => 'Hapus', 'icon' => 'SquareX', 'color' => '#F44336']
         ];
 
         foreach (array_keys($menus) as $key) {
-            if (!$this->allowAccessModule($this->_module, $key,true)) {
+            if (!$this->allowAccessModule($this->_module, $key, true)) {
                 unset($menus[$key]);
             }
         }
 
         $menus = array_diff_key($menus, array_flip($this->_exceptContextMenu));
-        
-        $menu = new ContextMenu('reload','Muat Ulang');
+
+        $menu = new ContextMenu('reload', 'Muat Ulang');
         $menu->onClick = 'load';
         $menu->icon = 'RefreshCcw';
         $menu->color = '#4CAF50';
         array_push($this->_contextMenus, $menu);
 
-        $columnEditor = new ContextMenu('editor','Kolom Editor');
+        $columnEditor = new ContextMenu('editor', 'Kolom Editor');
         $columnEditor->onClick = 'openColumnEditor';
         $columnEditor->icon = 'Columns3';
         $columnEditor->color = '#009ac0ff';
@@ -416,29 +508,45 @@ class BaseController extends Controller
 
         foreach ($menus as $key => $cm) {
             $allowAccess = $this->allowAccess($key);
-            if($allowAccess != ''){
-                $menu = new ContextMenu($key,$cm['label']);
+            if ($allowAccess != '') {
+                $menu = new ContextMenu($key, $cm['label']);
                 $menu->onClick = $cm['method'];
                 $menu->icon = $cm['icon'];
                 $menu->color = $cm['color'];
                 array_push($this->_contextMenus, $menu);
             }
         }
-
     }
 
-    public function store(Request $request) {
+    /**
+     * Store a new resource.
+     *
+     * @param Request $request
+     * @return void
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+     */
+    public function store(Request $request)
+    {
         $this->allowAccessModule($this->_module, 'create');
 
         //TODO:: Store default
 
     }
 
-    public function delete(Request $request, $id) {
+    /**
+     * Delete a resource by ID.
+     *
+     * @param Request $request
+     * @param string $id Encoded ID
+     * @return \Illuminate\Http\JsonResponse
+     * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
+     */
+    public function delete(Request $request, $id)
+    {
         $this->allowAccessModule($this->_module, 'delete');
-        if(empty($id)) return Response::badRequest('ID tidak boleh kosong');
+        if (empty($id)) return Response::badRequest('ID tidak boleh kosong');
         $id = $this->decodeId($id);
-        if(empty($id)) return Response::badRequest('ID tidak ditemukan');
+        if (empty($id)) return Response::badRequest('ID tidak ditemukan');
         try {
             DB::beginTransaction();
             $data = $this->_model->find($id);
@@ -446,16 +554,16 @@ class BaseController extends Controller
             $data->__user = auth()->user()->id;
             $data->__can_rollback = true;
 
-            $relations = ['details','details.unit','details.item','payments','unit','item','contact','invoice'];
+            $relations = ['details', 'details.unit', 'details.item', 'payments', 'unit', 'item', 'contact', 'invoice'];
             $data->loadRelationsWithNested($relations);
             $data->delete();
             $this->saveTrash($data);
 
             DB::commit();
-            return $this->setAlert('info','Berhasil','Data berhasil dihapus, silahkan periksa keranjang sampah untuk melihat data terhapus');
-        }catch(Exception $e){
+            return $this->setAlert('info', 'Berhasil', 'Data berhasil dihapus, silahkan periksa keranjang sampah untuk melihat data terhapus');
+        } catch (Exception $e) {
             DB::rollBack();
-            return $this->setAlert('error','Gagal!',$e->getMessage());
+            return $this->setAlert('error', 'Gagal!', $e->getMessage());
         }
     }
 }
