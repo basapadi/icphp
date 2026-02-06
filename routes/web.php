@@ -181,13 +181,13 @@ Route::prefix('api')->group(function () {
             Route::post('/void-payment', 'voidPayment')->name('api.purchase.invoice.voidPayment');
         });
 
-         Route::controller(PurchasePaymentController::class)->prefix('purchase/payment')->group(function () {
+        Route::controller(PurchasePaymentController::class)->prefix('purchase/payment')->group(function () {
             Route::get('grid', 'grid');
             Route::get('form', 'form');
             Route::get('/edit/{id}', 'edit');
             Route::post('/', 'store');
             Route::delete('/{id}', 'delete');
-         });
+        });
 
         /*
         |----------------------------------------------------------
@@ -319,9 +319,10 @@ Route::prefix('api')->group(function () {
             Route::get('queries', 'queries');
             Route::get('get-schemas', 'getSchemas');
             Route::post('preview', 'preview');
-            Route::post('save-query', 'saveQuery');
+            Route::post('save-query', 'saveQuery')->name('api.report.saveQuery');
             Route::delete('/{id}', 'delete');
             Route::delete('delete-query/{name}', 'deleteQuery');
+            Route::post('download', 'download')->name('api.report.download');
         });
     });
 });

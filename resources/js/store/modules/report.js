@@ -1,41 +1,41 @@
 import qs from 'qs'
 
 const state = {
-  rows: null,
-  total: null,
-  columns: null,
-  form: null,
-  queries: null
+    rows: null,
+    total: null,
+    columns: null,
+    form: null,
+    queries: null
 }
 
 const getters = {
-  getRows: (state) => state.rows,
-  getTotal: (state) => state.total,
-  getColumns: (state) => state.columns,
-  getForm: (state) => state.form,
-  getQueries: (state) => state.queries,
+    getRows: (state) => state.rows,
+    getTotal: (state) => state.total,
+    getColumns: (state) => state.columns,
+    getForm: (state) => state.form,
+    getQueries: (state) => state.queries,
 }
 
 const mutations = {
-  setRows(state, rows) {
-    state.rows = rows
-  },
-  setTotal(state, total) {
-    state.total = total
-  },
-  setColumns(state, columns) {
-      state.columns = columns
-  },
-  setForm(state, form) {
-    state.form = form
-  },
-  setQueries(state, queries) {
-    state.queries = queries
-  }
+    setRows(state, rows) {
+        state.rows = rows
+    },
+    setTotal(state, total) {
+        state.total = total
+    },
+    setColumns(state, columns) {
+        state.columns = columns
+    },
+    setForm(state, form) {
+        state.form = form
+    },
+    setQueries(state, queries) {
+        state.queries = queries
+    }
 }
 
 const actions = {
-    async grid({ commit, rootState }, payload) { 
+    async grid({ commit, rootState }, payload) {
         try {
             const resp = await axios.get('/api/report/grid', {
                 params: payload,
@@ -51,7 +51,7 @@ const actions = {
             throw err
         }
     },
-    async getQueryList({ commit, rootState }, payload) { 
+    async getQueryList({ commit, rootState }, payload) {
         try {
             const resp = await axios.get('/api/report/queries', {
                 params: payload,
@@ -67,13 +67,13 @@ const actions = {
     },
     async delete({ commit, rootState }, id) {
         try {
-            const resp = await axios.delete('/api/report/'+id);
+            const resp = await axios.delete('/api/report/' + id);
             return resp
         } catch (err) {
             throw err
         }
     },
-    async getSchema({commit, rootState}, payload){
+    async getSchema({ commit, rootState }, payload) {
         try {
             const resp = await axios.get('/api/report/get-schemas', {
                 params: payload,
@@ -87,7 +87,7 @@ const actions = {
             throw err
         }
     },
-    async preview({commit, rootState}, payload){
+    async preview({ commit, rootState }, payload) {
         try {
             const resp = await axios.post('/api/report/preview', payload);
             return resp
@@ -103,9 +103,19 @@ const actions = {
             throw err
         }
     },
+    async downloadQuery({ commit, rootState }, payload) {
+        try {
+            const resp = await axios.post('/api/report/download', payload, {
+                responseType: 'blob',
+            });
+            return resp
+        } catch (err) {
+            throw err
+        }
+    },
     async deleteQuery({ commit, rootState }, name) {
         try {
-            const resp = await axios.delete('/api/report/delete-query/'+name);
+            const resp = await axios.delete('/api/report/delete-query/' + name);
             return resp
         } catch (err) {
             throw err
@@ -114,9 +124,9 @@ const actions = {
 }
 
 export default {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations
+    namespaced: true,
+    state,
+    getters,
+    actions,
+    mutations
 }

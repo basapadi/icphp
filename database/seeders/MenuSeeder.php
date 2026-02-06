@@ -18,15 +18,15 @@ class MenuSeeder extends Seeder
 
         Menu::truncate();
         $preInsertMenu = [];
-        foreach($menus as $k => $menu){
+        foreach ($menus as $k => $menu) {
             array_push($preInsertMenu, [
                 'id' => $menu['id'],
-                'icon' => $menu['icon']??null,
+                'icon' => $menu['icon'] ?? null,
                 'label' => $menu['label'],
                 'route' => $menu['route'],
                 'order' => $menu['order'],
-                'parent_id' => $menu['parent']??null,
-                'module'    => $menu['module']??null,
+                'parent_id' => $menu['parent'] ?? null,
+                'module'    => $menu['module'] ?? null,
                 'side_menu' => isset($menu['side_menu']) ? $menu['side_menu'] : true
             ]);
         }

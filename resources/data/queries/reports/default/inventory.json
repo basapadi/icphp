@@ -1,5 +1,5 @@
 {
-	"columns": [
+    "columns": [
         {
             "name": "nama",
             "required": true,
@@ -88,6 +88,5 @@
             "styles": "",
             "option_filter": true
         }
-    ],
-	"query": "-- contoh query, lihat skema disamping untuk mendapat referensi kolom\n  select \n  items.nama,\n  items.kode_barang as SKU,\n  items.barcode,\n  items.status,\n  items.kategori,\n  unit.nama,\n  jumlah,\n  minimum_stock,\n  tanggal_pembaruan\n  \n  from item_stocks\n  left join masters as unit on unit.id = item_stocks.unit_id \n  left join items on items.id = item_stocks.item_id"
+    ]
 }

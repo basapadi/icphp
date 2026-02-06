@@ -5,7 +5,10 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Menu;
-use App\Models\RoleMenu;
+use App\Models\{
+    RoleMenu,
+    Role
+};
 
 class RoleMenuSeeder extends Seeder
 {
@@ -18,9 +21,9 @@ class RoleMenuSeeder extends Seeder
         $configMenus = collect(config('ihandcashier.menus'));
         $menus = Menu::all();
         $roleMenus = [];
-        foreach($roles as $r => $role){
-            $all = $role == 'admin' ? 1: 0;
-            foreach($menus as $m => $menu){
+        foreach ($roles as $r => $role) {
+            $all = $role == 'admin' ? 1 : 0;
+            foreach ($menus as $m => $menu) {
                 $access = [
                     'view'      => $all,
                     'create'    => $all,
@@ -30,15 +33,15 @@ class RoleMenuSeeder extends Seeder
                     'download'  => $all
                 ];
 
-                $cm = $configMenus->where('id',$menu->id)->first();
-               
-                if($cm && isset($cm['hide'])){
+                $cm = $configMenus->where('id', $menu->id)->first();
+
+                if ($cm && isset($cm['hide'])) {
                     foreach ($cm['hide'] as $v) {
                         $access[$v] = 0;
                     }
                 }
 
-                if($menu->route == '#'){
+                if ($menu->route == '#') {
                     $access = [
                         'view'      => $all,
                         'create'    => 0,
@@ -48,7 +51,7 @@ class RoleMenuSeeder extends Seeder
                         'download'  => 0
                     ];
                 }
-                
+
                 array_push($roleMenus, [
                     'role'      => $role,
                     'menu_id'   => $menu->id,
@@ -61,7 +64,19 @@ class RoleMenuSeeder extends Seeder
                 ]);
             }
         }
+        $dataroles = [];
+        foreach ($roles as $key => $r) {
+            $isAdmin = $r == 'admin' ? true : false;
+            array_push($dataroles, [
+                'key' => $r,
+                'name' => str_replace('_', ' ', strtoupper($r)),
+                'is_admin' => $isAdmin
+            ]);
+        }
+
         RoleMenu::truncate();
+        Role::truncate();
         RoleMenu::insert($roleMenus);
+        Role::insert($dataroles);
     }
 }

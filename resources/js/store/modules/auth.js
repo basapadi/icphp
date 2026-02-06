@@ -72,7 +72,7 @@ const actions = {
       // this.logout()
     }
     },
-    async logout({commit}) {
+  async logout({commit, rootState}) {
       if (!state.token) return
       await axios.post('/api/auth/logout', {
         headers: {
@@ -81,6 +81,12 @@ const actions = {
       })
       commit('setToken', null)
       commit('setUser', null)
+      
+      // bersihin modul menu
+      commit('menu/setMenus', [], { root: true })
+      commit('menu/setMenuRoles', [], { root: true })
+      commit('menu/setApp', null, { root: true })
+
       localStorage.removeItem('token')
       localStorage.removeItem('user')
   }

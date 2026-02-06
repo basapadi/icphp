@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
             $table->boolean('side_menu')->default(true);
-            $table->string('icon',20)->nullable();
-            $table->string('label',50);
-            $table->string('route',255)->default('#');
+            $table->string('icon', 20)->nullable();
+            $table->string('label', 50);
+            $table->string('route', 255)->default('#');
             $table->integer('parent_id')->index()->nullable();
             $table->integer('order')->nullable();
             $table->timestamps();

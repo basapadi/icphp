@@ -31,7 +31,8 @@ import {
 export default {
     name: "DetailDrawer",
     props: {
-        open: Boolean, defaut: false,
+        open: Boolean,
+        default: false,
         data: { type: Object, default: () => ({}) },
     },
     components: {
@@ -59,8 +60,6 @@ export default {
             this.$emit("close");
         },
     },
-    beforeMount() {
-        
-    },
+    beforeMount() {},
 };
 </script>

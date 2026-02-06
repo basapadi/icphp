@@ -1,11 +1,13 @@
 <?php
+
 use App\Models\{
     ItemStock,
     ItemStockAdjustment,
     Contact,
     Item,
     Master,
-    User
+    User,
+    Role
 };
 
 use App\Transformers\FormTransformer;
@@ -13,7 +15,7 @@ use Spatie\Fractalistic\ArraySerializer;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Carbon\Carbon;
 
-if(!function_exists('injectData')){
+if (!function_exists('injectData')) {
     function injectData(&$data, array $replacements)
     {
         if (is_array($data)) {
@@ -70,8 +72,9 @@ if (!function_exists('injectDataColumn')) {
 }
 
 
-if(!function_exists('calculateStockCreate')){
-    function calculateStockCreate(ItemStock $stock,$type,$qty){
+if (!function_exists('calculateStockCreate')) {
+    function calculateStockCreate(ItemStock $stock, $type, $qty)
+    {
         $type = config("ihandcashier.adjustment_types.{$type}");
         switch ($type['action_create']) {
             case 'addition':
@@ -88,35 +91,38 @@ if(!function_exists('calculateStockCreate')){
     }
 }
 
-if(!function_exists('generateTransactionCode')){
-    function generateTransactionCode($prefix) {
+if (!function_exists('generateTransactionCode')) {
+    function generateTransactionCode($prefix)
+    {
         $datePart = sprintf(
             "%02d%02d%02d%02d%02d",
             date('s'),
-            date('i'),  
+            date('i'),
             date('m'),
             date('d'),
             date('H')
         );
         $randomPart = str_pad(rand(0, 9999), 2, '0', STR_PAD_LEFT); // Tambahkan 4 digit acak
-        return strtoupper($prefix."-" . $datePart . $randomPart);
+        return strtoupper($prefix . "-" . $datePart . $randomPart);
     }
 }
 
-if(!function_exists('getContactToSelect')){
-    function getContactToSelect($type = 'pelanggan'){
-        $data = Contact::where('contact_status', true)->where('type',$type)->get();
+if (!function_exists('getContactToSelect')) {
+    function getContactToSelect($type = 'pelanggan')
+    {
+        $data = Contact::where('contact_status', true)->where('type', $type)->get();
         $contacts = [];
 
         foreach ($data as $key => $c) {
-            $contacts[$c->id] = $c->nama.' - '.$c->email;
+            $contacts[$c->id] = $c->nama . ' - ' . $c->email;
         }
         return $contacts;
     }
 }
 
-if(!function_exists('getItemToSelect')){
-    function getItemToSelect(){
+if (!function_exists('getItemToSelect')) {
+    function getItemToSelect()
+    {
         $data = Item::where('status', true)->get();
         $items = [];
 
@@ -127,9 +133,10 @@ if(!function_exists('getItemToSelect')){
     }
 }
 
-if(!function_exists('getUnitToSelect')){
-    function getUnitToSelect($type = 'UNIT'){
-        $data = Master::where('status', true)->where('type',$type)->get();
+if (!function_exists('getUnitToSelect')) {
+    function getUnitToSelect($type = 'UNIT')
+    {
+        $data = Master::where('status', true)->where('type', $type)->get();
         $items = [];
 
         foreach ($data as $key => $c) {
@@ -139,40 +146,43 @@ if(!function_exists('getUnitToSelect')){
     }
 }
 
-if(!function_exists('getTaxToSelect')){
-    function getTaxToSelect(){
-        $data = Master::where('status', true)->where('type','TAX')->get();
+if (!function_exists('getTaxToSelect')) {
+    function getTaxToSelect()
+    {
+        $data = Master::where('status', true)->where('type', 'TAX')->get();
         $items = [];
 
         foreach ($data as $key => $c) {
-            $items[$c->attributes->value] = $c->nama." ({$c->attributes->value}%)";
-        }   
+            $items[$c->attributes->value] = $c->nama . " ({$c->attributes->value}%)";
+        }
         return $items;
     }
 }
 
 
-if(!function_exists('getUserToSelect')){
-    function getUserToSelect(array $except = []){
-        $data = User::where('active', true)->whereNotIn('id',$except)->get();
+if (!function_exists('getUserToSelect')) {
+    function getUserToSelect(array $except = [])
+    {
+        $data = User::where('active', true)->whereNotIn('id', $except)->get();
         $users = [];
 
         foreach ($data as $key => $c) {
-            $users[$c->id] = $c->name.' - '.$c->email;
+            $users[$c->id] = $c->name . ' - ' . $c->email;
         }
         return $users;
     }
 }
 
-if(!function_exists('serializeform')){
-    function serializeform($form){
+if (!function_exists('serializeform')) {
+    function serializeform($form)
+    {
         $forms = [];
         $dialog = [
             'width' => 2
         ];
 
         foreach ($form as $key => $f) {
-            if($key == 'dialog'){
+            if ($key == 'dialog') {
                 $dialog = $f;
                 continue;
             }
@@ -190,9 +200,9 @@ if(!function_exists('serializeform')){
 
 if (! function_exists('smart_dispatch')) {
     /***
-    *  auto detect dispatch tergantung type appnya
-    *  apabila type web maka Job bisa dijalankan kalo tidak jangan pake job (sync)
-    ***/
+     *  auto detect dispatch tergantung type appnya
+     *  apabila type web maka Job bisa dijalankan kalo tidak jangan pake job (sync)
+     ***/
     function smart_dispatch($job)
     {
         if (config('ihandcashier.app_type') === 'desktop') {
@@ -214,12 +224,39 @@ if (! function_exists('smart_dispatch')) {
 }
 
 if (! function_exists('currency')) {
-    function currency($value = 0){
-        return 'IDR '.number_format($value, 0, ',', '.');
+    function currency($value = 0)
+    {
+        return 'IDR ' . number_format($value, 0, ',', '.');
     }
 }
-if( !function_exists('formattedDate')){
-    function formattedDate($date, $format = 'l, d M Y H:i'){
+if (!function_exists('formattedDate')) {
+    function formattedDate($date, $format = 'l, d M Y H:i')
+    {
         return $date ? Carbon::parse($date)->locale('id')->translatedFormat($format) : null;
     }
+}
+
+if (!function_exists('isAdmin')) {
+
+    function isAdmin()
+    {
+        $role = auth()->user()->role;
+        $dbRole = Role::where('key', $role)->where('is_admin', true)->first();
+        return $dbRole ? true : false;
+    }
+}
+
+function isArrayEmptyString(array $arr): bool
+{
+    if (empty($arr)) {
+        return true;
+    }
+
+    foreach ($arr as $v) {
+        if (!is_string($v) || trim($v) !== '') {
+            return false;
+        }
+    }
+
+    return true;
 }

@@ -33,62 +33,65 @@ const mutations = {
 }
 
 const actions = {
-    async getMenu({ commit, rootState }, payload) {
-        try {
-            if (state.menus && state.menus.length > 0) {
-              return { data: { menus: state.menus, menu_roles: state.menuRoles, app: state.app } }
-            }
-            const resp = await axios.get('/api/auth/menus', {
-                params: payload,
-                paramsSerializer: params => {
-                    return qs.stringify(params, { arrayFormat: 'repeat' })
-                }
-            });
-            commit('setMenus', resp.data.menus)
-            commit('setMenuRoles', resp.data.menu_roles)
-            commit('setApp', resp.data.app)
-            return resp
-        } catch (err) {
-          if (err.response && err.response.status === 401) {
-            window.location.reload()
-            // hapus token & user dari store/localStorage
-            commit('auth/setToken', null, { root: true })
-            commit('auth/setUser', null, { root: true })
-            localStorage.removeItem('token')
-            localStorage.removeItem('user')
-            // redirect ke login
-            router.push('/login')
-          }
-          throw err
+  async getMenu({ commit, rootState }, payload) {
+    try {
+      if (state.menus && state.menus.length > 0) {
+        return { data: { menus: state.menus, menu_roles: state.menuRoles, app: state.app } }
+      }
+      const resp = await axios.get('/api/auth/menus', {
+        params: payload,
+        paramsSerializer: params => {
+          return qs.stringify(params, { arrayFormat: 'repeat' })
         }
-    },
-    setActiveMenu({ commit, state }, currentRoute) {
-      function traverse(items) {
-        return items.map(item => {
-          // traverse children dulu
-          const children = traverse(item.sub_items || [])
-
-          // cek apakah current item aktif
-          const isActive = item.route && item.route !== '#' && (
-            item.route === '/'
-              ? currentRoute === '/'
-              : currentRoute.startsWith(item.route)
+      });
+      commit('setMenus', resp.data.menus)
+      commit('setMenuRoles', resp.data.menu_roles)
+      commit('setApp', resp.data.app)
+      return resp
+    } catch (err) {
+      if (err.response && err.response.status === 401) {
+        window.location.reload()
+        // hapus token & user dari store/localStorage
+        commit('auth/setToken', null, { root: true })
+        commit('auth/setUser', null, { root: true })
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        // redirect ke login
+        router.push('/login')
+      }
+      throw err
+    }
+  },
+  setActiveMenu({ commit, state }, currentRoute) {
+    function traverse(items) {
+      return items.map(item => {
+        // traverse children dulu
+        const children = traverse(item.sub_items || [])
+        const isActive = item.route && item.route !== '#' && (
+          currentRoute === item.route // cuma aktif kalau match persis
+        )
+        const hasActiveChild = children.some(c => c.active || c.hasActiveChild)
+        // cek apakah current item aktif
+        const open = (item.open ?? false)
+          || isActive
+          || hasActiveChild
+          || (
+            // parent boleh open kalau currentRoute ada di bawah route dia
+            item.route
+            && currentRoute.startsWith(item.route + '/')
           )
 
-          // parent open kalau ada child aktif
-          const hasActiveChild = children.some(c => c.active || c.open)
+        return {
+          ...item,
+          active: isActive,
+          open: open,
+          sub_items: children
+        }
+      })
+    }
 
-          return {
-            ...item,
-            active: isActive,
-            open: (item.open ?? false) || isActive || hasActiveChild,
-            sub_items: children
-          }
-        })
-      }
-
-      const updated = traverse(state.menus || [])
-      commit('setMenus', updated)
+    const updated = traverse(state.menus || [])
+    commit('setMenus', updated)
   }
 
 

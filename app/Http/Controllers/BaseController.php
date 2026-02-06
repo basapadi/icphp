@@ -10,13 +10,18 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Spatie\Fractal\Fractal;
 use Vinkla\Hashids\Facades\Hashids;
-use App\Models\Menu;
+use App\Models\{
+    Menu,
+    AuditLog
+};
 use App\Transformers\FormTransformer;
 use Spatie\Fractalistic\ArraySerializer;
 use App\Http\Response;
 use App\Traits\{HasQueryBuilder, QueryHelper, DataBuilder, BaseHelper, Services};
 use App\Models\Trash;
 use App\Objects\ContextMenu;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Guard\RoleGuard;
 
 class BaseController extends Controller
 {
@@ -31,13 +36,18 @@ class BaseController extends Controller
     protected string $_module = '';
     private ?array $_form = [];
     protected ?array $_gridProperties = [];
-    private ?array $_detailSchema = [];
+    protected ?array $_detailSchema = [];
     private ?array $_createRules = [];
     private ?array $_updateRules = [];
     private ?array $_formData = [];
     protected ?array $_contextMenus = [];
     private ?array $_injectDataColumns = [];
     private ?array $_exceptContextMenu = [];
+
+    public function __construct()
+    {
+        // RoleGuard::IsAdminUser();
+    }
 
     /**
      * Handle grid request to fetch data with filtering and pagination.
@@ -48,8 +58,6 @@ class BaseController extends Controller
      */
     public function grid(Request $request)
     {
-        // $this->generateDetailSchemaToJson($this->_detailSchema);
-        // $this->generateColumnsToJson($this->_columns);
         $this->allowAccessModule($this->_module, 'view');
         $query = $this->_queryBuilder;
         $totalQuery = clone $this->_queryBuilder;
@@ -77,13 +85,13 @@ class BaseController extends Controller
         $this->_gridProperties['simpleFilter'] = $this->_gridProperties['simpleFilter'] ?? true;
         $this->_gridProperties['multipleSelect'] = $this->_gridProperties['multipleSelect'] ?? $this->_multipleSelectGrid;
         $this->_gridProperties['contextMenu'] = $this->_contextMenus;
-        // dd($rows->toArray()[0],$this->getDetailSchema());
+        if (empty($this->_detailSchema)) $this->getDetailSchema();
         return Response::ok('Loaded', [
             'rows' => $rows->toArray(),
             'total' => $total,
             'columns' => $this->getColumns(),
             'properties' => $this->_gridProperties,
-            'detail_schemes' => $this->getDetailSchema(),
+            'detail_schemes' => $this->_detailSchema,
             'module' => $this->_module
         ]);
     }
@@ -315,17 +323,23 @@ class BaseController extends Controller
         $this->_contextMenus = $contextMenu;
     }
 
+    protected function clearContextMenu()
+    {
+        $this->_contextMenus = [];
+    }
+
     /**
      * Get the detail schema from the JSON file.
      *
      * @return array
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      */
-    protected function getDetailSchema()
+    protected function getDetailSchema($schema = null)
     {
-        $path = base_path('resources/data/detail_schemas/' . $this->_module . '.json');
+        $schema = $schema ?? $this->_module;
+        $path = base_path('resources/data/detail_schemas/' . $schema . '.json');
         $schema = file_get_contents($path);
-        return json_decode($schema, true);
+        $this->_detailSchema = json_decode($schema, true);
     }
 
     /**
@@ -342,6 +356,23 @@ class BaseController extends Controller
         return json_decode($form, true);
     }
 
+    protected function getResourceDefaultContent($name)
+    {
+        $path = base_path('resources/data/defaults/contents/' . $name . '.html');
+        if (file_exists($path)) {
+            $form = file_get_contents($path);
+            return $form;
+        }
+        return '';
+    }
+
+    protected function getResourceEvaluationForm($name)
+    {
+        $path = base_path('resources/data/forms/evaluasi/' . $name . '.json');
+        $form = file_get_contents($path);
+        return json_decode($form, true);
+    }
+
     /**
      * Get the resource query configuration from the file.
      *
@@ -354,6 +385,13 @@ class BaseController extends Controller
         $basepath = base_path('resources/' . $path);
         $query = file_get_contents($basepath);
         return json_decode($query, true);
+    }
+
+    protected function getResourceSql($path)
+    {
+        $basepath = base_path('resources/' . $path);
+        $query = file_get_contents($basepath);
+        return $query;
     }
 
     /**
@@ -399,9 +437,10 @@ class BaseController extends Controller
      * @return array
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      */
-    protected function getColumns()
+    protected function getColumns($filename = null)
     {
-        $path = base_path('resources/data/columns/' . $this->_module . '.json');
+        $filename = $filename ?? $this->_module;
+        $path = base_path('resources/data/columns/' . $filename . '.json');
         $schema = json_decode(file_get_contents($path), true);
         injectDataColumn($schema, $this->_injectDataColumns);
         $schema = collect($schema)->map(function ($col) {
@@ -477,11 +516,11 @@ class BaseController extends Controller
      * @return void
      * @author bachtiarpanjaitan <bachtiarpanjaitan0@gmail.com>
      */
-    private function defaultContextMenu()
+    protected function defaultContextMenu()
     {
         $menus = [
             'view' => ['method' => 'viewData', 'label' => 'Detail', 'icon' => 'SquareChartGantt', 'color' => '#009688'],
-            'create' => ['method' => 'tambahData', 'label' => 'Tambah', 'icon' => 'Plus', 'color' => '#FF9800'],
+            'create' => ['method' => 'tambahData', 'label' => 'Tambah', 'icon' => 'SquarePlus', 'color' => '#FF9800'],
             'edit' => ['method' => 'editData', 'label' => 'Ubah', 'icon' => 'SquarePen', 'color' => '#3F51B5'],
             'delete' => ['method' => 'hapusData', 'label' => 'Hapus', 'icon' => 'SquareX', 'color' => '#F44336']
         ];
@@ -558,12 +597,210 @@ class BaseController extends Controller
             $data->loadRelationsWithNested($relations);
             $data->delete();
             $this->saveTrash($data);
-
+            $this->saveAuditLog('delete', 'Data deleted', $data->toArray());
             DB::commit();
             return $this->setAlert('info', 'Berhasil', 'Data berhasil dihapus, silahkan periksa keranjang sampah untuk melihat data terhapus');
         } catch (Exception $e) {
             DB::rollBack();
             return $this->setAlert('error', 'Gagal!', $e->getMessage());
         }
+    }
+
+    protected function privateUpload($filename, $path = '')
+    {
+
+        $file = request()->file($filename);
+        $safePath = trim(str_replace(['..', './', '\\'], '', $path), '/');
+
+        if (!Storage::exists($safePath)) {
+            Storage::makeDirectory($safePath);
+        }
+        $originalFilename = $file->getClientOriginalName();
+        $filename = uniqid() . '_' . $filename . '.' . $file->getClientOriginalExtension();
+        $storedPath = $file->storeAs($safePath, $filename);
+        $storedPath = str_replace('\\', '/', $storedPath);
+        $url = route('file', ['path' => $storedPath]);
+        return [
+            'path'  => $storedPath,
+            'url'   => $url,
+            'filename' => $originalFilename
+        ];
+    }
+
+    protected function publicUpload(string $fieldName, ?string $subFolder = null)
+    {
+        $files = request()->file($fieldName);
+
+        if (!$files) {
+            return null;
+        }
+
+        // pastikan selalu array (single file ikut antre)
+        $files = is_array($files) ? $files : [$files];
+
+        // sanitasi nama folder
+        $subFolder = $subFolder
+            ? trim(str_replace(['..', '/', '\\'], '', $subFolder), '/')
+            : '';
+
+        $basePath = public_path('uploads');
+        $uploadPath = $subFolder
+            ? $basePath . '/' . $subFolder
+            : $basePath;
+
+        if (!is_dir($uploadPath)) {
+            mkdir($uploadPath, 0755, true);
+        }
+
+        $results = [];
+
+        foreach ($files as $file) {
+            if (!$file->isValid()) {
+                continue;
+            }
+
+            $originalFilename = $file->getClientOriginalName();
+
+            $filename = uniqid() . '_' . preg_replace(
+                '/[^a-zA-Z0-9._-]/',
+                '_',
+                $originalFilename
+            );
+
+            $file->move($uploadPath, $filename);
+
+            $relativePath = $subFolder
+                ? 'uploads/' . $subFolder . '/' . $filename
+                : 'uploads/' . $filename;
+
+            $results[] = [
+                'path'     => $relativePath,
+                'url'      => url($relativePath),
+                'filename' => $originalFilename,
+            ];
+        }
+
+        // kalau cuma satu file, kembalikan satu object biar tidak nyusahin caller
+        return count($results) === 1 ? $results[0] : $results;
+    }
+
+    protected function publicMultipleUpload(string $fieldName, ?string $subFolder = null)
+    {
+        $files = request()->file($fieldName);
+
+        if (!$files) {
+            return null;
+        }
+
+        // pastikan selalu array (single file ikut antre)
+        $files = is_array($files) ? $files : [$files];
+
+        // sanitasi nama folder
+        $subFolder = $subFolder
+            ? trim(str_replace(['..', '/', '\\'], '', $subFolder), '/')
+            : '';
+
+        $basePath = public_path('uploads');
+        $uploadPath = $subFolder
+            ? $basePath . '/' . $subFolder
+            : $basePath;
+
+        if (!is_dir($uploadPath)) {
+            mkdir($uploadPath, 0755, true);
+        }
+
+        $results = [];
+
+        foreach ($files as $file) {
+            if (!$file->isValid()) {
+                continue;
+            }
+
+            $originalFilename = $file->getClientOriginalName();
+
+            $filename = uniqid() . '_' . preg_replace(
+                '/[^a-zA-Z0-9._-]/',
+                '_',
+                $originalFilename
+            );
+
+            $file->move($uploadPath, $filename);
+
+            $relativePath = $subFolder
+                ? 'uploads/' . $subFolder . '/' . $filename
+                : 'uploads/' . $filename;
+
+            $results[] = [
+                'path'     => $relativePath,
+                'url'      => url($relativePath),
+                'filename' => $originalFilename,
+            ];
+        }
+
+        return $results;
+    }
+
+    protected function saveAuditLog($action, $description = null, array $context = [])
+    {
+        AuditLog::create([
+            'user_id' => !empty(auth()->user()->id) ? auth()->user()->id : null,
+            'module' => $this->_module,
+            'action' => $action,
+            'description' => $description,
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+            'context' => json_encode($context),
+        ]);
+    }
+
+    protected function extractLevel3WithBreadcrumb(array $items, array $parents = []): array
+    {
+        $fields = [];
+
+        foreach ($items as $item) {
+
+            $currentParents = $parents;
+
+            if (!empty($item['label'])) {
+                $currentParents[] = $item['label'];
+            }
+
+            // Ketemu input (level 3 + ada type)
+            if (($item['level'] ?? null) === 3 && isset($item['type'])) {
+
+                $field = $item;
+
+                // Override label jadi breadcrumb
+                $field['label'] = implode(' ▸ ', $currentParents);
+
+                $fields[] = $field;
+            }
+
+            // Rekursif ke child
+            if (!empty($item['child']) && is_array($item['child'])) {
+                $fields = array_merge(
+                    $fields,
+                    $this->extractLevel3WithBreadcrumb($item['child'], $currentParents)
+                );
+            }
+        }
+
+        return $fields;
+    }
+
+    public function arrayToJson(array $array)
+    {
+        $result = [];
+
+        foreach ($array as $key => $value) {
+            $result[$key] = $value;
+        }
+
+        return response()->json(
+            $result,
+            200,
+            [],
+            JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
+        );
     }
 }

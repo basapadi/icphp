@@ -1,90 +1,160 @@
 <template>
-    <div class="relative rounded-lg shadow-sm border border-gray-200 z-1">
+    <div class="relative rounded-lg shadow-sm border border-border z-1">
         <div class="h-screen relative">
             <!-- Table Header -->
-            <div class="px-1 py-1 h-auto border-b border-gray-100">
-                <div class="flex items-center justify-between">
-                    <h2 class="text-base font-semibold text-gray-900"></h2>
-                    <div class="flex items-center space-x-2">
-                    <div class="relative">
-                        <input
-                        v-model="searchQuery"
-                        type="text"
-                        :placeholder="`Cari data ${title}` "
-                        class="pl-8 pr-3 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        />
-                        <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-                        <Search class="h-4 w-4 text-gray-400" />
-                        </div>
+            <div class="px-1 py-1 h-auto border-b border-border">
+                <div class="flex justify-between">
+                    <div>
+                        <FilterHeader :columns="columns" @load="load" :pagination="pagination" :operators="operators"
+                            :filter="filter" :properties="properties" valueType="select" />
                     </div>
+                    <div class="">
+                        <div class="flex flex-col md:flex-row md:items-center gap-2">
+                            <div class="relative" v-if="properties.simpleFilter">
+                                <input v-model="searchQuery" type="text" :placeholder="`Cari ${title}`"
+                                    class="pl-8 pr-3 py-1.5 italic text-muted-foreground text-sm border-1 border-border rounded-md focus:border-transparent" />
+                                <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+                                    <Search class="h-4 w-4 text-muted-foreground" />
+                                </div>
+                            </div>
+                            <div class="relative mr-2" v-if="this.module == 'trash'">
+                                <Button @click="truncateData" v-if="allowDelete" size="sm">
+                                    Hapus Semua
+                                </Button>
+                            </div>
+                            <div class="relative mr-2" v-if="allowCreate && columnOptions.length > 0">
+                                <Button v-if="columnOptions.includes('create')" @click="tambahData" size="sm">
+                                    Tambah
+                                </Button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="overflow-x-auto h-15/20">
-                <table class="min-w-full relative border border-1 border-dashed border-gray-100">
-                    <thead class="bg-orange-50 sticky top-0">
-                    <tr >
-                        <template v-for="column in columns" :key="column.value">
-                            <template v-if="column.name == 'actions'">
-                                <th  class="px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider border border-1 border-dashed border-gray-300" style="width: 50px;" >{{ column.label }}</th>
-                            </template>
-                            <template v-if="['view','create','edit','delete','download'].includes(column.name)">
-                                <th  class="px-4 py-2 text-center font-bold text-xs text-gray-500 uppercase tracking-wider border border-1 border-dashed border-gray-300" style="width: 100px;" >{{ column.label }}</th>
-                            </template>
-                            <template v-else>
-                                <th  class="px-4 py-2 text-left font-bold text-xs text-gray-500 uppercase tracking-wider border border-1 border-dashed border-gray-300" >{{ column.label }}</th>
-                            </template>
-                        </template>
-                        
-                    </tr>
-                    </thead>
-                    <tbody class="bg-white/10 divide-y divide-gray-200" >
-                    <tr v-for="(data,i) in filterData" :key="data.id" class="transition-colors duration-50 border border-1 border-dashed text-sm border-gray-300 hover:bg-orange-100 odd:bg-gray-300/20 even:bg-white/30" >
-                        <template v-for="column in columns" :key="column.value">
-                            <td class="px-4 pt-2 whitespace-nowrap border border-1 border-dashed border-gray-300 text-center" v-if="['view','create','edit','update','delete','download'].includes(column.name)">
-                                <template v-if="data.show[column.name]">
-                                    <input :checked="data[column.name]" type="checkbox" class="role-cb h-4 w-4 text-orange-600" style="align-items: center;"/>
+                <table class="min-w-full relative border border-1 border-dashed border-border">
+                    <thead class="bg-accent sticky top-0">
+                        <tr>
+                            <template v-for="column in columns" :key="column.value">
+                                <template v-if="column.name == 'actions'">
+                                    <th class="px-4 py-2 text-left font-bold text-xs text-muted-foreground uppercase tracking-wider border border-1 border-dashed border-border"
+                                        style="width: 50px">
+                                        {{ column.label }}
+                                    </th>
                                 </template>
-                            </td>
-                            <td class="px-4 whitespace-nowrap border border-1 border-dashed border-gray-300" v-else>
-                                <span :class="`text-sm items-center text-gray-600 ${column.class}`">{{ $helpers.getSubObjectValue(data, column.name) }}</span>
-                            </td>
-                        </template>
-                    </tr>
-                </tbody>
-            </table>
+                                <template v-if="
+                                    [
+                                        'view',
+                                        'create',
+                                        'edit',
+                                        'delete',
+                                        'download',
+                                    ].includes(column.name)
+                                ">
+                                    <th class="px-4 py-2 text-center font-bold text-xs text-muted-foreground uppercase tracking-wider border border-1 border-dashed border-border"
+                                        style="width: 100px">
+                                        {{ column.label }}
+                                    </th>
+                                </template>
+                                <template v-else>
+                                    <th
+                                        class="px-4 py-2 text-left font-bold text-xs text-muted-foreground uppercase tracking-wider border border-1 border-dashed border-border">
+                                        {{ column.label }}
+                                    </th>
+                                </template>
+                            </template>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-background/10 divide-y divide-border">
+                        <tr v-for="(data, i) in filterData" :key="data.id"
+                            class="transition-colors duration-50 border border-1 border-dashed text-sm border-border hover:bg-primary/10 odd:bg-muted/20 even:bg-background/30">
+                            <template v-for="column in columns" :key="column.value">
+                                <td class="px-4 pt-2 whitespace-nowrap border border-1 border-dashed border-border text-center"
+                                    v-if="
+                                        [
+                                            'view',
+                                            'create',
+                                            'edit',
+                                            'update',
+                                            'delete',
+                                            'download',
+                                        ].includes(column.name)
+                                    ">
+                                    <template v-if="data.show[column.name]">
+                                        <input :checked="data[column.name]" type="checkbox"
+                                            class="role-cb h-4 w-4 text-primary" style="align-items: center"
+                                            @click="onCheck($event, data, column.name)" />
+                                    </template>
+                                </td>
+                                <td class="px-4 whitespace-nowrap border border-1 border-dashed border-border" v-else>
+                                    <span :class="`text-sm items-center text-foreground ${column.class}`">{{
+                                        $helpers.getSubObjectValue(
+                                            data,
+                                            column.name
+                                        )
+                                    }}</span>
+                                </td>
+                            </template>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <div class="px-4 py-3 border-t border-gray-200">
+            <div class="px-4 py-3 h-auto border-t border-border z-1">
                 <div class="flex items-center justify-between">
-                    <div class="text-sm text-gray-700">
-                    Data <span class="font-medium">{{ (currentPage * itemsPerPage) - (itemsPerPage -1) }}</span> hingga 
-                    <span class="font-medium">{{ ((currentPage -1) * itemsPerPage) + rows?.length }}</span> dari 
-                    <span class="font-medium">{{ total }}</span> hasil
+                    <div class="text-sm text-muted-foreground">
+                        Data
+                        <span class="font-medium">
+                            {{
+                                pagination._page * pagination._limit -
+                                (pagination._limit - 1)
+                            }}
+                        </span>
+                        hingga
+                        <span class="font-medium">
+                            {{
+                                (pagination._page - 1) * pagination._limit +
+                                rows?.length
+                            }}
+                        </span>
+                        dari <span class="font-medium">{{ total }}</span> hasil
                     </div>
-                    <div class="flex items-center space-x-2">
-                        <button
-                            @click="initPage"
-                            class="bg-orange-50 text-sm border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 px-4 py-1.5"
-                            >
-                            Awal
-                        </button>
-                        <button
-                            @click="previousPage"
-                            :disabled="currentPage === 1"
-                            class="bg-orange-50 text-sm border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 px-4 py-1.5"
-                        >
-                            Sebelumnya
-                        </button>
-                        <button class="bg-orange-50 text-sm border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 px-4 py-1.5">
-                            {{ currentPage }}
-                        </button>
-                        <button
-                            @click="nextPage"
-                            :disabled="currentPage === totalPages"
-                            class="bg-orange-50 text-sm border-1 border-orange-200 rounded-md hover:bg-orange-200 text-orange-500 px-4 py-1.5"
-                        >
-                            Selanjutnya
-                        </button>
+                    <div>
+                        <Pagination :total="total" :items-per-page="pagination._limit" :page="pagination._page"
+                            @update:page="(val) => (pagination._page = val)">
+                            <PaginationContent v-slot="items">
+                                <PaginationPrevious
+                                    class="bg-accent border border-border rounded-md hover:bg-accent/80 text-accent-foreground transition-colors" />
+                                <PaginationFirst
+                                    class="bg-accent border border-border rounded-md hover:bg-accent/80 text-accent-foreground transition-colors" />
+                                <PaginationEllipsis
+                                    class="bg-accent border border-border rounded-md hover:bg-accent/80 text-accent-foreground transition-colors"
+                                    v-if="pagination._page > 3" />
+                                <template v-for="(item, index) in items.items" :key="index">
+                                    <PaginationItem class="border border-border rounded-md transition-colors" :class="item.value === pagination._page
+                                        ? 'bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground'
+                                        : 'bg-background hover:bg-accent text-foreground hover:text-accent-foreground'
+                                        " v-if="
+                                            item.type === 'page' &&
+                                            item.value >=
+                                            pagination._page - 1 &&
+                                            item.value <= pagination._page + 1
+                                        " :value="item.value" :is-active="item.value === pagination._page
+                                            " @click="pagination._page = item.value">
+                                        {{ item.value }}
+                                    </PaginationItem>
+                                </template>
+                                <PaginationEllipsis
+                                    class="bg-accent border border-border rounded-md hover:bg-accent/80 text-accent-foreground transition-colors"
+                                    v-if="
+                                        pagination._page <
+                                        items.items.length - 1
+                                    " />
+                                <PaginationLast
+                                    class="bg-accent border border-border rounded-md hover:bg-accent/80 text-accent-foreground transition-colors" />
+                                <PaginationNext
+                                    class="bg-accent border border-border rounded-md hover:bg-accent/80 text-accent-foreground transition-colors" />
+                            </PaginationContent>
+                        </Pagination>
                     </div>
                 </div>
             </div>
@@ -92,89 +162,164 @@
     </div>
 </template>
 <script>
-import { ref, computed } from 'vue'
-import { Search } from 'lucide-vue-next'
-import { useStore, mapGetters, mapActions } from 'vuex'
-
+import { Search } from "lucide-vue-next";
+import FilterHeader from "@/components/FilterHeader.vue";
+import * as operator from "./../constants/operator";
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationFirst,
+    PaginationItem,
+    PaginationLast,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination";
 export default {
-    components: { Search },
+    components: { Search, FilterHeader, Pagination, PaginationContent, PaginationEllipsis, PaginationFirst, PaginationItem, PaginationLast, PaginationNext, PaginationPrevious },
     props: {
         title: {
             type: String,
-            default: 'title'
+            default: "title",
         },
         module: {
             type: String,
-            default: ''
+            default: "",
         },
         storeSingleUpdate: {
             type: String,
-            default: ''
-        }
+            default: "",
+        },
+        defaultFilter: {
+            type: Object,
+            default: {},
+        },
     },
     data() {
         return {
-            searchQuery: '',
+            searchQuery: "",
             currentPage: 1,
             total: 0,
             rows: [],
             columns: [],
             properties: {},
-            itemsPerPage: 30
-        }
+            itemsPerPage: 30,
+            operators: operator.Operator,
+            filter: {
+                operator: "_is",
+                column: "menu__module",
+                value: "",
+            },
+            pagination: {
+                _limit: 30,
+                _page: 1,
+            },
+        };
     },
     watch: {
         searchQuery: {
-        handler() {
-            this.load()
-        },
-        immediate: true // langsung load pertama kali juga
+            handler() {
+                this.filter = {
+                    operator: "",
+                    column: "",
+                    value: "",
+                };
+                if (
+                    this.searchQuery == "" &&
+                    this.defaultFilter.column != undefined
+                )
+                    this.filter = this.defaultFilter;
+                this.load();
+            },
+            immediate: true, // langsung load pertama kali juga
         },
         currentPage() {
-            this.load()
-        }
+            this.load();
+        },
+        "pagination._page"() {
+            this.load();
+        },
     },
     computed: {
         filterData() {
             if (this.searchQuery) {
-                this.currentPage = 0;
+                this.pagination._page = 1;
             }
-            return this.rows
+            return this.rows;
         },
         totalPages() {
-            return Math.ceil(this.total / this.itemsPerPage)
+            return Math.ceil(this.total / this.pagination._limit);
         },
         startIndex() {
-            return (this.currentPage) * this.itemsPerPage + 1
+            return this.pagination._page * this.pagination._limit + 1;
         },
         endIndex() {
-            return Math.min(this.currentPage * this.itemsPerPage, this.filterData.length)
-        }
+            return Math.min(
+                this.pagination._page * this.pagination._limit,
+                this.filterData.length
+            );
+        },
     },
     methods: {
-        async load() {
-            await this.$store.dispatch(this.module+'/grid', { q: this.searchQuery, _page: this.currentPage, _limit: this.itemsPerPage }).then(({ data }) => {
-                data = data.data
-                this.rows = data.rows
-                this.columns = data.columns
-                this.total = data.total
-                this.properties = data.properties
-            })
+        async load(reset) {
+            let params = { ...this.pagination };
+            if (reset != undefined && reset == true) {
+                this.filter = {
+                    column: "",
+                    operator: "",
+                    value: "",
+                };
+            } else {
+                let filter_value = this.filter.value;
+                if (this.filter.operator != undefined) {
+                    if (
+                        this.filter.value == "_notnull" ||
+                        this.filter.value == "_null"
+                    ) {
+                        filter_value = null;
+                    }
+                }
+
+                if (this.filter.operator == "_between") {
+                    filter_value = `${this.filter.value_from},${this.filter.value_to}`;
+                }
+
+                if (this.filter.column != undefined) {
+                    params[`${this.filter.column}${this.filter.operator}`] =
+                        filter_value;
+                }
+                // params.q = this.searchQuery;
+            }
+            await this.$store
+                .dispatch(this.module + "/grid", params)
+                .then(({ data }) => {
+                    data = data.data;
+                    this.rows = data.rows;
+                    this.columns = data.columns;
+                    this.total = data.total;
+                    this.properties = data.properties;
+                });
         },
         async onCheck(event, data, column) {
-            await this.$store.dispatch(this.module+'/singleUpdate', { value: event.target.checked, id: data.encode_id, column }).then(() => {
-                this.load()
-            })
+            await this.$store
+                .dispatch(this.module + "/singleUpdate", {
+                    value: event.target.checked,
+                    id: data.encode_id,
+                    column,
+                })
+                .then(() => {
+                    // this.load();
+                });
         },
         previousPage() {
-            if (this.currentPage > 1) this.currentPage--
+            if (this.currentPage > 1) this.currentPage--;
         },
         nextPage() {
-            if (this.currentPage < this.totalPages) this.currentPage++
+            if (this.currentPage < this.totalPages) this.currentPage++;
         },
         initPage() {
-            this.currentPage = 1
-        }
-    }
-}
+            this.currentPage = 1;
+        },
+    },
+};
 </script>

@@ -16,6 +16,7 @@ html {
   /* font-family: "IAWriterQuattro", sans-serif; */
   font-family: 'Inter', sans-serif;
 }
+
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -332,7 +333,7 @@ html {
 }
 
 .ml-side {
-    margin-left: calc(var(--spacing) * 64);
+  margin-left: calc(var(--spacing) * 64);
 }
 
 @theme inline {
@@ -622,11 +623,13 @@ html {
   * {
     @apply border-border outline-ring/50;
   }
+
   /* Reset all margins and padding to ensure toolbar sits at very top */
   html,
   body {
     @apply m-0 p-0 bg-background text-foreground;
   }
+
   /* Ensure root element takes full height */
   #app {
     @apply m-0 p-0 min-h-screen;
@@ -637,6 +640,7 @@ html {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -649,13 +653,17 @@ html {
 }
 
 .scroll-container {
-  overflow: auto;       /* tetap bisa discroll */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer dan Edge lama */
+  overflow: auto;
+  /* tetap bisa discroll */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* Internet Explorer dan Edge lama */
 }
 
 .scroll-container::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, dan Edge baru */
+  display: none;
+  /* Chrome, Safari, dan Edge baru */
 }
 
 
@@ -669,6 +677,7 @@ html {
   position: relative;
   overflow: hidden;
 }
+
 .loader::before {
   content: "";
   position: absolute;
@@ -680,11 +689,14 @@ html {
   border-radius: inherit;
   background: currentColor;
   box-shadow: -10px 0 12px 3px currentColor;
-  clip-path: polygon(0 5%, 100% 0,100% 100%,0 95%,-30px 50%);
+  clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 95%, -30px 50%);
   animation: l14 1s infinite linear;
 }
+
 @keyframes l14 {
-  100% {left: calc(100% + 20px)}
+  100% {
+    left: calc(100% + 20px)
+  }
 }
 
 .menu-arrow {
@@ -694,39 +706,67 @@ html {
   display: grid;
   overflow: hidden;
 }
+
 .menu-arrow:before,
 .menu-arrow:after {
   content: "";
   grid-area: 1/1;
   background: #ff6900;
-  clip-path: polygon(0 10px,calc(100% - 15px) 10px,calc(100% - 15px) 0,100% 50%,calc(100% - 15px) 100%,calc(100% - 15px) calc(100% - 10px),0 calc(100% - 10px));
+  clip-path: polygon(0 10px, calc(100% - 15px) 10px, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, calc(100% - 15px) calc(100% - 10px), 0 calc(100% - 10px));
   animation: l5 1s infinite;
-  transform: translate(calc(0% + var(--s,0%)));
+  transform: translate(calc(0% + var(--s, 0%)));
 }
+
 .menu-arrow:after {
-  --s:-100%;
+  --s: -100%;
 }
+
 @keyframes l5 {
-  80%,100%{transform: translate(calc(100% + var(--s,0%)))}
+
+  80%,
+  100% {
+    transform: translate(calc(100% + var(--s, 0%)))
+  }
 }
 
 /* HTML: <div class="loader"></div> */
 .menu-loader {
   height: 10px;
   aspect-ratio: 2.5;
-  --_g: no-repeat radial-gradient(farthest-side,#ff6900 90%,#0000);
-  background:var(--_g), var(--_g), var(--_g), var(--_g);
+  --_g: no-repeat radial-gradient(farthest-side, #ff6900 90%, #0000);
+  background: var(--_g), var(--_g), var(--_g), var(--_g);
   background-size: 20% 50%;
-  animation: l43 1s infinite linear; 
+  animation: l43 1s infinite linear;
 }
+
 @keyframes l43 {
-  0%     {background-position: calc(0*100%/3) 50% ,calc(1*100%/3) 50% ,calc(2*100%/3) 50% ,calc(3*100%/3) 50% }
-  16.67% {background-position: calc(0*100%/3) 0   ,calc(1*100%/3) 50% ,calc(2*100%/3) 50% ,calc(3*100%/3) 50% }
-  33.33% {background-position: calc(0*100%/3) 100%,calc(1*100%/3) 0   ,calc(2*100%/3) 50% ,calc(3*100%/3) 50% }
-  50%    {background-position: calc(0*100%/3) 50% ,calc(1*100%/3) 100%,calc(2*100%/3) 0   ,calc(3*100%/3) 50% }
-  66.67% {background-position: calc(0*100%/3) 50% ,calc(1*100%/3) 50% ,calc(2*100%/3) 100%,calc(3*100%/3) 0   }
-  83.33% {background-position: calc(0*100%/3) 50% ,calc(1*100%/3) 50% ,calc(2*100%/3) 50% ,calc(3*100%/3) 100%}
-  100%   {background-position: calc(0*100%/3) 50% ,calc(1*100%/3) 50% ,calc(2*100%/3) 50% ,calc(3*100%/3) 50% }
+  0% {
+    background-position: calc(0*100%/3) 50%, calc(1*100%/3) 50%, calc(2*100%/3) 50%, calc(3*100%/3) 50%
+  }
+
+  16.67% {
+    background-position: calc(0*100%/3) 0, calc(1*100%/3) 50%, calc(2*100%/3) 50%, calc(3*100%/3) 50%
+  }
+
+  33.33% {
+    background-position: calc(0*100%/3) 100%, calc(1*100%/3) 0, calc(2*100%/3) 50%, calc(3*100%/3) 50%
+  }
+
+  50% {
+    background-position: calc(0*100%/3) 50%, calc(1*100%/3) 100%, calc(2*100%/3) 0, calc(3*100%/3) 50%
+  }
+
+  66.67% {
+    background-position: calc(0*100%/3) 50%, calc(1*100%/3) 50%, calc(2*100%/3) 100%, calc(3*100%/3) 0
+  }
+
+  83.33% {
+    background-position: calc(0*100%/3) 50%, calc(1*100%/3) 50%, calc(2*100%/3) 50%, calc(3*100%/3) 100%
+  }
+
+  100% {
+    background-position: calc(0*100%/3) 50%, calc(1*100%/3) 50%, calc(2*100%/3) 50%, calc(3*100%/3) 50%
+  }
 }
 
 /* HTML: <div class="loader"></div> */
@@ -738,22 +778,38 @@ html {
   text-transform: uppercase;
   color: #0000;
   -webkit-text-stroke: 1px #ff6900;
-  --g:conic-gradient(#ff6900 0 0) no-repeat text;
-  background:var(--g) 0,var(--g) 1ch,var(--g) 2ch,var(--g) 3ch,var(--g) 4ch,var(--g) 5ch,var(--g) 6ch;
-  animation: 
+  --g: conic-gradient(#ff6900 0 0) no-repeat text;
+  background: var(--g) 0, var(--g) 1ch, var(--g) 2ch, var(--g) 3ch, var(--g) 4ch, var(--g) 5ch, var(--g) 6ch;
+  animation:
     l17-0 1s linear infinite alternate,
     l17-1 2s linear infinite;
 }
+
 .demo:before {
   content: "Demo";
 }
+
 @keyframes l17-0 {
-  0%   {background-size: 1ch 0   }
-  100% {background-size: 1ch 100%}
+  0% {
+    background-size: 1ch 0
+  }
+
+  100% {
+    background-size: 1ch 100%
+  }
 }
+
 @keyframes l17-1 {
-  0%,50%    {background-position-y: 100%, 0}
-  50.01%,to {background-position-y: 0, 100%}
+
+  0%,
+  50% {
+    background-position-y: 100%, 0
+  }
+
+  50.01%,
+  to {
+    background-position-y: 0, 100%
+  }
 }
 
 /* HTML: <div class="loader"></div> */
@@ -762,18 +818,64 @@ html {
   font-weight: bold;
   font-family: monospace;
   font-size: 15px;
-  color:#0000;
-  background: linear-gradient(90deg,#000 25%,#8A9B0F 0 50%,#C02942 0 75%,#00A0B0 0) 0 0/400% 100%;
-  -webkit-background-clip:text;
-          background-clip:text;
-  animation:l10 5s infinite cubic-bezier(0.3,1,0,1);
+  color: #0000;
+  background: linear-gradient(90deg, #000 25%, #8A9B0F 0 50%, #C02942 0 75%, #00A0B0 0) 0 0/400% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: l10 5s infinite cubic-bezier(0.3, 1, 0, 1);
 }
+
 .demo-2:before {
-  content:"Demo Version"
+  content: "Demo Version"
 }
+
 @keyframes l10 {
-  25% {background-position: calc(1*100%/3) 0}
-  50% {background-position: calc(2*100%/3) 0}
-  75% {background-position: calc(3*100%/3) 0}
-  100%{background-position: calc(4*100%/3) 0}
+  25% {
+    background-position: calc(1*100%/3) 0
+  }
+
+  50% {
+    background-position: calc(2*100%/3) 0
+  }
+
+  75% {
+    background-position: calc(3*100%/3) 0
+  }
+
+  100% {
+    background-position: calc(4*100%/3) 0
+  }
+}
+
+/* ANIMASI DIALOG */
+@keyframes slideUpFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideDownToBottom {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(40px) scale(0.9);
+  }
+}
+
+.dialog-scale-animation[data-state="open"] {
+  animation: slideUpFromBottom 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.dialog-scale-animation[data-state="closed"] {
+  animation: slideDownToBottom 0.25s cubic-bezier(0.4, 0, 0.6, 1);
 }

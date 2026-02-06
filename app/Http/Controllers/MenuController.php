@@ -33,24 +33,24 @@ class MenuController extends BaseController
                         ->where('role_menus.view', 1)
                         ->where('menus.side_menu', 1);
                 })
-                ->with(['subItems' => function ($q2) use ($role) {
-                    $q2->whereIn('id', function ($subQ2) use ($role) {
-                        $subQ2->select('menu_id')
-                            ->from('role_menus')
-                            ->join('menus', 'menus.id', '=', 'role_menus.menu_id')
-                            ->where('role_menus.role', $role)
-                            ->where('role_menus.view', 1)
-                            ->where('menus.side_menu', 1);
-                    });
-                }])
-                ->orderBy('order');
+                    ->with(['subItems' => function ($q2) use ($role) {
+                        $q2->whereIn('id', function ($subQ2) use ($role) {
+                            $subQ2->select('menu_id')
+                                ->from('role_menus')
+                                ->join('menus', 'menus.id', '=', 'role_menus.menu_id')
+                                ->where('role_menus.role', $role)
+                                ->where('role_menus.view', 1)
+                                ->where('menus.side_menu', 1);
+                        });
+                    }])
+                    ->orderBy('order');
             },
         ])
-        ->whereIn('id', $menuIds)
-        ->whereNull('parent_id')
-        ->orderBy('order')
-        ->get()
-        ->map(fn($menu) => $this->setOpenRecursive($menu));
+            ->whereIn('id', $menuIds)
+            ->whereNull('parent_id')
+            ->orderBy('order')
+            ->get()
+            ->map(fn($menu) => $this->setOpenRecursive($menu));
 
         return [
             'menus'      => $menus,
@@ -71,7 +71,4 @@ class MenuController extends BaseController
 
         return $menu;
     }
-
-
-    
 }

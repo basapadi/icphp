@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Objects;
 
 /**
@@ -11,18 +12,21 @@ class ContextMenu
     public array  $conditions;
     public string $module;
     public string $name;
-    public string $type; //redirect_url,confirm,form_dialog
+    public string $type; //redirect_url,confirm,form_dialog,steps
     public string $apiUrl;
     public string $icon;
-    public string $onClick = 'test'; //test,getFormDialog,tambahData,viewData,editData,hapusData,returData,undoData,confirmPopup
+    public string $onClick = 'test'; //test,getFormDialog,tambahData,viewData,editData,hapusData,returData,undoData,confirmPopup,checklist_dialog,redirect,downloadPdf
     public string $color;
     public string $formUrl;
     public string $data;
     public string $title;
     public string $message;
     public ?array $forms;
+    public string $url;
+    public array $params = [];
+    public bool $asFormData = false;
 
-    
+
     public function __construct(string $name, string $label, $type = 'confirm')
     {
         $this->name = $name;

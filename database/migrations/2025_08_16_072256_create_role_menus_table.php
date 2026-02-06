@@ -11,6 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('roles', function (Blueprint $table) {
+            $table->id();
+            $table->string('key');
+            $table->string('name');
+            $table->boolean('is_admin')->default(0);
+        });
+
         Schema::create('role_menus', function (Blueprint $table) {
             $table->id();
             $table->string('role')->index();
@@ -27,6 +34,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('roles');
         Schema::dropIfExists('role_menus');
     }
 };
