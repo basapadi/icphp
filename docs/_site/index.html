@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <link rel="stylesheet" type="text/css" media="screen" href="/icphp/assets/css/style.css?v=">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Home | Ihand Cashier Project Documentation</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Home" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Dokumentasi teknis pengembangan Aplikasi Ihand Cashier" />
+<meta property="og:description" content="Dokumentasi teknis pengembangan Aplikasi Ihand Cashier" />
+<link rel="canonical" href="http://localhost:4000/icphp/" />
+<meta property="og:url" content="http://localhost:4000/icphp/" />
+<meta property="og:site_name" content="Ihand Cashier Project Documentation" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Home" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","description":"Dokumentasi teknis pengembangan Aplikasi Ihand Cashier","headline":"Home","name":"Ihand Cashier Project Documentation","url":"http://localhost:4000/icphp/"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/icphp/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          
+
+          <h1 id="project_title">Ihand Cashier Project Documentation</h1>
+          <h2 id="project_tagline">Dokumentasi teknis pengembangan Aplikasi Ihand Cashier</h2>
+
+          
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <nav>
+    <a href="./">Home</a> |
+    <a href="base_model">Base Model</a> |
+    <a href="base_controller">Base Controller</a>
+</nav>
+
+<h1 id="about-ihandcashier-project">About IhandCashier Project</h1>
+<h4 id="requirement">Requirement</h4>
+<ul>
+  <li>PHP 8.4</li>
+  <li>NodeJS 22+</li>
+  <li><a href="https://laravel.com/docs/12.x/">Laravel 12</a></li>
+  <li><a href="https://nativephp.com/docs/desktop/1/getting-started/introduction">Native PHP v1+</a></li>
+  <li>WKHTMLTOPDF https://wkhtmltopdf.org/downloads.html or install in ubuntu with sudo apt-get install wkhtmltopdf. For Archlinux just install the package in this repository named wkhtmltox-0.12.6-3.archlinux-x86_64.pkg.tar.xz.</li>
+</ul>
+
+<h1 id="instructions-for-ihandcashier-project">Instructions for IhandCashier Project</h1>
+<p>See example app on https://ihandcashier.basapadi.com with latest development</p>
+<h2 id="project-overview">Project Overview</h2>
+<ul>
+  <li>This is a Laravel 12 + NativePHP application for web and desktop cashier management.</li>
+  <li>The codebase is organized by Laravel conventions, with customizations for NativePHP desktop integration.</li>
+  <li>Main app logic is in <code class="language-plaintext highlighter-rouge">app/</code> (Controllers, Models, Helpers, Transformers, Providers).</li>
+  <li>Configuration is in <code class="language-plaintext highlighter-rouge">config/</code> and <code class="language-plaintext highlighter-rouge">.env</code> (copied from <code class="language-plaintext highlighter-rouge">.env.example</code>).</li>
+  <li>Database migrations, factories, and seeders are in <code class="language-plaintext highlighter-rouge">database/</code>.</li>
+</ul>
+
+<h2 id="developer-workflows">Developer Workflows</h2>
+<ul>
+  <li>Install dependencies: <code class="language-plaintext highlighter-rouge">composer install</code> and <code class="language-plaintext highlighter-rouge">npm install</code>.</li>
+  <li>Copy <code class="language-plaintext highlighter-rouge">.env.example</code> to <code class="language-plaintext highlighter-rouge">.env</code> and adjust settings.</li>
+  <li>Generate app key: <code class="language-plaintext highlighter-rouge">php artisan key:generate</code>.</li>
+  <li>Migrate and seed database: <code class="language-plaintext highlighter-rouge">php artisan migrate</code> and <code class="language-plaintext highlighter-rouge">php artisan db:seed</code>.</li>
+  <li>For NativePHP desktop: <code class="language-plaintext highlighter-rouge">php artisan native:migrate</code> and <code class="language-plaintext highlighter-rouge">php artisan native:seed</code>.</li>
+  <li>Start development servers:
+    <ul>
+      <li>Web: <code class="language-plaintext highlighter-rouge">php artisan native:run</code> (backend) and <code class="language-plaintext highlighter-rouge">npm run dev</code> (frontend)</li>
+      <li>Or both: <code class="language-plaintext highlighter-rouge">composer native:dev</code></li>
+    </ul>
+  </li>
+  <li>Build desktop app: <code class="language-plaintext highlighter-rouge">php artisan native:build &lt;os&gt;</code> (e.g., <code class="language-plaintext highlighter-rouge">win</code>, <code class="language-plaintext highlighter-rouge">mac</code>)</li>
+</ul>
+
+<h2 id="key-architectural-patterns">Key Architectural Patterns</h2>
+<ul>
+  <li>Models in <code class="language-plaintext highlighter-rouge">app/Models/</code> extend <code class="language-plaintext highlighter-rouge">BaseModel</code> or <code class="language-plaintext highlighter-rouge">BaseUser</code> for shared logic.</li>
+  <li>Controllers in <code class="language-plaintext highlighter-rouge">app/Http/Controllers/</code> handle HTTP and desktop requests.</li>
+  <li>Service Providers in <code class="language-plaintext highlighter-rouge">app/Providers/</code> register app services and NativePHP integration.</li>
+  <li>Helpers in <code class="language-plaintext highlighter-rouge">app/Helpers/</code> provide utility functions (e.g., <code class="language-plaintext highlighter-rouge">ConfigHelper.php</code>).</li>
+  <li>Transformers in <code class="language-plaintext highlighter-rouge">app/Transformers/</code> handle data formatting for APIs/UI.</li>
+  <li>Configuration is modularized in <code class="language-plaintext highlighter-rouge">config/</code> (e.g., <code class="language-plaintext highlighter-rouge">config/btx.php</code>, <code class="language-plaintext highlighter-rouge">config/nativephp.php</code>).</li>
+</ul>
+
+<h2 id="project-specific-conventions">Project-Specific Conventions</h2>
+<ul>
+  <li>Uses SQLite for local development (see <code class="language-plaintext highlighter-rouge">database/nativephp.sqlite</code>).</li>
+  <li>NativePHP commands (<code class="language-plaintext highlighter-rouge">php artisan native:*</code>) are used for desktop features.</li>
+  <li>Custom config files (e.g., <code class="language-plaintext highlighter-rouge">btx.php</code>, <code class="language-plaintext highlighter-rouge">ihandcashier.php</code>) define app-specific settings.</li>
+  <li>Asset pipeline uses Vite (<code class="language-plaintext highlighter-rouge">vite.config.js</code>) and Tailwind (<code class="language-plaintext highlighter-rouge">tailwind.config.js</code>).</li>
+</ul>
+
+<h2 id="integration-points">Integration Points</h2>
+<ul>
+  <li>NativePHP for desktop integration (see <code class="language-plaintext highlighter-rouge">config/nativephp.php</code>, <code class="language-plaintext highlighter-rouge">app/Providers/NativeAppServiceProvider.php</code>).</li>
+  <li>Laravel Fractal for data transformation (<code class="language-plaintext highlighter-rouge">config/fractal.php</code>, <code class="language-plaintext highlighter-rouge">app/Transformers/</code>).</li>
+  <li>External packages managed via Composer and NPM (see <code class="language-plaintext highlighter-rouge">composer.json</code>, <code class="language-plaintext highlighter-rouge">package.json</code>).</li>
+</ul>
+
+<h2 id="examples">Examples</h2>
+<ul>
+  <li>To add a new model: create in <code class="language-plaintext highlighter-rouge">app/Models/</code>, extend <code class="language-plaintext highlighter-rouge">BaseModel</code>, add migration in <code class="language-plaintext highlighter-rouge">database/migrations/</code>.</li>
+  <li>To add a config: create a new file in <code class="language-plaintext highlighter-rouge">config/</code> and reference via <code class="language-plaintext highlighter-rouge">config('yourfile.key')</code>.</li>
+  <li>To add a desktop feature: use NativePHP commands and update <code class="language-plaintext highlighter-rouge">app/Providers/NativeAppServiceProvider.php</code>.</li>
+</ul>
+
+<p>Refer to the README.md and config files for more details on setup and conventions.</p>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+  </body>
+</html>

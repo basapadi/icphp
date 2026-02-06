@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <link rel="stylesheet" type="text/css" media="screen" href="/icphp/assets/css/style.css?v=">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Base Controller | Ihand Cashier Project Documentation</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Base Controller" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Dokumentasi teknis pengembangan Aplikasi Ihand Cashier" />
+<meta property="og:description" content="Dokumentasi teknis pengembangan Aplikasi Ihand Cashier" />
+<link rel="canonical" href="http://localhost:4000/icphp/base_controller.html" />
+<meta property="og:url" content="http://localhost:4000/icphp/base_controller.html" />
+<meta property="og:site_name" content="Ihand Cashier Project Documentation" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Base Controller" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Dokumentasi teknis pengembangan Aplikasi Ihand Cashier","headline":"Base Controller","url":"http://localhost:4000/icphp/base_controller.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/icphp/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          
+
+          <h1 id="project_title">Ihand Cashier Project Documentation</h1>
+          <h2 id="project_tagline">Dokumentasi teknis pengembangan Aplikasi Ihand Cashier</h2>
+
+          
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <nav>
+    <a href="./">Home</a> |
+    <a href="base_model">Base Model</a> |
+    <a href="base_controller">Base Controller</a>
+</nav>
+
+<h1 id="base-controller-documentation">Base Controller Documentation</h1>
+
+<h1 id="basecontroller">BaseController</h1>
+
+<h2 id="overview">Overview</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">BaseController</code> is a base Laravel controller class that provides common functionality for handling grid views, forms, data management, access control, file uploads, and more. It is designed to be extended by specific controllers in a Laravel application, particularly for modules that require CRUD operations, data grids, and form handling.</p>
+
+<p>This controller integrates with various libraries and custom components, such as:</p>
+<ul>
+  <li>Laravel’s Eloquent and Query Builder</li>
+  <li>Spatie’s Fractal for data transformation</li>
+  <li>Vinkla’s Hashids for ID encoding/decoding</li>
+  <li>Custom traits like <code class="language-plaintext highlighter-rouge">HasQueryBuilder</code>, <code class="language-plaintext highlighter-rouge">QueryHelper</code>, etc.</li>
+  <li>File upload utilities</li>
+  <li>Audit logging</li>
+</ul>
+
+<p><strong>Namespace:</strong> <code class="language-plaintext highlighter-rouge">App\Http\Controllers</code><br />
+<strong>Extends:</strong> <code class="language-plaintext highlighter-rouge">Controller</code><br />
+<strong>Uses Traits:</strong> <code class="language-plaintext highlighter-rouge">HasQueryBuilder</code>, <code class="language-plaintext highlighter-rouge">QueryHelper</code>, <code class="language-plaintext highlighter-rouge">DataBuilder</code>, <code class="language-plaintext highlighter-rouge">BaseHelper</code>, <code class="language-plaintext highlighter-rouge">Services</code></p>
+
+<h2 id="properties">Properties</h2>
+
+<h3 id="private-properties">Private Properties</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">$_model</code>: Instance of the model (e.g., <code class="language-plaintext highlighter-rouge">Btx\Query\Model</code>).</li>
+  <li><code class="language-plaintext highlighter-rouge">$_columns</code>: Fractal instance for grid columns.</li>
+  <li><code class="language-plaintext highlighter-rouge">$_filterColumnsLike</code>: Array of column names for LIKE filtering.</li>
+  <li><code class="language-plaintext highlighter-rouge">$_filterParamLike</code>: String parameter for LIKE filtering.</li>
+  <li><code class="language-plaintext highlighter-rouge">$_queryBuilder</code>: Query builder instance.</li>
+  <li><code class="language-plaintext highlighter-rouge">$_multipleSelectGrid</code>: Boolean flag for enabling multiple select in grid (default: true).</li>
+  <li><code class="language-plaintext highlighter-rouge">$_form</code>: Array of form configurations.</li>
+  <li><code class="language-plaintext highlighter-rouge">$_createRules</code>: Array of validation rules for creation.</li>
+  <li><code class="language-plaintext highlighter-rouge">$_updateRules</code>: Array of validation rules for updates.</li>
+  <li><code class="language-plaintext highlighter-rouge">$_formData</code>: Array of default form data.</li>
+  <li><code class="language-plaintext highlighter-rouge">$_contextMenus</code>: Array of context menu items.</li>
+  <li><code class="language-plaintext highlighter-rouge">$_injectDataColumns</code>: Array of data to inject into columns.</li>
+  <li><code class="language-plaintext highlighter-rouge">$_exceptContextMenu</code>: Array of context menu keys to exclude.</li>
+</ul>
+
+<h3 id="protected-properties">Protected Properties</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">$_module</code>: String representing the module name.</li>
+  <li><code class="language-plaintext highlighter-rouge">$_gridProperties</code>: Array of grid properties (e.g., filters, selections).</li>
+  <li><code class="language-plaintext highlighter-rouge">$_detailSchema</code>: Array for detail view schema.</li>
+</ul>
+
+<h2 id="methods">Methods</h2>
+
+<h3 id="public-methods">Public Methods</h3>
+
+<h4 id="gridrequest-request"><code class="language-plaintext highlighter-rouge">grid(Request $request)</code></h4>
+<p>Handles grid requests to fetch data with filtering and pagination.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$request</code>: <code class="language-plaintext highlighter-rouge">Illuminate\Http\Request</code> - The HTTP request object.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">\Illuminate\Http\JsonResponse</code> - JSON response with grid data.</li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+  <li><strong>Description:</strong> Applies filters, fetches rows and total count, merges data if needed, sets default context menus, and returns grid configuration including rows, columns, properties, and detail schemas.</li>
+</ul>
+
+<h4 id="formrequest-request"><code class="language-plaintext highlighter-rouge">form(Request $request)</code></h4>
+<p>Handles form requests to fetch form configuration and data.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$request</code>: <code class="language-plaintext highlighter-rouge">Illuminate\Http\Request</code> - The HTTP request object.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">\Illuminate\Http\JsonResponse</code> - JSON response with form sections, dialog, and data.</li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+  <li><strong>Description:</strong> Processes form configurations using Fractal transformer and returns form data for creation.</li>
+</ul>
+
+<h4 id="storerequest-request"><code class="language-plaintext highlighter-rouge">store(Request $request)</code></h4>
+<p>Stores a new resource. (Currently incomplete: <code class="language-plaintext highlighter-rouge">//TODO:: Store default</code>)</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$request</code>: <code class="language-plaintext highlighter-rouge">Illuminate\Http\Request</code> - The HTTP request object.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">void</code></li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+  <li><strong>Description:</strong> Checks access for creation but implementation is pending.</li>
+</ul>
+
+<h4 id="deleterequest-request-id"><code class="language-plaintext highlighter-rouge">delete(Request $request, $id)</code></h4>
+<p>Deletes a resource by encoded ID.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$request</code>: <code class="language-plaintext highlighter-rouge">Illuminate\Http\Request</code> - The HTTP request object.</li>
+      <li><code class="language-plaintext highlighter-rouge">$id</code>: <code class="language-plaintext highlighter-rouge">string</code> - Encoded ID of the resource.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">\Illuminate\Http\JsonResponse</code> - JSON response indicating success or failure.</li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+  <li><strong>Description:</strong> Decodes ID, loads relations, deletes the model, saves to trash, logs audit, and commits transaction. Rolls back on error.</li>
+</ul>
+
+<h4 id="arraytojsonarray-array"><code class="language-plaintext highlighter-rouge">arrayToJson(array $array)</code></h4>
+<p>Converts an array to a pretty-printed JSON response.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$array</code>: <code class="language-plaintext highlighter-rouge">array</code> - The array to convert.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">\Illuminate\Http\JsonResponse</code> - JSON response of the array.</li>
+  <li><strong>Description:</strong> Utility method for returning arrays as JSON.</li>
+</ul>
+
+<h3 id="protected-methods">Protected Methods</h3>
+
+<h4 id="setcolumnsarray-columns"><code class="language-plaintext highlighter-rouge">setColumns(array $columns)</code></h4>
+<p>Sets the columns for the grid response.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$columns</code>: <code class="language-plaintext highlighter-rouge">array</code> - Columns in the format required by <code class="language-plaintext highlighter-rouge">Btx\Query\Transformer::quasarColumn</code>.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">void</code></li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+</ul>
+
+<h4 id="setmodelstring-model"><code class="language-plaintext highlighter-rouge">setModel(string $model)</code></h4>
+<p>Sets the model for the controller and initializes its query builder.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$model</code>: <code class="language-plaintext highlighter-rouge">string</code> - Fully qualified class name of the model.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">\Illuminate\Database\Eloquent\Builder&lt;\Btx\Query\Model&gt;</code> - The query builder instance.</li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+</ul>
+
+<h4 id="setfiltercolumnslikearray-columns-string-param"><code class="language-plaintext highlighter-rouge">setFilterColumnsLike(array $columns, string $param)</code></h4>
+<p>Sets custom filter columns and parameter for LIKE queries in the grid.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$columns</code>: <code class="language-plaintext highlighter-rouge">array</code> - List of column names to apply LIKE filter.</li>
+      <li><code class="language-plaintext highlighter-rouge">$param</code>: <code class="language-plaintext highlighter-rouge">string</code> - The filter value.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">void</code></li>
+  <li><strong>See:</strong> https://btx.basapadi.com/query/request-query</li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+</ul>
+
+<h4 id="setmultipleselectgridbool-value"><code class="language-plaintext highlighter-rouge">setMultipleSelectGrid(bool $value)</code></h4>
+<p>Enables or disables multiple select in the grid view.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$value</code>: <code class="language-plaintext highlighter-rouge">bool</code> - Enable or disable flag.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">void</code></li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+</ul>
+
+<h4 id="decodeidstring-encodeid"><code class="language-plaintext highlighter-rouge">decodeId(string $encodeId)</code></h4>
+<p>Decodes an encoded ID using Hashids.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$encodeId</code>: <code class="language-plaintext highlighter-rouge">string</code> - Encoded ID string.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">mixed</code> - Decoded ID or null on failure.</li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+</ul>
+
+<h4 id="setmodulestring-module"><code class="language-plaintext highlighter-rouge">setModule(string $module)</code></h4>
+<p>Sets the module name for the controller.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$module</code>: <code class="language-plaintext highlighter-rouge">string</code> - Module name.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">void</code></li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+</ul>
+
+<h4 id="allowaccessmodulestring-module-string-action-bool-asboolean--false"><code class="language-plaintext highlighter-rouge">allowAccessModule(string $module, string $action, bool $asBoolean = false)</code></h4>
+<p>Checks access permission for a specific module action.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$module</code>: <code class="language-plaintext highlighter-rouge">string</code> - Module name.</li>
+      <li><code class="language-plaintext highlighter-rouge">$action</code>: <code class="language-plaintext highlighter-rouge">string</code> - Action name (e.g., view, create, update).</li>
+      <li><code class="language-plaintext highlighter-rouge">$asBoolean</code>: <code class="language-plaintext highlighter-rouge">bool</code> - If true, return boolean; otherwise abort with 401.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">bool|null</code> - Access status or null.</li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+  <li><strong>Description:</strong> Queries the database for role-based access and handles unauthorized access.</li>
+</ul>
+
+<h4 id="allowaccessstring-action"><code class="language-plaintext highlighter-rouge">allowAccess(string $action)</code></h4>
+<p>Checks access for a given action and returns the action name if allowed, or an empty string if not.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$action</code>: <code class="language-plaintext highlighter-rouge">string</code> - Action name (e.g., view, create, edit, update, download).</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">string</code> - Action name or empty string.</li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+</ul>
+
+<h4 id="setdatadefaultformarray-fields-array-data--"><code class="language-plaintext highlighter-rouge">setDataDefaultForm(array $fields, array $data = [])</code></h4>
+<p>Sets the form fields and default data for the controller.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$fields</code>: <code class="language-plaintext highlighter-rouge">array</code> - Form fields.</li>
+      <li><code class="language-plaintext highlighter-rouge">$data</code>: <code class="language-plaintext highlighter-rouge">array</code> - Default form data.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">void</code></li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+</ul>
+
+<h4 id="setdetailschemaarray-schema"><code class="language-plaintext highlighter-rouge">setDetailSchema(array $schema)</code></h4>
+<p>Sets the detail schema for the view.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$schema</code>: <code class="language-plaintext highlighter-rouge">array</code> - Detail schema.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">void</code></li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+</ul>
+
+<h4 id="setgridpropertiesarray-properties"><code class="language-plaintext highlighter-rouge">setGridProperties(array $properties)</code></h4>
+<p>Sets grid properties.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$properties</code>: <code class="language-plaintext highlighter-rouge">array</code> - Properties like multipleSelect, filterDateRange, advanceFilter.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">void</code></li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+  <li><strong>Description:</strong> Available attributes: multipleSelect (bool, default: true), filterDateRange (bool, default: false), advanceFilter (bool, default: true).</li>
+</ul>
+
+<h4 id="setcontextmenuarray-contextmenu"><code class="language-plaintext highlighter-rouge">setContextMenu(array $contextMenu)</code></h4>
+<p>Sets additional context menus on the grid.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$contextMenu</code>: <code class="language-plaintext highlighter-rouge">array</code> - Array of ContextMenu objects.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">void</code></li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+</ul>
+
+<h4 id="clearcontextmenu"><code class="language-plaintext highlighter-rouge">clearContextMenu()</code></h4>
+<p>Clears all context menus.</p>
+
+<ul>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">void</code></li>
+</ul>
+
+<h4 id="getdetailschemaschema--null"><code class="language-plaintext highlighter-rouge">getDetailSchema($schema = null)</code></h4>
+<p>Gets the detail schema from a JSON file.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$schema</code>: <code class="language-plaintext highlighter-rouge">string|null</code> - Schema name (defaults to module).</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">array</code> - Decoded schema.</li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+</ul>
+
+<h4 id="getresourceformname"><code class="language-plaintext highlighter-rouge">getResourceForm($name)</code></h4>
+<p>Gets the resource form configuration from a JSON file.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$name</code>: <code class="language-plaintext highlighter-rouge">string</code> - Form name.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">array</code> - Decoded form.</li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+</ul>
+
+<h4 id="getresourcedefaultcontentname"><code class="language-plaintext highlighter-rouge">getResourceDefaultContent($name)</code></h4>
+<p>Gets default content from an HTML file.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$name</code>: <code class="language-plaintext highlighter-rouge">string</code> - Content name.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">string</code> - File content or empty string.</li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+</ul>
+
+<h4 id="getresourceevaluationformname"><code class="language-plaintext highlighter-rouge">getResourceEvaluationForm($name)</code></h4>
+<p>Gets evaluation form from a JSON file.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$name</code>: <code class="language-plaintext highlighter-rouge">string</code> - Form name.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">array</code> - Decoded form.</li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+</ul>
+
+<h4 id="getresourcequerypath"><code class="language-plaintext highlighter-rouge">getResourceQuery($path)</code></h4>
+<p>Gets resource query configuration from a file.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$path</code>: <code class="language-plaintext highlighter-rouge">string</code> - Path to the query file.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">array</code> - Decoded query.</li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+</ul>
+
+<h4 id="getresourcesqlpath"><code class="language-plaintext highlighter-rouge">getResourceSql($path)</code></h4>
+<p>Gets raw SQL from a file.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$path</code>: <code class="language-plaintext highlighter-rouge">string</code> - Path to the SQL file.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">string</code> - File content.</li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+</ul>
+
+<h4 id="getresourcestaticname"><code class="language-plaintext highlighter-rouge">getResourceStatic($name)</code></h4>
+<p>Gets static resource data from a JSON file.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$name</code>: <code class="language-plaintext highlighter-rouge">string</code> - Static resource name.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">array</code> - Decoded data.</li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+</ul>
+
+<h4 id="setinjectdatacolumnarray-data"><code class="language-plaintext highlighter-rouge">setInjectDataColumn(array $data)</code></h4>
+<p>Sets data columns to be injected into the grid columns.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$data</code>: <code class="language-plaintext highlighter-rouge">array</code> - Data to inject.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">void</code></li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+</ul>
+
+<h4 id="setexceptcontextmenuarray-contextmenukey"><code class="language-plaintext highlighter-rouge">setExceptContextMenu(array $contextmenukey)</code></h4>
+<p>Sets exceptions for context menus.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$contextmenukey</code>: <code class="language-plaintext highlighter-rouge">array</code> - Array of default context menu keys (e.g., [‘view’,’create’,’edit’,’delete’]).</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">void</code></li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+</ul>
+
+<h4 id="getcolumnsfilename--null"><code class="language-plaintext highlighter-rouge">getColumns($filename = null)</code></h4>
+<p>Gets the columns configuration for the grid, injecting data and filtering actions.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$filename</code>: <code class="language-plaintext highlighter-rouge">string|null</code> - Filename (defaults to module).</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">array</code> - Processed columns.</li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+</ul>
+
+<h4 id="defaultcontextmenu"><code class="language-plaintext highlighter-rouge">defaultContextMenu()</code></h4>
+<p>Initializes default context menu items based on permissions.</p>
+
+<ul>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">void</code></li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+  <li><strong>Description:</strong> Adds menus like view, create, edit, delete, reload, and column editor based on access.</li>
+</ul>
+
+<h4 id="privateuploadfilename-path--"><code class="language-plaintext highlighter-rouge">privateUpload($filename, $path = '')</code></h4>
+<p>Handles private file uploads.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$filename</code>: <code class="language-plaintext highlighter-rouge">string</code> - Field name.</li>
+      <li><code class="language-plaintext highlighter-rouge">$path</code>: <code class="language-plaintext highlighter-rouge">string</code> - Upload path.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">array</code> - Upload details (path, url, filename).</li>
+</ul>
+
+<h4 id="publicuploadstring-fieldname-string-subfolder--null"><code class="language-plaintext highlighter-rouge">publicUpload(string $fieldName, ?string $subFolder = null)</code></h4>
+<p>Handles public file uploads (single or multiple, but returns single if one).</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$fieldName</code>: <code class="language-plaintext highlighter-rouge">string</code> - Field name.</li>
+      <li><code class="language-plaintext highlighter-rouge">$subFolder</code>: <code class="language-plaintext highlighter-rouge">string|null</code> - Subfolder.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">array|null</code> - Upload details or null.</li>
+</ul>
+
+<h4 id="publicmultipleuploadstring-fieldname-string-subfolder--null"><code class="language-plaintext highlighter-rouge">publicMultipleUpload(string $fieldName, ?string $subFolder = null)</code></h4>
+<p>Handles multiple public file uploads.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$fieldName</code>: <code class="language-plaintext highlighter-rouge">string</code> - Field name.</li>
+      <li><code class="language-plaintext highlighter-rouge">$subFolder</code>: <code class="language-plaintext highlighter-rouge">string|null</code> - Subfolder.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">array</code> - Array of upload details.</li>
+</ul>
+
+<h4 id="saveauditlogaction-description--null-array-context--"><code class="language-plaintext highlighter-rouge">saveAuditLog($action, $description = null, array $context = [])</code></h4>
+<p>Saves an audit log entry.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$action</code>: <code class="language-plaintext highlighter-rouge">string</code> - Action performed.</li>
+      <li><code class="language-plaintext highlighter-rouge">$description</code>: <code class="language-plaintext highlighter-rouge">string|null</code> - Description.</li>
+      <li><code class="language-plaintext highlighter-rouge">$context</code>: <code class="language-plaintext highlighter-rouge">array</code> - Additional context.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">void</code></li>
+</ul>
+
+<h4 id="extractlevel3withbreadcrumbarray-items-array-parents--"><code class="language-plaintext highlighter-rouge">extractLevel3WithBreadcrumb(array $items, array $parents = [])</code></h4>
+<p>Extracts level 3 items with breadcrumb labels from a nested array.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$items</code>: <code class="language-plaintext highlighter-rouge">array</code> - Nested items.</li>
+      <li><code class="language-plaintext highlighter-rouge">$parents</code>: <code class="language-plaintext highlighter-rouge">array</code> - Parent labels.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">array</code> - Extracted fields with breadcrumbs.</li>
+</ul>
+
+<h3 id="private-methods">Private Methods</h3>
+
+<h4 id="generatedetailschematojsondata"><code class="language-plaintext highlighter-rouge">generateDetailSchemaToJson($data)</code></h4>
+<p>Generates and saves the detail schema to a JSON file.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$data</code>: <code class="language-plaintext highlighter-rouge">array</code> - Schema data.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">void</code></li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+</ul>
+
+<h4 id="generatecolumnstojsondata"><code class="language-plaintext highlighter-rouge">generateColumnsToJson($data)</code></h4>
+<p>Generates and saves the columns configuration to a JSON file.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$data</code>: <code class="language-plaintext highlighter-rouge">array</code> - Columns data.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">void</code></li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+</ul>
+
+<h4 id="savetrashdata"><code class="language-plaintext highlighter-rouge">saveTrash($data)</code></h4>
+<p>Saves deleted data to the trash for potential rollback.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$data</code>: <code class="language-plaintext highlighter-rouge">mixed</code> - The data model instance.</li>
+    </ul>
+  </li>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">void</code></li>
+  <li><strong>Author:</strong> bachtiarpanjaitan <a href="mailto:bachtiarpanjaitan0@gmail.com">bachtiarpanjaitan0@gmail.com</a></li>
+</ul>
+
+<h2 id="usage-notes">Usage Notes</h2>
+
+<ul>
+  <li>Extend this class in your specific controllers to inherit common CRUD and grid functionalities.</li>
+  <li>Configure module-specific settings using the setter methods (e.g., <code class="language-plaintext highlighter-rouge">setModule</code>, <code class="language-plaintext highlighter-rouge">setModel</code>).</li>
+  <li>Ensure proper access control by calling <code class="language-plaintext highlighter-rouge">allowAccessModule</code> in public methods.</li>
+  <li>File uploads are handled via <code class="language-plaintext highlighter-rouge">privateUpload</code>, <code class="language-plaintext highlighter-rouge">publicUpload</code>, or <code class="language-plaintext highlighter-rouge">publicMultipleUpload</code>.</li>
+  <li>Audit logs are automatically saved for delete operations.</li>
+</ul>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+  </body>
+</html>

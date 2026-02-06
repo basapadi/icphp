@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <link rel="stylesheet" type="text/css" media="screen" href="/icphp/assets/css/style.css?v=">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Base Model | Ihand Cashier Project Documentation</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Base Model" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Dokumentasi teknis pengembangan Aplikasi Ihand Cashier" />
+<meta property="og:description" content="Dokumentasi teknis pengembangan Aplikasi Ihand Cashier" />
+<link rel="canonical" href="http://localhost:4000/icphp/base_model.html" />
+<meta property="og:url" content="http://localhost:4000/icphp/base_model.html" />
+<meta property="og:site_name" content="Ihand Cashier Project Documentation" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Base Model" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Dokumentasi teknis pengembangan Aplikasi Ihand Cashier","headline":"Base Model","url":"http://localhost:4000/icphp/base_model.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/icphp/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          
+
+          <h1 id="project_title">Ihand Cashier Project Documentation</h1>
+          <h2 id="project_tagline">Dokumentasi teknis pengembangan Aplikasi Ihand Cashier</h2>
+
+          
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <nav>
+    <a href="./">Home</a> |
+    <a href="base_model">Base Model</a> |
+    <a href="base_controller">Base Controller</a>
+</nav>
+
+<h1 id="base-model-documentation">Base Model Documentation</h1>
+
+<h1 id="basemodel">BaseModel</h1>
+
+<h2 id="overview">Overview</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">BaseModel</code> is a base Eloquent model class in a Laravel application that extends <code class="language-plaintext highlighter-rouge">Btx\Query\Model</code>. It provides common functionality for handling model attributes, such as formatted timestamps, encoded IDs, and status-related labels. It automatically appends several attributes to the model’s JSON representation.</p>
+
+<p>This model integrates with:</p>
+<ul>
+  <li>Laravel’s Eloquent ORM</li>
+  <li>Carbon for date formatting</li>
+  <li>Vinkla’s Hashids for ID encoding</li>
+  <li>Custom traits like <code class="language-plaintext highlighter-rouge">HasOptionalRelation</code></li>
+</ul>
+
+<p><strong>Namespace:</strong> <code class="language-plaintext highlighter-rouge">App\Models</code><br />
+<strong>Extends:</strong> <code class="language-plaintext highlighter-rouge">Btx\Query\Model</code><br />
+<strong>Uses Traits:</strong> <code class="language-plaintext highlighter-rouge">HasOptionalRelation</code></p>
+
+<h2 id="properties">Properties</h2>
+
+<h3 id="protected-properties">Protected Properties</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">$hidden</code>: Array of attributes to hide from JSON output (currently commented out: <code class="language-plaintext highlighter-rouge">['id']</code>).</li>
+  <li><code class="language-plaintext highlighter-rouge">$appends</code>: Array of attributes to append to the model’s array/JSON form (automatically merged in constructor with formatted dates, encoded ID, and status labels).</li>
+</ul>
+
+<h2 id="methods">Methods</h2>
+
+<h3 id="public-methods">Public Methods</h3>
+
+<h4 id="__constructarray-attributes--"><code class="language-plaintext highlighter-rouge">__construct(array $attributes = [])</code></h4>
+<p>Initializes the model and merges additional appends if the <code class="language-plaintext highlighter-rouge">appends</code> property exists.</p>
+
+<ul>
+  <li><strong>Parameters:</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$attributes</code>: <code class="language-plaintext highlighter-rouge">array</code> - Model attributes.</li>
+    </ul>
+  </li>
+  <li><strong>Description:</strong> Calls parent constructor and appends common attributes like <code class="language-plaintext highlighter-rouge">created_at_formatted</code>, <code class="language-plaintext highlighter-rouge">updated_at_formatted</code>, <code class="language-plaintext highlighter-rouge">encode_id</code>, <code class="language-plaintext highlighter-rouge">status_label</code>, <code class="language-plaintext highlighter-rouge">status_type</code>, <code class="language-plaintext highlighter-rouge">active_type</code>, and <code class="language-plaintext highlighter-rouge">color_status_label</code>.</li>
+</ul>
+
+<h4 id="getcreatedatformattedattribute"><code class="language-plaintext highlighter-rouge">getCreatedAtFormattedAttribute()</code></h4>
+<p>Returns the formatted creation date in Indonesian locale.</p>
+
+<ul>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">string|null</code> - Formatted date string (e.g., “Senin, 01 Jan 2023 12:00”) or null if not set.</li>
+  <li><strong>Description:</strong> Uses Carbon to parse and format <code class="language-plaintext highlighter-rouge">created_at</code> with locale ‘id’.</li>
+</ul>
+
+<h4 id="getupdatedatformattedattribute"><code class="language-plaintext highlighter-rouge">getUpdatedAtFormattedAttribute()</code></h4>
+<p>Returns the formatted update date in Indonesian locale.</p>
+
+<ul>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">string|null</code> - Formatted date string (e.g., “Senin, 01 Jan 2023 12:00”) or null if not set.</li>
+  <li><strong>Description:</strong> Uses Carbon to parse and format <code class="language-plaintext highlighter-rouge">updated_at</code> with locale ‘id’.</li>
+</ul>
+
+<h4 id="getencodeidattribute"><code class="language-plaintext highlighter-rouge">getEncodeIdAttribute()</code></h4>
+<p>Returns the encoded ID using Hashids.</p>
+
+<ul>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">string|null</code> - Encoded ID string or null if ID is not set.</li>
+  <li><strong>Description:</strong> Encodes the model’s <code class="language-plaintext highlighter-rouge">id</code> for secure representation.</li>
+</ul>
+
+<h4 id="getstatuslabelattribute"><code class="language-plaintext highlighter-rouge">getStatusLabelAttribute()</code></h4>
+<p>Returns a human-readable status label based on the <code class="language-plaintext highlighter-rouge">status</code> attribute.</p>
+
+<ul>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">string|null</code> - “Aktif” if status is true, “Tidak Aktif” if false, or null if not set.</li>
+  <li><strong>Description:</strong> Checks if <code class="language-plaintext highlighter-rouge">status</code> is set and returns appropriate label.</li>
+</ul>
+
+<h4 id="getstatustypeattribute"><code class="language-plaintext highlighter-rouge">getStatusTypeAttribute()</code></h4>
+<p>Returns a status type for UI purposes based on the <code class="language-plaintext highlighter-rouge">status</code> attribute.</p>
+
+<ul>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">string|null</code> - “success” if status is true, “error” if false, or null if not set.</li>
+  <li><strong>Description:</strong> Maps status to Quasar/Vue.js style types.</li>
+</ul>
+
+<h4 id="getactivetypeattribute"><code class="language-plaintext highlighter-rouge">getActiveTypeAttribute()</code></h4>
+<p>Returns an active type based on the <code class="language-plaintext highlighter-rouge">active</code> attribute (note: seems to check <code class="language-plaintext highlighter-rouge">active</code> but method name suggests <code class="language-plaintext highlighter-rouge">status</code>).</p>
+
+<ul>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">string|null</code> - “success” if active is true, “error” if false, or null if not set.</li>
+  <li><strong>Description:</strong> Similar to <code class="language-plaintext highlighter-rouge">getStatusTypeAttribute</code> but uses <code class="language-plaintext highlighter-rouge">active</code> field.</li>
+</ul>
+
+<h4 id="getcolorstatuslabelattribute"><code class="language-plaintext highlighter-rouge">getColorStatusLabelAttribute()</code></h4>
+<p>Returns a color label for status based on configuration.</p>
+
+<ul>
+  <li><strong>Returns:</strong> <code class="language-plaintext highlighter-rouge">string</code> - Color string from config (e.g., for active/status) or empty string if not set.</li>
+  <li><strong>Description:</strong> Retrieves color from <code class="language-plaintext highlighter-rouge">config('ihandcashier.status')</code> based on <code class="language-plaintext highlighter-rouge">active</code> or <code class="language-plaintext highlighter-rouge">status</code> attribute.</li>
+</ul>
+
+<h2 id="usage-notes">Usage Notes</h2>
+
+<ul>
+  <li>Extend this class in your specific models to inherit common attribute formatting and encoding.</li>
+  <li>The appended attributes are automatically included in JSON responses, providing formatted dates, encoded IDs, and status labels.</li>
+  <li>Ensure the <code class="language-plaintext highlighter-rouge">ihandcashier.status</code> config is set for color mappings.</li>
+  <li>Use <code class="language-plaintext highlighter-rouge">HasOptionalRelation</code> trait for optional relationships if needed.</li>
+</ul>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+  </body>
+</html>

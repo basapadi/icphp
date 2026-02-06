@@ -1,0 +1,9 @@
+title: Ihand Cashier Project Documentation
+description: Dokumentasi teknis pengembangan Aplikasi Ihand Cashier
+theme: jekyll-theme-slate
+
+url: "https://basapadi.github.io"
+baseurl: "/icphp"
+
+github:
+  repository_url: https://github.com/basapadi/icphp
