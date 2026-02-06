@@ -1,8 +1,8 @@
-export { 
-	ListFilter, 
-	Funnel, 
-	FunnelX, 
-	Calendar, 
+export {
+	ListFilter,
+	Funnel,
+	FunnelX,
+	Calendar,
 	LetterText,
 	Home,
 	CreditCard,
@@ -16,6 +16,7 @@ export {
 	SquareChartGantt,
 	SquarePen,
 	Plus,
+	SquarePlus,
 	SquareX,
 	CopyX,
 	EllipsisVertical,
@@ -44,6 +45,18 @@ export {
 	BanknoteArrowUp,
 	Banknote,
 	BanknoteX,
-	Truck
+	Truck,
+	ClipboardPen,
+	Blocks,
+	UserX,
+	Eraser,
+	ClipboardCheck,
+	Logs,
+	SquareCheckBig,
+	Volume2,
+	Medal,
+	Gavel,
+	Files,
+	FileCog
 
 } from "lucide-vue-next";
