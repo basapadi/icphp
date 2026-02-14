@@ -4,6 +4,12 @@ return [
     "github_token" => env("GITHUB_TOKEN", ""),
     "github_branch" => env("GITHUB_BRANCH", "master"),
     "roles" => ["admin", "kasir", "keuangan"], //available role,
+    "ai_enable" => env('AI_ENABLE', false),
+    "ai_platform" => env('AI_PLATFORM', 'openai'),
+    "ai_model" => env('AI_MODEL', 'gpt-5-nano'),
+    "ai_api_key" => env('AI_API_KEY', ''),
+    "ai_base_url" => env('AI_BASE_URL', 'https://api.openai.com/v1'),
+    "ai_except_tables" => [],
     "payment_types" => [
         "cash" => [
             "label" => "Lunas",

@@ -69,6 +69,7 @@
                     <slot />
                 </div>
             </main>
+            <AIChat v-if="AIEnable"/>
         </div>
     </div>
 </template>
@@ -78,6 +79,7 @@ import { ref, onMounted } from "vue";
 import AdminToolbar from "@/components/AdminToolbar.vue";
 import { drawBackground } from "@/helpers/datautils.js";
 import { Search, ChevronLeft, ChevronRight } from "lucide-vue-next";
+import AIChat from "@/components/AIChat.vue";
 
 // const gridOverlay = ref(null);
 const isCollapsed = ref(false);
@@ -94,10 +96,10 @@ const toggleSidebar = () => {
 <script>
 import { mapGetters, mapActions } from "vuex";
 import MenuItem from "@/components/MenuItem.vue";
-
+const AIEnable = import.meta.env.VITE_AI_ENABLE === 'true';
 export default {
     name: "AdminLayout",
-    components: { MenuItem },
+    components: { MenuItem,AIChat },
     computed: {
         ...mapGetters({
             user: "auth/getUser",

@@ -26,7 +26,8 @@ use App\Http\Controllers\{
     DatabaseController,
     ReportController,
     PurchaseInvoiceController,
-    PurchasePaymentController
+    PurchasePaymentController,
+    AIQueryController
 };
 use App\Http\Controllers\Tasks\{
     ApprovalPurchaseOrderController,
@@ -323,6 +324,15 @@ Route::prefix('api')->group(function () {
             Route::delete('/{id}', 'delete');
             Route::delete('delete-query/{name}', 'deleteQuery');
             Route::post('download', 'download')->name('api.report.download');
+        });
+
+        /*
+        |----------------------------------------------------------
+        | AI Query
+        |----------------------------------------------------------
+        */
+        Route::controller(AIQueryController::class)->prefix('ai-query')->group(function () {
+            Route::post('ask', 'query');
         });
     });
 });

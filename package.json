@@ -15,13 +15,15 @@
     "devDependencies": {
         "@tailwindcss/postcss": "^4.1.15",
         "axios": "^1.12.2",
+        "baseline-browser-mapping": "^2.9.19",
         "concurrently": "^9.2.1",
         "laravel-vite-plugin": "^2.0.1",
         "postcss-import": "^16.1.1",
         "rollup-plugin-visualizer": "^6.0.5",
         "tailwindcss": "^4.1.15",
         "typescript": "^5.9.3",
-        "vite": "^7.1.11"
+        "vite": "^7.1.11",
+        "marked": "^17.0.1"
     },
     "dependencies": {
         "@codemirror/autocomplete": "^6.19.0",
@@ -53,6 +55,7 @@
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "flatpickr": "^4.6.13",
+        "fs-extra": "^11.3.3",
         "lodash": "^4.17.21",
         "lucide-vue-next": "^0.539.0",
         "node-emoji": "^2.2.0",

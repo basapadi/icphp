@@ -1,7 +1,7 @@
 # About IhandCashier Project
 #### Requirement
 - PHP 8.4
-- NodeJS 22+
+- NodeJS 22
 - [Laravel 12](https://laravel.com/docs/12.x/)
 - [Native PHP v1+](https://nativephp.com/docs/desktop/1/getting-started/introduction)
 

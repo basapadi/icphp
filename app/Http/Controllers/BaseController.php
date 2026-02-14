@@ -317,10 +317,13 @@ class BaseController extends Controller
      */
     protected function setContextMenu(array $contextMenu)
     {
+        $ctxMenu = [];
         foreach ($contextMenu as $key => $cm) {
-            $contextMenu[$key]->module = $this->_module;
+            if (empty($cm)) continue;
+            $cm->module = $this->_module;
+            array_push($ctxMenu, $cm);
         }
-        $this->_contextMenus = $contextMenu;
+        $this->_contextMenus = $ctxMenu;
     }
 
     protected function clearContextMenu()

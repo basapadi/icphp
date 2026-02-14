@@ -28,6 +28,7 @@ import approvalSaleOrder from './modules/approvalSaleOrder'
 import setting from './modules/setting'
 import report from './modules/report'
 import common from './modules/common'
+import ai from './modules/ai'
 
 export default createStore({
   modules: {
@@ -59,6 +60,7 @@ export default createStore({
     setting,
     report,
     common,
-    purchasePayment
+    purchasePayment,
+    ai
   }
 })

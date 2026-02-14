@@ -1,0 +1,9 @@
+v_barang
+- id INTEGER
+- kode_barang varchar
+- nama varchar
+- gambar varchar
+- kategori varchar
+- status tinyint(1)
+- barcode varchar
+
