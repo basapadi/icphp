@@ -1,6 +1,8 @@
 <?php
+
 namespace App\Traits;
-use Native\Laravel\Facades\{Alert,Notification};
+
+use Native\Desktop\Facades\{Alert, Notification};
 use App\Http\Response;
 use App\Objects\Notification as ObjectsNotification;
 use Illuminate\Support\Facades\Validator;
@@ -8,23 +10,24 @@ use App\Objects\IcPdf;
 
 trait BaseHelper
 {
-    public function setAlert($type = 'info',$title = '', $message = '', $data = null){
-        if(config('nativephp.nativephp_running')){
-            Notification::title(strtoupper($type).' : '.$title)->message($message)->show($message);
+    public function setAlert($type = 'info', $title = '', $message = '', $data = null)
+    {
+        if (config('nativephp.nativephp_running')) {
+            Notification::title(strtoupper($type) . ' : ' . $title)->message($message)->show($message);
             return response()->json([
-                'status' => $type == 'info'?true: false,
+                'status' => $type == 'info' ? true : false,
                 'isnativephp'  => config('nativephp.nativephp_running'),
                 'message' => $message,
                 'data' => $data
-            ],$type == 'info'?200:400);
+            ], $type == 'info' ? 200 : 400);
         } else {
             switch ($type) {
                 case 'info':
-                   return Response::ok($message, $data);
+                    return Response::ok($message, $data);
                     break;
                 case 'error':
-                   return Response::badRequest($title.', '.$message);
-                    break;  
+                    return Response::badRequest($title . ', ' . $message);
+                    break;
                 default:
                     return Response::ok($message);
                     break;
@@ -32,10 +35,11 @@ trait BaseHelper
         }
     }
 
-    public function setNotification(ObjectsNotification $notification){
-        if(config('nativephp.nativephp_running')){
-            $notif = Notification::title('Ihand Cashier : '.$notification->title)
-                    ->message($notification->message);
+    public function setNotification(ObjectsNotification $notification)
+    {
+        if (config('nativephp.nativephp_running')) {
+            $notif = Notification::title('Ihand Cashier : ' . $notification->title)
+                ->message($notification->message);
             foreach ($notification->actions as $key => $act) {
                 $notif->addAction($act);
             }
@@ -45,8 +49,9 @@ trait BaseHelper
         }
     }
 
-    public function validate(array $rules){
-        $validator = Validator::make(request()->all(),$rules,[
+    public function validate(array $rules)
+    {
+        $validator = Validator::make(request()->all(), $rules, [
             'required'             => 'Inputan :attribute wajib diisi.',
             'max'                  => 'Inputan :attribute maksimal :max karakter.',
             'min'                  => 'Inputan :attribute minimal :min karakter.',
@@ -74,10 +79,9 @@ trait BaseHelper
             'addtable.details.*.item_id.distinct' => 'Item tidak boleh duplikat.',
         ]);
         if ($validator->fails()) {
-            return Response::badRequest('Validasi gagal :','',$validator->errors());
+            return Response::badRequest('Validasi gagal :', '', $validator->errors());
         }
         return $validator->validated();
-       
     }
 
     /**
@@ -88,7 +92,8 @@ trait BaseHelper
      * @param string $output - tipe outpu I:inline browser embedded, D: direct download, F: file simpan di server, S: pdf sebagai string 
      * */
 
-    public function generatePdf(object $company,\Illuminate\Contracts\View\View $template,string $filename, string $output = 'D'){
+    public function generatePdf(object $company, \Illuminate\Contracts\View\View $template, string $filename, string $output = 'D')
+    {
         $pdf = new IcPdf('P', 'mm', 'A4', true, 'UTF-8', false);
         $pdf->setCompany($company);
         $pdf->build();

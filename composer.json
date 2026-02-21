@@ -23,7 +23,7 @@
         "laravel/tinker": "^2.10.1",
         "league/fractal": "^0.20.2",
         "maatwebsite/excel": "*",
-        "nativephp/electron": "^1.2",
+        "nativephp/desktop": "^2.0",
         "nunomaduro/collision": "^8.6",
         "spatie/laravel-fractal": "^6.3",
         "vinkla/hashids": "^13.0",
