@@ -14,7 +14,6 @@ class LLMService
     private $apiKey;
     private $baseUrl;
     private $model;
-    private $messages = [];
 
     public function __construct()
     {
@@ -34,7 +33,13 @@ class LLMService
         if ($this->getLLMResponse() != null) {
             if (!collect($messages)->contains(fn($m) => $m['role'] === 'system')) {
                 $schemaText = $this->getFullSchema();
-                $systemPrompt = 'Generate sql untuk Postgres dan gunakan tabel berikut: ' . $schemaText . '. Aturan: Jangan minta klarifikasi, Gunakan bahasa indonesia, komentar lucu, Jangan tampilkan query';
+                $systemPrompt = "Anda adalah generator SQL internal menggunakan skema tabel berikut: 
+                    {$schemaText}.
+                    Aturan: 
+                    1. JANGAN PERNAH menulis SQL di chat. 
+                    2. JANGAN PERNAH menjelaskan apapun.
+                    3. Anda WAJIB memanggil function run_sql_query dengan parameter query. 
+                    4. Jika tidak memanggil function, jawaban dianggap salah.";
 
                 array_unshift($messages, [
                     'role' => 'system',
@@ -45,78 +50,37 @@ class LLMService
 
         $messages[] = [
             'role' => 'user',
-            'content' => (string) $prompt
+            'content' => $prompt
         ];
-
-        session(['chat_history' => $messages]);
-
-
-        // Susunan parameter untuk function/tool
-        $functionDefinition = [
-            'name' => 'run_sql_query',
-            'description' => 'Eksekusi query SQL (hanya SELECT)',
-            'parameters' => [
-                'type' => 'object',
-                'properties' => [
-                    'query' => ['type' => 'string']
-                ],
-                'required' => ['query']
-            ]
-        ];
-        $result = null;
-        switch (config('ihandcashier.ai_platform')) {
-
-            /*
-            =========================================
-            ========== 1. GROK (X.AI) =================
-            =========================================
-            */
-            case 'grok':
-                $response = $this->client->chat()->create([
-                    'model' => $this->model,
-                    'messages' => $messages,
-                    'tools' => [
-                        [
-                            'type' => 'function',
-                            'function' => $functionDefinition
+        $create = [
+            'model' => $this->model,
+            'messages' => $messages,
+            'tools' => [
+                [
+                    'type' => 'function',
+                    'function' => [
+                        'name' => 'run_sql_query',
+                        'description' => 'Eksekusi query SQL (hanya SELECT)',
+                        'parameters' => [
+                            'type' => 'object',
+                            'properties' => [
+                                'query' => [
+                                    'type' => 'string'
+                                ]
+                            ],
+                            'required' => ['query']
                         ]
-                    ],
-                    'tool_choice' => [
-                        'type' => 'function',
-                        'function' => ['name' => 'run_sql_query']
-                    ],
-                ]);
-                session()->put('llm_id', @$response->id ?? null);
-                $result = $response;
-                break;
-            /*
-            =========================================
-            ========== 2. DEEPSEEK / OPENAI =========
-            =========================================
-            */
-            default:
-                $response = $this->client->chat()->create([
-                    'model' => $this->model,
-                    'messages' => $messages,
-                    'tools' => [
-                        [
-                            'type' => 'function',
-                            'function' => $functionDefinition
-                        ]
-                    ],
-                    'tool_choice' => [
-                        'type' => 'function',
-                        'function' => ['name' => 'run_sql_query']
                     ]
+                ]
+            ],
+            'tool_choice' => 'auto'
 
-                ]);
-                session()->put('llm_id', @$response->id ?? null);
-                $results = $response;
-                break;
-        }
-
-        session()->put('chat_history', array_slice($messages, -5));
-        return $results;
+        ];
+        // \Log::info($messages);
+        $response = $this->client->chat()->create($create);
+        session(['chat_history' => $messages]);
+        session()->put('llm_id', @$response->id ?? null);
+        return $response;
     }
 
     public function getLLMResponse()
@@ -127,11 +91,16 @@ class LLMService
 
     public function formatAnswer($data, $messages)
     {
-        $messages[] = ['role' => 'user', 'content' => 'Ringkas data berikut: ' . json_encode($data) . ' \n Formatkan output dalam bentuk blok markdown. Jangan menuliskan kata ringkasan.'];
-        // dd($this->messages);
+        $msg = [
+            [
+                'role' => 'user',
+                'content' => 'Ringkas data berikut: ' . json_encode($data) . ' \n Formatkan output dalam bentuk blok markdown. Jangan menuliskan kata ringkasan. dan dengan respon akrab.'
+            ]
+        ];
         return $this->client->chat()->create([
             'model' => $this->model,
-            'messages' => $messages
+            'messages' => $msg,
+            'tool_choice' => 'auto'
         ]);
     }
 
@@ -162,29 +131,13 @@ class LLMService
 
     public function getViewDefinition($viewName)
     {
-        $driver = DB::connection()->getDriverName();
-
-        if ($driver === 'pgsql') {
-
-            $columns = DB::select("
-                SELECT column_name, data_type
-                FROM information_schema.columns
-                WHERE table_schema = 'public'
-                AND table_name = ?
-                ORDER BY ordinal_position
-            ", [$viewName]);
-        } elseif ($driver === 'sqlite') {
-            $columns = DB::select("PRAGMA table_info($viewName)");
-            // Samakan format supaya konsisten
-            $columns = collect($columns)->map(function ($col) {
-                return (object) [
-                    'column_name' => $col->name,
-                    'data_type' => $col->type,
-                ];
-            });
-        } else {
-            throw new \Exception("Unsupported database driver: $driver");
-        }
+        $columns = DB::select("
+            SELECT column_name, data_type
+            FROM information_schema.columns
+            WHERE table_schema = 'public'
+            AND table_name = ?
+            ORDER BY ordinal_position
+        ", [$viewName]);
 
         $definition = "{$viewName}\n";
 
@@ -194,7 +147,6 @@ class LLMService
 
         return $definition . "\n";
     }
-
 
     public function getFullSchema()
     {
@@ -207,36 +159,20 @@ class LLMService
 
         File::makeDirectory($dir, 0775, true, true);
 
-        $driver = DB::connection()->getDriverName();
-
-        if ($driver === 'pgsql') {
-
-            $views = DB::select("
-                SELECT table_name
-                FROM information_schema.views
-                WHERE table_schema = 'public'
-                ORDER BY table_name
-            ");
-
-            $views = collect($views)->pluck('table_name');
-        } elseif ($driver === 'sqlite') {
-
-            $views = DB::select("
-                SELECT name
-                FROM sqlite_master
-                WHERE type = 'view'
-                ORDER BY name
-            ");
-
-            $views = collect($views)->pluck('name');
-        } else {
-            throw new \Exception("Unsupported database driver: $driver");
-        }
+        // cukup table_name saja
+        $views = DB::select("
+            SELECT table_name
+            FROM information_schema.views
+            WHERE table_schema = 'public'
+            ORDER BY table_name
+        ");
 
         $schema = "";
-        $exceptTables = config('ihandcashier.ai_except_tables') ?? [];
+        $exceptTables = config('joses.ai_except_tables') ?? [];
 
-        foreach ($views as $name) {
+        foreach ($views as $v) {
+
+            $name = $v->table_name;
 
             if (in_array($name, $exceptTables)) {
                 continue;
@@ -246,7 +182,6 @@ class LLMService
         }
 
         File::put($path, $schema);
-
         return $schema;
     }
 }

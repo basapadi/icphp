@@ -29,4 +29,11 @@ class AuditLog extends BaseModel
     {
         return formattedDate($this->created_at);
     }
+
+    public function scopeForModel($query, $model)
+    {
+        return $query
+            ->whereNotNull('context')
+            ->where('context->id', $model->getKey());
+    }
 }

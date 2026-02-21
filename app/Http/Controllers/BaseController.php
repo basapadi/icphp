@@ -76,6 +76,11 @@ class BaseController extends Controller
         $rows = $query->filter();
         $total = $totalQuery->filter(false);
         $rows = $rows->get();
+        $rows->each(function ($item) {
+            $item->audit_logs = $item->auditLogs()
+                ->where('module', $this->_module)
+                ->get();
+        });
         $total = $total->count();
 
         if (!empty($this->_mergeData)) $this->mergeData($rows);
@@ -341,8 +346,21 @@ class BaseController extends Controller
     {
         $schema = $schema ?? $this->_module;
         $path = base_path('resources/data/detail_schemas/' . $schema . '.json');
-        $schema = file_get_contents($path);
-        $this->_detailSchema = json_decode($schema, true);
+        $schema = json_decode(file_get_contents($path), true);
+        $schema['audit_logs'] = [
+            'type' => 'array',
+            'title' => 'Riwayat Perubahan Data',
+            'fields' => [
+                'created_at_formatted' => ['label' => 'Tanggal'],
+                'action' => ['label' => 'Aksi'],
+                'user__name' => ['label' => 'Aktor'],
+                'description' => ['label' => 'Deskripsi'],
+                'user_agent' => ['label' => 'User Agent'],
+                'ip_address' => ['label' => 'IP Address'],
+                'context_json' => ['label' => 'Konteks', 'type' => 'json']
+            ]
+        ];
+        $this->_detailSchema = $schema;
     }
 
     /**

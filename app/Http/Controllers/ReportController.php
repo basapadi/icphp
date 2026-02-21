@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\File;
 use App\Objects\DynamicCollectionExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
-use App\Models\Setting;
 
 class ReportController extends BaseController
 {
@@ -85,33 +84,38 @@ class ReportController extends BaseController
     {
         $result = [];
         $connection = config('database.default');
-        $tables = [
-            'items',
-            'item_stocks',
-            'item_prices',
-            'item_stock_adjustments',
-            'masters',
-            'trx_purchase_orders',
-            'trx_purchase_order_details',
-            'trx_received_items',
-            'trx_received_item_details',
-            'trx_received_payment_items',
-            'trx_delivery_items',
-            'trx_delivery_item_details',
-            'trx_sale_orders',
-            'trx_sale_order_details',
-            'trx_sale_order_payment_items',
-            'trx_sale_order_shipments',
-            'contacts',
-            'trx_purchase_invoices',
-            'trx_purchase_invoice_details',
-            'trx_purchase_invoice_item_receiveds',
-            'trx_purchase_payments',
-            'trx_sale_invoices',
-            'trx_sale_invoice_details',
-            'trx_sale_invoice_item_deliveries',
-            'trx_sale_payments'
-        ];
+        $tables = [];
+
+        if ($connection === 'pgsql') {
+
+            $views = DB::select("
+            SELECT table_name
+            FROM information_schema.views
+            WHERE table_schema = 'public'
+        ");
+
+            $tables = collect($views)->pluck('table_name')->toArray();
+        } elseif ($connection === 'mysql') {
+
+            $views = DB::select("
+            SELECT TABLE_NAME
+            FROM INFORMATION_SCHEMA.VIEWS
+            WHERE TABLE_SCHEMA = DATABASE()
+        ");
+
+            $tables = collect($views)->pluck('TABLE_NAME')->toArray();
+        } elseif ($connection === 'sqlite') {
+
+            $views = DB::select("
+            SELECT name
+            FROM sqlite_master
+            WHERE type = 'view'
+        ");
+
+            $tables = collect($views)->pluck('name')->toArray();
+        } else {
+            throw new \Exception("Driver basis data tidak didukung: $connection");
+        }
 
         foreach ($tables as $table) {
             $columns = Schema::getColumnListing($table);
@@ -292,7 +296,7 @@ class ReportController extends BaseController
     {
         $this->allowAccessModule('report.report', 'download');
         if (empty($request->path)) return Response::badRequest('Path tidak ditemukan');
-        $setting = Setting::where('name', 'toko')->first();
+
         $pathSql = trim(str_replace('.json', '.sql', $request->path));
         $sql = $this->getResourceSql($pathSql);
         $this->_query = $sql;
@@ -307,7 +311,7 @@ class ReportController extends BaseController
 
         $meta = [
             'title' => $request->name,
-            'Toko' => $setting->data->namaToko,
+            'Perusahaan' => 'PT JAKARTA OSES ENERGI',
             'Periode' => Carbon::now()->format('M-Y')
         ];
         return Excel::download(
@@ -331,7 +335,11 @@ class ReportController extends BaseController
         foreach ($default as $k => $d) {
             $exist = $user->where('name', $d['name'])->first();
             if ($exist) array_push($files, $exist);
-            else array_push($files, $d);
+            else {
+                $json = $this->getResourceQuery('data/queries/reports/default/' . $d['name']);
+                $d['description'] = @$json['description'] ?? '';
+                array_push($files, $d);
+            }
         }
         foreach ($user as $k => $u) {
             $exist = $default->where('name', $u['name'])->first();

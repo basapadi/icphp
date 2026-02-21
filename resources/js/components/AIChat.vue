@@ -8,9 +8,9 @@
     <!-- Chat Box -->
     <div v-if="isOpen" class="chat-box bg-white rounded-lg shadow-lg overflow-hidden h-screen flex flex-col">
       <!-- Header -->
-      <div class="chat-header flex items-center justify-between bg-green-600 text-white px-4 py-2 font-bold">
+      <div class="chat-header flex items-center justify-between bg-blue-500 text-white px-4 py-2 font-bold">
         <div class="flex items-center gap-3">
-          <span>IC Chat</span>
+          <span>Tanya ICAI</span>
           <label class="relative inline-flex items-center cursor-pointer">
             <input type="checkbox" v-model="summary" class="sr-only peer">
             <div class="w-10 h-5 bg-gray-300 rounded-full peer-checked:bg-green-500 transition-all"></div>
@@ -49,7 +49,7 @@
           rows="1"
           @input="autoResize"
           @keydown.enter.exact.prevent="sendMessage"
-          placeholder="Masukkan perintah anda..."
+          placeholder="Tanya terkait aplikasi ini, ketik /help untuk bantuan"
           class="
             flex-1
             px-4 py-3
@@ -125,17 +125,41 @@ export default {
     sendMessage() {
       if (!this.input.trim()) return;
 
-      const userMsg = this.input;
-      if(userMsg === 'clear') {
-        this.messages = []
-        this.input = ''
-      } else {
-        this.messages.push({ from: "user", text: userMsg });
+      const userMsg = this.input.trim();
+      if (userMsg == 'clear') {
+        localStorage.removeItem('ai_chat');
+        this.messages = [];
         this.input = "";
-        this.botLoading = true;
-        this.fetchReplyFromAPI(userMsg);
+        return;
       }
-      
+
+      if (userMsg == 'rangkum') {
+        this.summary = !this.summary;
+        this.messages.push({ from: "bot", text: `Mode rangkuman di${this.summary ? 'aktif' : 'non-aktif'}kan` });
+        this.input = "";
+        return;
+      }
+
+      if (userMsg == 'close') {
+        this.isOpen = false;
+        this.input = "";
+        return;
+      }
+
+      if(userMsg == '/help'){
+        this.messages.push({ from: "bot", text: `
+          Beberapa perintah yang bisa Anda gunakan adalah
+          - clear   : Untuk menghapus riwayat percakapan.
+          - rangkum : Untuk membuat rangkuman dari hasil percakapan.
+          - close   : Untuk menutup percakapan.
+        ` });
+        this.input = "";
+        return;
+      }
+      this.messages.push({ from: "user", text: userMsg });
+      this.input = "";
+      this.botLoading = true;
+      this.fetchReplyFromAPI(userMsg);
     },
     autoResize(e) {
       const el = e.target
@@ -159,8 +183,8 @@ export default {
         //   text: JSON.stringify(data) ?? "(balasan kosong dari server)"
         // });
         const reply = JSON.stringify(data.data) ?? "<span class='text-red-500 text-xs italic ring-black/5 ring-1 shadow-sm p-2 rounded-sm bg-red-100'>Tidak ada balasan dari server.</span>"
-        await this.typeText(botIndex, reply);
-        // this.messages[botIndex].text = reply;
+        // await this.typeText(botIndex, reply);
+        this.messages[botIndex].text = reply;
 
         this.scrollToBottom()
         this.botLoading = false;
@@ -333,7 +357,7 @@ export default {
   height: 52px;
   margin-bottom: 10px;
   border-radius: 50%;
-  background: #3b82f6;
+  background: #ec7a00;
   color: #fff;
   border: none;
   cursor: pointer;
@@ -367,7 +391,7 @@ export default {
 
 /* Header */
 .chat-header {
-  background: #3b82f6;
+  background: #ec7a00;
   color: white;
   padding: 12px;
   font-weight: bold;
@@ -408,7 +432,7 @@ export default {
 .chat-footer button {
   padding: 8px 12px;
   border: none;
-  background: #3b82f6;
+  background: #ec7a00;
   color: white;
   border-radius: 6px;
   cursor: pointer;

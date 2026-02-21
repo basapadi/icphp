@@ -15,7 +15,7 @@
                         <template v-if="i == 'main' && sub.type == 'object'">
                             <div
                                 class="flex gap-4 bg-card shadow-sm rounded-md py-2 px-2 mb-2 shadow-sm rounded-sm border border-dashed border-border">
-                                <div class="w-[80%] overflow-x-auto">
+                                <div class="w-[85%] overflow-x-auto">
                                     <table class="w-full border-dashed border-border rounded-lg overflow-hidden">
                                         <tbody>
                                             <tr class="border border-dashed border-border odd:bg-muted even:bg-card"
@@ -26,7 +26,7 @@
                                                 </td>
                                                 <td :class="`px-4 py-1 text-foreground text-sm text-${data['color_' + k]
                                                     } ${f?.class}`">
-                                                    <div v-if="f.type != undefined && f.type == 'file'">
+                                                    <div v-if="f.type != undefined && f.type == 'file' && $helpers.getSubObjectValue(data, k) != null">
                                                         <button @click="viewFile($helpers.getSubObjectValue(data, k))"
                                                             class="inline-flex items-center justify-center
                                                                 p-1 rounded hover:bg-blue-200
@@ -36,18 +36,15 @@
                                                         </button>
                                                     </div>
                                                     <div v-else-if="f.type != undefined && f.type == 'json'">
-                                                        <pre
-                                                            class="overflow-auto whitespace-pre-wrap">{{ formatJson($helpers.getSubObjectValue(data, k)) }}</pre>
+                                                        <pre :class="`overflow-auto whitespace-pre-wrap ${f?.class}`">{{ formatJson($helpers.getSubObjectValue(data, k)) }}</pre>
                                                     </div>
-                                                    <div v-else>
-                                                        {{ $helpers.getSubObjectValue(data, k) }}
-                                                    </div>
+                                                    <div v-else v-html="$helpers.getSubObjectValue(data, k)"></div>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="w-[20%] flex items-top justify-center">
+                                <div class="w-[15%] flex items-top justify-center">
                                     <div v-if="data.qrcode" class="flex flex-col items-center">
 
                                         <div id="qrcode-wrapper">
@@ -104,13 +101,20 @@
                                                                     <Eye class="w-4 h-4 text-blue-600 mr-1" /> Lihat Dokumen
                                                                 </button>
                                                             </div>
-                                                            <div v-else class="max-h-36 overflow-y-auto">{{ $helpers.getSubObjectValue(row, c) }}
+                                                            <div v-else-if="col.type != undefined && col.type == 'json'">
+                                                                <button
+                                                                    v-if="$helpers.getSubObjectValue(row, c) != undefined"
+                                                                    @click="viewJson($helpers.getSubObjectValue(row, c))"
+                                                                    class="inline-flex items-center justify-center rounded hover:bg-blue-200 text-blue-700 transition">
+                                                                    <Eye class="w-4 h-4 text-blue-600 mr-1" /> Lihat Data
+                                                                </button>
                                                             </div>
+                                                            <div v-else class="max-h-36 overflow-y-auto">{{ $helpers.getSubObjectValue(row, c) }}</div>
                                                         </span>
                                                     </td>
                                                 </tr>
                                             </template>
-                                            <template v-else-if="data[i.split('__')[0]][i.split('__')[1]] != undefined && data[i.split('__')[0]][i.split('__')[1]].length > 0">
+                                            <template v-else-if="data[i.split('__')[0]] != undefined && data[i.split('__')[0]][i.split('__')[1]] != undefined && data[i.split('__')[0]][i.split('__')[1]].length > 0">
                                                 <tr v-for="(row, r) in data[i.split('__')[0]][i.split('__')[1]]"
                                                     class="hover:bg-accent border border-1 border-dashed border-border odd:bg-muted/20 even:bg-background/30"
                                                     :key="r">
@@ -129,6 +133,14 @@
                                                                         text-blue-700
                                                                         transition">
                                                                     <Eye class="w-4 h-4 text-blue-600 mr-1" /> Lihat Dokumen
+                                                                </button>
+                                                            </div>
+                                                            <div v-else-if="col.type != undefined && col.type == 'json'">
+                                                                <button
+                                                                    v-if="$helpers.getSubObjectValue(row, c) != undefined"
+                                                                    @click="viewJson($helpers.getSubObjectValue(row, c))"
+                                                                    class="inline-flex items-center justify-center rounded hover:bg-blue-200 text-blue-700 transition">
+                                                                    <Eye class="w-4 h-4 text-blue-600 mr-1" /> Lihat Data
                                                                 </button>
                                                             </div>
                                                             <div v-else class="max-h-36 overflow-y-auto">{{ $helpers.getSubObjectValue(row, c) }}
@@ -169,7 +181,7 @@
                                                     <div
                                                         v-if="f.type != undefined && f.type == 'file' && $helpers.getSubObjectValue(data, k) != ''">
                                                         <button 
-                                                            v-if="$helpers.getSubObjectValue(data, k) != undefined"
+                                                            v-if="$helpers.getSubObjectValue(data, k) != undefined && $helpers.getSubObjectValue(data, k) != null"
                                                             @click="viewFile($helpers.getSubObjectValue(data, k))"
                                                             class="inline-flex items-center justify-center
                                                                 p-1 rounded hover:bg-blue-200
@@ -181,9 +193,7 @@
                                                     <div v-else-if="f.type != undefined && f.type == 'tree'">
                                                         <CriteriaTree :items="data[k]" />
                                                     </div>
-                                                    <div v-else>
-                                                        {{ $helpers.getSubObjectValue(data, k) }}
-                                                    </div>
+                                                    <div v-else v-html="$helpers.getSubObjectValue(data, k)"></div>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -212,6 +222,22 @@
             <!-- Konten file -->
             <div class="w-full">
                 <iframe v-if="fileUrl" :src="fileUrl" class="w-full h-[70vh] border"></iframe>
+            </div>
+        </div>
+    </div>
+     <div v-if="showJsonDialog" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <!-- Dialog -->
+        <div class="bg-white rounded-lg shadow-xl w-[500px] max-w-[500px] p-4">
+            <div class="flex justify-between items-center border-b pb-2 mb-4">
+                <h2 class="text-lg font-semibold">Previu Data</h2>
+                <button @click="closeJsonDialog" class="text-gray-600 hover:text-gray-900">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Konten file -->
+            <div class="w-full" style="max-height: 50vh; overflow-y: auto;">
+                <pre :class="`overflow-auto text-xs whitespace-pre-wrap`">{{ formatJson(jsonData) }}</pre>
             </div>
         </div>
     </div>
@@ -259,11 +285,20 @@ export default {
         return {
             form: {},
             isClosing: false,
-            showDialog: false
+            showDialog: false,
+            showJsonDialog: false,
+            jsonData: {}
         };
     },
     methods: {
         load() { },
+        viewJson(data) {
+            this.jsonData = data;
+            this.showJsonDialog = true;
+        },
+        closeJsonDialog() {
+            this.showJsonDialog = false;
+        },
         formatJson(value) {
             try {
                 if (typeof value === 'object') {

@@ -3,7 +3,7 @@
 - PHP 8.4
 - NodeJS 22
 - [Laravel 12](https://laravel.com/docs/12.x/)
-- [Native PHP v1+](https://nativephp.com/docs/desktop/1/getting-started/introduction)
+- [Native PHP v2+](https://nativephp.com/docs/desktop/2/getting-started/introduction)
 
 # Instructions for IhandCashier Project
 See example app on https://ihandcashier.basapadi.com with latest development

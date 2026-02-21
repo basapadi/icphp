@@ -92,8 +92,8 @@ const linkClasses = computed(() => {
     return [
         "flex items-center justify-between mx-2 py-2 text-sm rounded-sm transition-all duration-200",
         props.item.active
-            ? "text-foreground bg-accent border border-primary/40"
-            : "text-foreground hover:bg-accent",
+            ? "text-foreground bg-primary/20 border border-primary/40"
+            : "text-foreground hover:bg-primary/10",
         props.collapsed ? "justify-center" : "justify-between",
     ].join(" ");
 });

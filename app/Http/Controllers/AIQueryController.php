@@ -15,7 +15,9 @@ class AIQueryController extends Controller
             return Response::badRequest('AI is disabled');
         }
         $question = $request->input('question');
+        // session(['chat_history' => []]);
         $response = $llm->ask($question);
+
         $msg = $response->choices[0]->message;
 
         $messages = session('chat_history');
@@ -29,19 +31,23 @@ class AIQueryController extends Controller
             $fn = $msg->toolCalls;
             $args = json_decode($fn[0]->function->arguments, true);
 
-            if (!isset($args['query'])) {
-                return Response::badRequest('Function call tanpa query');
+            if (!isset($args['query']) || empty($args['query'])) {
+                return Response::badRequest('Tool call tanpa query');
             }
-
             $query = $args['query'];
             if (!$this->isSafeQuery($query)) {
                 return Response::badRequest('Query tidak aman: ' . $query);
             }
 
             $data = DB::select($query);
+            session(['chat_history' => array_slice($messages, -20)]);
             if (isset($request->summary) && $request->summary) {
-                session()->put('chat_history', []);
                 $final = $llm->formatAnswer($data, $messages);
+                $messages[] = [
+                    'role' => 'assistant',
+                    'content' => $final->choices[0]->message->content,
+                ];
+
                 return Response::ok('Loaded', [
                     'query' => $query,
                     'data' => $final->choices[0]->message->content
@@ -52,47 +58,16 @@ class AIQueryController extends Controller
                     'data' => $data
                 ]);
             }
-        }
-
-        /*
-        =====================================================
-        =============== 2. GROK-STYLE tool_calls ============
-        =====================================================
-        */
-        if (!empty($msg->toolCalls) && count($msg->toolCalls) > 0) {
-
-            $tool = $msg->toolCalls[0];  // Grok selalu array
-
-            // Grok struktur:
-            // tool_calls -> [{ function: { name, arguments } }]
-            if (empty($tool->function)) {
-                return Response::badRequest('Tool call tidak memiliki fungsi');
-            }
-
-            $fn = $tool->function;
-
-            $args = json_decode($fn->arguments, true);
-
-            if (!isset($args['query'])) {
-                return Response::badRequest('Tool call tanpa query');
-            }
-
-            $query = $args['query'];
-
-            if (!$this->isSafeQuery($query)) {
-                return Response::badRequest('Query tidak aman: ' . $query);
-            }
-
-
-            $data = DB::select($query);
-
-            if (isset($request->summary) && $request->summary) {
-
-                $final = $llm->formatAnswer($data, $messages);
-                return Response::ok('Loaded', $final->choices[0]->message->content);
-            }
-
-            return Response::ok('Loaded', $msg->content);
+        } else {
+            $messages[] = [
+                'role' => 'assistant',
+                'content' => $msg->content,
+            ];
+            session(['chat_history' => array_slice($messages, -20)]);
+            return Response::ok('Loaded', [
+                'query' => null,
+                'data' => $msg->content
+            ]);
         }
     }
 
