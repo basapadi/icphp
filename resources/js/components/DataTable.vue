@@ -36,7 +36,7 @@
             <!-- Table -->
             <div class="overflow-x-auto h-15/20" ref="tableContainer">
                 <table class="min-w-full relative border-collapse border border-dashed border-primary/20">
-                    <thead class="bg-accent sticky top-0" style="z-index: 11">
+                    <thead class="bg-orange-icphp sticky top-0" style="z-index: 11">
                         <tr>
                             <template v-if="properties.multipleSelect">
                                 <th
@@ -157,11 +157,11 @@
                             @update:page="(val) => (pagination._page = val)">
                             <PaginationContent v-slot="items">
                                 <PaginationPrevious
-                                    class="bg-accent border border-border rounded-md hover:bg-accent/80 text-accent-foreground transition-colors" />
+                                    class="bg-orange-icphp border border-border rounded-md hover:bg-accent/80 text-accent-foreground transition-colors" />
                                 <PaginationFirst
-                                    class="bg-accent border border-border rounded-md hover:bg-accent/80 text-accent-foreground transition-colors" />
+                                    class="bg-orange-icphp border border-border rounded-md hover:bg-accent/80 text-accent-foreground transition-colors" />
                                 <PaginationEllipsis
-                                    class="bg-accent border border-border rounded-md hover:bg-accent/80 text-accent-foreground transition-colors"
+                                    class="bg-orange-icphp border border-border rounded-md hover:bg-accent/80 text-accent-foreground transition-colors"
                                     v-if="pagination._page > 2" />
                                 <template v-for="(item, index) in items.items" :key="index">
                                     <PaginationItem class="border border-border rounded-md transition-colors" :class="item.value === pagination._page
@@ -178,15 +178,15 @@
                                     </PaginationItem>
                                 </template>
                                 <PaginationEllipsis
-                                    class="bg-accent border border-border rounded-md hover:bg-accent/80 text-accent-foreground transition-colors"
+                                    class="bg-orange-icphp border border-border rounded-md hover:bg-accent/80 text-accent-foreground transition-colors"
                                     v-if="
                                         pagination._page <
                                         items.items.length - 1
                                     " />
                                 <PaginationLast
-                                    class="bg-accent border border-border rounded-md hover:bg-accent/80 text-accent-foreground transition-colors" />
+                                    class="bg-orange-icphp border border-border rounded-md hover:bg-accent/80 text-accent-foreground transition-colors" />
                                 <PaginationNext
-                                    class="bg-accent border border-border rounded-md hover:bg-accent/80 text-accent-foreground transition-colors" />
+                                    class="bg-orange-icphp border border-border rounded-md hover:bg-accent/80 text-accent-foreground transition-colors" />
                             </PaginationContent>
                         </Pagination>
                     </div>
