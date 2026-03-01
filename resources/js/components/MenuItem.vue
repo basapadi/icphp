@@ -13,13 +13,13 @@
                     <component
                         v-if="item.icon"
                         :is="item.icon"
-                        class="w-4 h-4 text-primary"
+                        class="w-4 h-4"
                         :class="collapsed ? 'mx-auto' : 'mr-3'"
                     />
                     <!-- Label hanya tampil jika tidak collapsed -->
                     <span
                         v-if="!collapsed"
-                        class="text-muted-foreground truncate"
+                        class="truncate"
                         >{{ item.label }}</span
                     >
                 </div>
@@ -90,10 +90,10 @@ const paddingLeft = computed(() => {
 
 const linkClasses = computed(() => {
     return [
-        "flex items-center justify-between mx-2 py-2 text-sm rounded-sm transition-all duration-200",
+        "flex text-xs items-center justify-between mx-2 py-2 text-sm rounded-sm transition-all duration-200",
         props.item.active
-            ? "text-foreground bg-primary/20 border border-primary/40"
-            : "text-foreground hover:bg-primary/10",
+            ? "text-gray-700 font-bold bg-orange-icphp/20 border border-primary/40"
+            : "text-gray-700 hover:bg-primary/10",
         props.collapsed ? "justify-center" : "justify-between",
     ].join(" ");
 });

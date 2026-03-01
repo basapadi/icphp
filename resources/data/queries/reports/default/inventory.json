@@ -1,4 +1,5 @@
 {
+    "description": "Laporan stok barang",
     "columns": [
         {
             "name": "nama",

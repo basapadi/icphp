@@ -260,7 +260,7 @@ export default {
             form: {
                 name: "",
                 query: `-- contoh query, lihat skema disamping untuk mendapat referensi kolom
-  select * from vendors`,
+  select * from v_barang`,
             },
             query: [],
         };

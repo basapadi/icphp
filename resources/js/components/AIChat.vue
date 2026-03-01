@@ -19,7 +19,7 @@
             <span class="ml-2 text-sm">Ringkasan Data</span>
           </label>
         </div>
-        <button @click="isOpen = false" class="text-white text-xl font-bold mr-3">×</button>
+        <button @click="isOpen = false" class="text-xl font-bold mr-3">×</button>
       </div>
 
       <!-- Body -->
@@ -357,7 +357,7 @@ export default {
   height: 52px;
   margin-bottom: 10px;
   border-radius: 50%;
-  background: #ec7a00;
+  background: #FFF6E5;
   color: #fff;
   border: none;
   cursor: pointer;
@@ -391,8 +391,8 @@ export default {
 
 /* Header */
 .chat-header {
-  background: #ec7a00;
-  color: white;
+  background: #FFF6E5;
+  color: rgb(0, 0, 0);
   padding: 12px;
   font-weight: bold;
   display: flex;

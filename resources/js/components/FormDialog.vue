@@ -3,7 +3,7 @@
     <div v-if="open" class="fixed inset-0 flex items-center justify-center bg-black/50 z-50" @click="close">
         <!-- Container dialog dengan animasi -->
         <div class="dialog-scale-animation" :data-state="dialogState" @click.stop>
-            <Card class="w-auto max-w-[95%] min-w-[90vw] max-h-[90vh] overflow-hidden mx-4">
+            <Card class="w-auto max-w-[95%] min-w-[90vw] max-h-[90vh] overflow-hidden mx-2">
                 <CardHeader>
                     <CardTitle>
                         <span class="text-muted-foreground font-bold">

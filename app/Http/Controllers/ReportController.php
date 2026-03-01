@@ -222,7 +222,8 @@ class ReportController extends BaseController
 
         $rules = [
             'name'                   => 'required|string',
-            'query'                   => 'required|string'
+            'description'            => 'nullable|string',
+            'query'                  => 'required|string'
         ];
         $data = $this->validate($rules);
         if ($data instanceof \Illuminate\Http\JsonResponse) return $data;
@@ -255,7 +256,8 @@ class ReportController extends BaseController
             }
 
             $jsonFile = [];
-            $jsonFile['query'] = $data['query'];
+            // $jsonFile['query'] = $data['query'];
+            $jsonFile['description'] = @$data['description'] ?? '';
             $jsonFile['columns'] = $columns;
             $trimmedNameJson = strtolower(trim($data['name'])) . '.json';
             $trimmedNameSql = strtolower(trim($data['name'])) . '.sql';
@@ -343,6 +345,8 @@ class ReportController extends BaseController
         }
         foreach ($user as $k => $u) {
             $exist = $default->where('name', $u['name'])->first();
+            $json = $this->getResourceQuery('data/queries/reports/user/' . $u['name']);
+            $u['description'] = @$json['description'] ?? '';
             if (empty($exist)) array_push($files, $u);
         }
 
@@ -370,7 +374,7 @@ class ReportController extends BaseController
         }
 
         // forbidden SQL commands (full word only)
-        $forbiddenPattern = '/\b(UPDATE|DELETE|INSERT|DROP|ALTER|CREATE|TRUNCATE|REPLACE)\b/i';
+        $forbiddenPattern = '/\b(UPDATE|DELETE|INSERT|DROP|ALTER|CREATE|TRUNCATE)\b/i';
 
         if (preg_match($forbiddenPattern, $query)) {
             return false;

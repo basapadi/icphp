@@ -1,5 +1,5 @@
 <template>
-    <div class="h-screen bg-background flex flex-col">
+    <div class="h-screen bg-orange-icphp flex flex-col">
         <!-- Admin Toolbar -->
         <AdminToolbar />
         
@@ -7,7 +7,7 @@
             <!-- Sidebar -->
             <aside
                 :class="[
-                    'fixed left-0 bg-card h-[calc(100vh-2.5rem)] z-20 border-r border-border overflow-y-auto overflow-x-hidden transition-all duration-300 ease-in-out scroll-container',
+                    'fixed left-0 bg-orange-icphp h-[calc(100vh-2.5rem)] z-20 border-none overflow-y-auto overflow-x-hidden transition-all duration-300 ease-in-out scroll-container',
                     isCollapsed ? 'w-16' : 'w-64',
                 ]"
                 :style="{ top: '2.5rem' }"
@@ -15,14 +15,14 @@
                 <!-- Tombol Collapse -->
                 <button
                     @click="toggleSidebar"
-                    class="fixed shadow-lg absolute -right-3 top-1/2 transform -translate-y-1/2 bg-card border border-primary rounded-full w-7 h-7 flex items-center justify-center hover:bg-accent transition-all duration-200 z-30"
+                    class="fixed shadow-lg absolute -right-3 top-1/2 transform -translate-y-1/2 bg-card border border-primary rounded-full w-8 h-8 flex items-center justify-center hover:bg-orange-icphp transition-all duration-200 z-30"
                     :style="{ left: isCollapsed ? '3rem' : '15rem' }"
                 >
                     <ChevronLeft
                         v-if="!isCollapsed"
-                        class="w-3 h-3 text-primary"
+                        class="w-4 h-4 text-primary"
                     />
-                    <ChevronRight v-else class="w-3 h-3 text-primary" />
+                    <ChevronRight v-else class="w-4 h-4 text-primary" />
                 </button>
 
                 <nav class="p-2">
@@ -56,20 +56,13 @@
             </aside>
 
             <!-- Main Content -->
-            <main
-                :class="[
-                    'flex-1 bg-card overflow-auto transition-all duration-300 ease-in-out',
-                    isCollapsed ? 'ml-16' : 'ml-64',
-                ]"
-            >
-                <div class="h-full relative">
-                    <div
-                        class="absolute inset-0 z-1 bg-[length:15px_15px] [background-image:linear-gradient(to_right,rgba(242,242,242,0.3)_1px,transparent_1px),linear-gradient(to_bottom,rgba(242,242,242,0.3)_1px,transparent_1px)] pointer-events-none"
-                    ></div>
+            <main :class="[ 'flex-1 border-none rounded-2xl bg-transparent overflow-auto transition-all duration-300 ease-in-out', isCollapsed ? 'ml-16' : 'ml-64']">
+                <div class="h-full relative bg-white">
+                    <div class="absolute inset-0 z-1  bg-[length:15px_15px] [background-image:linear-gradient(to_right,rgba(242,242,242,0.3)_1px,transparent_1px),linear-gradient(to_bottom,rgba(242,242,242,0.3)_1px,transparent_1px)] pointer-events-none"></div>
                     <slot />
-                </div>
+                </div> 
+                <AIChat v-if="AIEnable"/>
             </main>
-            <AIChat v-if="AIEnable"/>
         </div>
     </div>
 </template>

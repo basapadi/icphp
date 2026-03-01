@@ -360,6 +360,15 @@ html {
   animation: slideDownToBottom 0.25s cubic-bezier(0.4, 0, 0.6, 1);
 }
 
+.bg-orange-icphp {
+  background-color: #FFF6E5;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+
 /* HTML: <div class="loader"></div> */
 .typing {
   --w: 10ch;

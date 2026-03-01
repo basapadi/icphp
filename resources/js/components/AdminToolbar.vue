@@ -1,29 +1,23 @@
 <template>
     <div
-        class="bg-background border-b border-border fixed left-0 right-0 pt-1 z-40 h-10"
+        class="bg-orange-icphp fixed left-0 right-0 pt-1 z-40 h-10"
     >
         <div class="flex items-center justify-between px-2 h-full">
             <!-- Menu Bar -->
             <div class="flex items-center">
                 <button
-                    class="text-xs text-muted-foreground hover:bg-accent px-3 py-1"
+                    class="text-xs text-orange-500 hover:bg-orange-100 rounded-md px-3 py-1 pointer"
                 >
                     Panduan
                 </button>
+                <button class="text-xs text-orange-500 hover:bg-orange-100 rounded-md px-3 py-1 pointer" @click="showChangeLog = true">Change Log</button>
+                <div class="watermark z-5 font-extrabold">
+                    <span class="demo-2"></span>
+                </div>
             </div>
 
             <!-- Toolbar Actions -->
             <div class="flex items-center space-x-2">
-                <div class="w-px h-6 bg-border"></div>
-                <button
-                    class="h-7 w-7 p-0 relative hover:bg-accent flex items-center justify-center"
-                >
-                    <Bell class="w-3 h-3" />
-                    <span
-                        class="absolute -top-1 -right-1 w-2 h-2 bg-destructive rounded-full"
-                    ></span>
-                </button>
-
                 <!-- Profile dropdown -->
                 <div class="relative">
                     <button
